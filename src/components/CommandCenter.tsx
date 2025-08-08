@@ -19,7 +19,7 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
       model: 'TRECC-T W COMMAND POST KITTING',
       category: 'command',
       description: 'Advanced command post with integrated power, HVAC, display systems, and deployable workstations.',
-      image: '🛖',
+      image: 'command',
       specs: {
         deployed: { length: '14.3 ft', width: '7.1 ft', height: '7.9 ft' },
         stowed: { length: '7.0 ft', width: '7.1 ft', height: '4.8 ft' }
@@ -31,7 +31,7 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
       model: 'TRECC-S MEDICAL KITTING',
       category: 'medical',
       description: 'Field hospital with surgical capabilities, patient care areas, and medical equipment integration.',
-      image: '🏥',
+      image: 'medical',
       specs: {
         deployed: { length: '16.0 ft', width: '8.0 ft', height: '8.0 ft' },
         stowed: { length: '8.0 ft', width: '8.0 ft', height: '5.0 ft' }
@@ -43,7 +43,7 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
       model: 'TRECC-L LIVING KITTING',
       category: 'living',
       description: 'Comfortable living quarters with sleeping areas, dining facilities, and recreational space.',
-      image: '🏠',
+      image: 'living',
       specs: {
         deployed: { length: '18.0 ft', width: '8.0 ft', height: '8.0 ft' },
         stowed: { length: '9.0 ft', width: '8.0 ft', height: '5.0 ft' }
@@ -55,7 +55,7 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
       model: 'TRECC-C COMMS KITTING',
       category: 'communications',
       description: 'Advanced communications center with satellite links, radio systems, and network infrastructure.',
-      image: '📡',
+      image: 'communications',
       specs: {
         deployed: { length: '15.0 ft', width: '7.5 ft', height: '8.0 ft' },
         stowed: { length: '7.5 ft', width: '7.5 ft', height: '5.0 ft' }
@@ -67,7 +67,7 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
       model: 'TRECC-E EQUIPMENT KITTING',
       category: 'storage',
       description: 'Heavy-duty storage facility for military equipment, tools, and supplies.',
-      image: '📦',
+      image: 'storage',
       specs: {
         deployed: { length: '12.0 ft', width: '8.0 ft', height: '8.0 ft' },
         stowed: { length: '6.0 ft', width: '8.0 ft', height: '5.0 ft' }
@@ -79,7 +79,7 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
       model: 'TRECC-K KITCHEN KITTING',
       category: 'kitchen',
       description: 'Mobile kitchen with cooking facilities, food storage, and dining areas.',
-      image: '🍳',
+      image: 'kitchen',
       specs: {
         deployed: { length: '14.0 ft', width: '8.0 ft', height: '8.0 ft' },
         stowed: { length: '7.0 ft', width: '8.0 ft', height: '5.0 ft' }
@@ -88,29 +88,51 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
   ];
 
   const categories = [
-    { id: 'all', name: 'All Shelters', icon: '🏕️' },
-    { id: 'command', name: 'Command Posts', icon: '🛖' },
-    { id: 'medical', name: 'Medical Units', icon: '🏥' },
-    { id: 'living', name: 'Living Quarters', icon: '🏠' },
-    { id: 'communications', name: 'Communications', icon: '📡' },
-    { id: 'storage', name: 'Storage', icon: '📦' },
-    { id: 'kitchen', name: 'Kitchens', icon: '🍳' }
+    { id: 'all', name: 'All Shelters', icon: 'all' },
+    { id: 'command', name: 'Command Posts', icon: 'command' },
+    { id: 'medical', name: 'Medical Units', icon: 'medical' },
+    { id: 'living', name: 'Living Quarters', icon: 'living' },
+    { id: 'communications', name: 'Communications', icon: 'communications' },
+    { id: 'storage', name: 'Storage', icon: 'storage' },
+    { id: 'kitchen', name: 'Kitchens', icon: 'kitchen' }
   ];
 
   const filteredShelters = shelters.filter(shelter => {
-    const matchesCategory = selectedCategory === 'all' || shelter.category === selectedCategory;
     const matchesSearch = shelter.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         shelter.model.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          shelter.description.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesCategory && matchesSearch;
+    const matchesCategory = selectedCategory === 'all' || shelter.category === selectedCategory;
+    return matchesSearch && matchesCategory;
   });
+
+  const renderIcon = (iconType: string) => {
+    switch (iconType) {
+      case 'command':
+        return <div className="icon-command"></div>;
+      case 'medical':
+        return <div className="icon-medical"></div>;
+      case 'living':
+        return <div className="icon-living"></div>;
+      case 'communications':
+        return <div className="icon-communications"></div>;
+      case 'storage':
+        return <div className="icon-storage"></div>;
+      case 'kitchen':
+        return <div className="icon-kitchen"></div>;
+      case 'all':
+        return <div className="icon-all"></div>;
+      default:
+        return <div className="icon-default"></div>;
+    }
+  };
 
   return (
     <div className="command-center">
       {/* Header */}
       <header className="command-header">
         <div className="header-left">
-          <h1>WEATHERHAVEN COMMAND CENTER</h1>
-          <p>Military Shelter Configuration System</p>
+          <h1>COMMAND CENTER</h1>
+          <p>Shelter Configuration System</p>
         </div>
         <div className="header-right">
           <div className="user-info">
@@ -119,7 +141,7 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
             <span className="user-clearance">{user.clearance}</span>
           </div>
           <button onClick={onLogout} className="logout-button">
-            <span>🚪</span>
+            <span className="icon-logout"></span>
             <span>LOGOUT</span>
           </button>
         </div>
@@ -137,7 +159,7 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
               onChange={(e) => setSearchTerm(e.target.value)}
               className="search-input"
             />
-            <span className="search-icon">🔍</span>
+            <span className="search-icon"></span>
           </div>
           
           <div className="category-filters">
@@ -147,7 +169,7 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
                 onClick={() => setSelectedCategory(category.id)}
                 className={`category-button ${selectedCategory === category.id ? 'active' : ''}`}
               >
-                <span className="category-icon">{category.icon}</span>
+                <span className="category-icon">{renderIcon(category.icon)}</span>
                 <span>{category.name}</span>
               </button>
             ))}
@@ -162,7 +184,7 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
               className="shelter-card"
               onClick={() => onShelterSelect(shelter)}
             >
-              <div className="shelter-icon">{shelter.image}</div>
+              <div className="shelter-icon">{renderIcon(shelter.image)}</div>
               <div className="shelter-info">
                 <h3>{shelter.name}</h3>
                 <p className="shelter-model">{shelter.model}</p>
@@ -184,7 +206,7 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
               </div>
               <div className="shelter-action">
                 <button className="configure-button">
-                  <span>⚙️</span>
+                  <span className="icon-configure"></span>
                   <span>CONFIGURE</span>
                 </button>
               </div>
@@ -194,7 +216,7 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
 
         {filteredShelters.length === 0 && (
           <div className="no-results">
-            <div className="no-results-icon">🔍</div>
+            <div className="no-results-icon"></div>
             <h3>No shelters found</h3>
             <p>Try adjusting your search or filter criteria</p>
           </div>

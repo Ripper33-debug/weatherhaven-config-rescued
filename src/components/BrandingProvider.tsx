@@ -1,27 +1,8 @@
 import React, { createContext, useContext, useState } from 'react';
 import { UserCredentials } from '../config/users';
 
-// Explicitly define the interface to match users.ts exactly
-interface ClientBranding {
-  companyName: string;
-  logoFolder: number;
-  logoUrl?: string;
-  primaryColor: string;
-  secondaryColor: string;
-  customCss?: string;
-  contactInfo?: {
-    email: string;
-    phone: string;
-    address: string;
-  };
-  features?: {
-    enableARVR: boolean;
-    enableCollaboration: boolean;
-    enableDemoMode: boolean;
-    enableExport: boolean;
-    enablePricing: boolean;
-  };
-}
+// Use the same type as defined in users.ts
+type ClientBranding = NonNullable<UserCredentials['clientBranding']>;
 
 interface BrandingContextType {
   branding: ClientBranding | null;
@@ -37,6 +18,11 @@ const defaultBranding: ClientBranding = {
   logoUrl: '/logos/weatherhaven-logo.svg',
   primaryColor: '#1a202c',
   secondaryColor: '#4a5568',
+  contactInfo: {
+    email: 'info@weatherhaven.com',
+    phone: '+1-604-594-4424',
+    address: 'Burnaby, BC, Canada'
+  },
   features: {
     enableARVR: true,
     enableCollaboration: true,

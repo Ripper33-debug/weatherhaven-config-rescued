@@ -165,18 +165,55 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
     // Render the TRECC GLB model
   const renderTRECCModel = () => {
     if (!scene) {
-      return null;
+      // Fallback to placeholder if GLB doesn't load
+      return (
+        <group ref={groupRef}>
+          <mesh position={[0, 2, 0]} castShadow receiveShadow>
+            <boxGeometry args={[4, 4, 2]} />
+            <meshStandardMaterial 
+              color={configState.color} 
+              metalness={0.3}
+              roughness={0.7}
+            />
+          </mesh>
+          <mesh position={[0, 4, 0]} castShadow receiveShadow>
+            <boxGeometry args={[4.2, 0.1, 2.2]} />
+            <meshStandardMaterial color="#2d3748" metalness={0.8} roughness={0.2} />
+          </mesh>
+        </group>
+      );
     }
 
     return (
       <group ref={groupRef}>
-        {/* Clone the GLB scene */}
+        {/* Clone the GLB scene with proper positioning and lighting */}
         <primitive 
           object={scene.clone()} 
           position={[0, 0, 0]}
           scale={[1, 1, 1]}
           rotation={[0, 0, 0]}
         />
+        
+        {/* Add ambient lighting to prevent black appearance */}
+        <ambientLight intensity={0.8} />
+        <directionalLight position={[5, 5, 5]} intensity={1} />
+        
+        {/* Scale indicators */}
+        {showScale && (
+          <group>
+            {/* Human figure for scale */}
+            <mesh position={[5, 1.7, 0]}>
+              <cylinderGeometry args={[0.3, 0.3, 1.7, 8]} />
+              <meshStandardMaterial color="#8B4513" />
+            </mesh>
+            
+            {/* Vehicle for scale */}
+            <mesh position={[8, 1.5, 0]}>
+              <boxGeometry args={[2, 1.5, 4]} />
+              <meshStandardMaterial color="#2d3748" />
+            </mesh>
+          </group>
+        )}
       </group>
     );
   };
@@ -217,16 +254,17 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
         enablePan={true}
         enableZoom={true}
         enableRotate={true}
-        minDistance={3}
-        maxDistance={100}
+        minDistance={5}
+        maxDistance={50}
         maxPolarAngle={Math.PI / 2}
         minPolarAngle={0}
-        target={[0, currentDimensions.height/2, 0]}
+        target={[0, 2, 0]}
         dampingFactor={0.05}
         enableDamping={true}
         rotateSpeed={0.5}
         zoomSpeed={1.2}
         panSpeed={0.8}
+        position={[10, 10, 10]}
       />
     </>
   );

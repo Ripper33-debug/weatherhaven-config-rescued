@@ -22,7 +22,7 @@ html, body, #root {
 .login-container {
   height: 100vh;
   width: 100vw;
-  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+  background: #000000;
   position: relative;
   overflow: hidden;
 }
@@ -37,15 +37,15 @@ html, body, #root {
   position: absolute;
   inset: 0;
   background-image: 
-    linear-gradient(rgba(0, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
-  background-size: 100px 100px;
-  animation: gridMove 30s linear infinite;
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 200px 200px;
+  animation: gridMove 40s linear infinite;
 }
 
 @keyframes gridMove {
   0% { transform: translate(0, 0); }
-  100% { transform: translate(100px, 100px); }
+  100% { transform: translate(200px, 200px); }
 }
 
 .scan-line {
@@ -53,8 +53,7 @@ html, body, #root {
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, #00ffff, transparent);
-  box-shadow: 0 0 5px #00ffff;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
   z-index: 2;
 }
 
@@ -62,8 +61,8 @@ html, body, #root {
   position: absolute;
   width: 60px;
   height: 60px;
-  border: 2px solid #00ffff;
-  opacity: 0.3;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  opacity: 0.2;
 }
 
 .corner-accent.top-left {
@@ -118,27 +117,28 @@ html, body, #root {
   font-size: 64px;
   margin-bottom: 24px;
   animation: logoGlow 3s ease-in-out infinite alternate;
-  opacity: 0.9;
+  opacity: 0.8;
+  color: #ffffff;
 }
 
 @keyframes logoGlow {
-  from { text-shadow: 0 0 15px #00ffff; }
-  to { text-shadow: 0 0 25px #00ffff, 0 0 35px #00ffff; }
+  from { text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); }
+  to { text-shadow: 0 0 20px rgba(255, 255, 255, 0.5); }
 }
 
 .system-title {
   font-size: 42px;
   font-weight: 600;
-  color: #00ffff;
+  color: #ffffff;
   margin: 0;
   letter-spacing: 6px;
-  text-shadow: 0 0 15px #00ffff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
   font-family: 'Inter', monospace;
 }
 
 .system-subtitle {
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.5);
   margin: 16px 0 0 0;
   letter-spacing: 3px;
   font-weight: 300;
@@ -147,27 +147,27 @@ html, body, #root {
 .security-badge {
   margin-top: 24px;
   padding: 8px 16px;
-  border: 1px solid rgba(0, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 4px;
-  background: rgba(0, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
 }
 
 .badge-text {
   font-size: 10px;
-  color: #00ffff;
+  color: rgba(255, 255, 255, 0.8);
   letter-spacing: 2px;
   font-weight: 500;
 }
 
 .login-form-container {
-  background: rgba(0, 0, 0, 0.7);
-  border: 1px solid rgba(0, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   padding: 48px;
   min-width: 420px;
   backdrop-filter: blur(20px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
 }
 
 .form-header {
@@ -176,7 +176,7 @@ html, body, #root {
 }
 
 .form-header h2 {
-  color: #00ffff;
+  color: #ffffff;
   font-size: 20px;
   margin: 0 0 12px 0;
   letter-spacing: 3px;
@@ -204,7 +204,7 @@ html, body, #root {
 }
 
 .input-group label {
-  color: rgba(0, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.7);
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 2px;
@@ -212,8 +212,8 @@ html, body, #root {
 }
 
 .login-input {
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(0, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 4px;
   padding: 14px 16px;
   color: white;
@@ -224,9 +224,9 @@ html, body, #root {
 
 .login-input:focus {
   outline: none;
-  border-color: rgba(0, 255, 255, 0.6);
-  box-shadow: 0 0 8px rgba(0, 255, 255, 0.2);
-  background: rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .login-input::placeholder {
@@ -247,11 +247,11 @@ html, body, #root {
 }
 
 .login-button {
-  background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(0, 128, 255, 0.1));
-  border: 1px solid rgba(0, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 4px;
   padding: 16px 24px;
-  color: #00ffff;
+  color: #ffffff;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
@@ -267,10 +267,10 @@ html, body, #root {
 }
 
 .login-button:hover:not(:disabled) {
-  background: linear-gradient(135deg, rgba(0, 255, 255, 0.2), rgba(0, 128, 255, 0.2));
-  border-color: rgba(0, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 255, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
 }
 
 .login-button:disabled {
@@ -319,6 +319,16 @@ html, body, #root {
   font-size: 11px;
   color: rgba(255, 255, 255, 0.4);
   font-family: 'Inter', monospace;
+}
+
+.credential-note {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.3);
+  font-style: italic;
 }
 
 .login-footer {

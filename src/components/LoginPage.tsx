@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { User } from '../App';
+import { AUTHORIZED_USERS, validateCredentials } from '../config/users';
 
 interface LoginPageProps {
   onLogin: (user: User) => void;
@@ -11,6 +12,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [scanLine, setScanLine] = useState(0);
+  const [loginAttempts, setLoginAttempts] = useState(0);
 
   // Animated scan line effect
   useEffect(() => {
@@ -28,21 +30,24 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     // Simulate authentication delay
     await new Promise(resolve => setTimeout(resolve, 1500));
 
-    // Demo credentials (in real app, this would be server-side)
-    if (username === 'commander' && password === 'access123') {
-      onLogin({
-        username: 'Commander Smith',
-        rank: 'Lieutenant Colonel',
-        clearance: 'TOP SECRET'
-      });
-    } else if (username === 'tech' && password === 'tech456') {
-      onLogin({
-        username: 'Tech Specialist Johnson',
-        rank: 'Sergeant First Class',
-        clearance: 'SECRET'
-      });
+    // Check if user exists and password matches
+    const user = validateCredentials(username, password);
+
+    if (user) {
+      // Successful login
+      setLoginAttempts(0);
+      onLogin(user.userData);
     } else {
-      setError('Invalid credentials. Access denied.');
+      // Failed login
+      const newAttempts = loginAttempts + 1;
+      setLoginAttempts(newAttempts);
+      
+      if (newAttempts >= 3) {
+        setError('Multiple failed attempts. Access temporarily restricted.');
+        // Could implement a timeout here
+      } else {
+        setError('Invalid credentials. Access denied.');
+      }
     }
     
     setIsLoading(false);
@@ -90,6 +95,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                 placeholder="Enter username"
                 required
                 className="login-input"
+                disabled={loginAttempts >= 3}
               />
             </div>
 
@@ -103,6 +109,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                 placeholder="Enter password"
                 required
                 className="login-input"
+                disabled={loginAttempts >= 3}
               />
             </div>
 
@@ -116,7 +123,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
             <button 
               type="submit" 
               className="login-button"
-              disabled={isLoading}
+              disabled={isLoading || loginAttempts >= 3}
             >
               {isLoading ? (
                 <div className="loading-spinner">
@@ -133,7 +140,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
           </form>
 
           <div className="demo-credentials">
-            <h4>Demo Credentials:</h4>
+            <h4>Authorized Users:</h4>
             <div className="credential-pair">
               <span>Commander:</span>
               <span>commander / access123</span>
@@ -141,6 +148,9 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
             <div className="credential-pair">
               <span>Tech:</span>
               <span>tech / tech456</span>
+            </div>
+            <div className="credential-note">
+              <span>Contact administrator for access credentials</span>
             </div>
           </div>
         </div>

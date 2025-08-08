@@ -22,7 +22,7 @@ export const AUTHORIZED_USERS: UserCredentials[] = [
     }
   },
   {
-    username: 'devteam',
+    username: 'dev',
     password: 'develop2024',
     userData: {
       username: 'Development Team',
@@ -31,11 +31,11 @@ export const AUTHORIZED_USERS: UserCredentials[] = [
     }
   },
   {
-    username: 'comteam',
-    password: 'communicate2024',
+    username: 'mkt',
+    password: 'marketing2024',
     userData: {
-      username: 'Communications Team',
-      rank: 'Communications Lead',
+      username: 'Marketing Team',
+      rank: 'Marketing Lead',
       clearance: 'SECRET'
     }
   }

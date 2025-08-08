@@ -3,6 +3,7 @@ import { User, Shelter, ShelterConfiguration } from '../App';
 import DualLogoHeader from './DualLogoHeader';
 import BreadcrumbNav from './BreadcrumbNav';
 import EnhancedSearch from './EnhancedSearch';
+import ComparisonMode from './ComparisonMode';
 import './CommandCenter.css';
 
 interface CommandCenterProps {
@@ -15,6 +16,7 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState<'name' | 'category'>('name');
+  const [showComparisonMode, setShowComparisonMode] = useState(false);
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -482,6 +484,14 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
                 <span>{category.name}</span>
               </button>
             ))}
+            <button
+              className="comparison-mode-btn"
+              onClick={() => setShowComparisonMode(true)}
+              title="Compare shelters side-by-side"
+            >
+              <span>📊</span>
+              <span>Compare</span>
+            </button>
           </div>
           
           {/* Sort Options */}
@@ -564,6 +574,14 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
         <p>CLASSIFIED MILITARY SYSTEM • WEATHERHAVEN TECHNOLOGIES</p>
         <p>Total Shelters: {shelters.length} • Active User: {user.username}</p>
       </footer>
+
+      {/* Comparison Mode */}
+      <ComparisonMode
+        shelters={shelters}
+        isVisible={showComparisonMode}
+        onClose={() => setShowComparisonMode(false)}
+        onShelterSelect={onShelterSelect}
+      />
     </div>
   );
 };

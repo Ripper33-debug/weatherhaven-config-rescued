@@ -10,6 +10,7 @@ import ARVRMode from './ARVRMode';
 import DemoMode from './DemoMode';
 import { useCollaboration } from './CollaborationProvider';
 import BreadcrumbNav from './BreadcrumbNav';
+import LeadTimeCalculator from './LeadTimeCalculator';
 import './CommandCenter.css';
 
 interface ShelterConfiguratorProps {
@@ -49,6 +50,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   const [isARVRMode, setIsARVRMode] = useState(false);
   const [isDemoMode, setIsDemoMode] = useState(false);
   const [showCollaboration, setShowCollaboration] = useState(false);
+  const [showLeadTimeCalculator, setShowLeadTimeCalculator] = useState(false);
   
   // Collaboration context
   const collaboration = useCollaboration();
@@ -328,6 +330,14 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
           Collaboration
         </button>
         
+        <button 
+          className="advanced-button"
+          onClick={() => setShowLeadTimeCalculator(true)}
+        >
+          <span>⏱️</span>
+          Lead Time
+        </button>
+        
         {collaboration.isCollaborating && (
           <div className="session-info">
             Session: {collaboration.sessionId}
@@ -342,6 +352,14 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
           <p>CLASSIFIED MILITARY SYSTEM • WEATHERHAVEN TECHNOLOGIES • {shelter.name}</p>
         </div>
       </footer>
+
+      {/* Lead Time Calculator */}
+      <LeadTimeCalculator
+        shelter={shelter}
+        configuration={selectedConfiguration}
+        isVisible={showLeadTimeCalculator}
+        onClose={() => setShowLeadTimeCalculator(false)}
+      />
     </div>
   );
 };

@@ -58,7 +58,12 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
       {/* Interactive military background */}
       <div className="login-background">
         <div className="grid-overlay"></div>
+        <div className="radar-grid"></div>
         <div className="radar-sweep"></div>
+        <div className="radar-center"></div>
+        <div className="radar-blip blip-1"></div>
+        <div className="radar-blip blip-2"></div>
+        <div className="radar-blip blip-3"></div>
         <div className="targeting-reticle top-left"></div>
         <div className="targeting-reticle top-right"></div>
         <div className="targeting-reticle bottom-left"></div>

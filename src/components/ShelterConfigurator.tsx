@@ -51,6 +51,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   const [isDemoMode, setIsDemoMode] = useState(false);
   const [showCollaboration, setShowCollaboration] = useState(false);
   const [showLeadTimeCalculator, setShowLeadTimeCalculator] = useState(false);
+  const [showScale, setShowScale] = useState(false);
   
   // Collaboration context
   const collaboration = useCollaboration();
@@ -281,6 +282,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               configState={configState}
               onModelLoaded={handleModelLoaded}
               shelter={shelter}
+              showScale={showScale}
             />
           </Suspense>
         </Canvas>
@@ -337,6 +339,14 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
         >
           <span>⏱️</span>
           Lead Time
+        </button>
+        
+        <button 
+          className={`advanced-button ${showScale ? 'active' : ''}`}
+          onClick={() => setShowScale(!showScale)}
+        >
+          <span>📏</span>
+          Scale
         </button>
         
         {collaboration.isCollaborating && (

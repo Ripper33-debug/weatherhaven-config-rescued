@@ -250,10 +250,10 @@ const Controls: React.FC<ControlsProps> = ({
           className="btn-primary pricing-button"
         >
           <span>💰</span>
-          <span>Click for Quote</span>
+          <span>Get Pricing</span>
         </button>
         <p className="control-description">
-          Get instant pricing and generate a professional quote
+          View pricing and generate a quote
         </p>
       </div>
 

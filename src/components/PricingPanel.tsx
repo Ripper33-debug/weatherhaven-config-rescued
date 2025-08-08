@@ -158,7 +158,7 @@ const PricingPanel: React.FC<PricingPanelProps> = ({
     <div className="pricing-panel-overlay">
       <div className="pricing-panel">
         <div className="pricing-header">
-          <h2>Pricing & Quote</h2>
+          <h2>Pricing Information</h2>
           <button onClick={onClose} className="close-button">×</button>
         </div>
 
@@ -297,7 +297,7 @@ const PricingPanel: React.FC<PricingPanelProps> = ({
             onClick={generateQuote}
             className="btn-primary"
           >
-            Generate Quote
+            Generate Report
           </button>
         </div>
       </div>

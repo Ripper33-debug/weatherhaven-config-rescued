@@ -304,7 +304,6 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
         rotateSpeed={0.5}
         zoomSpeed={1.2}
         panSpeed={0.8}
-        position={[10, 10, 10]}
       />
     </>
   );

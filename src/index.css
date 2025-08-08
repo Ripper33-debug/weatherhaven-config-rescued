@@ -1368,36 +1368,99 @@ html, body, #root {
 }
 
 .scene-indicator {
-  background: rgba(0, 0, 0, 0.8);
+  background: linear-gradient(135deg, rgba(0, 20, 40, 0.95) 0%, rgba(0, 40, 80, 0.95) 100%);
   color: #ffffff;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-size: 18px;
-  font-weight: 600;
-  letter-spacing: 2px;
+  padding: 15px 30px;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 3px;
   text-align: center;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(15px);
+  border: 2px solid rgba(0, 123, 255, 0.5);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+  position: relative;
+  overflow: hidden;
+  z-index: 100;
+}
+
+.scene-indicator::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 123, 255, 0.3), transparent);
+  transition: left 0.8s ease;
+  animation: sceneShimmer 3s ease-in-out infinite;
+}
+
+@keyframes sceneShimmer {
+  0%, 100% { left: -100%; }
+  50% { left: 100%; }
 }
 
 .scale-indicator {
   position: absolute;
-  top: 100px;
+  top: 120px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 20px;
+  gap: 30px;
+  z-index: 100;
 }
 
 .human-scale,
 .vehicle-scale {
-  background: rgba(0, 0, 0, 0.8);
+  background: linear-gradient(135deg, rgba(0, 20, 40, 0.95) 0%, rgba(0, 40, 80, 0.95) 100%);
   color: #ffffff;
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-size: 14px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  backdrop-filter: blur(15px);
+  border: 2px solid rgba(0, 123, 255, 0.5);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.human-scale::before,
+.vehicle-scale::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 123, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.human-scale:hover::before,
+.vehicle-scale:hover::before {
+  left: 100%;
+}
+
+.human-scale:hover,
+.vehicle-scale:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+  border-color: rgba(0, 123, 255, 0.8);
+}
+
+.human-scale {
+  background: linear-gradient(135deg, rgba(0, 100, 0, 0.95) 0%, rgba(0, 150, 0, 0.95) 100%);
+  border-color: rgba(0, 255, 0, 0.5);
+}
+
+.vehicle-scale {
+  background: linear-gradient(135deg, rgba(100, 0, 0, 0.95) 0%, rgba(150, 0, 0, 0.95) 100%);
+  border-color: rgba(255, 0, 0, 0.5);
 }
 
 .particle-effects {

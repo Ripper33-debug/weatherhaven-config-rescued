@@ -220,8 +220,8 @@ const DemoMode: React.FC<DemoModeProps> = ({
         
         {showScale && (
           <div className="scale-indicator">
-            <div className="human-scale">👤 Human Scale</div>
-            <div className="vehicle-scale">🚗 Vehicle Scale</div>
+            <div className="human-scale">👤 Human Scale (6ft)</div>
+            <div className="vehicle-scale">🚙 Military Humvee (15ft)</div>
           </div>
         )}
         

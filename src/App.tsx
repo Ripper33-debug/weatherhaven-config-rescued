@@ -11,7 +11,7 @@ export interface ConfiguratorState {
   isInsideView: boolean;
   color: string;
   isLoading: boolean;
-  // Version: 1.0.6 - Critical fix for Vercel deployment issues
+  // Version: 1.0.7 - Force complete rebuild to fix login issues
 }
 
 export interface User {

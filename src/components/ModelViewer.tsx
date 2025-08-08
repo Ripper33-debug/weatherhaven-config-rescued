@@ -162,7 +162,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
 
   const envSettings = getEnvironmentSettings();
 
-  // Render the TRECC GLB model
+    // Render the TRECC GLB model
   const renderTRECCModel = () => {
     if (!scene) {
       return null;
@@ -177,29 +177,6 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
           scale={[1, 1, 1]}
           rotation={[0, 0, 0]}
         />
-        
-        {/* Apply color changes if needed */}
-        {materials && Object.keys(materials).length > 0 && (
-          <group>
-            {Object.entries(materials).map(([name, material]) => {
-              if (material && typeof material === 'object' && 'color' in material) {
-                // Apply shelter color to main body materials
-                if (name.toLowerCase().includes('body') || name.toLowerCase().includes('main')) {
-                  return (
-                    <mesh key={name} material={material}>
-                      <meshStandardMaterial 
-                        color={configState.color}
-                        metalness={material.metalness || 0.3}
-                        roughness={material.roughness || 0.7}
-                      />
-                    </mesh>
-                  );
-                }
-              }
-              return null;
-            })}
-          </group>
-        )}
       </group>
     );
   };

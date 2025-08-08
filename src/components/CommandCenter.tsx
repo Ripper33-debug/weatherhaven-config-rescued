@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { User, Shelter, ShelterConfiguration } from '../App';
 import DualLogoHeader from './DualLogoHeader';
 import './CommandCenter.css';
@@ -12,6 +12,28 @@ interface CommandCenterProps {
 const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelterSelect }) => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [sortBy, setSortBy] = useState<'name' | 'category'>('name');
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setSearchTerm('');
+        setSelectedCategory('all');
+      }
+      if (event.ctrlKey || event.metaKey) {
+        if (event.key === 'k') {
+          event.preventDefault();
+          const searchInput = document.querySelector('.search-input') as HTMLInputElement;
+          searchInput?.focus();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyPress);
+    return () => document.removeEventListener('keydown', handleKeyPress);
+  }, []);
 
   // Shelter catalog data - Main shelter types with configurations
   const shelters: Shelter[] = [
@@ -350,13 +372,21 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
     { id: 'mecc', name: 'MECC', icon: 'mecc' }
   ];
 
-  const filteredShelters = shelters.filter(shelter => {
-    const matchesSearch = shelter.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         shelter.model.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         shelter.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === 'all' || shelter.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
+  const filteredShelters = shelters
+    .filter(shelter => {
+      const matchesSearch = shelter.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           shelter.model.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           shelter.description.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesCategory = selectedCategory === 'all' || shelter.category === selectedCategory;
+      return matchesSearch && matchesCategory;
+    })
+    .sort((a, b) => {
+      if (sortBy === 'name') {
+        return a.name.localeCompare(b.name);
+      } else {
+        return a.category.localeCompare(b.category);
+      }
+    });
 
   const renderIcon = (iconType: string) => {
     switch (iconType) {
@@ -428,12 +458,21 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
           <div className="search-bar">
             <input
               type="text"
-              placeholder="Search shelters..."
+              placeholder="Search shelters... (Ctrl+K to focus)"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="search-input"
             />
             <span className="search-icon"></span>
+            {searchTerm && (
+              <button 
+                className="clear-search"
+                onClick={() => setSearchTerm('')}
+                title="Clear search"
+              >
+                ×
+              </button>
+            )}
           </div>
           
           <div className="category-filters">
@@ -442,12 +481,31 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
                 key={category.id}
                 onClick={() => setSelectedCategory(category.id)}
                 className={`category-button ${selectedCategory === category.id ? 'active' : ''}`}
+                title={`Filter by ${category.name}`}
               >
                 <span className="category-icon">{renderIcon(category.icon)}</span>
                 <span>{category.name}</span>
               </button>
             ))}
           </div>
+          
+          {/* Sort Options */}
+          <div className="sort-controls">
+            <label className="sort-label">Sort by:</label>
+            <select 
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as 'name' | 'category')}
+              className="sort-dropdown"
+            >
+              <option value="name">Name</option>
+              <option value="category">Category</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Results Summary */}
+        <div className="results-summary">
+          <p>Showing {filteredShelters.length} of {shelters.length} shelters</p>
         </div>
 
         {/* Shelter grid */}

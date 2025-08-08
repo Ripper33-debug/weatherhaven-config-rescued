@@ -33,7 +33,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
   const [modelLoaded, setModelLoaded] = useState(false);
   
   // Load the GLB model
-  const { scene, nodes, materials } = useGLTF('/models/trecc.glb');
+  const { scene } = useGLTF('/models/trecc.glb');
   
   // TRECC-T dimensions from blueprint (converted from inches to feet)
   const deployedDimensions = {

@@ -539,7 +539,7 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
                 {shelter.configurations && shelter.configurations.length > 0 && (
                   <div className="configurations-info">
                     <span className="configurations-label">
-                      Available Configurations: {shelter.configurations.length}
+                      Pre-configured Options: {shelter.configurations.length}
                     </span>
                   </div>
                 )}

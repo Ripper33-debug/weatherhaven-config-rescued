@@ -271,7 +271,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
       <footer className="configurator-footer">
         <div>
           <p>Drag to rotate • Scroll to zoom • Click to interact</p>
-          <p>CLASSIFIED MILITARY SYSTEM • {shelter.name}</p>
+          <p>CLASSIFIED MILITARY SYSTEM • WEATHERHAVEN TECHNOLOGIES • {shelter.name}</p>
         </div>
       </footer>
     </div>

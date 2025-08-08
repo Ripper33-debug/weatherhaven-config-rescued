@@ -96,36 +96,16 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
       <div className="login-content">
         <div className="login-header">
           <div className="logo-container">
-            {currentBranding ? (
-              <>
-                <div className="client-logo">
-                  <img 
-                    src={`/logos/clients/${currentBranding.logoFolder}.svg`} 
-                    alt={`${currentBranding.companyName} Logo`}
-                    onError={(e) => {
-                      // Fallback to text if image fails to load
-                      const target = e.target as HTMLImageElement;
-                      target.style.display = 'none';
-                      target.nextElementSibling?.classList.remove('hidden');
-                    }}
-                  />
-                  <div className="logo-fallback hidden">
-                    <h1 className="system-title">{currentBranding.companyName}</h1>
-                  </div>
-                </div>
-                <p className="system-subtitle">MILITARY SHELTER CONFIGURATOR</p>
-                <div className="security-badge">
-                  <span className="badge-text">SECURE ACCESS</span>
-                </div>
-              </>
-            ) : (
-              <>
-                <h1 className="system-title">WEATHERHAVEN</h1>
-                <p className="system-subtitle">MILITARY SHELTER CONFIGURATOR</p>
-                <div className="security-badge">
-                  <span className="badge-text">SECURE ACCESS</span>
-                </div>
-              </>
+            <h1 className="system-title">WEATHERHAVEN</h1>
+            <p className="system-subtitle">MILITARY SHELTER CONFIGURATOR</p>
+            <div className="security-badge">
+              <span className="badge-text">SECURE ACCESS</span>
+            </div>
+            {currentBranding && (
+              <div className="client-indicator">
+                <span className="client-label">Client:</span>
+                <span className="client-name">{currentBranding.companyName}</span>
+              </div>
             )}
           </div>
         </div>

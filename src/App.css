@@ -169,6 +169,36 @@ canvas {
   font-weight: 500;
 }
 
+/* Client Indicator Styles */
+.client-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 8px 16px;
+  background: rgba(255, 68, 68, 0.1);
+  border: 1px solid rgba(255, 68, 68, 0.3);
+  border-radius: 6px;
+  backdrop-filter: blur(10px);
+}
+
+.client-label {
+  font-size: 12px;
+  color: #a0aec0;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.client-name {
+  font-size: 14px;
+  color: #ff4444;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
+}
+
 /* Color option hover effects */
 .color-option:hover {
   transform: scale(1.1);

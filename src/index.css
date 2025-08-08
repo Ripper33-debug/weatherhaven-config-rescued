@@ -101,12 +101,15 @@ html, body, #root {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 40px;
+  padding: 20px;
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
 .login-header {
   text-align: center;
-  margin-bottom: 80px;
+  margin-bottom: 40px;
+  flex-shrink: 0;
 }
 
 .logo-container {
@@ -114,8 +117,8 @@ html, body, #root {
 }
 
 .logo-symbol {
-  font-size: 64px;
-  margin-bottom: 24px;
+  font-size: 48px;
+  margin-bottom: 20px;
   animation: logoGlow 3s ease-in-out infinite alternate;
   opacity: 0.8;
   color: #ffffff;
@@ -164,10 +167,12 @@ html, body, #root {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
-  padding: 48px;
-  min-width: 420px;
+  padding: 40px;
+  width: 100%;
+  max-width: 450px;
   backdrop-filter: blur(20px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
 }
 
 .form-header {

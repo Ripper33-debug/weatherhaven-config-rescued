@@ -30,26 +30,33 @@ export const AUTHORIZED_USERS: UserCredentials[] = [
       clearance: 'SECRET'
     }
   },
-  // Add more users here as needed
-  // Example:
-  // {
-  //   username: 'operator1',
-  //   password: 'secure789',
-  //   userData: {
-  //     username: 'Operator One',
-  //     rank: 'Staff Sergeant',
-  //     clearance: 'SECRET'
-  //   }
-  // },
-  // {
-  //   username: 'analyst',
-  //   password: 'data2024',
-  //   userData: {
-  //     username: 'Data Analyst Wilson',
-  //     rank: 'Technical Sergeant',
-  //     clearance: 'SECRET'
-  //   }
-  // }
+  {
+    username: 'operator1',
+    password: 'secure789',
+    userData: {
+      username: 'Operator One',
+      rank: 'Staff Sergeant',
+      clearance: 'SECRET'
+    }
+  },
+  {
+    username: 'analyst',
+    password: 'data2024',
+    userData: {
+      username: 'Data Analyst Wilson',
+      rank: 'Technical Sergeant',
+      clearance: 'SECRET'
+    }
+  },
+  {
+    username: 'engineer',
+    password: 'build2024',
+    userData: {
+      username: 'Systems Engineer Davis',
+      rank: 'Master Sergeant',
+      clearance: 'SECRET'
+    }
+  }
 ];
 
 // Helper function to validate credentials

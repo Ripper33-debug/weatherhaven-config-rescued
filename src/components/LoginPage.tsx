@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { User } from '../App';
 import { validateCredentials } from '../config/users';
+import './LoginPage.css';
 
 interface LoginPageProps {
   onLogin: (user: User) => void;

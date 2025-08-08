@@ -1116,6 +1116,250 @@ html, body, #root {
   mask-size: contain;
 }
 
+.icon-demo {
+  width: 16px;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.8);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/%3E%3C/svg%3E") no-repeat center;
+  mask-size: contain;
+}
+
+/* Demo Mode Styles */
+.demo-container {
+  height: 100vh;
+  width: 100vw;
+  background: #000000;
+  position: relative;
+  overflow: hidden;
+}
+
+.demo-controls {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  backdrop-filter: blur(20px);
+}
+
+.demo-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.demo-header h2 {
+  color: #ffffff;
+  margin: 0;
+  font-size: 24px;
+  letter-spacing: 2px;
+}
+
+.demo-progress {
+  flex: 1;
+  max-width: 400px;
+  margin-left: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #4ade80, #22c55e);
+  border-radius: 10px;
+  transition: width 0.3s ease;
+}
+
+.control-buttons {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.demo-button {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 10px 16px;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+}
+
+.demo-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.demo-button.exit {
+  background: rgba(255, 0, 0, 0.2);
+  border-color: rgba(255, 0, 0, 0.3);
+  color: #ff6b6b;
+}
+
+.demo-button.exit:hover {
+  background: rgba(255, 0, 0, 0.3);
+  border-color: rgba(255, 0, 0, 0.5);
+}
+
+.environment-controls {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.env-button {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s ease;
+}
+
+.env-button:hover,
+.env-button.active {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.env-button.active {
+  background: rgba(59, 130, 246, 0.3);
+  border-color: rgba(59, 130, 246, 0.5);
+}
+
+.demo-info {
+  display: flex;
+  gap: 40px;
+}
+
+.scene-info h3 {
+  color: #ffffff;
+  margin: 0 0 8px 0;
+  font-size: 16px;
+}
+
+.scene-info p {
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+  font-size: 14px;
+}
+
+.keyboard-shortcuts h4 {
+  color: #ffffff;
+  margin: 0 0 8px 0;
+  font-size: 14px;
+}
+
+.keyboard-shortcuts ul {
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+  padding-left: 20px;
+  font-size: 12px;
+}
+
+.keyboard-shortcuts li {
+  margin-bottom: 4px;
+}
+
+.demo-viewport {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.demo-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 50;
+  pointer-events: none;
+}
+
+.scene-indicator {
+  background: rgba(0, 0, 0, 0.8);
+  color: #ffffff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.scale-indicator {
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 20px;
+}
+
+.human-scale,
+.vehicle-scale {
+  background: rgba(0, 0, 0, 0.8);
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.particle-effects {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.dust-particle,
+.smoke-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  animation: float 3s ease-in-out infinite;
+}
+
+.dust-particle {
+  background: rgba(212, 165, 116, 0.4);
+  animation-duration: 4s;
+}
+
+.smoke-particle {
+  background: rgba(105, 105, 105, 0.3);
+  animation-duration: 6s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(-20px) translateX(10px);
+    opacity: 1;
+  }
+}
+
 .shelter-info {
   flex: 1;
 }

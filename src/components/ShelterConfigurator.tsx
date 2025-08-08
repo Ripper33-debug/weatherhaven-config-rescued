@@ -6,6 +6,7 @@ import ModelViewer from './ModelViewer';
 import Controls from './Controls';
 import LoadingSpinner from './LoadingSpinner';
 import ARVRMode from './ARVRMode';
+import DemoMode from './DemoMode';
 import { useCollaboration } from './CollaborationProvider';
 
 interface ShelterConfiguratorProps {
@@ -36,6 +37,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   });
 
   const [isARVRMode, setIsARVRMode] = useState(false);
+  const [isDemoMode, setIsDemoMode] = useState(false);
   const [showCollaboration, setShowCollaboration] = useState(false);
   
   // Collaboration context
@@ -65,6 +67,14 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
     setIsARVRMode(false);
   };
 
+  const handleDemoMode = () => {
+    setIsDemoMode(true);
+  };
+
+  const handleExitDemo = () => {
+    setIsDemoMode(false);
+  };
+
   const handleCollaborationToggle = () => {
     if (collaboration.isCollaborating) {
       collaboration.leaveSession();
@@ -83,6 +93,18 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
         shelter={shelter}
         onModelLoaded={handleModelLoaded}
         onExit={handleExitARVR}
+      />
+    );
+  }
+
+  // If in demo mode, render the demo component
+  if (isDemoMode) {
+    return (
+      <DemoMode
+        configState={configState}
+        shelter={shelter}
+        onModelLoaded={handleModelLoaded}
+        onExit={handleExitDemo}
       />
     );
   }
@@ -213,6 +235,14 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
 
       {/* Advanced Controls */}
       <div className="advanced-controls">
+        <button 
+          className="advanced-button"
+          onClick={handleDemoMode}
+        >
+          <span className="icon-demo"></span>
+          Demo Mode
+        </button>
+        
         <button 
           className="advanced-button"
           onClick={handleARVRMode}

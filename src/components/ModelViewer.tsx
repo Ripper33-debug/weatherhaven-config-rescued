@@ -9,9 +9,21 @@ interface ModelViewerProps {
   configState: ConfiguratorState;
   onModelLoaded: () => void;
   shelter: Shelter;
+  isAutoRotating?: boolean;
+  environment?: 'day' | 'night' | 'desert' | 'arctic' | 'jungle';
+  showScale?: boolean;
+  showParticles?: boolean;
 }
 
-const ModelViewer: React.FC<ModelViewerProps> = ({ configState, onModelLoaded, shelter }) => {
+const ModelViewer: React.FC<ModelViewerProps> = ({ 
+  configState, 
+  onModelLoaded, 
+  shelter,
+  isAutoRotating = false,
+  environment = 'day',
+  showScale = false,
+  showParticles = false
+}) => {
   const groupRef = useRef<Group>(null);
   const [isAnimating, setIsAnimating] = useState(false);
   const [animationProgress, setAnimationProgress] = useState(0);
@@ -87,11 +99,62 @@ const ModelViewer: React.FC<ModelViewerProps> = ({ configState, onModelLoaded, s
   }, [animationProgress, configState.isDeployed]);
 
   useFrame((state) => {
-    if (groupRef.current && !isAnimating) {
+    if (groupRef.current && isAutoRotating && !isAnimating) {
+      // Auto-rotation for demo mode
+      groupRef.current.rotation.y += 0.01;
+    } else if (groupRef.current && !isAnimating) {
       // Gentle rotation when not animating
       groupRef.current.rotation.y += 0.002;
     }
   });
+
+  // Get environment settings
+  const getEnvironmentSettings = () => {
+    switch (environment) {
+      case 'night':
+        return {
+          ambientIntensity: 0.2,
+          directionalIntensity: 0.3,
+          environmentPreset: 'night' as const,
+          groundColor: '#1a1a2e',
+          skyColor: '#16213e'
+        };
+      case 'desert':
+        return {
+          ambientIntensity: 0.8,
+          directionalIntensity: 1.5,
+          environmentPreset: 'sunset' as const,
+          groundColor: '#d4a574',
+          skyColor: '#87ceeb'
+        };
+      case 'arctic':
+        return {
+          ambientIntensity: 0.6,
+          directionalIntensity: 0.8,
+          environmentPreset: 'dawn' as const,
+          groundColor: '#f0f8ff',
+          skyColor: '#e6f3ff'
+        };
+      case 'jungle':
+        return {
+          ambientIntensity: 0.4,
+          directionalIntensity: 0.6,
+          environmentPreset: 'forest' as const,
+          groundColor: '#228b22',
+          skyColor: '#98fb98'
+        };
+      default: // day
+        return {
+          ambientIntensity: 0.6,
+          directionalIntensity: 1.2,
+          environmentPreset: 'sunset' as const,
+          groundColor: '#2d3748',
+          skyColor: '#87ceeb'
+        };
+    }
+  };
+
+  const envSettings = getEnvironmentSettings();
 
   // Create TRECC-T shelter geometry with smooth animations
   const createTRECCShelter = () => {
@@ -106,6 +169,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({ configState, onModelLoaded, s
             color={configState.color} 
             metalness={0.3}
             roughness={0.7}
+            envMapIntensity={0.5}
           />
         </mesh>
         
@@ -116,6 +180,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({ configState, onModelLoaded, s
             color="#2d3748" 
             metalness={0.8}
             roughness={0.2}
+            envMapIntensity={0.8}
           />
         </mesh>
         
@@ -126,6 +191,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({ configState, onModelLoaded, s
             color="#1a202c" 
             metalness={0.9}
             roughness={0.1}
+            envMapIntensity={1.0}
           />
         </mesh>
 
@@ -143,6 +209,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({ configState, onModelLoaded, s
                 color={configState.color} 
                 metalness={0.3}
                 roughness={0.7}
+                envMapIntensity={0.5}
               />
             </mesh>
             
@@ -157,6 +224,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({ configState, onModelLoaded, s
                 color={configState.color} 
                 metalness={0.3}
                 roughness={0.7}
+                envMapIntensity={0.5}
               />
             </mesh>
 
@@ -230,6 +298,52 @@ const ModelViewer: React.FC<ModelViewerProps> = ({ configState, onModelLoaded, s
             <meshStandardMaterial color="#2d3748" metalness={0.8} roughness={0.2} />
           </mesh>
         )}
+
+        {/* Scale indicators */}
+        {showScale && (
+          <group>
+            {/* Human figure for scale */}
+            <mesh position={[currentDimensions.length/2 + 2, 1.7, 0]}>
+              <cylinderGeometry args={[0.3, 0.3, 1.7, 8]} />
+              <meshStandardMaterial color="#8B4513" />
+            </mesh>
+            
+            {/* Vehicle for scale */}
+            <mesh position={[currentDimensions.length/2 + 4, 1.5, 0]}>
+              <boxGeometry args={[2, 1.5, 4]} />
+              <meshStandardMaterial color="#2d3748" />
+            </mesh>
+          </group>
+        )}
+
+        {/* Particle effects */}
+        {showParticles && (
+          <group>
+            {/* Dust particles */}
+            {Array.from({ length: 20 }).map((_, i) => (
+              <mesh key={`dust-${i}`} position={[
+                (Math.random() - 0.5) * 20,
+                Math.random() * 5,
+                (Math.random() - 0.5) * 20
+              ]}>
+                <sphereGeometry args={[0.05, 4, 4]} />
+                <meshStandardMaterial color="#d4a574" transparent opacity={0.3} />
+              </mesh>
+            ))}
+            
+            {/* Smoke particles */}
+            {Array.from({ length: 10 }).map((_, i) => (
+              <mesh key={`smoke-${i}`} position={[
+                (Math.random() - 0.5) * 10,
+                Math.random() * 3 + 2,
+                (Math.random() - 0.5) * 10
+              ]}>
+                <sphereGeometry args={[0.1, 6, 6]} />
+                <meshStandardMaterial color="#696969" transparent opacity={0.2} />
+              </mesh>
+            ))}
+          </group>
+        )}
       </group>
     );
   };
@@ -237,10 +351,10 @@ const ModelViewer: React.FC<ModelViewerProps> = ({ configState, onModelLoaded, s
   return (
     <>
       {/* Enhanced Lighting */}
-      <ambientLight intensity={0.6} />
+      <ambientLight intensity={envSettings.ambientIntensity} />
       <directionalLight
         position={[10, 10, 5]}
-        intensity={1.2}
+        intensity={envSettings.directionalIntensity}
         castShadow
         shadow-mapSize-width={2048}
         shadow-mapSize-height={2048}
@@ -254,12 +368,12 @@ const ModelViewer: React.FC<ModelViewerProps> = ({ configState, onModelLoaded, s
       <pointLight position={[10, -10, 10]} intensity={0.3} />
 
       {/* Environment */}
-      <Environment preset="sunset" />
+      <Environment preset={envSettings.environmentPreset} />
 
       {/* Ground plane */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.1, 0]} receiveShadow>
         <planeGeometry args={[100, 100]} />
-        <meshStandardMaterial color="#1a202c" />
+        <meshStandardMaterial color={envSettings.groundColor} />
       </mesh>
 
       {/* TRECC-T Model */}

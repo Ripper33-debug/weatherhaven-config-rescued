@@ -12,7 +12,6 @@ interface CommandCenterProps {
 const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelterSelect }) => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   const [sortBy, setSortBy] = useState<'name' | 'category'>('name');
 
   // Keyboard shortcuts

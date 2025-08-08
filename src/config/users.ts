@@ -17,7 +17,7 @@ export interface UserCredentials {
 export const AUTHORIZED_USERS: UserCredentials[] = [
   {
     username: 'admin',
-    password: 'Weatherhaven2024!',
+    password: 'admin',
     userData: {
       username: 'System Administrator',
       rank: 'ADMIN',
@@ -28,7 +28,7 @@ export const AUTHORIZED_USERS: UserCredentials[] = [
   },
   {
     username: 'demo',
-    password: 'Demo2024!',
+    password: 'demo',
     userData: {
       username: 'Demo User',
       rank: 'DEMO',
@@ -39,13 +39,46 @@ export const AUTHORIZED_USERS: UserCredentials[] = [
   },
   {
     username: 'firestorm',
-    password: 'test123',
+    password: 'firestorm',
     userData: {
       username: 'Firestorm Systems',
       rank: 'CLIENT',
       clearance: 'SECRET',
       department: 'Operations',
       permissions: ['full_access', 'export', 'pricing']
+    }
+  },
+  {
+    username: 'ceo',
+    password: 'ceo',
+    userData: {
+      username: 'Chief Executive Officer',
+      rank: 'CEO',
+      clearance: 'TOP SECRET',
+      department: 'Executive',
+      permissions: ['full_access', 'user_management', 'system_config', 'executive_override', 'financial_data']
+    }
+  },
+  {
+    username: 'dev',
+    password: 'dev',
+    userData: {
+      username: 'Technical Lead',
+      rank: 'DEV',
+      clearance: 'SECRET',
+      department: 'Development',
+      permissions: ['full_access', 'system_config', 'debug_mode', 'technical_support']
+    }
+  },
+  {
+    username: 'mkt',
+    password: 'mkt',
+    userData: {
+      username: 'Marketing Lead',
+      rank: 'MKT',
+      clearance: 'CONFIDENTIAL',
+      department: 'Marketing',
+      permissions: ['view_only', 'export', 'marketing_data', 'presentation_mode']
     }
   }
 ];

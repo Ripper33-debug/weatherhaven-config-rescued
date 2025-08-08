@@ -1,26 +1,8 @@
 import React, { createContext, useContext, useState } from 'react';
 import { UserCredentials } from '../config/users';
 
-interface ClientBranding {
-  companyName: string;
-  logoFolder: number;
-  logoUrl?: string;
-  primaryColor: string;
-  secondaryColor: string;
-  customCss?: string;
-  contactInfo?: {
-    email: string;
-    phone: string;
-    address: string;
-  };
-  features?: {
-    enableARVR: boolean;
-    enableCollaboration: boolean;
-    enableDemoMode: boolean;
-    enableExport: boolean;
-    enablePricing: boolean;
-  };
-}
+// Use the same type as defined in users.ts
+type ClientBranding = NonNullable<UserCredentials['clientBranding']>;
 
 interface BrandingContextType {
   branding: ClientBranding | null;
@@ -33,8 +15,16 @@ interface BrandingContextType {
 const defaultBranding: ClientBranding = {
   companyName: 'Weatherhaven',
   logoFolder: 0,
+  logoUrl: '/logos/weatherhaven-logo.svg',
   primaryColor: '#1a202c',
-  secondaryColor: '#4a5568'
+  secondaryColor: '#4a5568',
+  features: {
+    enableARVR: true,
+    enableCollaboration: true,
+    enableDemoMode: true,
+    enableExport: true,
+    enablePricing: true
+  }
 };
 
 const BrandingContext = createContext<BrandingContextType | null>(null);

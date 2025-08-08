@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ConfiguratorState } from './ShelterConfigurator';
 import { Shelter } from '../App';
+import PricingPanel from './PricingPanel';
 
 interface ControlsProps {
   configState: ConfiguratorState;
@@ -8,6 +9,7 @@ interface ControlsProps {
   onToggleView: () => void;
   onColorChange: (color: string) => void;
   shelter: Shelter;
+  user: any;
 }
 
 const Controls: React.FC<ControlsProps> = ({
@@ -16,8 +18,10 @@ const Controls: React.FC<ControlsProps> = ({
   onToggleView,
   onColorChange,
   shelter,
+  user,
 }) => {
   const [specsExpanded, setSpecsExpanded] = useState(false);
+  const [showPricing, setShowPricing] = useState(false);
   
   const colorOptions = [
     { name: 'Military Green', value: '#4A5568' },
@@ -238,6 +242,21 @@ const Controls: React.FC<ControlsProps> = ({
         )}
       </div>
 
+      {/* Pricing Section */}
+      <div className="control-section">
+        <h3>Pricing & Quote</h3>
+        <button
+          onClick={() => setShowPricing(true)}
+          className="btn-primary pricing-button"
+        >
+          <span>💰</span>
+          <span>Click for Quote</span>
+        </button>
+        <p className="control-description">
+          Get instant pricing and generate a professional quote
+        </p>
+      </div>
+
       {/* Status Indicator */}
       <div className="status-section">
         <div className="status-row">
@@ -248,6 +267,16 @@ const Controls: React.FC<ControlsProps> = ({
         </div>
       </div>
     </div>
+
+    {/* Pricing Panel */}
+    {showPricing && (
+      <PricingPanel
+        configState={configState}
+        shelter={shelter}
+        user={user}
+        onClose={() => setShowPricing(false)}
+      />
+    )}
   );
 };
 

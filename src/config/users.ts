@@ -8,6 +8,9 @@ export interface UserCredentials {
     username: string;
     rank: string;
     clearance: string;
+    department?: string;
+    lastLogin?: string;
+    permissions?: string[];
   };
   clientBranding?: {
     companyName: string;
@@ -15,98 +18,160 @@ export interface UserCredentials {
     primaryColor: string;
     secondaryColor: string;
     customCss?: string;
+    contactInfo?: {
+      email: string;
+      phone: string;
+      address: string;
+    };
+    features?: {
+      enableARVR: boolean;
+      enableCollaboration: boolean;
+      enableDemoMode: boolean;
+      enableExport: boolean;
+      enablePricing: boolean;
+    };
   };
 }
 
 export const AUTHORIZED_USERS: UserCredentials[] = [
   {
-    username: 'ceo',
-    password: 'executive2024',
+    username: 'admin',
+    password: 'Weatherhaven2024!',
     userData: {
-      username: 'Chief Executive Officer',
-      rank: 'CEO',
-      clearance: 'TOP SECRET'
+      username: 'System Administrator',
+      rank: 'ADMIN',
+      clearance: 'TOP SECRET',
+      department: 'IT',
+      permissions: ['full_access', 'user_management', 'system_config']
     },
     clientBranding: {
-      companyName: 'Weatherhaven',
+      companyName: 'Weatherhaven Technologies',
       logoFolder: 0, // 0 = Weatherhaven (no client logo)
       primaryColor: '#1a202c',
-      secondaryColor: '#4a5568'
+      secondaryColor: '#4a5568',
+      contactInfo: {
+        email: 'info@weatherhaven.com',
+        phone: '+1-604-594-4424',
+        address: 'Burnaby, BC, Canada'
+      },
+      features: {
+        enableARVR: true,
+        enableCollaboration: true,
+        enableDemoMode: true,
+        enableExport: true,
+        enablePricing: true
+      }
     }
   },
   {
-    username: 'dev',
-    password: 'develop2024',
+    username: 'demo',
+    password: 'Demo2024!',
     userData: {
-      username: 'Development Team',
-      rank: 'Technical Lead',
-      clearance: 'SECRET'
+      username: 'Demo User',
+      rank: 'DEMO',
+      clearance: 'CONFIDENTIAL',
+      department: 'Sales',
+      permissions: ['view_only', 'demo_mode']
     },
     clientBranding: {
-      companyName: 'TechCorp Solutions',
-      logoFolder: 2,
-      primaryColor: '#2d3748',
-      secondaryColor: '#4a5568'
-    }
-  },
-  {
-    username: 'mkt',
-    password: 'marketing2024',
-    userData: {
-      username: 'Marketing Team',
-      rank: 'Marketing Lead',
-      clearance: 'SECRET'
-    },
-    clientBranding: {
-      companyName: 'Global Marketing Inc',
-      logoFolder: 3,
+      companyName: 'Weatherhaven Technologies',
+      logoFolder: 0,
       primaryColor: '#1a202c',
-      secondaryColor: '#718096'
+      secondaryColor: '#4a5568',
+      features: {
+        enableARVR: false,
+        enableCollaboration: false,
+        enableDemoMode: true,
+        enableExport: false,
+        enablePricing: false
+      }
     }
   },
   {
     username: 'firestorm',
-    password: 'drone',
+    password: 'Firestorm2024!',
     userData: {
       username: 'Firestorm Systems',
-      rank: 'Operations Director',
-      clearance: 'TOP SECRET'
+      rank: 'CLIENT',
+      clearance: 'SECRET',
+      department: 'Operations',
+      permissions: ['full_access', 'export', 'pricing']
     },
     clientBranding: {
-      companyName: 'Firestorm',
+      companyName: 'Firestorm Systems',
       logoFolder: 1,
       primaryColor: '#1a1a1a',
-      secondaryColor: '#ff4444'
+      secondaryColor: '#ff4444',
+      contactInfo: {
+        email: 'operations@firestorm.com',
+        phone: '+1-555-0123',
+        address: 'Defense Contractor'
+      },
+      features: {
+        enableARVR: true,
+        enableCollaboration: true,
+        enableDemoMode: true,
+        enableExport: true,
+        enablePricing: true
+      }
     }
   },
   {
-    username: 'client1',
-    password: 'client2024',
+    username: 'defense_systems',
+    password: 'Defense2024!',
     userData: {
-      username: 'Client Demo 1',
-      rank: 'Project Manager',
-      clearance: 'CONFIDENTIAL'
+      username: 'Defense Systems Ltd',
+      rank: 'CLIENT',
+      clearance: 'SECRET',
+      department: 'Procurement',
+      permissions: ['full_access', 'export', 'pricing']
     },
     clientBranding: {
       companyName: 'Defense Systems Ltd',
       logoFolder: 4,
       primaryColor: '#2c5282',
-      secondaryColor: '#4299e1'
+      secondaryColor: '#4299e1',
+      contactInfo: {
+        email: 'procurement@defensesystems.com',
+        phone: '+1-555-0456',
+        address: 'Military Contractor'
+      },
+      features: {
+        enableARVR: true,
+        enableCollaboration: true,
+        enableDemoMode: true,
+        enableExport: true,
+        enablePricing: true
+      }
     }
   },
   {
-    username: 'client2',
-    password: 'client2024',
+    username: 'secure_solutions',
+    password: 'Secure2024!',
     userData: {
-      username: 'Client Demo 2',
-      rank: 'Operations Director',
-      clearance: 'CONFIDENTIAL'
+      username: 'Secure Solutions Corp',
+      rank: 'CLIENT',
+      clearance: 'CONFIDENTIAL',
+      department: 'Engineering',
+      permissions: ['full_access', 'export']
     },
     clientBranding: {
       companyName: 'Secure Solutions Corp',
       logoFolder: 5,
       primaryColor: '#744210',
-      secondaryColor: '#d69e2e'
+      secondaryColor: '#d69e2e',
+      contactInfo: {
+        email: 'engineering@securesolutions.com',
+        phone: '+1-555-0789',
+        address: 'Security Solutions'
+      },
+      features: {
+        enableARVR: false,
+        enableCollaboration: true,
+        enableDemoMode: true,
+        enableExport: true,
+        enablePricing: false
+      }
     }
   }
 ];
@@ -121,4 +186,27 @@ export const getUserByUsername = (username: string): UserCredentials | null => {
   return AUTHORIZED_USERS.find(
     user => user.username.toLowerCase() === username.toLowerCase()
   ) || null;
+};
+
+// Session management
+export const createSession = (user: UserCredentials) => {
+  const session = {
+    userId: user.username,
+    timestamp: new Date().toISOString(),
+    permissions: user.userData.permissions || [],
+    clientBranding: user.clientBranding
+  };
+  
+  // In a real app, this would be stored securely
+  localStorage.setItem('trecc_session', JSON.stringify(session));
+  return session;
+};
+
+export const getCurrentSession = () => {
+  const session = localStorage.getItem('trecc_session');
+  return session ? JSON.parse(session) : null;
+};
+
+export const clearSession = () => {
+  localStorage.removeItem('trecc_session');
 };

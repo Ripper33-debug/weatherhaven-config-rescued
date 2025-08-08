@@ -231,6 +231,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
         onToggleView={handleToggleView}
         onColorChange={handleColorChange}
         shelter={shelter}
+        user={user}
       />
 
       {/* Advanced Controls */}

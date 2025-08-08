@@ -37,7 +37,7 @@ const DualLogoHeader: React.FC<DualLogoHeaderProps> = ({
         {branding ? (
           <div className="client-logo">
             <img 
-              src={branding.logoUrl || getClientLogoUrl(branding.logoFolder)}
+              src={getClientLogoUrl(branding.logoFolder)}
               alt={branding.companyName}
               onError={(e) => {
                 const target = e.target as HTMLImageElement;

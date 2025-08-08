@@ -100,7 +100,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
               <>
                 <div className="client-logo">
                   <img 
-                    src={currentBranding.logoUrl || `/logos/clients/${currentBranding.logoFolder}.svg`} 
+                    src={`/logos/clients/${currentBranding.logoFolder}.svg`} 
                     alt={`${currentBranding.companyName} Logo`}
                     onError={(e) => {
                       // Fallback to text if image fails to load

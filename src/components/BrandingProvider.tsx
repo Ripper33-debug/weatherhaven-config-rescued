@@ -1,8 +1,27 @@
 import React, { createContext, useContext, useState } from 'react';
 import { UserCredentials } from '../config/users';
 
-// Use the same type as defined in users.ts
-type ClientBranding = NonNullable<UserCredentials['clientBranding']>;
+// Explicitly define the interface to match users.ts exactly
+interface ClientBranding {
+  companyName: string;
+  logoFolder: number;
+  logoUrl?: string;
+  primaryColor: string;
+  secondaryColor: string;
+  customCss?: string;
+  contactInfo?: {
+    email: string;
+    phone: string;
+    address: string;
+  };
+  features?: {
+    enableARVR: boolean;
+    enableCollaboration: boolean;
+    enableDemoMode: boolean;
+    enableExport: boolean;
+    enablePricing: boolean;
+  };
+}
 
 interface BrandingContextType {
   branding: ClientBranding | null;

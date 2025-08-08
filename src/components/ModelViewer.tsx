@@ -50,8 +50,8 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
     height: 4.8   // 57.0 inches
   };
 
-  // Animation state for smooth transitions
-  const [currentDimensions, setCurrentDimensions] = useState(stowedDimensions);
+  // Animation state for smooth transitions (kept for potential future use)
+  // const [currentDimensions, setCurrentDimensions] = useState(stowedDimensions);
 
   useEffect(() => {
     // Model is loaded when GLTF is ready

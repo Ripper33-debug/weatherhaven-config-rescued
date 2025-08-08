@@ -89,22 +89,22 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
     animate();
   }, [configState.isDeployed]);
 
-  // Update current dimensions based on animation progress
-  useEffect(() => {
-    if (configState.isDeployed) {
-      setCurrentDimensions({
-        length: stowedDimensions.length + (deployedDimensions.length - stowedDimensions.length) * animationProgress,
-        width: stowedDimensions.width + (deployedDimensions.width - stowedDimensions.width) * animationProgress,
-        height: stowedDimensions.height + (deployedDimensions.height - stowedDimensions.height) * animationProgress
-      });
-    } else {
-      setCurrentDimensions({
-        length: deployedDimensions.length + (stowedDimensions.length - deployedDimensions.length) * animationProgress,
-        width: deployedDimensions.width + (stowedDimensions.width - deployedDimensions.width) * animationProgress,
-        height: deployedDimensions.height + (stowedDimensions.height - deployedDimensions.height) * animationProgress
-      });
-    }
-  }, [animationProgress, configState.isDeployed, deployedDimensions.height, deployedDimensions.length, deployedDimensions.width, stowedDimensions.height, stowedDimensions.length, stowedDimensions.width]);
+  // Animation code removed since we're using GLB models now
+  // useEffect(() => {
+  //   if (configState.isDeployed) {
+  //     setCurrentDimensions({
+  //       length: stowedDimensions.length + (deployedDimensions.length - stowedDimensions.length) * animationProgress,
+  //       width: stowedDimensions.width + (deployedDimensions.width - stowedDimensions.width) * animationProgress,
+  //       height: stowedDimensions.height + (deployedDimensions.height - stowedDimensions.height) * animationProgress
+  //     });
+  //   } else {
+  //     setCurrentDimensions({
+  //       length: deployedDimensions.length + (stowedDimensions.length - deployedDimensions.length) * animationProgress,
+  //       width: deployedDimensions.width + (stowedDimensions.width - deployedDimensions.width) * animationProgress,
+  //       height: deployedDimensions.height + (stowedDimensions.height - deployedDimensions.height) * animationProgress
+  //     });
+  //   }
+  // }, [animationProgress, configState.isDeployed, deployedDimensions.height, deployedDimensions.length, deployedDimensions.width, stowedDimensions.height, stowedDimensions.length, stowedDimensions.width]);
 
   useFrame((state) => {
     if (groupRef.current && isAutoRotating && !isAnimating) {

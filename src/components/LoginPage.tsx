@@ -71,6 +71,19 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
         <div className="corner-accent bottom-right"></div>
       </div>
 
+      {/* Floating Particles */}
+      <div className="floating-particles">
+        <div className="particle"></div>
+        <div className="particle"></div>
+        <div className="particle"></div>
+        <div className="particle"></div>
+        <div className="particle"></div>
+        <div className="particle"></div>
+        <div className="particle"></div>
+        <div className="particle"></div>
+        <div className="particle"></div>
+      </div>
+
       {/* Main login form */}
       <div className="login-content">
         <div className="login-header">

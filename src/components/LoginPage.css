@@ -2,7 +2,7 @@
 
 .login-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0f1419 0%, #1a202c 50%, #2d3748 100%);
+  background: #000000;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -28,27 +28,27 @@
   right: 0;
   bottom: 0;
   background-image: 
-    linear-gradient(rgba(66, 153, 225, 0.1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(66, 153, 225, 0.1) 1px, transparent 1px);
-  background-size: 50px 50px;
-  animation: gridMove 20s linear infinite;
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 100px 100px;
+  animation: gridMove 30s linear infinite;
 }
 
 @keyframes gridMove {
   0% { transform: translate(0, 0); }
-  100% { transform: translate(50px, 50px); }
+  100% { transform: translate(100px, 100px); }
 }
 
 .radar-sweep {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 300px;
-  height: 300px;
+  width: 400px;
+  height: 400px;
   transform: translate(-50%, -50%);
-  border: 2px solid rgba(66, 153, 225, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 50%;
-  animation: radarSweep 4s linear infinite;
+  animation: radarSweep 8s linear infinite;
 }
 
 .radar-sweep::before {
@@ -58,17 +58,17 @@
   left: 50%;
   width: 0;
   height: 0;
-  border-left: 150px solid transparent;
-  border-right: 150px solid transparent;
-  border-bottom: 150px solid rgba(66, 153, 225, 0.1);
+  border-left: 200px solid transparent;
+  border-right: 200px solid transparent;
+  border-bottom: 200px solid rgba(255, 255, 255, 0.02);
   transform: translate(-50%, -50%) rotate(0deg);
-  animation: radarRotate 4s linear infinite;
+  animation: radarRotate 8s linear infinite;
 }
 
 @keyframes radarSweep {
-  0% { opacity: 0.3; }
-  50% { opacity: 0.8; }
-  100% { opacity: 0.3; }
+  0% { opacity: 0.05; }
+  50% { opacity: 0.1; }
+  100% { opacity: 0.05; }
 }
 
 @keyframes radarRotate {
@@ -78,11 +78,11 @@
 
 .targeting-reticle {
   position: absolute;
-  width: 60px;
-  height: 60px;
-  border: 2px solid rgba(239, 68, 68, 0.6);
+  width: 80px;
+  height: 80px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 50%;
-  animation: reticlePulse 2s ease-in-out infinite;
+  animation: reticlePulse 4s ease-in-out infinite;
 }
 
 .targeting-reticle::before {
@@ -90,9 +90,9 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 20px;
-  height: 20px;
-  border: 2px solid rgba(239, 68, 68, 0.8);
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 50%;
   transform: translate(-50%, -50%);
 }
@@ -102,9 +102,9 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 8px;
-  height: 8px;
-  background: rgba(239, 68, 68, 0.9);
+  width: 10px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.15);
   border-radius: 50%;
   transform: translate(-50%, -50%);
 }
@@ -115,18 +115,18 @@
 .bottom-right { bottom: 10%; right: 10%; }
 
 @keyframes reticlePulse {
-  0%, 100% { transform: scale(1); opacity: 0.6; }
-  50% { transform: scale(1.1); opacity: 1; }
+  0%, 100% { transform: scale(1); opacity: 0.08; }
+  50% { transform: scale(1.05); opacity: 0.15; }
 }
 
 .data-stream {
   position: absolute;
   top: 0;
   right: 0;
-  width: 2px;
+  width: 1px;
   height: 100%;
-  background: linear-gradient(to bottom, transparent, #4299e1, transparent);
-  animation: dataStream 3s linear infinite;
+  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.1), transparent);
+  animation: dataStream 6s linear infinite;
 }
 
 @keyframes dataStream {
@@ -138,21 +138,21 @@
   position: absolute;
   left: 0;
   right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #48bb78, transparent);
-  animation: scanMove 3s ease-in-out infinite;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  animation: scanMove 6s ease-in-out infinite;
 }
 
 @keyframes scanMove {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 1; }
+  0%, 100% { opacity: 0.05; }
+  50% { opacity: 0.1; }
 }
 
 .corner-accent {
   position: absolute;
-  width: 40px;
-  height: 40px;
-  border: 2px solid rgba(66, 153, 225, 0.4);
+  width: 60px;
+  height: 60px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .corner-accent.top-left {
@@ -187,14 +187,14 @@
 .login-content {
   position: relative;
   z-index: 10;
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(20px);
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 1rem;
   padding: 3rem;
   max-width: 500px;
   width: 90%;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
   animation: loginFadeIn 1s ease-out;
 }
 
@@ -222,16 +222,16 @@
 .system-title {
   font-size: 2.5rem;
   font-weight: 900;
-  color: #f7fafc;
+  color: #ffffff;
   margin: 0;
   letter-spacing: 0.2em;
-  text-shadow: 0 0 20px rgba(66, 153, 225, 0.5);
-  animation: titleGlow 3s ease-in-out infinite;
+  text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+  animation: titleGlow 4s ease-in-out infinite;
 }
 
 @keyframes titleGlow {
-  0%, 100% { text-shadow: 0 0 20px rgba(66, 153, 225, 0.5); }
-  50% { text-shadow: 0 0 30px rgba(66, 153, 225, 0.8); }
+  0%, 100% { text-shadow: 0 0 30px rgba(255, 255, 255, 0.3); }
+  50% { text-shadow: 0 0 40px rgba(255, 255, 255, 0.5); }
 }
 
 .system-subtitle {
@@ -245,12 +245,12 @@
 
 .security-badge {
   display: inline-block;
-  background: linear-gradient(45deg, #48bb78, #38a169);
+  background: rgba(255, 255, 255, 0.1);
   padding: 0.5rem 1rem;
   border-radius: 0.375rem;
   margin-top: 1rem;
-  border: 1px solid rgba(72, 187, 120, 0.3);
-  box-shadow: 0 4px 12px rgba(72, 187, 120, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .badge-text {
@@ -356,9 +356,9 @@
 
 /* Login Button */
 .login-button {
-  background: linear-gradient(45deg, #4299e1, #3182ce);
-  border: none;
-  color: #f7fafc;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
   padding: 1rem 2rem;
   border-radius: 0.5rem;
   font-size: 1rem;
@@ -392,9 +392,10 @@
 }
 
 .login-button:hover {
-  background: linear-gradient(45deg, #3182ce, #2c5282);
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(66, 153, 225, 0.3);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
 }
 
 .login-button:active {
@@ -503,6 +504,53 @@
 .login-button:focus-visible {
   outline: 2px solid #4299e1;
   outline-offset: 2px;
+}
+
+/* Floating Particles */
+.floating-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  animation: float 20s linear infinite;
+}
+
+.particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+.particle:nth-child(2) { left: 20%; animation-delay: 2s; }
+.particle:nth-child(3) { left: 30%; animation-delay: 4s; }
+.particle:nth-child(4) { left: 40%; animation-delay: 6s; }
+.particle:nth-child(5) { left: 50%; animation-delay: 8s; }
+.particle:nth-child(6) { left: 60%; animation-delay: 10s; }
+.particle:nth-child(7) { left: 70%; animation-delay: 12s; }
+.particle:nth-child(8) { left: 80%; animation-delay: 14s; }
+.particle:nth-child(9) { left: 90%; animation-delay: 16s; }
+
+@keyframes float {
+  0% {
+    transform: translateY(100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) rotate(360deg);
+    opacity: 0;
+  }
 }
 
 /* High Contrast Mode Support */

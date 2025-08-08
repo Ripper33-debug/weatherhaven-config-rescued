@@ -521,13 +521,13 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
                 <p className="shelter-model">{shelter.model}</p>
                 <p className="shelter-description">{shelter.description}</p>
                 <div className="shelter-specs">
-                  <div className="spec-item">
+                  <div className="spec-group">
                     <span className="spec-label">Deployed:</span>
                     <span className="spec-value">
                       {shelter.specs.deployed.length} × {shelter.specs.deployed.width} × {shelter.specs.deployed.height}
                     </span>
                   </div>
-                  <div className="spec-item">
+                  <div className="spec-group">
                     <span className="spec-label">Stowed:</span>
                     <span className="spec-value">
                       {shelter.specs.stowed.length} × {shelter.specs.stowed.width} × {shelter.specs.stowed.height}

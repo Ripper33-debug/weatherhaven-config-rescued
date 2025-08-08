@@ -92,7 +92,7 @@ export const AUTHORIZED_USERS: UserCredentials[] = [
   },
   {
     username: 'firestorm',
-    password: 'drones',
+    password: 'Firestorm2024!',
     userData: {
       username: 'Firestorm Systems',
       rank: 'CLIENT',

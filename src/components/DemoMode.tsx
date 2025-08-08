@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { ConfiguratorState } from './ShelterConfigurator';
 import { Shelter } from '../App';
@@ -31,14 +31,14 @@ const DemoMode: React.FC<DemoModeProps> = ({
   const demoRef = useRef<HTMLDivElement>(null);
 
   // Demo sequence configuration
-  const demoSequence = [
+  const demoSequence = useMemo(() => [
     { scene: 'intro', duration: 3000, camera: { x: 0, y: 3, z: 15 }, autoRotate: true },
     { scene: 'deploy', duration: 4000, camera: { x: 0, y: 2, z: 8 }, autoRotate: false },
     { scene: 'walkthrough', duration: 5000, camera: { x: 0, y: 1.7, z: 3 }, autoRotate: false },
     { scene: 'specs', duration: 3000, camera: { x: 0, y: 3, z: 12 }, autoRotate: true },
     { scene: 'environment', duration: 4000, camera: { x: 0, y: 3, z: 15 }, autoRotate: true },
     { scene: 'outro', duration: 2000, camera: { x: 0, y: 3, z: 15 }, autoRotate: true }
-  ];
+  ], []);
 
   // Auto-advance demo sequence
   useEffect(() => {

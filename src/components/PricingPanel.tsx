@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { ConfiguratorState } from './ShelterConfigurator';
 import { Shelter } from '../App';
 
@@ -36,11 +36,7 @@ const PricingPanel: React.FC<PricingPanelProps> = ({
   const [discount, setDiscount] = useState(0);
   const [showBreakdown, setShowBreakdown] = useState(false);
 
-  useEffect(() => {
-    calculatePricing();
-  }, [configState, quantity, discount]);
-
-  const calculatePricing = () => {
+  const calculatePricing = useCallback(() => {
     setIsLoading(true);
     
     // Simulate API call delay
@@ -78,7 +74,11 @@ const PricingPanel: React.FC<PricingPanelProps> = ({
       
       setIsLoading(false);
     }, 500);
-  };
+  }, [configState.color, quantity, discount]);
+
+  useEffect(() => {
+    calculatePricing();
+  }, [calculatePricing]);
 
   const getColorPremium = (color: string) => {
     const colorPremiums: { [key: string]: number } = {

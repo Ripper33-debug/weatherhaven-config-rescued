@@ -1,43 +1,39 @@
 # 3D Models Directory
 
-Place your TRECC shelter 3D model files in this directory.
+This directory contains 3D models for the Weatherhaven TRECC configurator.
 
-## Supported Formats
-
-- `.glb` (recommended)
-- `.gltf`
-
-## File Naming Convention
-
-- `trecc-shelter.glb` - Main shelter model
-- `trecc-deployed.glb` - Deployed state model
-- `trecc-stowed.glb` - Stowed state model
-
-## Model Requirements
-
-1. **Scale**: 1 unit = 1 meter
-2. **Origin**: Center of the shelter base
-3. **Materials**: PBR materials for best visual quality
-4. **Textures**: Compressed formats (KTX2, DDS) recommended
-5. **Polygon Count**: Optimized for web performance (< 50k triangles)
-
-## Integration
-
-After placing your model files, update the `ModelViewer.tsx` component to load your specific model:
-
-```typescript
-const { scene: modelScene } = useGLTF('/models/trecc-shelter.glb');
-```
-
-## Example Model Structure
+## Model Structure
 
 ```
 models/
-├── trecc-shelter.glb          # Main model
-├── trecc-deployed.glb         # Deployed state
-├── trecc-stowed.glb           # Stowed state
-└── textures/                  # Texture files (if separate)
-    ├── shelter_diffuse.ktx2
-    ├── shelter_normal.ktx2
-    └── shelter_roughness.ktx2
+├── trecc-main.glb          # Main TRECC shelter model (exterior)
+├── interiors/              # Interior customization options
+│   ├── command-post.glb    # Command post interior
+│   ├── medical-unit.glb    # Medical unit interior
+│   ├── living-quarters.glb # Living quarters interior
+│   ├── communications.glb  # Communications hub interior
+│   ├── equipment-storage.glb # Equipment storage interior
+│   └── field-kitchen.glb   # Field kitchen interior
+└── accessories/            # Additional equipment
+    ├── solar-panels.glb
+    ├── hvac-system.glb
+    └── lighting.glb
 ```
+
+## Interior Customization
+
+The main TRECC model can be customized with different interior layouts:
+
+- **Command Post**: Workstations, displays, command center equipment
+- **Medical Unit**: Medical beds, surgical equipment, patient care areas
+- **Living Quarters**: Sleeping areas, dining facilities, recreational space
+- **Communications**: Satellite equipment, radio systems, network infrastructure
+- **Equipment Storage**: Storage racks, tool areas, supply management
+- **Field Kitchen**: Cooking facilities, food storage, dining areas
+
+## Model Specifications
+
+- **Format**: GLB (GL Binary) for optimal web performance
+- **Polygon Count**: Optimized for real-time web rendering
+- **Textures**: Embedded in GLB files
+- **Size**: Compressed for fast loading

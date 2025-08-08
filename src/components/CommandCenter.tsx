@@ -14,24 +14,28 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
   // Shelter catalog data
   const shelters: Shelter[] = [
     {
-      id: 'trecc-t-command',
-      name: 'TRECC-T Command Post',
-      model: 'TRECC-T W COMMAND POST KITTING',
+      id: 'trecc-command',
+      name: 'TRECC Command Post',
+      model: 'TRECC COMMAND POST KITTING',
       category: 'command',
       description: 'Advanced command post with integrated power, HVAC, display systems, and deployable workstations.',
       image: 'command',
+      modelPath: '/models/trecc-main.glb',
+      interiorPath: '/models/interiors/command-post.glb',
       specs: {
         deployed: { length: '14.3 ft', width: '7.1 ft', height: '7.9 ft' },
         stowed: { length: '7.0 ft', width: '7.1 ft', height: '4.8 ft' }
       }
     },
     {
-      id: 'trecc-s-medical',
-      name: 'TRECC-S Medical Unit',
-      model: 'TRECC-S MEDICAL KITTING',
+      id: 'trecc-medical',
+      name: 'TRECC Medical Unit',
+      model: 'TRECC MEDICAL KITTING',
       category: 'medical',
       description: 'Field hospital with surgical capabilities, patient care areas, and medical equipment integration.',
       image: 'medical',
+      modelPath: '/models/trecc-main.glb',
+      interiorPath: '/models/interiors/medical-unit.glb',
       specs: {
         deployed: { length: '16.0 ft', width: '8.0 ft', height: '8.0 ft' },
         stowed: { length: '8.0 ft', width: '8.0 ft', height: '5.0 ft' }
@@ -44,6 +48,7 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
       category: 'living',
       description: 'Comfortable living quarters with sleeping areas, dining facilities, and recreational space.',
       image: 'living',
+      modelPath: '/models/shelters/trecc-l-living.glb',
       specs: {
         deployed: { length: '18.0 ft', width: '8.0 ft', height: '8.0 ft' },
         stowed: { length: '9.0 ft', width: '8.0 ft', height: '5.0 ft' }

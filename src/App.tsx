@@ -26,6 +26,8 @@ export interface Shelter {
   category: string;
   description: string;
   image: string;
+  modelPath?: string; // Path to main TRECC model
+  interiorPath?: string; // Path to interior customization
   specs: {
     deployed: any;
     stowed: any;

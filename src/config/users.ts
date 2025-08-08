@@ -101,7 +101,7 @@ export const AUTHORIZED_USERS: UserCredentials[] = [
       permissions: ['full_access', 'export', 'pricing']
     },
     clientBranding: {
-      companyName: 'Firestorm Systems',
+      companyName: 'Firestorm',
       logoFolder: 1,
       logoUrl: '/logos/clients/1.svg',
       primaryColor: '#1a1a1a',

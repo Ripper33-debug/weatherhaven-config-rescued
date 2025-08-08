@@ -50,11 +50,14 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
 
   return (
     <div className="login-container">
-      {/* Animated background */}
+      {/* Minimalist background */}
       <div className="login-background">
         <div className="grid-overlay"></div>
         <div className="scan-line" style={{ top: `${scanLine}%` }}></div>
-        <div className="holographic-particles"></div>
+        <div className="corner-accent top-left"></div>
+        <div className="corner-accent top-right"></div>
+        <div className="corner-accent bottom-left"></div>
+        <div className="corner-accent bottom-right"></div>
       </div>
 
       {/* Main login form */}
@@ -64,6 +67,9 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
             <div className="logo-symbol">⚡</div>
             <h1 className="system-title">WEATHERHAVEN</h1>
             <p className="system-subtitle">MILITARY SHELTER CONFIGURATOR</p>
+            <div className="security-badge">
+              <span className="badge-text">SECURE ACCESS</span>
+            </div>
           </div>
         </div>
 

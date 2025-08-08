@@ -140,19 +140,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
           </form>
 
           <div className="demo-credentials">
-            <h4>Team Access:</h4>
-            <div className="credential-pair">
-              <span>CEO:</span>
-              <span>ceo / executive2024</span>
-            </div>
-            <div className="credential-pair">
-              <span>Dev Team:</span>
-              <span>dev / develop2024</span>
-            </div>
-            <div className="credential-pair">
-              <span>Marketing:</span>
-              <span>mkt / marketing2024</span>
-            </div>
             <div className="credential-note">
               <span>Contact administrator for access credentials</span>
             </div>

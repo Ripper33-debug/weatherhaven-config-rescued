@@ -1,24 +1,84 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import LoginPage from './components/LoginPage';
+import CommandCenter from './components/CommandCenter';
+import ShelterConfigurator from './components/ShelterConfigurator';
 import './App.css';
 
+export interface ConfiguratorState {
+  isDeployed: boolean;
+  isInsideView: boolean;
+  color: string;
+  isLoading: boolean;
+}
+
+export interface User {
+  username: string;
+  rank: string;
+  clearance: string;
+}
+
+export interface Shelter {
+  id: string;
+  name: string;
+  model: string;
+  category: string;
+  description: string;
+  image: string;
+  specs: {
+    deployed: any;
+    stowed: any;
+  };
+}
+
+type AppState = 'login' | 'command-center' | 'configurator';
+
 function App() {
+  const [appState, setAppState] = useState<AppState>('login');
+  const [user, setUser] = useState<User | null>(null);
+  const [selectedShelter, setSelectedShelter] = useState<Shelter | null>(null);
+
+  const handleLogin = (userData: User) => {
+    setUser(userData);
+    setAppState('command-center');
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    setSelectedShelter(null);
+    setAppState('login');
+  };
+
+  const handleShelterSelect = (shelter: Shelter) => {
+    setSelectedShelter(shelter);
+    setAppState('configurator');
+  };
+
+  const handleBackToCommandCenter = () => {
+    setAppState('command-center');
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app-container">
+      {appState === 'login' && (
+        <LoginPage onLogin={handleLogin} />
+      )}
+      
+      {appState === 'command-center' && user && (
+        <CommandCenter 
+          user={user}
+          onLogout={handleLogout}
+          onShelterSelect={handleShelterSelect}
+        />
+      )}
+      
+      {appState === 'configurator' && user && selectedShelter && (
+        <ShelterConfigurator
+          user={user}
+          shelter={selectedShelter}
+          onBack={handleBackToCommandCenter}
+          onLogout={handleLogout}
+        />
+      )}
     </div>
   );
 }

@@ -17,6 +17,37 @@ interface LeadTimeCalculatorProps {
   onClose: () => void;
 }
 
+// Base lead times by shelter type (in days)
+const baseLeadTimes = {
+  trecc: { production: 14, shipping: 7, customs: 3 },
+  hercon: { production: 21, shipping: 10, customs: 5 },
+  mts: { production: 18, shipping: 8, customs: 4 },
+  series: { production: 12, shipping: 6, customs: 2 },
+  mex26: { production: 25, shipping: 12, customs: 6 },
+  polar: { production: 30, shipping: 15, customs: 8 },
+  rdmss: { production: 20, shipping: 9, customs: 4 },
+  ateps: { production: 16, shipping: 7, customs: 3 },
+  mecc: { production: 22, shipping: 11, customs: 5 }
+};
+
+// Location modifiers
+const locationModifiers = {
+  US: { shipping: 1, customs: 0 },
+  Canada: { shipping: 1.5, customs: 1 },
+  Europe: { shipping: 2, customs: 2 },
+  Asia: { shipping: 2.5, customs: 3 },
+  MiddleEast: { shipping: 3, customs: 4 },
+  Africa: { shipping: 4, customs: 5 },
+  SouthAmerica: { shipping: 3.5, customs: 4 }
+};
+
+// Priority modifiers
+const priorityModifiers = {
+  standard: { production: 1, cost: 0 },
+  rush: { production: 0.6, cost: 25 },
+  emergency: { production: 0.4, cost: 50 }
+};
+
 const LeadTimeCalculator: React.FC<LeadTimeCalculatorProps> = ({
   shelter,
   configuration,
@@ -27,37 +58,6 @@ const LeadTimeCalculator: React.FC<LeadTimeCalculatorProps> = ({
   const [priority, setPriority] = useState<'standard' | 'rush' | 'emergency'>('standard');
   const [quantity, setQuantity] = useState(1);
   const [estimate, setEstimate] = useState<LeadTimeEstimate | null>(null);
-
-  // Base lead times by shelter type (in days)
-  const baseLeadTimes = {
-    trecc: { production: 14, shipping: 7, customs: 3 },
-    hercon: { production: 21, shipping: 10, customs: 5 },
-    mts: { production: 18, shipping: 8, customs: 4 },
-    series: { production: 12, shipping: 6, customs: 2 },
-    mex26: { production: 25, shipping: 12, customs: 6 },
-    polar: { production: 30, shipping: 15, customs: 8 },
-    rdmss: { production: 20, shipping: 9, customs: 4 },
-    ateps: { production: 16, shipping: 7, customs: 3 },
-    mecc: { production: 22, shipping: 11, customs: 5 }
-  };
-
-  // Location modifiers
-  const locationModifiers = {
-    US: { shipping: 1, customs: 0 },
-    Canada: { shipping: 1.5, customs: 1 },
-    Europe: { shipping: 2, customs: 2 },
-    Asia: { shipping: 2.5, customs: 3 },
-    MiddleEast: { shipping: 3, customs: 4 },
-    Africa: { shipping: 4, customs: 5 },
-    SouthAmerica: { shipping: 3.5, customs: 4 }
-  };
-
-  // Priority modifiers
-  const priorityModifiers = {
-    standard: { production: 1, cost: 0 },
-    rush: { production: 0.6, cost: 25 },
-    emergency: { production: 0.4, cost: 50 }
-  };
 
   // Calculate lead time estimate
   useEffect(() => {
@@ -84,7 +84,7 @@ const LeadTimeCalculator: React.FC<LeadTimeCalculatorProps> = ({
       rushAvailable: priority === 'standard',
       rushCost: priorityMod.cost
     });
-  }, [shelter, configuration, location, priority, quantity, isVisible, baseLeadTimes, locationModifiers, priorityModifiers]);
+  }, [shelter, configuration, location, priority, quantity, isVisible]);
 
   const formatDate = (daysFromNow: number) => {
     const date = new Date();

@@ -25,6 +25,7 @@ const DualLogoHeader: React.FC<DualLogoHeaderProps> = ({ title, subtitle, user }
         <div className="weatherhaven-logo">
           <div className="logo-fallback">
             <h1 className="logo-text">WEATHERHAVEN</h1>
+            <p className="logo-subtitle">RESOURCES</p>
           </div>
         </div>
         
@@ -35,6 +36,7 @@ const DualLogoHeader: React.FC<DualLogoHeaderProps> = ({ title, subtitle, user }
         <div className="client-logo">
           <div className="logo-fallback">
             <h1 className="logo-text">FIRESTORM</h1>
+            <p className="logo-subtitle">SYSTEMS</p>
           </div>
         </div>
       </div>

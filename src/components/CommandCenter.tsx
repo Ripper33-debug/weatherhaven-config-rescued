@@ -144,12 +144,12 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
       }
     },
     
-    // Series 4 Models
+    // Series Models
     {
       id: 'series4-standard',
       name: 'Series 4 Standard',
       model: 'SERIES 4 STANDARD',
-      category: 'series4',
+      category: 'series',
       description: 'High-performance shelter used worldwide by commercial and military customers in all climates, including polar regions. Ideal for workforce housing and military accommodation.',
       image: 'series4',
       modelPath: '/models/series4-main.glb',
@@ -163,7 +163,7 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
       id: 'series4-tropical',
       name: 'Series 4 Tropical',
       model: 'SERIES 4 TROPICAL',
-      category: 'series4',
+      category: 'series',
       description: 'Tropical version with side windows for maximum ventilation. Perfect for hot and humid environments.',
       image: 'series4',
       modelPath: '/models/series4-main.glb',
@@ -177,7 +177,7 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
       id: 'series4-shop',
       name: 'Series 4 Shop',
       model: 'SERIES 4 SHOP',
-      category: 'series4',
+      category: 'series',
       description: 'Extended-height structure ideal for applications requiring additional vertical space.',
       image: 'series4',
       modelPath: '/models/series4-main.glb',
@@ -187,13 +187,11 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
         stowed: { length: '8.0 ft', width: '8.0 ft', height: '6.0 ft' }
       }
     },
-    
-    // Series 8 Models
     {
       id: 'series8-standard',
       name: 'Series 8 Standard',
       model: 'SERIES 8 STANDARD',
-      category: 'series8',
+      category: 'series',
       description: 'Lightweight version designed for locations without high winds or snow loads. Used for equipment maintenance, storage, and temporary manufacturing facilities.',
       image: 'series8',
       modelPath: '/models/series8-main.glb',
@@ -207,7 +205,7 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
       id: 'series8-tropical',
       name: 'Series 8 Tropical',
       model: 'SERIES 8 TROPICAL',
-      category: 'series8',
+      category: 'series',
       description: 'Tropical version with side windows for maximum ventilation in hot climates.',
       image: 'series8',
       modelPath: '/models/series8-main.glb',
@@ -221,7 +219,7 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
       id: 'series8-shop',
       name: 'Series 8 Shop',
       model: 'SERIES 8 SHOP',
-      category: 'series8',
+      category: 'series',
       description: 'Wider and taller version of the standard Series 8 shelter for enhanced workspace.',
       image: 'series8',
       modelPath: '/models/series8-main.glb',
@@ -391,8 +389,7 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
     { id: 'all', name: 'All Shelters', icon: 'all' },
     { id: 'trecc', name: 'TRECC', icon: 'trecc' },
     { id: 'mts', name: 'MTS', icon: 'mts' },
-    { id: 'series4', name: 'Series 4', icon: 'series4' },
-    { id: 'series8', name: 'Series 8', icon: 'series8' },
+    { id: 'series', name: 'Series', icon: 'series' },
     { id: 'mex', name: 'MEX-26', icon: 'mex' },
     { id: 'polar', name: 'Polar', icon: 'polar' },
     { id: 'rdmss', name: 'RDMSS', icon: 'rdmss' },
@@ -429,10 +426,8 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
         return <div className="icon-trecc"></div>;
       case 'mts':
         return <div className="icon-mts"></div>;
-      case 'series4':
-        return <div className="icon-series4"></div>;
-      case 'series8':
-        return <div className="icon-series8"></div>;
+      case 'series':
+        return <div className="icon-series"></div>;
       case 'mex':
         return <div className="icon-mex"></div>;
       case 'polar':

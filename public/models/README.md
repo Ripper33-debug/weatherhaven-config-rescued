@@ -67,15 +67,13 @@ models/
 - **Standard**: Most thermally efficient tactical shelter in the world
 - **Medical Facility**: Surgical suites, patient care areas, medical equipment
 
-### Series 4
-- **Standard**: High-performance shelter for all climates including polar regions
-- **Tropical**: Side windows for maximum ventilation in hot environments
-- **Shop**: Extended-height structure for additional vertical space
-
-### Series 8
-- **Standard**: Lightweight version for locations without high winds or snow loads
-- **Tropical**: Side windows for maximum ventilation in hot climates
-- **Shop**: Wider and taller version for enhanced workspace
+### Series
+- **Series 4 Standard**: High-performance shelter for all climates including polar regions
+- **Series 4 Tropical**: Side windows for maximum ventilation in hot environments
+- **Series 4 Shop**: Extended-height structure for additional vertical space
+- **Series 8 Standard**: Lightweight version for locations without high winds or snow loads
+- **Series 8 Tropical**: Side windows for maximum ventilation in hot climates
+- **Series 8 Shop**: Wider and taller version for enhanced workspace
 
 ### MEX-26
 - **Maintenance Shelter**: Armoured vehicle and helicopter maintenance, dust-free environment

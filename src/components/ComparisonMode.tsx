@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Shelter, ShelterConfiguration } from '../App';
+import { Shelter } from '../App';
 
 interface ComparisonModeProps {
   shelters: Shelter[];
@@ -22,7 +22,7 @@ const ComparisonMode: React.FC<ComparisonModeProps> = ({
   onShelterSelect
 }) => {
   const [selectedShelters, setSelectedShelters] = useState<Shelter[]>([]);
-  const [comparisonFeatures, setComparisonFeatures] = useState<ComparisonFeature[]>([
+  const [comparisonFeatures] = useState<ComparisonFeature[]>([
     // Dimensions
     { name: 'Deployed Length', category: 'dimensions', key: 'deployed.length', unit: 'ft' },
     { name: 'Deployed Width', category: 'dimensions', key: 'deployed.width', unit: 'ft' },

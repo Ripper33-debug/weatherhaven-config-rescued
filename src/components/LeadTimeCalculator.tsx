@@ -84,7 +84,7 @@ const LeadTimeCalculator: React.FC<LeadTimeCalculatorProps> = ({
       rushAvailable: priority === 'standard',
       rushCost: priorityMod.cost
     });
-  }, [shelter, configuration, location, priority, quantity, isVisible]);
+  }, [shelter, configuration, location, priority, quantity, isVisible, baseLeadTimes, locationModifiers, priorityModifiers]);
 
   const formatDate = (daysFromNow: number) => {
     const date = new Date();

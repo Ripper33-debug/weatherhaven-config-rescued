@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { User, Shelter } from '../App';
-import DualLogoHeader from './DualLogoHeader';
 
 interface CommandCenterProps {
   user: User;
@@ -131,10 +130,10 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
     <div className="command-center">
       {/* Header */}
       <header className="command-header">
-        <DualLogoHeader 
-          title="COMMAND CENTER"
-          subtitle="Shelter Configuration System"
-        />
+        <div className="header-left">
+          <h1 className="header-title">WEATHERHAVEN</h1>
+          <p className="header-subtitle">COMMAND CENTER</p>
+        </div>
         <div className="header-right">
           <div className="user-info">
             <span className="user-rank">{user.rank}</span>

@@ -96,7 +96,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
         height: deployedDimensions.height + (stowedDimensions.height - deployedDimensions.height) * animationProgress
       });
     }
-  }, [animationProgress, configState.isDeployed]);
+  }, [animationProgress, configState.isDeployed, deployedDimensions.height, deployedDimensions.length, deployedDimensions.width, stowedDimensions.height, stowedDimensions.length, stowedDimensions.width]);
 
   useFrame((state) => {
     if (groupRef.current && isAutoRotating && !isAnimating) {

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { User } from '../App';
-import { AUTHORIZED_USERS, validateCredentials, UserCredentials } from '../config/users';
-import { useBranding } from './BrandingProvider';
+import { validateCredentials } from '../config/users';
 
 interface LoginPageProps {
   onLogin: (user: User) => void;
@@ -14,10 +13,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   const [error, setError] = useState('');
   const [scanLine, setScanLine] = useState(0);
   const [loginAttempts, setLoginAttempts] = useState(0);
-  const [currentBranding, setCurrentBranding] = useState<UserCredentials['clientBranding'] | undefined>(undefined);
-  
-  const { applyBranding } = useBranding();
-
   // Animated scan line effect
   useEffect(() => {
     const interval = setInterval(() => {
@@ -25,20 +20,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     }, 50);
     return () => clearInterval(interval);
   }, []);
-
-  // Update branding when username changes
-  useEffect(() => {
-    if (username) {
-      const user = AUTHORIZED_USERS.find(u => u.username.toLowerCase() === username.toLowerCase());
-      if (user?.clientBranding) {
-        setCurrentBranding(user.clientBranding);
-      } else {
-        setCurrentBranding(undefined);
-      }
-    } else {
-      setCurrentBranding(undefined);
-    }
-  }, [username]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,9 +33,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     const user = validateCredentials(username, password);
 
     if (user) {
-      // Apply branding for the logged-in user
-      applyBranding(user);
-      
       // Successful login
       setLoginAttempts(0);
       onLogin(user.userData);
@@ -101,12 +79,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
             <div className="security-badge">
               <span className="badge-text">SECURE ACCESS</span>
             </div>
-            {currentBranding && (
-              <div className="client-indicator">
-                <span className="client-label">Client:</span>
-                <span className="client-name">{currentBranding.companyName}</span>
-              </div>
-            )}
           </div>
         </div>
 
@@ -114,11 +86,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
           <div className="form-header">
             <h2>SECURE ACCESS TERMINAL</h2>
             <p>Enter your credentials to access the command center</p>
-            {currentBranding && (
-              <div className="client-info">
-                <p>Welcome to {currentBranding.companyName}</p>
-              </div>
-            )}
           </div>
 
           <form onSubmit={handleSubmit} className="login-form">

@@ -65,7 +65,7 @@ const DemoMode: React.FC<DemoModeProps> = ({
     }, demoSequence[currentStep].duration);
 
     return () => clearTimeout(timer);
-  }, [currentStep, isPlaying]);
+  }, [currentStep, isPlaying, demoSequence]);
 
   // Request fullscreen on enter
   useEffect(() => {

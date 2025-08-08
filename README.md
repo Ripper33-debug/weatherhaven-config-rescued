@@ -1,4 +1,4 @@
-# TRECC 3D Configurator
+# Weatherhaven Military Shelter Configurator
 
 A modern, interactive 3D configurator for the Weatherhaven TRECC military shelter. Built with React, Three.js, and Tailwind CSS.
 

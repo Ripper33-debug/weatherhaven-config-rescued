@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { User } from '../App';
-import { AUTHORIZED_USERS, validateCredentials } from '../config/users';
+import { AUTHORIZED_USERS, validateCredentials, UserCredentials } from '../config/users';
+import { useBranding } from './BrandingProvider';
 
 interface LoginPageProps {
   onLogin: (user: User) => void;
@@ -13,6 +14,9 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   const [error, setError] = useState('');
   const [scanLine, setScanLine] = useState(0);
   const [loginAttempts, setLoginAttempts] = useState(0);
+  const [currentBranding, setCurrentBranding] = useState<UserCredentials['clientBranding'] | undefined>(undefined);
+  
+  const { applyBranding } = useBranding();
 
   // Animated scan line effect
   useEffect(() => {
@@ -21,6 +25,20 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     }, 50);
     return () => clearInterval(interval);
   }, []);
+
+  // Update branding when username changes
+  useEffect(() => {
+    if (username) {
+      const user = AUTHORIZED_USERS.find(u => u.username.toLowerCase() === username.toLowerCase());
+      if (user?.clientBranding) {
+        setCurrentBranding(user.clientBranding);
+      } else {
+        setCurrentBranding(undefined);
+      }
+    } else {
+      setCurrentBranding(undefined);
+    }
+  }, [username]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,6 +52,9 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     const user = validateCredentials(username, password);
 
     if (user) {
+      // Apply branding for the logged-in user
+      applyBranding(user);
+      
       // Successful login
       setLoginAttempts(0);
       onLogin(user.userData);
@@ -75,11 +96,37 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
       <div className="login-content">
         <div className="login-header">
           <div className="logo-container">
-            <h1 className="system-title">WEATHERHAVEN</h1>
-            <p className="system-subtitle">MILITARY SHELTER CONFIGURATOR</p>
-            <div className="security-badge">
-              <span className="badge-text">SECURE ACCESS</span>
-            </div>
+            {currentBranding ? (
+              <>
+                <div className="client-logo">
+                  <img 
+                    src={currentBranding.logoUrl} 
+                    alt={`${currentBranding.companyName} Logo`}
+                    onError={(e) => {
+                      // Fallback to text if image fails to load
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                      target.nextElementSibling?.classList.remove('hidden');
+                    }}
+                  />
+                  <div className="logo-fallback hidden">
+                    <h1 className="system-title">{currentBranding.companyName}</h1>
+                  </div>
+                </div>
+                <p className="system-subtitle">MILITARY SHELTER CONFIGURATOR</p>
+                <div className="security-badge">
+                  <span className="badge-text">SECURE ACCESS</span>
+                </div>
+              </>
+            ) : (
+              <>
+                <h1 className="system-title">WEATHERHAVEN</h1>
+                <p className="system-subtitle">MILITARY SHELTER CONFIGURATOR</p>
+                <div className="security-badge">
+                  <span className="badge-text">SECURE ACCESS</span>
+                </div>
+              </>
+            )}
           </div>
         </div>
 
@@ -87,6 +134,11 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
           <div className="form-header">
             <h2>SECURE ACCESS TERMINAL</h2>
             <p>Enter your credentials to access the command center</p>
+            {currentBranding && (
+              <div className="client-info">
+                <p>Welcome to {currentBranding.companyName}</p>
+              </div>
+            )}
           </div>
 
           <form onSubmit={handleSubmit} className="login-form">
@@ -98,9 +150,9 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="Enter username"
-                required
                 className="login-input"
                 disabled={loginAttempts >= 3}
+                required
               />
             </div>
 
@@ -112,48 +164,39 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter password"
-                required
                 className="login-input"
                 disabled={loginAttempts >= 3}
+                required
               />
             </div>
 
             {error && (
               <div className="error-message">
-                <span className="error-icon">⚠️</span>
                 {error}
               </div>
             )}
 
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="login-button"
               disabled={isLoading || loginAttempts >= 3}
             >
               {isLoading ? (
-                <div className="loading-spinner">
-                  <div className="spinner"></div>
-                  <span>Authenticating...</span>
-                </div>
-              ) : (
                 <>
-                  <span className="button-icon">🔐</span>
-                  <span>ACCESS SYSTEM</span>
+                  <div className="loading-spinner">
+                    <div className="spinner"></div>
+                  </div>
+                  AUTHENTICATING...
                 </>
+              ) : (
+                'ACCESS SYSTEM'
               )}
             </button>
           </form>
-
-          <div className="demo-credentials">
-            <div className="credential-note">
-              <span>Contact administrator for access credentials</span>
-            </div>
-          </div>
         </div>
 
         <div className="login-footer">
-          <p>CLASSIFIED MILITARY SYSTEM</p>
-          <p>Unauthorized access will be prosecuted</p>
+          <p>CLASSIFIED MILITARY SYSTEM • SECURE ACCESS REQUIRED</p>
         </div>
       </div>
     </div>

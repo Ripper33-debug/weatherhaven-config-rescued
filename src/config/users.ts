@@ -9,6 +9,13 @@ export interface UserCredentials {
     rank: string;
     clearance: string;
   };
+  clientBranding?: {
+    companyName: string;
+    logoUrl: string;
+    primaryColor: string;
+    secondaryColor: string;
+    customCss?: string;
+  };
 }
 
 export const AUTHORIZED_USERS: UserCredentials[] = [
@@ -19,6 +26,12 @@ export const AUTHORIZED_USERS: UserCredentials[] = [
       username: 'Chief Executive Officer',
       rank: 'CEO',
       clearance: 'TOP SECRET'
+    },
+    clientBranding: {
+      companyName: 'Weatherhaven',
+      logoUrl: 'https://weatherhaven.com/wp-content/uploads/2021/03/weatherhaven-logo-white.png',
+      primaryColor: '#1a202c',
+      secondaryColor: '#4a5568'
     }
   },
   {
@@ -28,6 +41,12 @@ export const AUTHORIZED_USERS: UserCredentials[] = [
       username: 'Development Team',
       rank: 'Technical Lead',
       clearance: 'SECRET'
+    },
+    clientBranding: {
+      companyName: 'TechCorp Solutions',
+      logoUrl: 'https://via.placeholder.com/200x80/2d3748/ffffff?text=TechCorp',
+      primaryColor: '#2d3748',
+      secondaryColor: '#4a5568'
     }
   },
   {
@@ -37,18 +56,52 @@ export const AUTHORIZED_USERS: UserCredentials[] = [
       username: 'Marketing Team',
       rank: 'Marketing Lead',
       clearance: 'SECRET'
+    },
+    clientBranding: {
+      companyName: 'Global Marketing Inc',
+      logoUrl: 'https://via.placeholder.com/200x80/1a202c/ffffff?text=Global+Marketing',
+      primaryColor: '#1a202c',
+      secondaryColor: '#718096'
+    }
+  },
+  {
+    username: 'client1',
+    password: 'client2024',
+    userData: {
+      username: 'Client Demo 1',
+      rank: 'Project Manager',
+      clearance: 'CONFIDENTIAL'
+    },
+    clientBranding: {
+      companyName: 'Defense Systems Ltd',
+      logoUrl: 'https://via.placeholder.com/200x80/2c5282/ffffff?text=Defense+Systems',
+      primaryColor: '#2c5282',
+      secondaryColor: '#4299e1'
+    }
+  },
+  {
+    username: 'client2',
+    password: 'client2024',
+    userData: {
+      username: 'Client Demo 2',
+      rank: 'Operations Director',
+      clearance: 'CONFIDENTIAL'
+    },
+    clientBranding: {
+      companyName: 'Secure Solutions Corp',
+      logoUrl: 'https://via.placeholder.com/200x80/744210/ffffff?text=Secure+Solutions',
+      primaryColor: '#744210',
+      secondaryColor: '#d69e2e'
     }
   }
 ];
 
-// Helper function to validate credentials
 export const validateCredentials = (username: string, password: string): UserCredentials | null => {
   return AUTHORIZED_USERS.find(
     user => user.username.toLowerCase() === username.toLowerCase() && user.password === password
   ) || null;
 };
 
-// Helper function to get user by username
 export const getUserByUsername = (username: string): UserCredentials | null => {
   return AUTHORIZED_USERS.find(
     user => user.username.toLowerCase() === username.toLowerCase()

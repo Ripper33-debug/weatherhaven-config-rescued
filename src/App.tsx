@@ -3,6 +3,7 @@ import LoginPage from './components/LoginPage';
 import CommandCenter from './components/CommandCenter';
 import ShelterConfigurator from './components/ShelterConfigurator';
 import { CollaborationProvider } from './components/CollaborationProvider';
+import { BrandingProvider } from './components/BrandingProvider';
 import './App.css';
 
 export interface ConfiguratorState {
@@ -59,32 +60,34 @@ function App() {
   };
 
   return (
-    <div className="app-container">
-      {appState === 'login' && (
-        <LoginPage onLogin={handleLogin} />
-      )}
-      
-      {appState === 'command-center' && user && (
-        <CollaborationProvider currentUser={user}>
-          <CommandCenter 
-            user={user}
-            onLogout={handleLogout}
-            onShelterSelect={handleShelterSelect}
-          />
-        </CollaborationProvider>
-      )}
-      
-      {appState === 'configurator' && user && selectedShelter && (
-        <CollaborationProvider currentUser={user}>
-          <ShelterConfigurator
-            user={user}
-            shelter={selectedShelter}
-            onBack={handleBackToCommandCenter}
-            onLogout={handleLogout}
-          />
-        </CollaborationProvider>
-      )}
-    </div>
+    <BrandingProvider>
+      <div className="app-container">
+        {appState === 'login' && (
+          <LoginPage onLogin={handleLogin} />
+        )}
+        
+        {appState === 'command-center' && user && (
+          <CollaborationProvider currentUser={user}>
+            <CommandCenter 
+              user={user}
+              onLogout={handleLogout}
+              onShelterSelect={handleShelterSelect}
+            />
+          </CollaborationProvider>
+        )}
+        
+        {appState === 'configurator' && user && selectedShelter && (
+          <CollaborationProvider currentUser={user}>
+            <ShelterConfigurator
+              user={user}
+              shelter={selectedShelter}
+              onBack={handleBackToCommandCenter}
+              onLogout={handleLogout}
+            />
+          </CollaborationProvider>
+        )}
+      </div>
+    </BrandingProvider>
   );
 }
 

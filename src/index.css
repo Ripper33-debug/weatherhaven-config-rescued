@@ -1360,6 +1360,117 @@ html, body, #root {
   }
 }
 
+/* Dual Logo Header Styles */
+.dual-logo-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.weatherhaven-logo,
+.client-logo {
+  display: flex;
+  align-items: center;
+  height: 60px;
+}
+
+.weatherhaven-logo img,
+.client-logo img {
+  max-height: 100%;
+  max-width: 200px;
+  object-fit: contain;
+  filter: brightness(0) invert(1); /* Make logos white */
+}
+
+.logo-fallback {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.logo-fallback.hidden {
+  display: none;
+}
+
+.logo-text {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.logo-separator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 24px;
+  font-weight: 300;
+}
+
+.header-info {
+  text-align: right;
+}
+
+.header-info h1 {
+  color: #ffffff;
+  margin: 0 0 5px 0;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+.header-info p {
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+/* Client Logo Styles for Login Page */
+.client-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.client-logo img {
+  max-height: 80px;
+  max-width: 300px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+
+.client-info {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.client-info p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.hidden {
+  display: none;
+}
+
 .shelter-info {
   flex: 1;
 }

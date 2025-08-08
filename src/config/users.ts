@@ -13,47 +13,29 @@ export interface UserCredentials {
 
 export const AUTHORIZED_USERS: UserCredentials[] = [
   {
-    username: 'commander',
-    password: 'access123',
+    username: 'ceo',
+    password: 'executive2024',
     userData: {
-      username: 'Commander Smith',
-      rank: 'Lieutenant Colonel',
+      username: 'Chief Executive Officer',
+      rank: 'CEO',
       clearance: 'TOP SECRET'
     }
   },
   {
-    username: 'tech',
-    password: 'tech456',
+    username: 'devteam',
+    password: 'develop2024',
     userData: {
-      username: 'Tech Specialist Johnson',
-      rank: 'Sergeant First Class',
+      username: 'Development Team',
+      rank: 'Technical Lead',
       clearance: 'SECRET'
     }
   },
   {
-    username: 'operator1',
-    password: 'secure789',
+    username: 'comteam',
+    password: 'communicate2024',
     userData: {
-      username: 'Operator One',
-      rank: 'Staff Sergeant',
-      clearance: 'SECRET'
-    }
-  },
-  {
-    username: 'analyst',
-    password: 'data2024',
-    userData: {
-      username: 'Data Analyst Wilson',
-      rank: 'Technical Sergeant',
-      clearance: 'SECRET'
-    }
-  },
-  {
-    username: 'engineer',
-    password: 'build2024',
-    userData: {
-      username: 'Systems Engineer Davis',
-      rank: 'Master Sergeant',
+      username: 'Communications Team',
+      rank: 'Communications Lead',
       clearance: 'SECRET'
     }
   }

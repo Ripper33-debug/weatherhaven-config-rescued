@@ -29,29 +29,11 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
   showParticles = false
 }) => {
   const groupRef = useRef<Group>(null);
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [animationProgress, setAnimationProgress] = useState(0);
   const [modelLoaded, setModelLoaded] = useState(false);
   
   // Load the GLB model based on deployment state
   const modelPath = configState.isDeployed ? '/models/trecc-open.glb' : '/models/trecc.glb';
   const { scene } = useGLTF(modelPath);
-  
-  // TRECC-T dimensions from blueprint (converted from inches to feet)
-  const deployedDimensions = {
-    length: 14.3, // 171.4 inches
-    width: 7.1,   // 85.4 inches  
-    height: 7.9   // 94.3 inches
-  };
-  
-  const stowedDimensions = {
-    length: 7.0,  // 84.0 inches
-    width: 7.1,   // 85.4 inches
-    height: 4.8   // 57.0 inches
-  };
-
-  // Animation state for smooth transitions (kept for potential future use)
-  // const [currentDimensions, setCurrentDimensions] = useState(stowedDimensions);
 
   useEffect(() => {
     // Model is loaded when GLTF is ready
@@ -61,33 +43,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
     }
   }, [scene, modelLoaded, onModelLoaded]);
 
-  // Smooth animation for deploy/stow transitions
-  useEffect(() => {
-    setIsAnimating(true);
-    setAnimationProgress(0);
-    
-    const duration = 2000; // 2 seconds
-    const startTime = Date.now();
-    
-    const animate = () => {
-      const elapsed = Date.now() - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      
-      // Easing function for smooth animation
-      const easeInOutCubic = (t: number) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-      const easedProgress = easeInOutCubic(progress);
-      
-      setAnimationProgress(easedProgress);
-      
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      } else {
-        setIsAnimating(false);
-      }
-    };
-    
-    animate();
-  }, [configState.isDeployed]);
+  // Animation removed since we're using GLB models now
 
   // Animation code removed since we're using GLB models now
   // useEffect(() => {
@@ -107,10 +63,10 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
   // }, [animationProgress, configState.isDeployed, deployedDimensions.height, deployedDimensions.length, deployedDimensions.width, stowedDimensions.height, stowedDimensions.length, stowedDimensions.width]);
 
   useFrame((state) => {
-    if (groupRef.current && isAutoRotating && !isAnimating) {
+    if (groupRef.current && isAutoRotating) {
       // Auto-rotation for demo mode
       groupRef.current.rotation.y += 0.01;
-    } else if (groupRef.current && !isAnimating) {
+    } else if (groupRef.current) {
       // Gentle rotation when not animating
       groupRef.current.rotation.y += 0.002;
     }

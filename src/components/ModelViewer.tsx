@@ -48,6 +48,36 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
     setModelLoaded(false);
   }, [modelPath]);
 
+  // Fix material lighting when model loads
+  useEffect(() => {
+    if (scene && modelLoaded) {
+      scene.traverse((child: any) => {
+        if (child.isMesh && child.material) {
+          // Ensure materials are properly lit
+          if (Array.isArray(child.material)) {
+            child.material.forEach((mat: any) => {
+              if (mat) {
+                mat.needsUpdate = true;
+                // Remove any emissive properties that might make it black
+                if (mat.emissive) {
+                  mat.emissive.setRGB(0, 0, 0);
+                }
+                mat.emissiveIntensity = 0;
+              }
+            });
+          } else {
+            child.material.needsUpdate = true;
+            // Remove any emissive properties that might make it black
+            if (child.material.emissive) {
+              child.material.emissive.setRGB(0, 0, 0);
+            }
+            child.material.emissiveIntensity = 0;
+          }
+        }
+      });
+    }
+  }, [scene, modelLoaded]);
+
   // Animation removed since we're using GLB models now
 
   // Animation code removed since we're using GLB models now
@@ -193,6 +223,8 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
           rotation={[0, 0, 0]}
         />
         
+
+        
         {/* Color overlay for GLB models */}
         <mesh position={[0, 0, 0]} visible={false}>
           <boxGeometry args={[20, 20, 20]} />
@@ -203,9 +235,11 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
           />
         </mesh>
         
-        {/* Add ambient lighting to prevent black appearance */}
-        <ambientLight intensity={0.8} />
-        <directionalLight position={[5, 5, 5]} intensity={1} />
+        {/* Enhanced lighting for GLB models */}
+        <ambientLight intensity={1.2} />
+        <directionalLight position={[5, 5, 5]} intensity={1.5} />
+        <directionalLight position={[-5, 5, -5]} intensity={0.8} />
+        <pointLight position={[0, 10, 0]} intensity={0.5} />
         
         {/* Scale indicators */}
         {showScale && (
@@ -230,10 +264,10 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
   return (
     <>
       {/* Enhanced Lighting */}
-      <ambientLight intensity={envSettings.ambientIntensity} />
+      <ambientLight intensity={Math.max(envSettings.ambientIntensity, 0.8)} />
       <directionalLight
         position={[10, 10, 5]}
-        intensity={envSettings.directionalIntensity}
+        intensity={Math.max(envSettings.directionalIntensity, 1.2)}
         castShadow
         shadow-mapSize-width={2048}
         shadow-mapSize-height={2048}
@@ -243,8 +277,13 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
         shadow-camera-top={10}
         shadow-camera-bottom={-10}
       />
-      <pointLight position={[-10, -10, -10]} intensity={0.3} />
-      <pointLight position={[10, -10, 10]} intensity={0.3} />
+      <directionalLight
+        position={[-10, 10, -5]}
+        intensity={0.8}
+      />
+      <pointLight position={[-10, -10, -10]} intensity={0.5} />
+      <pointLight position={[10, -10, 10]} intensity={0.5} />
+      <pointLight position={[0, 15, 0]} intensity={0.3} />
 
       {/* Environment */}
       <Environment preset={envSettings.environmentPreset} />

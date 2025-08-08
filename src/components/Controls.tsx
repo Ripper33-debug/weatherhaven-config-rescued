@@ -266,17 +266,17 @@ const Controls: React.FC<ControlsProps> = ({
           </span>
         </div>
       </div>
-    </div>
 
-    {/* Pricing Panel */}
-    {showPricing && (
-      <PricingPanel
-        configState={configState}
-        shelter={shelter}
-        user={user}
-        onClose={() => setShowPricing(false)}
-      />
-    )}
+      {/* Pricing Panel */}
+      {showPricing && (
+        <PricingPanel
+          configState={configState}
+          shelter={shelter}
+          user={user}
+          onClose={() => setShowPricing(false)}
+        />
+      )}
+    </div>
   );
 };
 

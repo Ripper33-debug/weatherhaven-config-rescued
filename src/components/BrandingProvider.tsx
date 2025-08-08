@@ -4,9 +4,22 @@ import { UserCredentials } from '../config/users';
 interface ClientBranding {
   companyName: string;
   logoFolder: number;
+  logoUrl?: string;
   primaryColor: string;
   secondaryColor: string;
   customCss?: string;
+  contactInfo?: {
+    email: string;
+    phone: string;
+    address: string;
+  };
+  features?: {
+    enableARVR: boolean;
+    enableCollaboration: boolean;
+    enableDemoMode: boolean;
+    enableExport: boolean;
+    enablePricing: boolean;
+  };
 }
 
 interface BrandingContextType {

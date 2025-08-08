@@ -15,6 +15,7 @@ export interface UserCredentials {
   clientBranding?: {
     companyName: string;
     logoFolder: number; // Numbered folder (1-10, etc.)
+    logoUrl?: string; // Direct URL to logo image
     primaryColor: string;
     secondaryColor: string;
     customCss?: string;
@@ -47,6 +48,7 @@ export const AUTHORIZED_USERS: UserCredentials[] = [
     clientBranding: {
       companyName: 'Weatherhaven Technologies',
       logoFolder: 0, // 0 = Weatherhaven (no client logo)
+      logoUrl: '/logos/weatherhaven-logo.svg',
       primaryColor: '#1a202c',
       secondaryColor: '#4a5568',
       contactInfo: {
@@ -76,6 +78,7 @@ export const AUTHORIZED_USERS: UserCredentials[] = [
     clientBranding: {
       companyName: 'Weatherhaven Technologies',
       logoFolder: 0,
+      logoUrl: '/logos/weatherhaven-logo.svg',
       primaryColor: '#1a202c',
       secondaryColor: '#4a5568',
       features: {
@@ -100,6 +103,7 @@ export const AUTHORIZED_USERS: UserCredentials[] = [
     clientBranding: {
       companyName: 'Firestorm Systems',
       logoFolder: 1,
+      logoUrl: '/logos/clients/1.svg',
       primaryColor: '#1a1a1a',
       secondaryColor: '#ff4444',
       contactInfo: {
@@ -129,6 +133,7 @@ export const AUTHORIZED_USERS: UserCredentials[] = [
     clientBranding: {
       companyName: 'Defense Systems Ltd',
       logoFolder: 4,
+      logoUrl: '/logos/clients/4.svg',
       primaryColor: '#2c5282',
       secondaryColor: '#4299e1',
       contactInfo: {
@@ -158,6 +163,7 @@ export const AUTHORIZED_USERS: UserCredentials[] = [
     clientBranding: {
       companyName: 'Secure Solutions Corp',
       logoFolder: 5,
+      logoUrl: '/logos/clients/5.svg',
       primaryColor: '#744210',
       secondaryColor: '#d69e2e',
       contactInfo: {

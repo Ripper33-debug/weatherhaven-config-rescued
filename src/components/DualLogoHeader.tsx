@@ -10,7 +10,7 @@ const DualLogoHeader: React.FC<DualLogoHeaderProps> = ({
   title = "COMMAND CENTER",
   subtitle = "Shelter Configuration System"
 }) => {
-  const { branding } = useBranding();
+  const { branding, getClientLogoUrl } = useBranding();
 
   return (
     <div className="dual-logo-header">
@@ -37,7 +37,7 @@ const DualLogoHeader: React.FC<DualLogoHeaderProps> = ({
         {branding ? (
           <div className="client-logo">
             <img 
-              src={branding.logoUrl}
+              src={branding.logoUrl || getClientLogoUrl(branding.logoFolder)}
               alt={branding.companyName}
               onError={(e) => {
                 const target = e.target as HTMLImageElement;

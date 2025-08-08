@@ -1,0 +1,9 @@
+PLACEHOLDER - ACCESSORY MODELS
+
+Place your accessory GLB files here:
+
+- solar-panels.glb
+- hvac-system.glb
+- lighting.glb
+
+These are optional add-on equipment that can be integrated into the shelter configurator.

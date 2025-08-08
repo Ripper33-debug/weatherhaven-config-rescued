@@ -75,7 +75,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
       <div className="login-content">
         <div className="login-header">
           <div className="logo-container">
-            <div className="logo-symbol">⚡</div>
             <h1 className="system-title">WEATHERHAVEN</h1>
             <p className="system-subtitle">MILITARY SHELTER CONFIGURATOR</p>
             <div className="security-badge">

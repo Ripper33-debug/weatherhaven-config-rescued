@@ -193,7 +193,7 @@ html, body, #root {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 40px 20px;
+  padding: 96px 20px;
   box-sizing: border-box;
   overflow: hidden;
 }
@@ -205,21 +205,10 @@ html, body, #root {
 }
 
 .logo-container {
-  margin-bottom: 40px;
+  margin-bottom: 60px;
 }
 
-.logo-symbol {
-  font-size: 48px;
-  margin-bottom: 20px;
-  animation: logoGlow 3s ease-in-out infinite alternate;
-  opacity: 0.8;
-  color: #ffffff;
-}
 
-@keyframes logoGlow {
-  from { text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); }
-  to { text-shadow: 0 0 20px rgba(255, 255, 255, 0.5); }
-}
 
 .system-title {
   font-size: 42px;

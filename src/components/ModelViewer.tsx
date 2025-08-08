@@ -5,8 +5,9 @@ import { Group } from 'three';
 import { ConfiguratorState } from './ShelterConfigurator';
 import { Shelter } from '../App';
 
-// Preload the TRECC model
+// Preload both TRECC models
 useGLTF.preload('/models/trecc.glb');
+useGLTF.preload('/models/trecc-open.glb');
 
 interface ModelViewerProps {
   configState: ConfiguratorState;
@@ -32,8 +33,9 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
   const [animationProgress, setAnimationProgress] = useState(0);
   const [modelLoaded, setModelLoaded] = useState(false);
   
-  // Load the GLB model
-  const { scene } = useGLTF('/models/trecc.glb');
+  // Load the GLB model based on deployment state
+  const modelPath = configState.isDeployed ? '/models/trecc-open.glb' : '/models/trecc.glb';
+  const { scene } = useGLTF(modelPath);
   
   // TRECC-T dimensions from blueprint (converted from inches to feet)
   const deployedDimensions = {
@@ -168,18 +170,56 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
       // Fallback to placeholder if GLB doesn't load
       return (
         <group ref={groupRef}>
-          <mesh position={[0, 2, 0]} castShadow receiveShadow>
-            <boxGeometry args={[4, 4, 2]} />
-            <meshStandardMaterial 
-              color={configState.color} 
-              metalness={0.3}
-              roughness={0.7}
-            />
-          </mesh>
-          <mesh position={[0, 4, 0]} castShadow receiveShadow>
-            <boxGeometry args={[4.2, 0.1, 2.2]} />
-            <meshStandardMaterial color="#2d3748" metalness={0.8} roughness={0.2} />
-          </mesh>
+          {configState.isDeployed ? (
+            // Deployed placeholder
+            <>
+              <mesh position={[0, 2, 0]} castShadow receiveShadow>
+                <boxGeometry args={[8, 4, 2]} />
+                <meshStandardMaterial 
+                  color={configState.color} 
+                  metalness={0.3}
+                  roughness={0.7}
+                />
+              </mesh>
+              <mesh position={[0, 4, 0]} castShadow receiveShadow>
+                <boxGeometry args={[8.2, 0.1, 2.2]} />
+                <meshStandardMaterial color="#2d3748" metalness={0.8} roughness={0.2} />
+              </mesh>
+              {/* Extended sections */}
+              <mesh position={[-6, 2, 0]} castShadow receiveShadow>
+                <boxGeometry args={[4, 4, 2]} />
+                <meshStandardMaterial 
+                  color={configState.color} 
+                  metalness={0.3}
+                  roughness={0.7}
+                />
+              </mesh>
+              <mesh position={[6, 2, 0]} castShadow receiveShadow>
+                <boxGeometry args={[4, 4, 2]} />
+                <meshStandardMaterial 
+                  color={configState.color} 
+                  metalness={0.3}
+                  roughness={0.7}
+                />
+              </mesh>
+            </>
+          ) : (
+            // Stowed placeholder
+            <>
+              <mesh position={[0, 2, 0]} castShadow receiveShadow>
+                <boxGeometry args={[4, 4, 2]} />
+                <meshStandardMaterial 
+                  color={configState.color} 
+                  metalness={0.3}
+                  roughness={0.7}
+                />
+              </mesh>
+              <mesh position={[0, 4, 0]} castShadow receiveShadow>
+                <boxGeometry args={[4.2, 0.1, 2.2]} />
+                <meshStandardMaterial color="#2d3748" metalness={0.8} roughness={0.2} />
+              </mesh>
+            </>
+          )}
         </group>
       );
     }

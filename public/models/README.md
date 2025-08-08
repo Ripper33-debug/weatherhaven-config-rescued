@@ -13,7 +13,8 @@ models/
 │   ├── living-quarters.glb # Living quarters interior
 │   ├── communications.glb  # Communications hub interior
 │   ├── equipment-storage.glb # Equipment storage interior
-│   └── field-kitchen.glb   # Field kitchen interior
+│   ├── field-kitchen.glb   # Field kitchen interior
+│   └── drone-manufacturing.glb # Drone manufacturing interior
 └── accessories/            # Additional equipment
     ├── solar-panels.glb
     ├── hvac-system.glb
@@ -30,6 +31,7 @@ The main TRECC model can be customized with different interior layouts:
 - **Communications**: Satellite equipment, radio systems, network infrastructure
 - **Equipment Storage**: Storage racks, tool areas, supply management
 - **Field Kitchen**: Cooking facilities, food storage, dining areas
+- **Drone Manufacturing**: Assembly lines, testing equipment, quality control systems
 
 ## Model Specifications
 

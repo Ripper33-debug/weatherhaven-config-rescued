@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { User, Shelter } from '../App';
+import DualLogoHeader from './DualLogoHeader';
 
 interface CommandCenterProps {
   user: User;
@@ -85,9 +86,25 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
       category: 'kitchen',
       description: 'Mobile kitchen with cooking facilities, food storage, and dining areas.',
       image: 'kitchen',
+      modelPath: '/models/trecc-main.glb',
+      interiorPath: '/models/interiors/field-kitchen.glb',
       specs: {
         deployed: { length: '14.0 ft', width: '8.0 ft', height: '8.0 ft' },
         stowed: { length: '7.0 ft', width: '8.0 ft', height: '5.0 ft' }
+      }
+    },
+    {
+      id: 'trecc-drone-manufacturing',
+      name: 'TRECC Drone Manufacturing',
+      model: 'TRECC DRONE MANUFACTURING KITTING',
+      category: 'manufacturing',
+      description: 'Advanced drone manufacturing facility with assembly lines, testing equipment, and quality control systems.',
+      image: 'manufacturing',
+      modelPath: '/models/trecc-main.glb',
+      interiorPath: '/models/interiors/drone-manufacturing.glb',
+      specs: {
+        deployed: { length: '20.0 ft', width: '10.0 ft', height: '9.0 ft' },
+        stowed: { length: '10.0 ft', width: '10.0 ft', height: '6.0 ft' }
       }
     }
   ];
@@ -99,7 +116,8 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
     { id: 'living', name: 'Living Quarters', icon: 'living' },
     { id: 'communications', name: 'Communications', icon: 'communications' },
     { id: 'storage', name: 'Storage', icon: 'storage' },
-    { id: 'kitchen', name: 'Kitchens', icon: 'kitchen' }
+    { id: 'kitchen', name: 'Kitchens', icon: 'kitchen' },
+    { id: 'manufacturing', name: 'Manufacturing', icon: 'manufacturing' }
   ];
 
   const filteredShelters = shelters.filter(shelter => {
@@ -124,6 +142,8 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
         return <div className="icon-storage"></div>;
       case 'kitchen':
         return <div className="icon-kitchen"></div>;
+      case 'manufacturing':
+        return <div className="icon-manufacturing"></div>;
       case 'all':
         return <div className="icon-all"></div>;
       default:
@@ -135,10 +155,11 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
     <div className="command-center">
       {/* Header */}
       <header className="command-header">
-        <div className="header-left">
-          <h1 className="header-title">WEATHERHAVEN</h1>
-          <p className="header-subtitle">COMMAND CENTER</p>
-        </div>
+        <DualLogoHeader 
+          title="COMMAND CENTER"
+          subtitle="Shelter Configuration System"
+          user={user}
+        />
         <div className="header-right">
           <div className="user-info">
             <span className="user-rank">{user.rank}</span>

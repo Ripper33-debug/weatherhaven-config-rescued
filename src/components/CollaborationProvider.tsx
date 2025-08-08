@@ -41,131 +41,75 @@ export const CollaborationProvider: React.FC<CollaborationProviderProps> = ({
   const [isCollaborating, setIsCollaborating] = useState(false);
   const [activeUsers, setActiveUsers] = useState<CollaborationUser[]>([]);
   const [sessionId, setSessionId] = useState<string | null>(null);
-  const [ws, setWs] = useState<WebSocket | null>(null);
 
-  // Generate a unique session ID
-  const generateSessionId = () => {
-    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-  };
-
-  // Join a collaboration session
+  // Mock collaboration simulation
   const joinSession = (newSessionId: string) => {
-    if (ws) {
-      ws.close();
-    }
-
-    const websocket = new WebSocket(`wss://echo.websocket.org`); // Using echo service for demo
+    setIsCollaborating(true);
+    setSessionId(newSessionId);
     
-    websocket.onopen = () => {
-      console.log('Connected to collaboration server');
-      setIsCollaborating(true);
-      setSessionId(newSessionId);
-      
-      // Send join message
-      websocket.send(JSON.stringify({
-        type: 'join',
-        sessionId: newSessionId,
-        user: currentUser
-      }));
-    };
-
-    websocket.onmessage = (event) => {
-      try {
-        const data = JSON.parse(event.data);
-        
-        switch (data.type) {
-          case 'user_joined':
-            setActiveUsers(prev => [...prev, {
-              id: data.userId,
-              user: data.user,
-              position: data.position,
-              timestamp: Date.now()
-            }]);
-            break;
-            
-          case 'user_left':
-            setActiveUsers(prev => prev.filter(user => user.id !== data.userId));
-            break;
-            
-          case 'position_update':
-            setActiveUsers(prev => prev.map(user => 
-              user.id === data.userId 
-                ? { ...user, position: data.position, timestamp: Date.now() }
-                : user
-            ));
-            break;
-            
-          case 'configuration_shared':
-            // Handle shared configuration updates
-            console.log('Configuration shared:', data.config);
-            break;
-        }
-      } catch (error) {
-        console.error('Error parsing collaboration message:', error);
+    // Simulate other users joining
+    const mockUsers: CollaborationUser[] = [
+      {
+        id: 'user1',
+        user: {
+          username: 'Demo User 1',
+          rank: 'Technical Lead',
+          clearance: 'SECRET'
+        },
+        position: { x: 0, y: 0, z: 0 },
+        timestamp: Date.now()
+      },
+      {
+        id: 'user2',
+        user: {
+          username: 'Demo User 2',
+          rank: 'Project Manager',
+          clearance: 'SECRET'
+        },
+        position: { x: 0, y: 0, z: 0 },
+        timestamp: Date.now()
       }
-    };
-
-    websocket.onerror = (error) => {
-      console.error('WebSocket error:', error);
-      setIsCollaborating(false);
-    };
-
-    websocket.onclose = () => {
-      console.log('Disconnected from collaboration server');
-      setIsCollaborating(false);
-      setActiveUsers([]);
-    };
-
-    setWs(websocket);
+    ];
+    
+    setActiveUsers(mockUsers);
+    
+    console.log('Joined collaboration session:', newSessionId);
   };
 
-  // Leave collaboration session
   const leaveSession = () => {
-    if (ws) {
-      ws.send(JSON.stringify({
-        type: 'leave',
-        sessionId,
-        userId: currentUser.username
-      }));
-      ws.close();
-    }
     setIsCollaborating(false);
     setSessionId(null);
     setActiveUsers([]);
+    console.log('Left collaboration session');
   };
 
-  // Update user position
   const updatePosition = (position: { x: number; y: number; z: number }) => {
-    if (ws && isCollaborating) {
-      ws.send(JSON.stringify({
-        type: 'position_update',
-        sessionId,
-        userId: currentUser.username,
-        position
-      }));
+    if (isCollaborating) {
+      console.log('Position updated:', position);
+      // In a real implementation, this would send to other users
     }
   };
 
-  // Share configuration with other users
   const shareConfiguration = (config: ConfiguratorState) => {
-    if (ws && isCollaborating) {
-      ws.send(JSON.stringify({
-        type: 'configuration_share',
-        sessionId,
-        userId: currentUser.username,
-        config
-      }));
+    if (isCollaborating) {
+      console.log('Configuration shared:', config);
+      // In a real implementation, this would sync with other users
     }
   };
 
-  // Cleanup on unmount
+  // Simulate user activity
   useEffect(() => {
-    return () => {
-      if (ws) {
-        ws.close();
-      }
-    };
-  }, [ws]);
+    if (isCollaborating) {
+      const interval = setInterval(() => {
+        setActiveUsers(prev => prev.map(user => ({
+          ...user,
+          timestamp: Date.now()
+        })));
+      }, 5000);
+
+      return () => clearInterval(interval);
+    }
+  }, [isCollaborating]);
 
   // Remove inactive users (older than 10 seconds)
   useEffect(() => {

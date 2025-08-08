@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { ARButton, VRButton, XR, Interactive } from '@react-three/xr';
-import { OrbitControls, Environment } from '@react-three/drei';
 import { ConfiguratorState } from './ShelterConfigurator';
 import { Shelter } from '../App';
 import ModelViewer from './ModelViewer';
@@ -13,7 +11,7 @@ interface ARVRModeProps {
   onExit: () => void;
 }
 
-type ViewMode = 'ar' | 'vr' | '360' | 'walkthrough';
+type ViewMode = '360' | 'walkthrough' | 'ar' | 'vr';
 
 const ARVRMode: React.FC<ARVRModeProps> = ({ 
   configState, 
@@ -22,16 +20,23 @@ const ARVRMode: React.FC<ARVRModeProps> = ({
   onExit 
 }) => {
   const [viewMode, setViewMode] = useState<ViewMode>('360');
-  const [isARSupported, setIsARSupported] = useState(false);
-  const [isVRSupported, setIsVRSupported] = useState(false);
   const [cameraPosition, setCameraPosition] = useState({ x: 0, y: 2, z: 10 });
 
+
   useEffect(() => {
-    // Check for AR/VR support
-    if (navigator.xr) {
-      navigator.xr.isSessionSupported('immersive-ar').then(setIsARSupported);
-      navigator.xr.isSessionSupported('immersive-vr').then(setIsVRSupported);
+    // Request fullscreen when entering AR/VR mode
+    if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen().catch(() => {
+        // Fullscreen not supported or denied
+      });
     }
+
+    return () => {
+      // Exit fullscreen when leaving
+      if (document.fullscreenElement && document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    };
   }, []);
 
   const handleViewModeChange = (mode: ViewMode) => {
@@ -73,25 +78,21 @@ const ARVRMode: React.FC<ARVRModeProps> = ({
           Walkthrough
         </button>
         
-        {isARSupported && (
-          <button 
-            className={`mode-button ${viewMode === 'ar' ? 'active' : ''}`}
-            onClick={() => handleViewModeChange('ar')}
-          >
-            <span className="icon-ar"></span>
-            AR Mode
-          </button>
-        )}
+        <button 
+          className={`mode-button ${viewMode === 'ar' ? 'active' : ''}`}
+          onClick={() => handleViewModeChange('ar')}
+        >
+          <span className="icon-ar"></span>
+          AR Mode
+        </button>
         
-        {isVRSupported && (
-          <button 
-            className={`mode-button ${viewMode === 'vr' ? 'active' : ''}`}
-            onClick={() => handleViewModeChange('vr')}
-          >
-            <span className="icon-vr"></span>
-            VR Mode
-          </button>
-        )}
+        <button 
+          className={`mode-button ${viewMode === 'vr' ? 'active' : ''}`}
+          onClick={() => handleViewModeChange('vr')}
+        >
+          <span className="icon-vr"></span>
+          VR Mode
+        </button>
       </div>
       
       <div className="camera-controls">
@@ -136,25 +137,11 @@ const ARVRMode: React.FC<ARVRModeProps> = ({
       }}
       shadows
     >
-      {viewMode === 'ar' && <ARButton />}
-      {viewMode === 'vr' && <VRButton />}
-      
-      <XR>
-        <ModelViewer
-          configState={configState}
-          onModelLoaded={onModelLoaded}
-          shelter={shelter}
-        />
-        
-        {viewMode === 'walkthrough' && (
-          <Interactive onSelect={() => console.log('Object selected')}>
-            <mesh position={[0, 0, 0]}>
-              <boxGeometry args={[0.1, 0.1, 0.1]} />
-              <meshStandardMaterial color="red" />
-            </mesh>
-          </Interactive>
-        )}
-      </XR>
+      <ModelViewer
+        configState={configState}
+        onModelLoaded={onModelLoaded}
+        shelter={shelter}
+      />
     </Canvas>
   );
 
@@ -178,14 +165,14 @@ const ARVRMode: React.FC<ARVRModeProps> = ({
             <li><strong>Mouse:</strong> Rotate, zoom, pan</li>
             <li><strong>WASD:</strong> Walk around (walkthrough mode)</li>
             <li><strong>Space:</strong> Jump (walkthrough mode)</li>
-            <li><strong>VR Controllers:</strong> Full VR interaction</li>
+            <li><strong>Fullscreen:</strong> Immersive experience</li>
           </ul>
         </div>
         
         <div className="info-panel">
           <h3>Current Mode</h3>
-          <p>{viewMode.toUpperCase()} - {viewMode === 'ar' ? 'Augmented Reality' : 
-             viewMode === 'vr' ? 'Virtual Reality' : 
+          <p>{viewMode.toUpperCase()} - {viewMode === 'ar' ? 'Augmented Reality Simulation' : 
+             viewMode === 'vr' ? 'Virtual Reality Simulation' : 
              viewMode === '360' ? '360° Rotation' : 'Walkthrough Mode'}</p>
         </div>
       </div>

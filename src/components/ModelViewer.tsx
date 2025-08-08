@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { OrbitControls, Environment, useAnimations } from '@react-three/drei';
-import { Group, Vector3 } from 'three';
+import { OrbitControls, Environment } from '@react-three/drei';
+import { Group } from 'three';
 import { ConfiguratorState } from './ShelterConfigurator';
 import { Shelter } from '../App';
 
@@ -280,13 +280,6 @@ const ModelViewer: React.FC<ModelViewerProps> = ({ configState, onModelLoaded, s
         rotateSpeed={0.5}
         zoomSpeed={1.2}
         panSpeed={0.8}
-        // Mouse wheel zoom
-        mouseWheel={true}
-        // Touch controls for mobile
-        enableTouch={true}
-        // Smooth damping
-        dampingFactor={0.05}
-        enableDamping={true}
       />
     </>
   );

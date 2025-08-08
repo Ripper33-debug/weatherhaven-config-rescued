@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { Suspense } from 'react';
-import { User, Shelter } from '../App';
+import { User, Shelter, InteriorConfig, ShelterConfiguration } from '../App';
+import { getInteriorsForShelter } from '../config/interiors';
 import ModelViewer from './ModelViewer';
 import Controls from './Controls';
 import LoadingSpinner from './LoadingSpinner';
 import ARVRMode from './ARVRMode';
 import DemoMode from './DemoMode';
 import { useCollaboration } from './CollaborationProvider';
+import './CommandCenter.css';
 
 interface ShelterConfiguratorProps {
   user: User;
   shelter: Shelter;
+  selectedConfiguration?: ShelterConfiguration;
   onBack: () => void;
   onLogout: () => void;
 }
@@ -21,11 +24,13 @@ export interface ConfiguratorState {
   isInsideView: boolean;
   color: string;
   isLoading: boolean;
+  selectedInterior?: InteriorConfig;
 }
 
 const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   user,
   shelter,
+  selectedConfiguration,
   onBack,
   onLogout
 }) => {
@@ -34,7 +39,11 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
     isInsideView: false,
     color: '#4A5568',
     isLoading: true,
+    selectedInterior: undefined,
   });
+
+  // Get available interiors for this shelter
+  const availableInteriors = getInteriorsForShelter(shelter.category);
 
   const [isARVRMode, setIsARVRMode] = useState(false);
   const [isDemoMode, setIsDemoMode] = useState(false);
@@ -53,6 +62,16 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
 
   const handleColorChange = (color: string) => {
     setConfigState(prev => ({ ...prev, color }));
+  };
+
+  const handleInteriorChange = (interior: InteriorConfig) => {
+    setConfigState(prev => ({ ...prev, selectedInterior: interior }));
+  };
+
+  const handleConfigurationChange = (configuration: ShelterConfiguration) => {
+    // Update the selected configuration
+    // This would typically update the model or interior
+    console.log('Configuration changed to:', configuration);
   };
 
   const handleModelLoaded = () => {
@@ -135,6 +154,37 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
           </button>
         </div>
       </header>
+
+      {/* Configuration Selection */}
+      {shelter.configurations && shelter.configurations.length > 0 && (
+        <div className="configuration-selector">
+          <div className="configuration-selector-content">
+            <label className="configuration-label">Select Configuration:</label>
+            <select 
+              className="configuration-dropdown"
+              value={selectedConfiguration?.id || ''}
+              onChange={(e) => {
+                const selectedConfig = shelter.configurations?.find(config => config.id === e.target.value);
+                if (selectedConfig) {
+                  handleConfigurationChange(selectedConfig);
+                }
+              }}
+            >
+              <option value="">Choose configuration...</option>
+              {shelter.configurations.map(config => (
+                <option key={config.id} value={config.id}>
+                  {config.name}
+                </option>
+              ))}
+            </select>
+            {selectedConfiguration && (
+              <div className="selected-config-info">
+                <p>{selectedConfiguration.description}</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Collaboration Panel */}
       {showCollaboration && (
@@ -227,10 +277,12 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
       {/* Controls Panel */}
       <Controls
         configState={configState}
+        shelter={shelter}
+        availableInteriors={availableInteriors}
         onToggleDeploy={handleToggleDeploy}
         onToggleView={handleToggleView}
         onColorChange={handleColorChange}
-        shelter={shelter}
+        onInteriorChange={handleInteriorChange}
         user={user}
       />
 

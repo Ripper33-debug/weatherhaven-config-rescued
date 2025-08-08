@@ -19,6 +19,14 @@ export interface User {
   clearance: string;
 }
 
+export interface InteriorConfig {
+  id: string;
+  name: string;
+  description: string;
+  modelPath: string;
+  category: string;
+}
+
 export interface Shelter {
   id: string;
   name: string;
@@ -26,12 +34,21 @@ export interface Shelter {
   category: string;
   description: string;
   image: string;
-  modelPath?: string; // Path to main TRECC model
-  interiorPath?: string; // Path to interior customization
+  modelPath?: string; // Path to main shelter model
   specs: {
     deployed: any;
     stowed: any;
   };
+  configurations?: ShelterConfiguration[]; // Available configurations for this shelter type
+}
+
+export interface ShelterConfiguration {
+  id: string;
+  name: string;
+  description: string;
+  category: string; // 'command', 'medical', 'living', etc.
+  modelPath: string;
+  interiorPath?: string;
 }
 
 type AppState = 'login' | 'command-center' | 'configurator';
@@ -40,6 +57,7 @@ function App() {
   const [appState, setAppState] = useState<AppState>('login');
   const [user, setUser] = useState<User | null>(null);
   const [selectedShelter, setSelectedShelter] = useState<Shelter | null>(null);
+  const [selectedConfiguration, setSelectedConfiguration] = useState<ShelterConfiguration | undefined>(undefined);
 
   const handleLogin = (userData: User) => {
     setUser(userData);
@@ -52,13 +70,15 @@ function App() {
     setAppState('login');
   };
 
-  const handleShelterSelect = (shelter: Shelter) => {
+  const handleShelterSelect = (shelter: Shelter, configuration?: ShelterConfiguration) => {
     setSelectedShelter(shelter);
+    setSelectedConfiguration(configuration || undefined);
     setAppState('configurator');
   };
 
   const handleBackToCommandCenter = () => {
     setAppState('command-center');
+    setSelectedConfiguration(undefined);
   };
 
   return (
@@ -82,6 +102,7 @@ function App() {
           <ShelterConfigurator
             user={user}
             shelter={selectedShelter}
+            selectedConfiguration={selectedConfiguration}
             onBack={handleBackToCommandCenter}
             onLogout={handleLogout}
           />

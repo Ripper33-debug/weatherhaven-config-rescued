@@ -1,23 +1,27 @@
 import React, { useState } from 'react';
 import { ConfiguratorState } from './ShelterConfigurator';
-import { Shelter } from '../App';
+import { Shelter, InteriorConfig } from '../App';
 import PricingPanel from './PricingPanel';
 
 interface ControlsProps {
   configState: ConfiguratorState;
+  shelter: Shelter;
+  availableInteriors: InteriorConfig[];
   onToggleDeploy: () => void;
   onToggleView: () => void;
   onColorChange: (color: string) => void;
-  shelter: Shelter;
+  onInteriorChange: (interior: InteriorConfig) => void;
   user: any;
 }
 
 const Controls: React.FC<ControlsProps> = ({
   configState,
+  shelter,
+  availableInteriors,
   onToggleDeploy,
   onToggleView,
   onColorChange,
-  shelter,
+  onInteriorChange,
   user,
 }) => {
   const [specsExpanded, setSpecsExpanded] = useState(false);
@@ -137,6 +141,35 @@ const Controls: React.FC<ControlsProps> = ({
           ))}
         </div>
       </div>
+
+      {/* Interior Selection */}
+      {availableInteriors.length > 0 && (
+        <div className="control-section">
+          <h3>Interior Configuration</h3>
+          <select
+            value={configState.selectedInterior?.id || ''}
+            onChange={(e) => {
+              const selected = availableInteriors.find(interior => interior.id === e.target.value);
+              if (selected) {
+                onInteriorChange(selected);
+              }
+            }}
+            className="interior-select"
+          >
+            <option value="">Select Interior Configuration</option>
+            {availableInteriors.map((interior) => (
+              <option key={interior.id} value={interior.id}>
+                {interior.name}
+              </option>
+            ))}
+          </select>
+          {configState.selectedInterior && (
+            <p className="control-description">
+              {configState.selectedInterior.description}
+            </p>
+          )}
+        </div>
+      )}
 
       {/* Specifications Dropdown */}
       <div className="control-section">

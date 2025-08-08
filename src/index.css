@@ -48,6 +48,98 @@ html, body, #root {
   100% { transform: translate(200px, 200px); }
 }
 
+/* Military radar sweep effect */
+.radar-sweep {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100vw;
+  height: 100vw;
+  transform: translate(-50%, -50%);
+  background: conic-gradient(from 0deg, transparent 0deg, rgba(255, 255, 255, 0.05) 30deg, transparent 60deg);
+  animation: radarSweep 4s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes radarSweep {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Military targeting reticles */
+.targeting-reticle {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  animation: targetPulse 2s ease-in-out infinite;
+}
+
+.targeting-reticle::before,
+.targeting-reticle::after {
+  content: '';
+  position: absolute;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.targeting-reticle::before {
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  transform: translateY(-50%);
+}
+
+.targeting-reticle::after {
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  transform: translateX(-50%);
+}
+
+.targeting-reticle.top-left {
+  top: 20%;
+  left: 20%;
+}
+
+.targeting-reticle.top-right {
+  top: 20%;
+  right: 20%;
+}
+
+.targeting-reticle.bottom-left {
+  bottom: 20%;
+  left: 20%;
+}
+
+.targeting-reticle.bottom-right {
+  bottom: 20%;
+  right: 20%;
+}
+
+@keyframes targetPulse {
+  0%, 100% { transform: scale(1); opacity: 0.3; }
+  50% { transform: scale(1.1); opacity: 0.6; }
+}
+
+/* Military data stream effect */
+.data-stream {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: dataStream 3s linear infinite;
+}
+
+@keyframes dataStream {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100vw); }
+}
+
 .scan-line {
   position: absolute;
   left: 0;
@@ -99,11 +191,12 @@ html, body, #root {
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   padding: 20px;
   min-height: 100vh;
   box-sizing: border-box;
+  padding-bottom: 100px;
 }
 
 .login-header {
@@ -165,14 +258,33 @@ html, body, #root {
 
 .login-form-container {
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
   padding: 40px;
   width: 100%;
   max-width: 450px;
   backdrop-filter: blur(20px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.1);
   box-sizing: border-box;
+  position: relative;
+}
+
+.login-form-container::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.1));
+  border-radius: 14px;
+  z-index: -1;
+  animation: borderGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes borderGlow {
+  0% { opacity: 0.3; }
+  100% { opacity: 0.7; }
 }
 
 .form-header {

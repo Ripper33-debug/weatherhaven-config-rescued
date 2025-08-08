@@ -55,9 +55,15 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
 
   return (
     <div className="login-container">
-      {/* Minimalist background */}
+      {/* Interactive military background */}
       <div className="login-background">
         <div className="grid-overlay"></div>
+        <div className="radar-sweep"></div>
+        <div className="targeting-reticle top-left"></div>
+        <div className="targeting-reticle top-right"></div>
+        <div className="targeting-reticle bottom-left"></div>
+        <div className="targeting-reticle bottom-right"></div>
+        <div className="data-stream"></div>
         <div className="scan-line" style={{ top: `${scanLine}%` }}></div>
         <div className="corner-accent top-left"></div>
         <div className="corner-accent top-right"></div>

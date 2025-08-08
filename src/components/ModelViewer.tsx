@@ -1,9 +1,12 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { OrbitControls, Environment } from '@react-three/drei';
+import { OrbitControls, Environment, useGLTF } from '@react-three/drei';
 import { Group } from 'three';
 import { ConfiguratorState } from './ShelterConfigurator';
 import { Shelter } from '../App';
+
+// Preload the TRECC model
+useGLTF.preload('/models/trecc.glb');
 
 interface ModelViewerProps {
   configState: ConfiguratorState;
@@ -27,6 +30,10 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
   const groupRef = useRef<Group>(null);
   const [isAnimating, setIsAnimating] = useState(false);
   const [animationProgress, setAnimationProgress] = useState(0);
+  const [modelLoaded, setModelLoaded] = useState(false);
+  
+  // Load the GLB model
+  const { scene, nodes, materials } = useGLTF('/models/trecc.glb');
   
   // TRECC-T dimensions from blueprint (converted from inches to feet)
   const deployedDimensions = {
@@ -45,13 +52,12 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
   const [currentDimensions, setCurrentDimensions] = useState(stowedDimensions);
 
   useEffect(() => {
-    // Simulate model loading
-    const timer = setTimeout(() => {
+    // Model is loaded when GLTF is ready
+    if (scene && !modelLoaded) {
+      setModelLoaded(true);
       onModelLoaded();
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, [onModelLoaded]);
+    }
+  }, [scene, modelLoaded, onModelLoaded]);
 
   // Smooth animation for deploy/stow transitions
   useEffect(() => {
@@ -156,192 +162,42 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
 
   const envSettings = getEnvironmentSettings();
 
-  // Create TRECC-T shelter geometry with smooth animations
-  const createTRECCShelter = () => {
-    const wingExtension = configState.isDeployed ? 2 * animationProgress : 2 * (1 - animationProgress);
-    
+  // Render the TRECC GLB model
+  const renderTRECCModel = () => {
+    if (!scene) {
+      return null;
+    }
+
     return (
       <group ref={groupRef}>
-        {/* Main shelter body */}
-        <mesh position={[0, currentDimensions.height/2, 0]} castShadow receiveShadow>
-          <boxGeometry args={[currentDimensions.length, currentDimensions.height, currentDimensions.width]} />
-          <meshStandardMaterial 
-            color={configState.color} 
-            metalness={0.3}
-            roughness={0.7}
-            envMapIntensity={0.5}
-          />
-        </mesh>
+        {/* Clone the GLB scene */}
+        <primitive 
+          object={scene.clone()} 
+          position={[0, 0, 0]}
+          scale={[1, 1, 1]}
+          rotation={[0, 0, 0]}
+        />
         
-        {/* Roof with solar panels */}
-        <mesh position={[0, currentDimensions.height, 0]} castShadow receiveShadow>
-          <boxGeometry args={[currentDimensions.length + 0.2, 0.1, currentDimensions.width + 0.2]} />
-          <meshStandardMaterial 
-            color="#2d3748" 
-            metalness={0.8}
-            roughness={0.2}
-            envMapIntensity={0.8}
-          />
-        </mesh>
-        
-        {/* Solar panels on roof */}
-        <mesh position={[0, currentDimensions.height + 0.05, 0]} castShadow receiveShadow>
-          <boxGeometry args={[currentDimensions.length - 1, 0.05, currentDimensions.width - 1]} />
-          <meshStandardMaterial 
-            color="#1a202c" 
-            metalness={0.9}
-            roughness={0.1}
-            envMapIntensity={1.0}
-          />
-        </mesh>
-
-        {/* Deployable sections - animated */}
-        {configState.isDeployed && (
-          <>
-            {/* Left wing extension */}
-            <mesh 
-              position={[-currentDimensions.length/2 - wingExtension, currentDimensions.height/2, 0]} 
-              castShadow 
-              receiveShadow
-            >
-              <boxGeometry args={[4, currentDimensions.height, currentDimensions.width]} />
-              <meshStandardMaterial 
-                color={configState.color} 
-                metalness={0.3}
-                roughness={0.7}
-                envMapIntensity={0.5}
-              />
-            </mesh>
-            
-            {/* Right wing extension */}
-            <mesh 
-              position={[currentDimensions.length/2 + wingExtension, currentDimensions.height/2, 0]} 
-              castShadow 
-              receiveShadow
-            >
-              <boxGeometry args={[4, currentDimensions.height, currentDimensions.width]} />
-              <meshStandardMaterial 
-                color={configState.color} 
-                metalness={0.3}
-                roughness={0.7}
-                envMapIntensity={0.5}
-              />
-            </mesh>
-
-            {/* HVAC ducts */}
-            <mesh position={[0, currentDimensions.height/2, currentDimensions.width/2 + 0.5]} castShadow>
-              <cylinderGeometry args={[0.3, 0.3, currentDimensions.height - 1, 8]} />
-              <meshStandardMaterial color="#4a5568" metalness={0.5} roughness={0.5} />
-            </mesh>
-            
-            <mesh position={[0, currentDimensions.height/2, -currentDimensions.width/2 - 0.5]} castShadow>
-              <cylinderGeometry args={[0.3, 0.3, currentDimensions.height - 1, 8]} />
-              <meshStandardMaterial color="#4a5568" metalness={0.5} roughness={0.5} />
-            </mesh>
-          </>
-        )}
-
-        {/* Interior view elements */}
-        {configState.isInsideView && (
+        {/* Apply color changes if needed */}
+        {materials && Object.keys(materials).length > 0 && (
           <group>
-            {/* Interior walls */}
-            <mesh position={[0, currentDimensions.height/2, 0]}>
-              <boxGeometry args={[currentDimensions.length - 0.2, currentDimensions.height - 0.2, currentDimensions.width - 0.2]} />
-              <meshStandardMaterial 
-                color="#f0f0f0" 
-                transparent
-                opacity={0.1}
-              />
-            </mesh>
-            
-            {/* Floor */}
-            <mesh position={[0, 0.05, 0]}>
-              <boxGeometry args={[currentDimensions.length - 0.2, 0.1, currentDimensions.width - 0.2]} />
-              <meshStandardMaterial color="#8B4513" />
-            </mesh>
-
-            {/* 55" Display */}
-            <mesh position={[0, currentDimensions.height/2, currentDimensions.width/2 - 0.1]}>
-              <boxGeometry args={[4, 2.5, 0.1]} />
-              <meshStandardMaterial color="#000000" />
-            </mesh>
-
-            {/* Deployable desks */}
-            <mesh position={[-currentDimensions.length/4, 1.5, 0]}>
-              <boxGeometry args={[2, 0.1, currentDimensions.width - 1]} />
-              <meshStandardMaterial color="#8B4513" />
-            </mesh>
-            
-            <mesh position={[currentDimensions.length/4, 1.5, 0]}>
-              <boxGeometry args={[2, 0.1, currentDimensions.width - 1]} />
-              <meshStandardMaterial color="#8B4513" />
-            </mesh>
-
-            {/* Electrical panel */}
-            <mesh position={[currentDimensions.length/2 - 0.5, currentDimensions.height/2, 0]}>
-              <boxGeometry args={[0.5, 2, 1]} />
-              <meshStandardMaterial color="#2d3748" />
-            </mesh>
-
-            {/* Air conditioner */}
-            <mesh position={[0, currentDimensions.height/2, -currentDimensions.width/2 + 0.5]}>
-              <boxGeometry args={[1, 1, 0.5]} />
-              <meshStandardMaterial color="#4a5568" />
-            </mesh>
-          </group>
-        )}
-
-        {/* Cargo door (when stowed) */}
-        {!configState.isDeployed && (
-          <mesh position={[0, currentDimensions.height/2, currentDimensions.width/2 - 0.05]}>
-            <boxGeometry args={[currentDimensions.length - 0.5, currentDimensions.height - 0.5, 0.1]} />
-            <meshStandardMaterial color="#2d3748" metalness={0.8} roughness={0.2} />
-          </mesh>
-        )}
-
-        {/* Scale indicators */}
-        {showScale && (
-          <group>
-            {/* Human figure for scale */}
-            <mesh position={[currentDimensions.length/2 + 2, 1.7, 0]}>
-              <cylinderGeometry args={[0.3, 0.3, 1.7, 8]} />
-              <meshStandardMaterial color="#8B4513" />
-            </mesh>
-            
-            {/* Vehicle for scale */}
-            <mesh position={[currentDimensions.length/2 + 4, 1.5, 0]}>
-              <boxGeometry args={[2, 1.5, 4]} />
-              <meshStandardMaterial color="#2d3748" />
-            </mesh>
-          </group>
-        )}
-
-        {/* Particle effects */}
-        {showParticles && (
-          <group>
-            {/* Dust particles */}
-            {Array.from({ length: 20 }).map((_, i) => (
-              <mesh key={`dust-${i}`} position={[
-                (Math.random() - 0.5) * 20,
-                Math.random() * 5,
-                (Math.random() - 0.5) * 20
-              ]}>
-                <sphereGeometry args={[0.05, 4, 4]} />
-                <meshStandardMaterial color="#d4a574" transparent opacity={0.3} />
-              </mesh>
-            ))}
-            
-            {/* Smoke particles */}
-            {Array.from({ length: 10 }).map((_, i) => (
-              <mesh key={`smoke-${i}`} position={[
-                (Math.random() - 0.5) * 10,
-                Math.random() * 3 + 2,
-                (Math.random() - 0.5) * 10
-              ]}>
-                <sphereGeometry args={[0.1, 6, 6]} />
-                <meshStandardMaterial color="#696969" transparent opacity={0.2} />
-              </mesh>
-            ))}
+            {Object.entries(materials).map(([name, material]) => {
+              if (material && typeof material === 'object' && 'color' in material) {
+                // Apply shelter color to main body materials
+                if (name.toLowerCase().includes('body') || name.toLowerCase().includes('main')) {
+                  return (
+                    <mesh key={name} material={material}>
+                      <meshStandardMaterial 
+                        color={configState.color}
+                        metalness={material.metalness || 0.3}
+                        roughness={material.roughness || 0.7}
+                      />
+                    </mesh>
+                  );
+                }
+              }
+              return null;
+            })}
           </group>
         )}
       </group>
@@ -377,7 +233,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
       </mesh>
 
       {/* TRECC-T Model */}
-      {createTRECCShelter()}
+      {renderTRECCModel()}
 
       {/* Enhanced Controls */}
       <OrbitControls

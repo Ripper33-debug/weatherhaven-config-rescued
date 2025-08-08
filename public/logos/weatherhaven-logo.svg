@@ -1,0 +1,8 @@
+<svg width="250" height="80" viewBox="0 0 250 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g fill="white">
+<rect width="250" height="80" fill="black"/>
+<path d="M10 20L30 40L10 60L50 40Z" fill="white"/>
+<text x="100" y="45" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="white" text-anchor="middle">Weatherhaven</text>
+<text x="190" y="20" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">TM</text>
+</g>
+</svg>

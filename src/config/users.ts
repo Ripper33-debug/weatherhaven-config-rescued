@@ -11,7 +11,7 @@ export interface UserCredentials {
   };
   clientBranding?: {
     companyName: string;
-    logoUrl: string;
+    logoFolder: number; // Numbered folder (1-10, etc.)
     primaryColor: string;
     secondaryColor: string;
     customCss?: string;
@@ -29,7 +29,7 @@ export const AUTHORIZED_USERS: UserCredentials[] = [
     },
     clientBranding: {
       companyName: 'Weatherhaven',
-      logoUrl: 'https://weatherhaven.com/wp-content/uploads/2021/03/weatherhaven-logo-white.png',
+      logoFolder: 0, // 0 = Weatherhaven (no client logo)
       primaryColor: '#1a202c',
       secondaryColor: '#4a5568'
     }
@@ -44,7 +44,7 @@ export const AUTHORIZED_USERS: UserCredentials[] = [
     },
     clientBranding: {
       companyName: 'TechCorp Solutions',
-      logoUrl: 'https://via.placeholder.com/200x80/2d3748/ffffff?text=TechCorp',
+      logoFolder: 2,
       primaryColor: '#2d3748',
       secondaryColor: '#4a5568'
     }
@@ -59,9 +59,24 @@ export const AUTHORIZED_USERS: UserCredentials[] = [
     },
     clientBranding: {
       companyName: 'Global Marketing Inc',
-      logoUrl: 'https://via.placeholder.com/200x80/1a202c/ffffff?text=Global+Marketing',
+      logoFolder: 3,
       primaryColor: '#1a202c',
       secondaryColor: '#718096'
+    }
+  },
+  {
+    username: 'firestorm',
+    password: 'drone',
+    userData: {
+      username: 'Firestorm Systems',
+      rank: 'Operations Director',
+      clearance: 'TOP SECRET'
+    },
+    clientBranding: {
+      companyName: 'Firestorm',
+      logoFolder: 1,
+      primaryColor: '#1a1a1a',
+      secondaryColor: '#ff4444'
     }
   },
   {
@@ -74,7 +89,7 @@ export const AUTHORIZED_USERS: UserCredentials[] = [
     },
     clientBranding: {
       companyName: 'Defense Systems Ltd',
-      logoUrl: 'https://via.placeholder.com/200x80/2c5282/ffffff?text=Defense+Systems',
+      logoFolder: 4,
       primaryColor: '#2c5282',
       secondaryColor: '#4299e1'
     }
@@ -89,7 +104,7 @@ export const AUTHORIZED_USERS: UserCredentials[] = [
     },
     clientBranding: {
       companyName: 'Secure Solutions Corp',
-      logoUrl: 'https://via.placeholder.com/200x80/744210/ffffff?text=Secure+Solutions',
+      logoFolder: 5,
       primaryColor: '#744210',
       secondaryColor: '#d69e2e'
     }

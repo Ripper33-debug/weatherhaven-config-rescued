@@ -3,7 +3,7 @@ import { UserCredentials } from '../config/users';
 
 interface ClientBranding {
   companyName: string;
-  logoUrl: string;
+  logoFolder: number;
   primaryColor: string;
   secondaryColor: string;
   customCss?: string;
@@ -14,11 +14,12 @@ interface BrandingContextType {
   setBranding: (branding: ClientBranding | null) => void;
   applyBranding: (user: UserCredentials) => void;
   resetBranding: () => void;
+  getClientLogoUrl: (logoFolder: number) => string;
 }
 
 const defaultBranding: ClientBranding = {
   companyName: 'Weatherhaven',
-  logoUrl: 'https://weatherhaven.com/wp-content/uploads/2021/03/weatherhaven-logo-white.png',
+  logoFolder: 0,
   primaryColor: '#1a202c',
   secondaryColor: '#4a5568'
 };
@@ -39,6 +40,13 @@ interface BrandingProviderProps {
 
 export const BrandingProvider: React.FC<BrandingProviderProps> = ({ children }) => {
   const [branding, setBranding] = useState<ClientBranding | null>(null);
+
+  const getClientLogoUrl = (logoFolder: number): string => {
+    if (logoFolder === 0) {
+      return '/logos/weatherhaven-logo.svg';
+    }
+    return `/logos/clients/${logoFolder}.svg`;
+  };
 
   const applyBranding = (user: UserCredentials) => {
     if (user.clientBranding) {
@@ -97,7 +105,8 @@ export const BrandingProvider: React.FC<BrandingProviderProps> = ({ children }) 
     branding,
     setBranding,
     applyBranding,
-    resetBranding
+    resetBranding,
+    getClientLogoUrl
   };
 
   return (

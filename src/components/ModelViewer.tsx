@@ -69,12 +69,10 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
 
   useFrame((state) => {
     if (groupRef.current && isAutoRotating) {
-      // Auto-rotation for demo mode
+      // Auto-rotation only in demo mode
       groupRef.current.rotation.y += 0.01;
-    } else if (groupRef.current) {
-      // Gentle rotation when not animating
-      groupRef.current.rotation.y += 0.002;
     }
+    // No auto-rotation in normal mode - user controls only
   });
 
   // Get environment settings
@@ -265,11 +263,11 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
         enablePan={true}
         enableZoom={true}
         enableRotate={true}
-        minDistance={5}
-        maxDistance={50}
+        minDistance={6}
+        maxDistance={30}
         maxPolarAngle={Math.PI / 2}
         minPolarAngle={0}
-        target={[0, 2, 0]}
+        target={[0, 3, 0]}
         dampingFactor={0.05}
         enableDamping={true}
         rotateSpeed={0.5}

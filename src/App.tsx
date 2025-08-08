@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import LoginPage from './components/LoginPage';
 import CommandCenter from './components/CommandCenter';
 import ShelterConfigurator from './components/ShelterConfigurator';
+import { CollaborationProvider } from './components/CollaborationProvider';
 import './App.css';
 
 export interface ConfiguratorState {
@@ -64,20 +65,24 @@ function App() {
       )}
       
       {appState === 'command-center' && user && (
-        <CommandCenter 
-          user={user}
-          onLogout={handleLogout}
-          onShelterSelect={handleShelterSelect}
-        />
+        <CollaborationProvider currentUser={user}>
+          <CommandCenter 
+            user={user}
+            onLogout={handleLogout}
+            onShelterSelect={handleShelterSelect}
+          />
+        </CollaborationProvider>
       )}
       
       {appState === 'configurator' && user && selectedShelter && (
-        <ShelterConfigurator
-          user={user}
-          shelter={selectedShelter}
-          onBack={handleBackToCommandCenter}
-          onLogout={handleLogout}
-        />
+        <CollaborationProvider currentUser={user}>
+          <ShelterConfigurator
+            user={user}
+            shelter={selectedShelter}
+            onBack={handleBackToCommandCenter}
+            onLogout={handleLogout}
+          />
+        </CollaborationProvider>
       )}
     </div>
   );

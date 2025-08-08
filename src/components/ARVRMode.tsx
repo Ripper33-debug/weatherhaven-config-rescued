@@ -1,0 +1,196 @@
+import React, { useState, useEffect } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { ARButton, VRButton, XR, Interactive } from '@react-three/xr';
+import { OrbitControls, Environment } from '@react-three/drei';
+import { ConfiguratorState } from './ShelterConfigurator';
+import { Shelter } from '../App';
+import ModelViewer from './ModelViewer';
+
+interface ARVRModeProps {
+  configState: ConfiguratorState;
+  shelter: Shelter;
+  onModelLoaded: () => void;
+  onExit: () => void;
+}
+
+type ViewMode = 'ar' | 'vr' | '360' | 'walkthrough';
+
+const ARVRMode: React.FC<ARVRModeProps> = ({ 
+  configState, 
+  shelter, 
+  onModelLoaded, 
+  onExit 
+}) => {
+  const [viewMode, setViewMode] = useState<ViewMode>('360');
+  const [isARSupported, setIsARSupported] = useState(false);
+  const [isVRSupported, setIsVRSupported] = useState(false);
+  const [cameraPosition, setCameraPosition] = useState({ x: 0, y: 2, z: 10 });
+
+  useEffect(() => {
+    // Check for AR/VR support
+    if (navigator.xr) {
+      navigator.xr.isSessionSupported('immersive-ar').then(setIsARSupported);
+      navigator.xr.isSessionSupported('immersive-vr').then(setIsVRSupported);
+    }
+  }, []);
+
+  const handleViewModeChange = (mode: ViewMode) => {
+    setViewMode(mode);
+    
+    // Adjust camera position based on mode
+    switch (mode) {
+      case 'ar':
+        setCameraPosition({ x: 0, y: 1.7, z: 5 }); // Human eye level
+        break;
+      case 'vr':
+        setCameraPosition({ x: 0, y: 1.7, z: 8 }); // VR viewing distance
+        break;
+      case '360':
+        setCameraPosition({ x: 0, y: 3, z: 15 }); // Overview distance
+        break;
+      case 'walkthrough':
+        setCameraPosition({ x: 0, y: 1.7, z: 3 }); // Close-up walkthrough
+        break;
+    }
+  };
+
+  const renderControls = () => (
+    <div className="arvr-controls">
+      <div className="mode-selector">
+        <button 
+          className={`mode-button ${viewMode === '360' ? 'active' : ''}`}
+          onClick={() => handleViewModeChange('360')}
+        >
+          <span className="icon-360"></span>
+          360° View
+        </button>
+        
+        <button 
+          className={`mode-button ${viewMode === 'walkthrough' ? 'active' : ''}`}
+          onClick={() => handleViewModeChange('walkthrough')}
+        >
+          <span className="icon-walkthrough"></span>
+          Walkthrough
+        </button>
+        
+        {isARSupported && (
+          <button 
+            className={`mode-button ${viewMode === 'ar' ? 'active' : ''}`}
+            onClick={() => handleViewModeChange('ar')}
+          >
+            <span className="icon-ar"></span>
+            AR Mode
+          </button>
+        )}
+        
+        {isVRSupported && (
+          <button 
+            className={`mode-button ${viewMode === 'vr' ? 'active' : ''}`}
+            onClick={() => handleViewModeChange('vr')}
+          >
+            <span className="icon-vr"></span>
+            VR Mode
+          </button>
+        )}
+      </div>
+      
+      <div className="camera-controls">
+        <button 
+          className="camera-preset"
+          onClick={() => setCameraPosition({ x: 0, y: 2, z: 10 })}
+        >
+          Front View
+        </button>
+        <button 
+          className="camera-preset"
+          onClick={() => setCameraPosition({ x: 10, y: 2, z: 0 })}
+        >
+          Side View
+        </button>
+        <button 
+          className="camera-preset"
+          onClick={() => setCameraPosition({ x: 0, y: 10, z: 0 })}
+        >
+          Top View
+        </button>
+        <button 
+          className="camera-preset"
+          onClick={() => setCameraPosition({ x: 0, y: 1.7, z: 3 })}
+        >
+          Interior
+        </button>
+      </div>
+      
+      <button className="exit-button" onClick={onExit}>
+        <span className="icon-exit"></span>
+        Exit AR/VR
+      </button>
+    </div>
+  );
+
+  const renderARVRScene = () => (
+    <Canvas
+      camera={{ 
+        position: [cameraPosition.x, cameraPosition.y, cameraPosition.z],
+        fov: viewMode === 'walkthrough' ? 75 : 60
+      }}
+      shadows
+    >
+      {viewMode === 'ar' && <ARButton />}
+      {viewMode === 'vr' && <VRButton />}
+      
+      <XR>
+        <ModelViewer
+          configState={configState}
+          onModelLoaded={onModelLoaded}
+          shelter={shelter}
+        />
+        
+        {viewMode === 'walkthrough' && (
+          <Interactive onSelect={() => console.log('Object selected')}>
+            <mesh position={[0, 0, 0]}>
+              <boxGeometry args={[0.1, 0.1, 0.1]} />
+              <meshStandardMaterial color="red" />
+            </mesh>
+          </Interactive>
+        )}
+      </XR>
+    </Canvas>
+  );
+
+  return (
+    <div className="arvr-container">
+      <div className="arvr-header">
+        <h2>AR/VR Mode - {shelter.name}</h2>
+        <p>Experience the shelter in immersive 3D</p>
+      </div>
+      
+      {renderControls()}
+      
+      <div className="arvr-viewport">
+        {renderARVRScene()}
+      </div>
+      
+      <div className="arvr-info">
+        <div className="info-panel">
+          <h3>Controls</h3>
+          <ul>
+            <li><strong>Mouse:</strong> Rotate, zoom, pan</li>
+            <li><strong>WASD:</strong> Walk around (walkthrough mode)</li>
+            <li><strong>Space:</strong> Jump (walkthrough mode)</li>
+            <li><strong>VR Controllers:</strong> Full VR interaction</li>
+          </ul>
+        </div>
+        
+        <div className="info-panel">
+          <h3>Current Mode</h3>
+          <p>{viewMode.toUpperCase()} - {viewMode === 'ar' ? 'Augmented Reality' : 
+             viewMode === 'vr' ? 'Virtual Reality' : 
+             viewMode === '360' ? '360° Rotation' : 'Walkthrough Mode'}</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ARVRMode;

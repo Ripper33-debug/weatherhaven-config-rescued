@@ -5,6 +5,8 @@ import { User, Shelter } from '../App';
 import ModelViewer from './ModelViewer';
 import Controls from './Controls';
 import LoadingSpinner from './LoadingSpinner';
+import ARVRMode from './ARVRMode';
+import { useCollaboration } from './CollaborationProvider';
 
 interface ShelterConfiguratorProps {
   user: User;
@@ -33,6 +35,12 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
     isLoading: true,
   });
 
+  const [isARVRMode, setIsARVRMode] = useState(false);
+  const [showCollaboration, setShowCollaboration] = useState(false);
+  
+  // Collaboration context
+  const collaboration = useCollaboration();
+
   const handleToggleDeploy = () => {
     setConfigState(prev => ({ ...prev, isDeployed: !prev.isDeployed }));
   };
@@ -48,6 +56,36 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   const handleModelLoaded = () => {
     setConfigState(prev => ({ ...prev, isLoading: false }));
   };
+
+  const handleARVRMode = () => {
+    setIsARVRMode(true);
+  };
+
+  const handleExitARVR = () => {
+    setIsARVRMode(false);
+  };
+
+  const handleCollaborationToggle = () => {
+    if (collaboration.isCollaborating) {
+      collaboration.leaveSession();
+    } else {
+      const sessionId = prompt('Enter session ID to join (or leave empty to create new):') || 
+                       Math.random().toString(36).substring(2, 15);
+      collaboration.joinSession(sessionId);
+    }
+  };
+
+  // If in AR/VR mode, render the AR/VR component
+  if (isARVRMode) {
+    return (
+      <ARVRMode
+        configState={configState}
+        shelter={shelter}
+        onModelLoaded={handleModelLoaded}
+        onExit={handleExitARVR}
+      />
+    );
+  }
 
   return (
     <div className="configurator-container">
@@ -75,6 +113,70 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
           </button>
         </div>
       </header>
+
+      {/* Collaboration Panel */}
+      {showCollaboration && (
+        <div className="collaboration-panel">
+          <div className="collaboration-header">
+            <h3>Live Collaboration</h3>
+            <div className="collaboration-status">
+              <div className={`status-indicator ${collaboration.isCollaborating ? '' : 'offline'}`}></div>
+              {collaboration.isCollaborating ? 'Connected' : 'Offline'}
+            </div>
+          </div>
+          
+          {collaboration.isCollaborating && (
+            <>
+              <div className="active-users">
+                <h4>Active Users ({collaboration.activeUsers.length})</h4>
+                {collaboration.activeUsers.map((user) => (
+                  <div key={user.id} className="user-item">
+                    <div className="user-avatar">
+                      {user.user.username.charAt(0).toUpperCase()}
+                    </div>
+                    <div className="user-info">
+                      <div className="user-name">{user.user.username}</div>
+                      <div className="user-rank">{user.user.rank}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              <div className="collaboration-controls">
+                <button 
+                  className="collab-button"
+                  onClick={() => collaboration.shareConfiguration(configState)}
+                >
+                  Share Config
+                </button>
+                <button 
+                  className="collab-button"
+                  onClick={() => setShowCollaboration(false)}
+                >
+                  Hide Panel
+                </button>
+              </div>
+            </>
+          )}
+          
+          {!collaboration.isCollaborating && (
+            <div className="collaboration-controls">
+              <button 
+                className="collab-button"
+                onClick={handleCollaborationToggle}
+              >
+                Start Session
+              </button>
+              <button 
+                className="collab-button"
+                onClick={() => setShowCollaboration(false)}
+              >
+                Hide Panel
+              </button>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* 3D Canvas */}
       <div className="canvas-container">
@@ -108,6 +210,31 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
         onColorChange={handleColorChange}
         shelter={shelter}
       />
+
+      {/* Advanced Controls */}
+      <div className="advanced-controls">
+        <button 
+          className="advanced-button"
+          onClick={handleARVRMode}
+        >
+          <span className="icon-vr"></span>
+          AR/VR Mode
+        </button>
+        
+        <button 
+          className={`advanced-button ${showCollaboration ? 'active' : ''}`}
+          onClick={() => setShowCollaboration(!showCollaboration)}
+        >
+          <span className="icon-collaboration"></span>
+          Collaboration
+        </button>
+        
+        {collaboration.isCollaborating && (
+          <div className="session-info">
+            Session: {collaboration.sessionId}
+          </div>
+        )}
+      </div>
 
       {/* Footer */}
       <footer className="configurator-footer">

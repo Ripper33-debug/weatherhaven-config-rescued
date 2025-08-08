@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { User, Shelter, ShelterConfiguration } from '../App';
 import DualLogoHeader from './DualLogoHeader';
+import BreadcrumbNav from './BreadcrumbNav';
+import EnhancedSearch from './EnhancedSearch';
 import './CommandCenter.css';
 
 interface CommandCenterProps {
@@ -450,29 +452,23 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
         </div>
       </header>
 
+      {/* Breadcrumb Navigation */}
+      <BreadcrumbNav 
+        items={[
+          { label: 'Command Center', path: '/command-center' }
+        ]} 
+      />
+
       {/* Main content */}
       <div className="command-content">
         {/* Search and filters */}
         <div className="search-section">
-          <div className="search-bar">
-            <input
-              type="text"
-              placeholder="Search shelters... (Ctrl+K to focus)"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="search-input"
-            />
-            <span className="search-icon"></span>
-            {searchTerm && (
-              <button 
-                className="clear-search"
-                onClick={() => setSearchTerm('')}
-                title="Clear search"
-              >
-                ×
-              </button>
-            )}
-          </div>
+          <EnhancedSearch
+            searchTerm={searchTerm}
+            onSearchChange={setSearchTerm}
+            shelters={shelters}
+            onShelterSelect={onShelterSelect}
+          />
           
           <div className="category-filters">
             {categories.map(category => (

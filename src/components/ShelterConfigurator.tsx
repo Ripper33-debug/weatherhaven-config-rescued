@@ -9,6 +9,7 @@ import LoadingSpinner from './LoadingSpinner';
 import ARVRMode from './ARVRMode';
 import DemoMode from './DemoMode';
 import { useCollaboration } from './CollaborationProvider';
+import BreadcrumbNav from './BreadcrumbNav';
 import './CommandCenter.css';
 
 interface ShelterConfiguratorProps {
@@ -154,6 +155,21 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
           </button>
         </div>
       </header>
+
+      {/* Breadcrumb Navigation */}
+      <BreadcrumbNav 
+        items={[
+          { 
+            label: 'Command Center', 
+            path: '/command-center',
+            onClick: onBack
+          },
+          { 
+            label: shelter.name, 
+            path: `/configurator/${shelter.id}` 
+          }
+        ]} 
+      />
 
       {/* Configuration Selection */}
       {shelter.configurations && shelter.configurations.length > 0 && (

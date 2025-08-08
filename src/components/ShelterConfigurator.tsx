@@ -273,7 +273,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
       {/* 3D Canvas */}
       <div className="canvas-container">
         <Canvas
-          camera={{ position: [0, 0.5, 6], fov: 50 }}
+          camera={{ position: [0, 0.2, 6], fov: 50 }}
           gl={{ antialias: true, alpha: true }}
           dpr={[1, 2]}
         >

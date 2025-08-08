@@ -43,6 +43,11 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
     }
   }, [scene, modelLoaded, onModelLoaded]);
 
+  // Reset model loaded state when model path changes
+  useEffect(() => {
+    setModelLoaded(false);
+  }, [modelPath]);
+
   // Animation removed since we're using GLB models now
 
   // Animation code removed since we're using GLB models now
@@ -189,6 +194,16 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
           scale={[1, 1, 1]}
           rotation={[0, 0, 0]}
         />
+        
+        {/* Color overlay for GLB models */}
+        <mesh position={[0, 0, 0]} visible={false}>
+          <boxGeometry args={[20, 20, 20]} />
+          <meshStandardMaterial 
+            color={configState.color}
+            transparent
+            opacity={0.1}
+          />
+        </mesh>
         
         {/* Add ambient lighting to prevent black appearance */}
         <ambientLight intensity={0.8} />

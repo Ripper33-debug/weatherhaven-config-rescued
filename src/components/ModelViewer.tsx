@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { useFrame } from '@react-three/fiber';
-import { OrbitControls, Environment, useGLTF } from '@react-three/drei';
-import { Group } from 'three';
+import { useFrame, useThree } from '@react-three/fiber';
+import { OrbitControls, Environment, useGLTF, ContactShadows } from '@react-three/drei';
+import { Box3, Group, Vector3 } from 'three';
 import { ConfiguratorState } from './ShelterConfigurator';
 import { Shelter } from '../App';
 
@@ -29,7 +29,10 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
   showParticles = false
 }) => {
   const groupRef = useRef<Group>(null);
+  const controlsRef = useRef<any>(null);
   const [modelLoaded, setModelLoaded] = useState(false);
+  const { camera } = useThree();
+  const [controlsTarget, setControlsTarget] = useState<[number, number, number]>([0, 0.2, 0]);
   
   // Load the GLB model based on deployment state
   const modelPath = configState.isDeployed ? '/models/trecc-open.glb' : '/models/trecc.glb';
@@ -51,6 +54,26 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
   // Fix material lighting when model loads
   useEffect(() => {
     if (scene && modelLoaded) {
+      // Auto-frame model and center controls target
+      const box = new Box3().setFromObject(scene);
+      const center = new Vector3();
+      const size = new Vector3();
+      box.getCenter(center);
+      box.getSize(size);
+      const maxSize = Math.max(size.x, size.y, size.z);
+      const fitHeightDistance = maxSize / (2 * Math.tan((camera.fov * Math.PI) / 360));
+      const fitWidthDistance = fitHeightDistance / camera.aspect;
+      const distance = 1.2 * Math.max(fitHeightDistance, fitWidthDistance);
+      camera.position.set(center.x, center.y + size.y * 0.1, center.z + distance);
+      setControlsTarget([center.x, center.y, center.z]);
+      camera.near = Math.max(0.1, maxSize / 100);
+      camera.far = Math.max(100, maxSize * 100);
+      camera.updateProjectionMatrix();
+      if (controlsRef.current) {
+        controlsRef.current.target.set(center.x, center.y, center.z);
+        controlsRef.current.update();
+      }
+
       scene.traverse((child: any) => {
         if (child.isMesh && child.material) {
           // Ensure materials are properly lit
@@ -258,11 +281,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
           />
         </mesh>
         
-        {/* Enhanced lighting for GLB models */}
-        <ambientLight intensity={1.2} />
-        <directionalLight position={[5, 5, 5]} intensity={1.5} />
-        <directionalLight position={[-5, 5, -5]} intensity={0.8} />
-        <pointLight position={[0, 10, 0]} intensity={0.5} />
+        {/* Per-model lighting removed to avoid overexposure (we light globally below) */}
         
         {/* Scale indicators */}
         {showScale && (
@@ -287,11 +306,10 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
   return (
     <>
       {/* Enhanced Lighting */}
-      <color attach="background" args={[envSettings.skyColor]} />
-      <ambientLight intensity={Math.max(envSettings.ambientIntensity, 0.8)} />
+      <ambientLight intensity={envSettings.ambientIntensity} />
       <directionalLight
         position={[10, 10, 5]}
-        intensity={Math.max(envSettings.directionalIntensity, 1.2)}
+        intensity={envSettings.directionalIntensity}
         castShadow
         shadow-mapSize-width={2048}
         shadow-mapSize-height={2048}
@@ -301,16 +319,12 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
         shadow-camera-top={10}
         shadow-camera-bottom={-10}
       />
-      <directionalLight
-        position={[-10, 10, -5]}
-        intensity={0.8}
-      />
-      <pointLight position={[-10, -10, -10]} intensity={0.5} />
-      <pointLight position={[10, -10, 10]} intensity={0.5} />
-      <pointLight position={[0, 15, 0]} intensity={0.3} />
+      
+      {/* Contact shadows for realism */}
+      <ContactShadows position={[0, -0.1, 0]} opacity={0.45} scale={50} blur={2.5} far={20} />
 
-      {/* Environment */}
-      <Environment preset={envSettings.environmentPreset} />
+      {/* Environment with realistic background */}
+      <Environment preset="warehouse" background />
 
       {/* Ground plane */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.1, 0]} receiveShadow>
@@ -323,6 +337,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
 
       {/* Enhanced Controls */}
       <OrbitControls
+        ref={controlsRef}
         enablePan={true}
         enableZoom={true}
         enableRotate={true}
@@ -330,7 +345,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
         maxDistance={20}
         maxPolarAngle={Math.PI / 2}
         minPolarAngle={0}
-        target={[0, 0.2, 0]}
+        target={controlsTarget}
         dampingFactor={0.05}
         enableDamping={true}
         rotateSpeed={0.5}

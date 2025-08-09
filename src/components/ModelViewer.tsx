@@ -63,6 +63,19 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
                   mat.emissive.setRGB(0, 0, 0);
                 }
                 mat.emissiveIntensity = 0;
+                // Improve PBR defaults if missing
+                if (typeof mat.roughness === 'number') mat.roughness = 0.8;
+                if (typeof mat.metalness === 'number') mat.metalness = 0.1;
+                // If no texture/baseColor, set to tan
+                if (!mat.map && !mat.color) {
+                  mat.color = { r: 0.823, g: 0.706, b: 0.549 };
+                } else if (mat.color) {
+                  // Slightly bias toward tan if very dark
+                  const avg = (mat.color.r + mat.color.g + mat.color.b) / 3;
+                  if (avg < 0.2) {
+                    mat.color.setRGB(0.823, 0.706, 0.549);
+                  }
+                }
               }
             });
           } else {
@@ -72,6 +85,16 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
               child.material.emissive.setRGB(0, 0, 0);
             }
             child.material.emissiveIntensity = 0;
+            if (typeof child.material.roughness === 'number') child.material.roughness = 0.8;
+            if (typeof child.material.metalness === 'number') child.material.metalness = 0.1;
+            if (!child.material.map && !child.material.color) {
+              child.material.color = { r: 0.823, g: 0.706, b: 0.549 };
+            } else if (child.material.color) {
+              const avg = (child.material.color.r + child.material.color.g + child.material.color.b) / 3;
+              if (avg < 0.2) {
+                child.material.color.setRGB(0.823, 0.706, 0.549);
+              }
+            }
           }
         }
       });

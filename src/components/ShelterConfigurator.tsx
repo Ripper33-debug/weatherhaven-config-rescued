@@ -39,7 +39,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   const [configState, setConfigState] = useState<ConfiguratorState>({
     isDeployed: true,
     isInsideView: false,
-    color: '#4A5568',
+    color: '#d2b48c',
     isLoading: true,
     selectedInterior: undefined,
   });

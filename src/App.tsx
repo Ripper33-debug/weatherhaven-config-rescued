@@ -56,8 +56,6 @@ export interface ShelterConfiguration {
   interiorPath?: string;
 }
 
-type AppState = 'login' | 'home' | 'command-center' | 'product' | 'configurator';
-
 function App() {
   const [user, setUser] = useState<User | null>(null);
   const [selectedShelter, setSelectedShelter] = useState<Shelter | null>(null);

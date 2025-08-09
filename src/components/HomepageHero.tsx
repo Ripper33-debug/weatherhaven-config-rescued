@@ -18,7 +18,9 @@ const HomepageHero: React.FC<{ onStartConfigure?: () => void }> = ({ onStartConf
         Weatherhaven delivers rapidly deployable shelter systems for defense, humanitarian, and commercial operations. Explore our portfolio and configure a solution in real time.
       </p>
       <div style={{ marginTop: 24, display: 'flex', gap: 12 }}>
-        <button className="configure-button" onClick={onStartConfigure}>Start Configuring</button>
+        {onStartConfigure && (
+          <button className="configure-button" onClick={onStartConfigure}>Start Configuring</button>
+        )}
         <a className="configure-button" href="#products">Explore Products</a>
       </div>
     </section>

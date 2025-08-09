@@ -59,40 +59,35 @@ export interface ShelterConfiguration {
 type AppState = 'login' | 'home' | 'command-center' | 'product' | 'configurator';
 
 function App() {
-  const [appState, setAppState] = useState<AppState>('login');
   const [user, setUser] = useState<User | null>(null);
   const [selectedShelter, setSelectedShelter] = useState<Shelter | null>(null);
   const [selectedConfiguration, setSelectedConfiguration] = useState<ShelterConfiguration | undefined>(undefined);
 
   const handleLogin = (userData: User) => {
     setUser(userData);
-    setAppState('home');
   };
 
   const handleLogout = () => {
     setUser(null);
     setSelectedShelter(null);
-    setAppState('login');
   };
 
   const handleShelterSelect = (shelter: Shelter, configuration?: ShelterConfiguration) => {
     setSelectedShelter(shelter);
     setSelectedConfiguration(configuration || undefined);
-    setAppState('product');
   };
 
   const handleBackToCommandCenter = () => {
-    setAppState('command-center');
     setSelectedConfiguration(undefined);
   };
 
   return (
     <BrowserRouter>
       <div className="app-container">
-        <SiteHeader isAuthenticated={!!user} onLoginClick={() => setAppState('login')} onLogoutClick={handleLogout} />
+        <SiteHeader isAuthenticated={!!user} onLogoutClick={handleLogout} />
         <Routes>
           <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
-          <Route path="/" element={user ? <HomepageHero onStartConfigure={() => setAppState('command-center')} /> : <Navigate to="/login" replace />} />
+          <Route path="/" element={user ? <HomepageHero /> : <Navigate to="/login" replace />} />
           {/* Static page placeholders to mirror weatherhaven.com IA */}
           <Route path="/solutions" element={<StaticPage title="Solutions" />} />
           <Route path="/products" element={<StaticPage title="Products" />} />

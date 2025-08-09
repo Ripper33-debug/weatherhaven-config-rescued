@@ -2,7 +2,6 @@ import React from 'react';
 
 interface SiteHeaderProps {
   isAuthenticated: boolean;
-  onLoginClick: () => void;
   onLogoutClick: () => void;
 }
 
@@ -35,10 +34,8 @@ const SiteHeader: React.FC<SiteHeaderProps> = ({ isAuthenticated, onLoginClick, 
         <a href="/configurator" style={{ ...linkStyle, fontWeight: 600 }}>Configurator</a>
       </nav>
       <div>
-        {isAuthenticated ? (
+        {isAuthenticated && (
           <button onClick={onLogoutClick} className="configure-button">Logout</button>
-        ) : (
-          <button onClick={onLoginClick} className="configure-button">Login</button>
         )}
       </div>
     </header>

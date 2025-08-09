@@ -13,7 +13,7 @@ const navStyle: React.CSSProperties = {
 
 const linkStyle: React.CSSProperties = { color: 'white', textDecoration: 'none', opacity: 0.9 };
 
-const SiteHeader: React.FC<SiteHeaderProps> = ({ isAuthenticated, onLoginClick, onLogoutClick }) => {
+const SiteHeader: React.FC<SiteHeaderProps> = ({ isAuthenticated, onLogoutClick }) => {
   return (
     <header style={{
       position: 'sticky', top: 0, zIndex: 40,

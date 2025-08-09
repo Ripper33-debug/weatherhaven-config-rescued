@@ -102,7 +102,7 @@ function App() {
             </CollaborationProvider>
           ) : <Navigate to="/login" replace />} />
           <Route path="/product" element={user && selectedShelter ? (
-            <ProductDetailPage shelter={selectedShelter} onConfigure={() => setAppState('configurator')} />
+            <ProductDetailPage shelter={selectedShelter} />
           ) : <Navigate to="/command-center" replace />} />
           <Route path="/configurator" element={user && selectedShelter ? (
             <CollaborationProvider currentUser={user}>

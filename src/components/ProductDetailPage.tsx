@@ -3,7 +3,7 @@ import { Shelter } from '../App';
 
 interface ProductDetailPageProps {
   shelter: Shelter;
-  onConfigure: () => void;
+  onConfigure?: () => void;
 }
 
 const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ shelter, onConfigure }) => {
@@ -11,7 +11,11 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ shelter, onConfig
     <div style={{ color: 'white', background: '#0b1220', minHeight: '100vh', padding: 32 }}>
       <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h1>{shelter.name}</h1>
-        <button className="configure-button" onClick={onConfigure}>Configure</button>
+        {onConfigure ? (
+          <button className="configure-button" onClick={onConfigure}>Configure</button>
+        ) : (
+          <a href="/configurator" className="configure-button">Configure</a>
+        )}
       </header>
       <p style={{ opacity: 0.8, marginTop: 8 }}>{shelter.model}</p>
       <div style={{ marginTop: 24 }}>

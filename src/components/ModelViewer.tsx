@@ -133,7 +133,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
         }
       });
     }
-  }, [scene, modelLoaded]);
+  }, [scene, modelLoaded, camera]);
 
   // Animation removed since we're using GLB models now
 

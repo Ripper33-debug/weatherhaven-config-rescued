@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
+import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import LoginPage from './components/LoginPage';
+import HomepageHero from './components/HomepageHero';
+import ProductDetailPage from './components/ProductDetailPage';
 import CommandCenter from './components/CommandCenter';
 import ShelterConfigurator from './components/ShelterConfigurator';
 import { CollaborationProvider } from './components/CollaborationProvider';
@@ -51,7 +54,7 @@ export interface ShelterConfiguration {
   interiorPath?: string;
 }
 
-type AppState = 'login' | 'command-center' | 'configurator';
+type AppState = 'login' | 'home' | 'command-center' | 'product' | 'configurator';
 
 function App() {
   const [appState, setAppState] = useState<AppState>('login');
@@ -61,7 +64,7 @@ function App() {
 
   const handleLogin = (userData: User) => {
     setUser(userData);
-    setAppState('command-center');
+    setAppState('home');
   };
 
   const handleLogout = () => {
@@ -73,7 +76,7 @@ function App() {
   const handleShelterSelect = (shelter: Shelter, configuration?: ShelterConfiguration) => {
     setSelectedShelter(shelter);
     setSelectedConfiguration(configuration || undefined);
-    setAppState('configurator');
+    setAppState('product');
   };
 
   const handleBackToCommandCenter = () => {
@@ -82,33 +85,34 @@ function App() {
   };
 
   return (
-    <div className="app-container">
-      {appState === 'login' && (
-        <LoginPage onLogin={handleLogin} />
-      )}
-      
-      {appState === 'command-center' && user && (
-        <CollaborationProvider currentUser={user}>
-          <CommandCenter 
-            user={user}
-            onLogout={handleLogout}
-            onShelterSelect={handleShelterSelect}
-          />
-        </CollaborationProvider>
-      )}
-      
-      {appState === 'configurator' && user && selectedShelter && (
-        <CollaborationProvider currentUser={user}>
-          <ShelterConfigurator
-            user={user}
-            shelter={selectedShelter}
-            selectedConfiguration={selectedConfiguration}
-            onBack={handleBackToCommandCenter}
-            onLogout={handleLogout}
-          />
-        </CollaborationProvider>
-      )}
-    </div>
+    <BrowserRouter>
+      <div className="app-container">
+        <Routes>
+          <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
+          <Route path="/" element={user ? <HomepageHero onStartConfigure={() => setAppState('command-center')} /> : <Navigate to="/login" replace />} />
+          <Route path="/command-center" element={user ? (
+            <CollaborationProvider currentUser={user}>
+              <CommandCenter user={user} onLogout={handleLogout} onShelterSelect={handleShelterSelect} />
+            </CollaborationProvider>
+          ) : <Navigate to="/login" replace />} />
+          <Route path="/product" element={user && selectedShelter ? (
+            <ProductDetailPage shelter={selectedShelter} onConfigure={() => setAppState('configurator')} />
+          ) : <Navigate to="/command-center" replace />} />
+          <Route path="/configurator" element={user && selectedShelter ? (
+            <CollaborationProvider currentUser={user}>
+              <ShelterConfigurator
+                user={user}
+                shelter={selectedShelter}
+                selectedConfiguration={selectedConfiguration}
+                onBack={handleBackToCommandCenter}
+                onLogout={handleLogout}
+              />
+            </CollaborationProvider>
+          ) : <Navigate to="/command-center" replace />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 

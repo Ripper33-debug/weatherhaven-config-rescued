@@ -52,6 +52,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   const [showCollaboration, setShowCollaboration] = useState(false);
   const [showLeadTimeCalculator, setShowLeadTimeCalculator] = useState(false);
   const [showScale, setShowScale] = useState(false);
+  const [environment, setEnvironment] = useState<'day' | 'night' | 'desert' | 'arctic' | 'jungle'>('day');
   
   // Collaboration context
   const collaboration = useCollaboration();
@@ -284,6 +285,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               onModelLoaded={handleModelLoaded}
               shelter={shelter}
               showScale={showScale}
+              environment={environment}
             />
           </Suspense>
         </Canvas>
@@ -310,6 +312,21 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
 
       {/* Advanced Controls */}
       <div className="advanced-controls">
+        <div className="environment-control">
+          <label className="env-label">Environment</label>
+          <select
+            className="configuration-dropdown"
+            value={environment}
+            onChange={(e) => setEnvironment(e.target.value as any)}
+            aria-label="Environment"
+          >
+            <option value="day">Day</option>
+            <option value="night">Night</option>
+            <option value="desert">Desert</option>
+            <option value="arctic">Arctic</option>
+            <option value="jungle">Jungle</option>
+          </select>
+        </div>
         <button 
           className="advanced-button"
           onClick={handleDemoMode}

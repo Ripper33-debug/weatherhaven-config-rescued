@@ -85,7 +85,7 @@ function App() {
         <SiteHeader isAuthenticated={!!user} onLogoutClick={handleLogout} />
         <Routes>
           <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
-          <Route path="/" element={user ? <HomepageHero /> : <Navigate to="/login" replace />} />
+          <Route path="/" element={<HomepageHero />} />
           {/* Static page placeholders to mirror weatherhaven.com IA */}
           <Route path="/solutions" element={<StaticPage title="Solutions" />} />
           <Route path="/products" element={<StaticPage title="Products" />} />
@@ -102,17 +102,19 @@ function App() {
           <Route path="/product" element={user && selectedShelter ? (
             <ProductDetailPage shelter={selectedShelter} />
           ) : <Navigate to="/command-center" replace />} />
-          <Route path="/configurator" element={user && selectedShelter ? (
-            <CollaborationProvider currentUser={user}>
-              <ShelterConfigurator
-                user={user}
-                shelter={selectedShelter}
-                selectedConfiguration={selectedConfiguration}
-                onBack={handleBackToCommandCenter}
-                onLogout={handleLogout}
-              />
-            </CollaborationProvider>
-          ) : <Navigate to="/command-center" replace />} />
+          <Route path="/configurator" element={user ? (
+            selectedShelter ? (
+              <CollaborationProvider currentUser={user}>
+                <ShelterConfigurator
+                  user={user}
+                  shelter={selectedShelter}
+                  selectedConfiguration={selectedConfiguration}
+                  onBack={handleBackToCommandCenter}
+                  onLogout={handleLogout}
+                />
+              </CollaborationProvider>
+            ) : <Navigate to="/command-center" replace />
+          ) : <Navigate to="/login" replace />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>

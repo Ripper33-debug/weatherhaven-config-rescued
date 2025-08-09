@@ -287,6 +287,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
   return (
     <>
       {/* Enhanced Lighting */}
+      <color attach="background" args={[envSettings.skyColor]} />
       <ambientLight intensity={Math.max(envSettings.ambientIntensity, 0.8)} />
       <directionalLight
         position={[10, 10, 5]}

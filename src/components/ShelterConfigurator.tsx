@@ -274,8 +274,9 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
       <div className="canvas-container">
         <Canvas
           camera={{ position: [0, 0.2, 6], fov: 50 }}
-          gl={{ antialias: true, alpha: true }}
+          gl={{ antialias: true, alpha: false }}
           dpr={[1, 2]}
+          shadows
         >
           <Suspense fallback={null}>
             <ModelViewer

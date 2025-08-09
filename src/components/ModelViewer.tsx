@@ -85,53 +85,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
         controlsRef.current.update();
       }
 
-      scene.traverse((child: any) => {
-        if (child.isMesh && child.material) {
-          // Ensure materials are properly lit
-          if (Array.isArray(child.material)) {
-            child.material.forEach((mat: any) => {
-              if (mat) {
-                mat.needsUpdate = true;
-                // Remove any emissive properties that might make it black
-                if (mat.emissive) {
-                  mat.emissive.setRGB(0, 0, 0);
-                }
-                mat.emissiveIntensity = 0;
-                // Improve PBR defaults if missing
-                if (typeof mat.roughness === 'number') mat.roughness = Math.min(0.9, Math.max(0.5, mat.roughness ?? 0.8));
-                if (typeof mat.metalness === 'number') mat.metalness = Math.min(0.2, Math.max(0.0, mat.metalness ?? 0.05));
-                // If no texture/baseColor, set to tan
-                if (!mat.map && !mat.color) {
-                  mat.color = { r: 0.823, g: 0.706, b: 0.549 };
-                } else if (mat.color) {
-                  // Slightly bias toward tan if very dark
-                  const avg = (mat.color.r + mat.color.g + mat.color.b) / 3;
-                  if (avg < 0.25) {
-                    mat.color.setRGB(0.823, 0.706, 0.549);
-                  }
-                }
-              }
-            });
-          } else {
-            child.material.needsUpdate = true;
-            // Remove any emissive properties that might make it black
-            if (child.material.emissive) {
-              child.material.emissive.setRGB(0, 0, 0);
-            }
-            child.material.emissiveIntensity = 0;
-            if (typeof child.material.roughness === 'number') child.material.roughness = Math.min(0.9, Math.max(0.5, child.material.roughness ?? 0.8));
-            if (typeof child.material.metalness === 'number') child.material.metalness = Math.min(0.2, Math.max(0.0, child.material.metalness ?? 0.05));
-            if (!child.material.map && !child.material.color) {
-              child.material.color = { r: 0.823, g: 0.706, b: 0.549 };
-            } else if (child.material.color) {
-              const avg = (child.material.color.r + child.material.color.g + child.material.color.b) / 3;
-              if (avg < 0.25) {
-                child.material.color.setRGB(0.823, 0.706, 0.549);
-              }
-            }
-          }
-        }
-      });
+      // Preserve original GLTF materials/colors; avoid overriding
     }
   }, [scene, modelLoaded, camera]);
 
@@ -335,8 +289,8 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
       <ContactShadows position={[0, -0.095, 0]} opacity={0.5} scale={60} blur={2.2} far={25} />
 
       {/* Realistic procedural sky and environment matching selected mode */}
-      <Sky sunPosition={[100, 20, 100]} turbidity={6} rayleigh={1.5} mieCoefficient={0.005} mieDirectionalG={0.8} inclination={0.49} />
-      <Environment preset={envSettings.environmentPreset} />
+      <Sky sunPosition={[100, 20, 100]} turbidity={6} rayleigh={1.5} mieCoefficient={0.005} mieDirectionalG={0.8} />
+      <Environment preset={envSettings.environmentPreset} background={false} />
 
       {/* Ground plane with subtle roughness */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.1, 0]} receiveShadow>

@@ -18,8 +18,9 @@ interface LeadTimeCalculatorProps {
 }
 
 // Base lead times by shelter type (in days)
+// Throughput: 2 units every 14 days => 7 days per unit baseline
 const baseLeadTimes = {
-  trecc: { production: 14, shipping: 7, customs: 3 },
+  trecc: { production: 7, shipping: 7, customs: 3 },
   hercon: { production: 21, shipping: 10, customs: 5 },
   mts: { production: 18, shipping: 8, customs: 4 },
   series: { production: 12, shipping: 6, customs: 2 },
@@ -42,10 +43,11 @@ const locationModifiers = {
 };
 
 // Priority modifiers
+// Rush: +30% price, Emergency: +50% price
 const priorityModifiers = {
   standard: { production: 1, cost: 0 },
-  rush: { production: 0.6, cost: 25 },
-  emergency: { production: 0.4, cost: 50 }
+  rush: { production: 0.7, cost: 30 },
+  emergency: { production: 0.5, cost: 50 }
 };
 
 const LeadTimeCalculator: React.FC<LeadTimeCalculatorProps> = ({
@@ -68,10 +70,12 @@ const LeadTimeCalculator: React.FC<LeadTimeCalculatorProps> = ({
     const locationMod = locationModifiers[location as keyof typeof locationModifiers] || locationModifiers.US;
     const priorityMod = priorityModifiers[priority];
 
-    // Quantity modifier (bulk orders get slight discount on production time)
-    const quantityModifier = quantity > 5 ? 0.9 : quantity > 2 ? 0.95 : 1;
-
-    const productionTime = Math.ceil(baseTimes.production * priorityMod.production * quantityModifier);
+    // Quantity throughput: 2 units per 14 days (7 days per unit)
+    const unitsPerBatch = 2;
+    const daysPerBatch = 14;
+    const batches = Math.ceil(quantity / unitsPerBatch);
+    const baseProductionDays = batches * daysPerBatch;
+    const productionTime = Math.ceil(baseProductionDays * priorityMod.production);
     const shippingTime = Math.ceil(baseTimes.shipping * locationMod.shipping);
     const customsTime = Math.ceil(baseTimes.customs * locationMod.customs);
     const totalTime = productionTime + shippingTime + customsTime;
@@ -149,8 +153,8 @@ const LeadTimeCalculator: React.FC<LeadTimeCalculatorProps> = ({
                 className="calculator-select"
               >
                 <option value="standard">Standard (Normal Cost)</option>
-                <option value="rush">Rush (+25% Cost)</option>
-                <option value="emergency">Emergency (+50% Cost)</option>
+                 <option value="rush">Rush (+30% Cost)</option>
+                 <option value="emergency">Emergency (+50% Cost)</option>
               </select>
             </div>
 
@@ -232,9 +236,9 @@ const LeadTimeCalculator: React.FC<LeadTimeCalculatorProps> = ({
                 <h5>Important Notes</h5>
                 <ul>
                   <li>Times are estimates and may vary based on current production capacity</li>
+                  <li>Throughput assumption: 2 units every 2 weeks</li>
                   <li>Customs times may vary by country and current regulations</li>
-                  <li>Bulk orders (5+ units) may qualify for production time discounts</li>
-                  <li>Contact sales for exact pricing and availability</li>
+                  <li>Speak with your sales advisor for additional options and pricing details</li>
                 </ul>
               </div>
             </div>

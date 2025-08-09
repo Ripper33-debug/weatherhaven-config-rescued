@@ -1,5 +1,5 @@
 import React from 'react';
-import { siteContent } from '../config/siteContent';
+import { resolvedSiteContent as siteContent } from '../config/siteContent';
 
 const HomepageHero: React.FC<{ onStartConfigure?: () => void }> = ({ onStartConfigure }) => {
   const hero = siteContent.home.hero;

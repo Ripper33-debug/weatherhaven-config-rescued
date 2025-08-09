@@ -27,7 +27,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "import:wh": "node scripts/import-weatherhaven.js"
   },
   "eslintConfig": {
     "extends": [
@@ -46,5 +47,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cheerio": "^1.1.2",
+    "node-fetch": "^2.7.0"
   }
 }

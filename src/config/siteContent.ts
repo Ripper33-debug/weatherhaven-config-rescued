@@ -1,3 +1,5 @@
+import externalContent from './externalContent.json';
+
 export type HeadingLevel = 2 | 3 | 4;
 
 export type ContentBlock =
@@ -97,6 +99,15 @@ export const siteContent: SiteContent = {
         { type: 'list', items: ['United Kingdom', 'Africa', 'Brasil', 'Peru'] },
       ],
     },
+  },
+};
+
+// Merge external imported content (e.g., scraped from Weatherhaven) over defaults
+export const resolvedSiteContent: SiteContent = {
+  ...siteContent,
+  pages: {
+    ...siteContent.pages,
+    ...((externalContent as any).pages || {}),
   },
 };
 

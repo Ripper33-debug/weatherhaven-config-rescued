@@ -1,6 +1,6 @@
 import React from 'react';
 import HomepageHero from './HomepageHero';
-import { siteContent, ContentBlock } from '../config/siteContent';
+import { resolvedSiteContent as siteContent, ContentBlock } from '../config/siteContent';
 
 const sectionContainer: React.CSSProperties = {
   background: '#0b1220',

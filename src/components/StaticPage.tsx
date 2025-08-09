@@ -1,5 +1,5 @@
 import React from 'react';
-import { siteContent, ContentBlock } from '../config/siteContent';
+import { resolvedSiteContent as siteContent, ContentBlock } from '../config/siteContent';
 
 const container: React.CSSProperties = { color: 'white', background: '#0b1220', minHeight: '100vh', padding: '48px 24px', maxWidth: 1200, margin: '0 auto' };
 

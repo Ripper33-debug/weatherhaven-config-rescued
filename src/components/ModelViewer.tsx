@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
-import { OrbitControls, Environment, useGLTF, ContactShadows } from '@react-three/drei';
+import { OrbitControls, Environment, useGLTF, ContactShadows, Sky } from '@react-three/drei';
 import { Box3, Group, Vector3, PerspectiveCamera, OrthographicCamera } from 'three';
 import { ConfiguratorState } from './ShelterConfigurator';
 import { Shelter } from '../App';
@@ -67,13 +67,13 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
         const fitHeightDistance = maxSize / (2 * Math.tan((persp.fov * Math.PI) / 360));
         const fitWidthDistance = fitHeightDistance / persp.aspect;
         const distance = 1.2 * Math.max(fitHeightDistance, fitWidthDistance);
-        persp.position.set(center.x, center.y + size.y * 0.1, center.z + distance);
+        persp.position.set(center.x, center.y + size.y * 0.15, center.z + distance);
         persp.near = Math.max(0.1, maxSize / 100);
         persp.far = Math.max(100, maxSize * 100);
         persp.updateProjectionMatrix();
       } else {
         const ortho = camera as OrthographicCamera;
-        const distance = maxSize * 2;
+        const distance = maxSize * 2.5;
         ortho.position.set(center.x, center.y + size.y * 0.1, center.z + distance);
         ortho.near = Math.max(0.1, maxSize / 100);
         ortho.far = Math.max(100, maxSize * 100);
@@ -98,15 +98,15 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
                 }
                 mat.emissiveIntensity = 0;
                 // Improve PBR defaults if missing
-                if (typeof mat.roughness === 'number') mat.roughness = 0.8;
-                if (typeof mat.metalness === 'number') mat.metalness = 0.1;
+                if (typeof mat.roughness === 'number') mat.roughness = Math.min(0.9, Math.max(0.5, mat.roughness ?? 0.8));
+                if (typeof mat.metalness === 'number') mat.metalness = Math.min(0.2, Math.max(0.0, mat.metalness ?? 0.05));
                 // If no texture/baseColor, set to tan
                 if (!mat.map && !mat.color) {
                   mat.color = { r: 0.823, g: 0.706, b: 0.549 };
                 } else if (mat.color) {
                   // Slightly bias toward tan if very dark
                   const avg = (mat.color.r + mat.color.g + mat.color.b) / 3;
-                  if (avg < 0.2) {
+                  if (avg < 0.25) {
                     mat.color.setRGB(0.823, 0.706, 0.549);
                   }
                 }
@@ -119,13 +119,13 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
               child.material.emissive.setRGB(0, 0, 0);
             }
             child.material.emissiveIntensity = 0;
-            if (typeof child.material.roughness === 'number') child.material.roughness = 0.8;
-            if (typeof child.material.metalness === 'number') child.material.metalness = 0.1;
+            if (typeof child.material.roughness === 'number') child.material.roughness = Math.min(0.9, Math.max(0.5, child.material.roughness ?? 0.8));
+            if (typeof child.material.metalness === 'number') child.material.metalness = Math.min(0.2, Math.max(0.0, child.material.metalness ?? 0.05));
             if (!child.material.map && !child.material.color) {
               child.material.color = { r: 0.823, g: 0.706, b: 0.549 };
             } else if (child.material.color) {
               const avg = (child.material.color.r + child.material.color.g + child.material.color.b) / 3;
-              if (avg < 0.2) {
+              if (avg < 0.25) {
                 child.material.color.setRGB(0.823, 0.706, 0.549);
               }
             }
@@ -167,23 +167,23 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
     switch (environment) {
       case 'night':
         return {
-          ambientIntensity: 0.2,
-          directionalIntensity: 0.3,
+          ambientIntensity: 0.3,
+          directionalIntensity: 0.4,
           environmentPreset: 'night' as const,
           groundColor: '#1a1a2e',
           skyColor: '#16213e'
         };
       case 'desert':
         return {
-          ambientIntensity: 0.8,
-          directionalIntensity: 1.5,
+          ambientIntensity: 0.5,
+          directionalIntensity: 0.9,
           environmentPreset: 'sunset' as const,
           groundColor: '#d4a574',
           skyColor: '#87ceeb'
         };
       case 'arctic':
         return {
-          ambientIntensity: 0.6,
+          ambientIntensity: 0.5,
           directionalIntensity: 0.8,
           environmentPreset: 'dawn' as const,
           groundColor: '#f0f8ff',
@@ -191,16 +191,16 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
         };
       case 'jungle':
         return {
-          ambientIntensity: 0.4,
-          directionalIntensity: 0.6,
+          ambientIntensity: 0.5,
+          directionalIntensity: 0.8,
           environmentPreset: 'forest' as const,
           groundColor: '#228b22',
           skyColor: '#98fb98'
         };
       default: // day
         return {
-          ambientIntensity: 0.6,
-          directionalIntensity: 1.2,
+          ambientIntensity: 0.5,
+          directionalIntensity: 0.9,
           environmentPreset: 'sunset' as const,
           groundColor: '#2d3748',
           skyColor: '#87ceeb'
@@ -332,15 +332,16 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
       />
       
       {/* Contact shadows for realism */}
-      <ContactShadows position={[0, -0.1, 0]} opacity={0.45} scale={50} blur={2.5} far={20} />
+      <ContactShadows position={[0, -0.095, 0]} opacity={0.5} scale={60} blur={2.2} far={25} />
 
-      {/* Environment with realistic background */}
-      <Environment preset="warehouse" background />
+      {/* Realistic procedural sky and environment matching selected mode */}
+      <Sky sunPosition={[100, 20, 100]} turbidity={6} rayleigh={1.5} mieCoefficient={0.005} mieDirectionalG={0.8} inclination={0.49} />
+      <Environment preset={envSettings.environmentPreset} />
 
-      {/* Ground plane */}
+      {/* Ground plane with subtle roughness */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.1, 0]} receiveShadow>
         <planeGeometry args={[100, 100]} />
-        <meshStandardMaterial color={envSettings.groundColor} />
+        <meshStandardMaterial color={envSettings.groundColor} roughness={0.9} metalness={0} />
       </mesh>
 
       {/* TRECC-T Model */}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './components/LoginPage';
-import HomepageHero from './components/HomepageHero';
+import HomePage from './components/HomePage';
 import ProductDetailPage from './components/ProductDetailPage';
 import SiteHeader from './components/SiteHeader';
 import StaticPage from './components/StaticPage';
@@ -85,15 +85,15 @@ function App() {
         <SiteHeader isAuthenticated={!!user} onLogoutClick={handleLogout} />
         <Routes>
           <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
-          <Route path="/" element={<HomepageHero />} />
-          {/* Static page placeholders to mirror weatherhaven.com IA */}
-          <Route path="/solutions" element={<StaticPage title="Solutions" />} />
-          <Route path="/products" element={<StaticPage title="Products" />} />
-          <Route path="/industries" element={<StaticPage title="Industries" />} />
-          <Route path="/case-studies" element={<StaticPage title="Case Studies" />} />
-          <Route path="/resources" element={<StaticPage title="Resources" />} />
-          <Route path="/about" element={<StaticPage title="About" />} />
-          <Route path="/contact" element={<StaticPage title="Contact" />} />
+          <Route path="/" element={<HomePage />} />
+          {/* Static pages driven by siteContent config */}
+          <Route path="/military" element={<StaticPage slug="military" />} />
+          <Route path="/medical" element={<StaticPage slug="medical" />} />
+          <Route path="/commercial" element={<StaticPage slug="commercial" />} />
+          <Route path="/innovation" element={<StaticPage slug="innovation" />} />
+          <Route path="/company" element={<StaticPage slug="company" />} />
+          <Route path="/instock" element={<StaticPage slug="instock" />} />
+          <Route path="/contact" element={<StaticPage slug="contact" />} />
           <Route path="/command-center" element={user ? (
             <CollaborationProvider currentUser={user}>
               <CommandCenter user={user} onLogout={handleLogout} onShelterSelect={handleShelterSelect} />

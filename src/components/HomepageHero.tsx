@@ -1,6 +1,8 @@
 import React from 'react';
+import { siteContent } from '../config/siteContent';
 
 const HomepageHero: React.FC<{ onStartConfigure?: () => void }> = ({ onStartConfigure }) => {
+  const hero = siteContent.home.hero;
   return (
     <section className="hero-section" style={{
       height: '100vh',
@@ -13,15 +15,15 @@ const HomepageHero: React.FC<{ onStartConfigure?: () => void }> = ({ onStartConf
       flexDirection: 'column',
       textAlign: 'center'
     }}>
-      <h1 style={{ fontSize: 48, marginBottom: 16 }}>Deploy Capability. Anywhere.</h1>
-      <p style={{ maxWidth: 800, opacity: 0.8 }}>
-        Weatherhaven delivers rapidly deployable shelter systems for defense, humanitarian, and commercial operations. Explore our portfolio and configure a solution in real time.
-      </p>
+      <h1 style={{ fontSize: 48, marginBottom: 8, textTransform: 'uppercase', letterSpacing: 0.5 }}>{hero.heading}</h1>
+      <h2 style={{ fontSize: 24, marginBottom: 16, opacity: 0.85, fontWeight: 500, textTransform: 'uppercase' }}>{hero.subheading}</h2>
       <div style={{ marginTop: 24, display: 'flex', gap: 12 }}>
         {onStartConfigure && (
           <button className="configure-button" onClick={onStartConfigure}>Start Configuring</button>
         )}
-        <a className="configure-button" href="#products">Explore Products</a>
+        {hero.ctas.map((cta, idx) => (
+          <a key={idx} className="configure-button" href={cta.href}>{cta.label}</a>
+        ))}
       </div>
     </section>
   );

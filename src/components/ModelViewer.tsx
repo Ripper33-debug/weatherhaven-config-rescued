@@ -68,14 +68,15 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
         const fitWidthDistance = fitHeightDistance / persp.aspect;
         const distance = 1.2 * Math.max(fitHeightDistance, fitWidthDistance);
         persp.position.set(center.x, center.y + size.y * 0.15, center.z + distance);
-        persp.near = Math.max(0.1, maxSize / 100);
+        // Allow extreme close-ups by reducing near plane conservatively
+        persp.near = Math.max(0.02, maxSize / 300);
         persp.far = Math.max(100, maxSize * 100);
         persp.updateProjectionMatrix();
       } else {
         const ortho = camera as OrthographicCamera;
         const distance = maxSize * 2.5;
         ortho.position.set(center.x, center.y + size.y * 0.1, center.z + distance);
-        ortho.near = Math.max(0.1, maxSize / 100);
+        ortho.near = Math.max(0.02, maxSize / 300);
         ortho.far = Math.max(100, maxSize * 100);
         ortho.updateProjectionMatrix();
       }
@@ -307,8 +308,8 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
         enablePan={true}
         enableZoom={true}
         enableRotate={true}
-        minDistance={4}
-        maxDistance={20}
+        minDistance={0.5}
+        maxDistance={100}
         maxPolarAngle={Math.PI / 2}
         minPolarAngle={0}
         target={controlsTarget}

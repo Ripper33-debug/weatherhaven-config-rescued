@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, Environment, useGLTF, ContactShadows } from '@react-three/drei';
-import { Box3, Group, Vector3 } from 'three';
+import { Box3, Group, Vector3, PerspectiveCamera, OrthographicCamera } from 'three';
 import { ConfiguratorState } from './ShelterConfigurator';
 import { Shelter } from '../App';
 
@@ -61,14 +61,25 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
       box.getCenter(center);
       box.getSize(size);
       const maxSize = Math.max(size.x, size.y, size.z);
-      const fitHeightDistance = maxSize / (2 * Math.tan((camera.fov * Math.PI) / 360));
-      const fitWidthDistance = fitHeightDistance / camera.aspect;
-      const distance = 1.2 * Math.max(fitHeightDistance, fitWidthDistance);
-      camera.position.set(center.x, center.y + size.y * 0.1, center.z + distance);
+
+      if ((camera as PerspectiveCamera).isPerspectiveCamera) {
+        const persp = camera as PerspectiveCamera;
+        const fitHeightDistance = maxSize / (2 * Math.tan((persp.fov * Math.PI) / 360));
+        const fitWidthDistance = fitHeightDistance / persp.aspect;
+        const distance = 1.2 * Math.max(fitHeightDistance, fitWidthDistance);
+        persp.position.set(center.x, center.y + size.y * 0.1, center.z + distance);
+        persp.near = Math.max(0.1, maxSize / 100);
+        persp.far = Math.max(100, maxSize * 100);
+        persp.updateProjectionMatrix();
+      } else {
+        const ortho = camera as OrthographicCamera;
+        const distance = maxSize * 2;
+        ortho.position.set(center.x, center.y + size.y * 0.1, center.z + distance);
+        ortho.near = Math.max(0.1, maxSize / 100);
+        ortho.far = Math.max(100, maxSize * 100);
+        ortho.updateProjectionMatrix();
+      }
       setControlsTarget([center.x, center.y, center.z]);
-      camera.near = Math.max(0.1, maxSize / 100);
-      camera.far = Math.max(100, maxSize * 100);
-      camera.updateProjectionMatrix();
       if (controlsRef.current) {
         controlsRef.current.target.set(center.x, center.y, center.z);
         controlsRef.current.update();

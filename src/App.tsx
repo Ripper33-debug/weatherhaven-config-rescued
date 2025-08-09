@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-route
 import LoginPage from './components/LoginPage';
 import HomepageHero from './components/HomepageHero';
 import ProductDetailPage from './components/ProductDetailPage';
+import SiteHeader from './components/SiteHeader';
+import StaticPage from './components/StaticPage';
 import CommandCenter from './components/CommandCenter';
 import ShelterConfigurator from './components/ShelterConfigurator';
 import { CollaborationProvider } from './components/CollaborationProvider';
@@ -87,9 +89,18 @@ function App() {
   return (
     <BrowserRouter>
       <div className="app-container">
+        <SiteHeader isAuthenticated={!!user} onLoginClick={() => setAppState('login')} onLogoutClick={handleLogout} />
         <Routes>
           <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
           <Route path="/" element={user ? <HomepageHero onStartConfigure={() => setAppState('command-center')} /> : <Navigate to="/login" replace />} />
+          {/* Static page placeholders to mirror weatherhaven.com IA */}
+          <Route path="/solutions" element={<StaticPage title="Solutions" />} />
+          <Route path="/products" element={<StaticPage title="Products" />} />
+          <Route path="/industries" element={<StaticPage title="Industries" />} />
+          <Route path="/case-studies" element={<StaticPage title="Case Studies" />} />
+          <Route path="/resources" element={<StaticPage title="Resources" />} />
+          <Route path="/about" element={<StaticPage title="About" />} />
+          <Route path="/contact" element={<StaticPage title="Contact" />} />
           <Route path="/command-center" element={user ? (
             <CollaborationProvider currentUser={user}>
               <CommandCenter user={user} onLogout={handleLogout} onShelterSelect={handleShelterSelect} />

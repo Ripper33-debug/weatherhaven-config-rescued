@@ -36,6 +36,112 @@ export default function Hero() {
           zIndex: 1
         }} />
 
+        {/* Floating 3D Elements */}
+        <motion.div
+          style={{
+            position: 'absolute',
+            top: '15%',
+            left: '10%',
+            width: '80px',
+            height: '80px',
+            background: 'rgba(0, 212, 255, 0.1)',
+            border: '2px solid rgba(0, 212, 255, 0.3)',
+            borderRadius: '8px',
+            zIndex: 2,
+            transform: 'rotateX(45deg) rotateY(45deg)',
+            transformStyle: 'preserve-3d'
+          }}
+          animate={{
+            rotateX: [45, 405],
+            rotateY: [45, 405],
+            y: [0, -20, 0]
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: 'linear'
+          }}
+        >
+          <div style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            width: '4px',
+            height: '4px',
+            background: 'var(--primary-cyan)',
+            borderRadius: '50%',
+            transform: 'translate(-50%, -50%)',
+            boxShadow: '0 0 10px var(--primary-cyan)'
+          }} />
+        </motion.div>
+
+        <motion.div
+          style={{
+            position: 'absolute',
+            bottom: '20%',
+            right: '15%',
+            width: '60px',
+            height: '60px',
+            background: 'rgba(0, 255, 136, 0.1)',
+            border: '2px solid rgba(0, 255, 136, 0.3)',
+            borderRadius: '50%',
+            zIndex: 2,
+            transform: 'rotateX(30deg) rotateZ(30deg)',
+            transformStyle: 'preserve-3d'
+          }}
+          animate={{
+            rotateX: [30, 390],
+            rotateZ: [30, 390],
+            x: [0, 15, 0]
+          }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: 'linear',
+            delay: 2
+          }}
+        >
+          <div style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            width: '3px',
+            height: '3px',
+            background: 'var(--primary-green)',
+            borderRadius: '50%',
+            transform: 'translate(-50%, -50%)',
+            boxShadow: '0 0 8px var(--primary-green)'
+          }} />
+        </motion.div>
+
+        {/* Floating Pyramid */}
+        <motion.div
+          style={{
+            position: 'absolute',
+            top: '25%',
+            right: '25%',
+            width: '0',
+            height: '0',
+            borderLeft: '20px solid transparent',
+            borderRight: '20px solid transparent',
+            borderBottom: '35px solid rgba(139, 92, 246, 0.2)',
+            zIndex: 2,
+            transform: 'rotateX(60deg) rotateY(45deg)',
+            transformStyle: 'preserve-3d'
+          }}
+          animate={{
+            rotateY: [45, 405],
+            rotateX: [60, 420],
+            scale: [1, 1.2, 1]
+          }}
+          transition={{
+            duration: 18,
+            repeat: Infinity,
+            ease: 'linear',
+            delay: 1
+          }}
+        />
+
         {/* Advanced Tech HUD Elements */}
         <motion.div
           style={{
@@ -218,7 +324,7 @@ export default function Hero() {
         }} />
 
       <div style={{
-        maxWidth: '1400px',
+        maxWidth: '1600px',
         margin: '0 auto',
         padding: '0 40px',
         position: 'relative',
@@ -229,195 +335,324 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: 'easeOut' }}
         >
+          {/* Split Layout - Content Left, Visual Right */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '60px',
+            alignItems: 'center',
+            minHeight: '80vh'
+          }}>
+            {/* Left Column - Content */}
+            <div style={{ textAlign: 'left' }}>
+              <motion.h1
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 1.2, delay: 0.3 }}
+                style={{
+                  fontSize: 'clamp(3.5rem, 10vw, 8rem)',
+                  fontWeight: '900',
+                  color: 'var(--text-primary)',
+                  marginBottom: '32px',
+                  lineHeight: '0.85',
+                  letterSpacing: '-0.04em',
+                  fontFamily: 'Inter, system-ui, sans-serif',
+                  textShadow: '0 0 60px rgba(0, 212, 255, 0.5)',
+                  position: 'relative'
+                }}
+              >
+                <motion.span
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.8, delay: 0.6 }}
+                  style={{
+                    background: 'linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    fontWeight: '900',
+                    display: 'block',
+                    marginBottom: '8px'
+                  }}
+                >
+                  DEPLOYABLE
+                </motion.span>
+                <motion.span
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.8, delay: 0.8 }}
+                  style={{
+                    background: 'var(--gradient-primary)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    fontWeight: '900',
+                    position: 'relative',
+                    display: 'block'
+                  }}
+                >
+                  SHELTER SOLUTIONS
+                </motion.span>
+              </motion.h1>
 
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 1, delay: 1 }}
+                style={{
+                  marginBottom: '48px'
+                }}
+              >
+                <p style={{
+                  fontSize: 'clamp(1.25rem, 2.5vw, 1.5rem)',
+                  color: 'var(--text-secondary)',
+                  lineHeight: '1.7',
+                  fontWeight: '400',
+                  letterSpacing: '0.02em',
+                  marginBottom: '32px'
+                }}>
+                  Advanced deployable shelter systems engineered for defense operations, disaster response, and remote industrial applications.
+                </p>
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '16px'
+                }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    fontSize: '1.1rem',
+                    color: 'var(--text-accent)',
+                    fontWeight: '600'
+                  }}>
+                    <div style={{
+                      width: '10px',
+                      height: '10px',
+                      background: 'var(--primary-green)',
+                      borderRadius: '50%',
+                      boxShadow: '0 0 15px var(--primary-green)'
+                    }} />
+                    <span>Ready in hours, not weeks</span>
+                  </div>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    fontSize: '1.1rem',
+                    color: 'var(--text-accent)',
+                    fontWeight: '600'
+                  }}>
+                    <div style={{
+                      width: '10px',
+                      height: '10px',
+                      background: 'var(--primary-cyan)',
+                      borderRadius: '50%',
+                      boxShadow: '0 0 15px var(--primary-cyan)'
+                    }} />
+                    <span>Global deployment capability</span>
+                  </div>
+                </div>
+              </motion.div>
 
-          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.5 }}
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 1, delay: 1.2 }}
+                style={{
+                  display: 'flex',
+                  gap: '24px',
+                  flexWrap: 'wrap'
+                }}
+              >
+                <Link href="/configurator">
+                  <motion.button
+                    whileHover={{ scale: 1.05, y: -3 }}
+                    whileTap={{ scale: 0.95 }}
+                    style={{
+                      padding: '20px 40px',
+                      background: 'var(--gradient-primary)',
+                      color: 'var(--text-primary)',
+                      fontWeight: '700',
+                      fontSize: '16px',
+                      letterSpacing: '0.1em',
+                      borderRadius: '12px',
+                      border: 'none',
+                      cursor: 'pointer',
+                      boxShadow: '0 0 40px rgba(0, 102, 255, 0.4)',
+                      transition: 'all 0.3s ease',
+                      position: 'relative',
+                      overflow: 'hidden',
+                      textTransform: 'uppercase',
+                      minWidth: '200px'
+                    }}
+                  >
+                    <motion.div
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: '-100%',
+                        width: '100%',
+                        height: '100%',
+                        background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent)',
+                        transition: 'left 0.6s ease'
+                      }}
+                      whileHover={{ left: '100%' }}
+                    />
+                    <span style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span>🚀</span>
+                      <span>LAUNCH CONFIGURATOR</span>
+                    </span>
+                  </motion.button>
+                </Link>
+
+                <Link href="/solutions">
+                  <motion.button
+                    whileHover={{ scale: 1.05, y: -3 }}
+                    whileTap={{ scale: 0.95 }}
+                    style={{
+                      padding: '20px 40px',
+                      background: 'rgba(0, 0, 0, 0.8)',
+                      border: '2px solid var(--primary-cyan)',
+                      color: 'var(--primary-cyan)',
+                      fontWeight: '700',
+                      fontSize: '16px',
+                      letterSpacing: '0.1em',
+                      borderRadius: '12px',
+                      cursor: 'pointer',
+                      backdropFilter: 'blur(30px)',
+                      transition: 'all 0.3s ease',
+                      textTransform: 'uppercase',
+                      boxShadow: '0 0 30px rgba(0, 212, 255, 0.3)',
+                      minWidth: '200px'
+                    }}
+                  >
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span>🔍</span>
+                      <span>EXPLORE SOLUTIONS</span>
+                    </span>
+                  </motion.button>
+                </Link>
+              </motion.div>
+            </div>
+
+            {/* Right Column - Visual Elements */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1.2, delay: 0.5 }}
               style={{
-                fontSize: 'clamp(3rem, 8vw, 6rem)',
-                fontWeight: '900',
-                color: 'var(--text-primary)',
-                marginBottom: '16px',
-                lineHeight: '0.9',
-                letterSpacing: '-0.03em',
-                fontFamily: 'Inter, system-ui, sans-serif',
-                textShadow: '0 0 50px rgba(0, 212, 255, 0.4)',
-                position: 'relative'
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                position: 'relative',
+                height: '100%'
               }}
             >
-              <span style={{
-                background: 'linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-                fontWeight: '900'
-              }}>
-                DEPLOYABLE
-              </span>
-              <br />
-              <span style={{
-                background: 'var(--gradient-primary)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-                fontWeight: '900',
-                position: 'relative'
-              }}>
-                SHELTER SOLUTIONS
-              </span>
-            </motion.h1>
-
-
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.7 }}
-            style={{
-              maxWidth: '900px',
-              margin: '0 auto 60px',
-              textAlign: 'center'
-            }}
-          >
-            <p style={{
-              fontSize: 'clamp(1.25rem, 2.5vw, 1.5rem)',
-              color: 'var(--text-secondary)',
-              lineHeight: '1.7',
-              fontWeight: '400',
-              letterSpacing: '0.02em',
-              marginBottom: '24px'
-            }}>
-              Advanced deployable shelter systems engineered for defense operations, disaster response, and remote industrial applications.
-            </p>
-            <div style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              gap: '32px',
-              flexWrap: 'wrap'
-            }}>
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                fontSize: '1rem',
-                color: 'var(--text-accent)',
-                fontWeight: '600'
-              }}>
-                <div style={{
-                  width: '8px',
-                  height: '8px',
-                  background: 'var(--primary-green)',
-                  borderRadius: '50%',
-                  boxShadow: '0 0 10px var(--primary-green)'
-                }} />
-                <span>Ready in hours, not weeks</span>
-              </div>
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                fontSize: '1rem',
-                color: 'var(--text-accent)',
-                fontWeight: '600'
-              }}>
-                <div style={{
-                  width: '8px',
-                  height: '8px',
-                  background: 'var(--primary-cyan)',
-                  borderRadius: '50%',
-                  boxShadow: '0 0 10px var(--primary-cyan)'
-                }} />
-                <span>Global deployment capability</span>
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.9 }}
-            style={{
-              display: 'flex',
-              gap: '32px',
-              justifyContent: 'center',
-              flexWrap: 'wrap',
-              marginBottom: '100px'
-            }}
-          >
-            <Link href="/configurator">
-              <motion.button
-                whileHover={{ scale: 1.05, y: -3 }}
-                whileTap={{ scale: 0.95 }}
+              {/* Central Visual Element */}
+              <motion.div
                 style={{
-                  padding: '20px 40px',
-                  background: 'var(--gradient-primary)',
-                  color: 'var(--text-primary)',
-                  fontWeight: '700',
-                  fontSize: '16px',
-                  letterSpacing: '0.1em',
-                  borderRadius: '12px',
-                  border: 'none',
-                  cursor: 'pointer',
-                  boxShadow: '0 0 40px rgba(0, 102, 255, 0.4)',
-                  transition: 'all 0.3s ease',
+                  width: '300px',
+                  height: '300px',
+                  border: '3px solid var(--primary-cyan)',
+                  borderRadius: '50%',
                   position: 'relative',
-                  overflow: 'hidden',
-                  textTransform: 'uppercase',
-                  minWidth: '200px'
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: 'rgba(0, 212, 255, 0.05)',
+                  backdropFilter: 'blur(20px)',
+                  boxShadow: '0 0 50px rgba(0, 212, 255, 0.3)'
+                }}
+                animate={{
+                  rotate: 360,
+                  scale: [1, 1.05, 1]
+                }}
+                transition={{
+                  duration: 30,
+                  repeat: Infinity,
+                  ease: 'linear'
                 }}
               >
                 <motion.div
                   style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: '-100%',
-                    width: '100%',
-                    height: '100%',
-                    background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent)',
-                    transition: 'left 0.6s ease'
+                    width: '200px',
+                    height: '200px',
+                    border: '2px solid var(--primary-green)',
+                    borderRadius: '50%',
+                    position: 'relative'
                   }}
-                  whileHover={{ left: '100%' }}
-                />
-                <span style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span>🚀</span>
-                  <span>LAUNCH CONFIGURATOR</span>
-                </span>
-              </motion.button>
-            </Link>
+                  animate={{
+                    rotate: -360,
+                    scale: [1, 1.1, 1]
+                  }}
+                  transition={{
+                    duration: 20,
+                    repeat: Infinity,
+                    ease: 'linear'
+                  }}
+                >
+                  <motion.div
+                    style={{
+                      width: '100px',
+                      height: '100px',
+                      border: '2px solid var(--primary-orange)',
+                      borderRadius: '50%',
+                      position: 'relative',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}
+                    animate={{
+                      rotate: 360,
+                      scale: [1, 1.15, 1]
+                    }}
+                    transition={{
+                      duration: 15,
+                      repeat: Infinity,
+                      ease: 'linear'
+                    }}
+                  >
+                    <div style={{
+                      width: '40px',
+                      height: '40px',
+                      background: 'var(--gradient-primary)',
+                      borderRadius: '50%',
+                      boxShadow: '0 0 30px rgba(0, 212, 255, 0.5)'
+                    }} />
+                  </motion.div>
+                </motion.div>
+              </motion.div>
 
-            <Link href="/solutions">
-              <motion.button
-                whileHover={{ scale: 1.05, y: -3 }}
-                whileTap={{ scale: 0.95 }}
-                style={{
-                  padding: '20px 40px',
-                  background: 'rgba(0, 0, 0, 0.8)',
-                  border: '2px solid var(--primary-cyan)',
-                  color: 'var(--primary-cyan)',
-                  fontWeight: '700',
-                  fontSize: '16px',
-                  letterSpacing: '0.1em',
-                  borderRadius: '12px',
-                  cursor: 'pointer',
-                  backdropFilter: 'blur(30px)',
-                  transition: 'all 0.3s ease',
-                  textTransform: 'uppercase',
-                  boxShadow: '0 0 30px rgba(0, 212, 255, 0.3)',
-                  minWidth: '200px'
-                }}
-              >
-                <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span>🔍</span>
-                  <span>EXPLORE SOLUTIONS</span>
-                </span>
-              </motion.button>
-            </Link>
-          </motion.div>
+              {/* Floating Data Points */}
+              {Array.from({ length: 6 }).map((_, i) => (
+                <motion.div
+                  key={i}
+                  style={{
+                    position: 'absolute',
+                    width: '8px',
+                    height: '8px',
+                    background: `hsl(${i * 60}, 70%, 60%)`,
+                    borderRadius: '50%',
+                    boxShadow: `0 0 15px hsl(${i * 60}, 70%, 60%)`
+                  }}
+                  animate={{
+                    x: [0, Math.sin(i) * 50, 0],
+                    y: [0, Math.cos(i) * 50, 0],
+                    scale: [1, 1.5, 1],
+                    opacity: [0.5, 1, 0.5]
+                  }}
+                  transition={{
+                    duration: 4 + i,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                    delay: i * 0.5
+                  }}
+                />
+              ))}
+            </motion.div>
+          </div>
 
           {/* Advanced Stats Dashboard */}
           <motion.div

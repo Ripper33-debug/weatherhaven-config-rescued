@@ -539,102 +539,7 @@ export default function Hero() {
           zIndex: 2
         }} />
 
-      {/* Weatherhaven Logo Section */}
-      <motion.div
-        initial={{ opacity: 0, y: -50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, delay: 0.2 }}
-        style={{
-          position: 'absolute',
-          top: '40px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: 20,
-          display: 'flex',
-          alignItems: 'center',
-          gap: '20px',
-          background: 'rgba(0, 0, 0, 0.8)',
-          backdropFilter: 'blur(20px)',
-          padding: '16px 32px',
-          borderRadius: '50px',
-          border: '2px solid var(--weatherhaven-blue)',
-          boxShadow: 'var(--shadow-blue)'
-        }}
-      >
-        <motion.div
-          style={{
-            width: '40px',
-            height: '40px',
-            position: 'relative',
-            borderRadius: '50%',
-            background: 'var(--gradient-primary)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '20px',
-            fontWeight: 'bold',
-            color: 'var(--weatherhaven-white)'
-          }}
-          animate={{
-            rotate: [0, 360],
-            scale: [1, 1.1, 1]
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: 'linear'
-          }}
-        >
-          W
-        </motion.div>
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center'
-        }}>
-          <motion.div
-            style={{
-              fontSize: '18px',
-              fontWeight: '700',
-              color: 'var(--weatherhaven-white)',
-              letterSpacing: '0.1em',
-              textTransform: 'uppercase'
-            }}
-            animate={{
-              textShadow: [
-                '0 0 10px var(--weatherhaven-blue)',
-                '0 0 20px var(--weatherhaven-blue)',
-                '0 0 10px var(--weatherhaven-blue)'
-              ]
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: 'easeInOut'
-            }}
-          >
-            Weatherhaven
-          </motion.div>
-          <motion.div
-            style={{
-              fontSize: '12px',
-              color: 'var(--text-muted)',
-              fontWeight: '500',
-              letterSpacing: '0.05em'
-            }}
-            animate={{
-              opacity: [0.7, 1, 0.7]
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              ease: 'easeInOut'
-            }}
-          >
-            Deployable Shelter Solutions
-          </motion.div>
-        </div>
-      </motion.div>
+
 
       <div style={{
         maxWidth: '1600px',
@@ -1064,19 +969,19 @@ export default function Hero() {
           />
         ))}
 
-        {/* Global Deployment Map */}
+        {/* Interactive World Map */}
         <motion.div
           style={{
             position: 'absolute',
-            top: '10%',
-            right: '5%',
+            top: '5%',
+            right: '3%',
             background: 'rgba(0, 0, 0, 0.95)',
             backdropFilter: 'blur(20px)',
             border: '2px solid var(--weatherhaven-blue)',
             borderRadius: '20px',
             padding: '24px',
-            width: '320px',
-            height: '240px',
+            width: '400px',
+            height: '300px',
             zIndex: 15,
             cursor: 'pointer',
             overflow: 'hidden'
@@ -1085,7 +990,7 @@ export default function Hero() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, delay: 2 }}
           whileHover={{
-            scale: 1.05,
+            scale: 1.02,
             boxShadow: 'var(--shadow-blue)',
             transition: { duration: 0.3 }
           }}
@@ -1107,7 +1012,7 @@ export default function Hero() {
               boxShadow: '0 0 10px var(--weatherhaven-orange)'
             }} />
             <div style={{
-              fontSize: '14px',
+              fontSize: '16px',
               fontWeight: '700',
               color: 'var(--weatherhaven-white)',
               letterSpacing: '0.05em',
@@ -1117,30 +1022,52 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          {/* World Map Background */}
+          {/* World Map Container */}
           <div style={{
             position: 'relative',
             width: '100%',
-            height: '160px',
-            background: 'radial-gradient(circle at center, rgba(0, 102, 204, 0.1) 0%, transparent 70%)',
+            height: '200px',
+            background: 'linear-gradient(135deg, rgba(0, 102, 204, 0.1) 0%, rgba(0, 0, 0, 0.3) 100%)',
             borderRadius: '12px',
             border: '1px solid rgba(0, 102, 204, 0.3)',
             overflow: 'hidden'
           }}>
-            {/* Interactive Deployment Dots */}
+            {/* World Map Outline */}
+            <svg
+              width="100%"
+              height="100%"
+              viewBox="0 0 1000 500"
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                opacity: 0.3
+              }}
+            >
+              {/* Simplified world map paths */}
+              <path d="M100,150 Q150,140 200,150 L220,160 Q240,170 260,160 L280,150 Q300,140 320,150 L340,160 Q360,170 380,160 L400,150 Q420,140 440,150 L460,160 Q480,170 500,160 L520,150 Q540,140 560,150 L580,160 Q600,170 620,160 L640,150 Q660,140 680,150 L700,160 Q720,170 740,160 L760,150 Q780,140 800,150 L820,160 Q840,170 860,160 L880,150 Q900,140 920,150 L940,160 Q960,170 980,160 L1000,150 L1000,200 L100,200 Z" fill="rgba(0, 102, 204, 0.1)" stroke="rgba(0, 102, 204, 0.3)" strokeWidth="1"/>
+              <path d="M100,250 Q150,240 200,250 L220,260 Q240,270 260,260 L280,250 Q300,240 320,250 L340,260 Q360,270 380,260 L400,250 Q420,240 440,250 L460,260 Q480,270 500,260 L520,250 Q540,240 560,250 L580,260 Q600,270 620,260 L640,250 Q660,240 680,250 L700,260 Q720,270 740,260 L760,250 Q780,240 800,250 L820,260 Q840,270 860,260 L880,250 Q900,240 920,250 L940,260 Q960,270 980,260 L1000,250 L1000,300 L100,300 Z" fill="rgba(0, 102, 204, 0.1)" stroke="rgba(0, 102, 204, 0.3)" strokeWidth="1"/>
+              <path d="M100,350 Q150,340 200,350 L220,360 Q240,370 260,360 L280,350 Q300,340 320,350 L340,360 Q360,370 380,360 L400,350 Q420,340 440,350 L460,360 Q480,370 500,360 L520,350 Q540,340 560,350 L580,360 Q600,370 620,360 L640,350 Q660,340 680,350 L700,360 Q720,370 740,360 L760,350 Q780,340 800,350 L820,360 Q840,370 860,360 L880,350 Q900,340 920,350 L940,360 Q960,370 980,360 L1000,350 L1000,400 L100,400 Z" fill="rgba(0, 102, 204, 0.1)" stroke="rgba(0, 102, 204, 0.3)" strokeWidth="1"/>
+            </svg>
+
+            {/* Real Deployment Locations */}
             {[
-              { x: 20, y: 30, country: 'Canada', deployments: 45, color: 'var(--weatherhaven-blue)' },
-              { x: 15, y: 35, country: 'USA', deployments: 120, color: 'var(--weatherhaven-orange)' },
-              { x: 25, y: 40, country: 'Mexico', deployments: 28, color: 'var(--weatherhaven-blue)' },
-              { x: 45, y: 35, country: 'UK', deployments: 67, color: 'var(--weatherhaven-orange)' },
-              { x: 50, y: 40, country: 'Germany', deployments: 89, color: 'var(--weatherhaven-blue)' },
-              { x: 55, y: 35, country: 'France', deployments: 52, color: 'var(--weatherhaven-orange)' },
-              { x: 70, y: 45, country: 'Australia', deployments: 34, color: 'var(--weatherhaven-blue)' },
-              { x: 75, y: 50, country: 'Japan', deployments: 23, color: 'var(--weatherhaven-orange)' },
-              { x: 60, y: 55, country: 'South Africa', deployments: 18, color: 'var(--weatherhaven-blue)' },
-              { x: 35, y: 60, country: 'Brazil', deployments: 31, color: 'var(--weatherhaven-orange)' },
-              { x: 80, y: 40, country: 'China', deployments: 42, color: 'var(--weatherhaven-blue)' },
-              { x: 85, y: 45, country: 'India', deployments: 29, color: 'var(--weatherhaven-orange)' }
+              { x: 15, y: 35, country: 'USA', deployments: 120, color: 'var(--weatherhaven-orange)', region: 'North America' },
+              { x: 20, y: 30, country: 'Canada', deployments: 45, color: 'var(--weatherhaven-blue)', region: 'North America' },
+              { x: 25, y: 40, country: 'Mexico', deployments: 28, color: 'var(--weatherhaven-blue)', region: 'North America' },
+              { x: 45, y: 35, country: 'UK', deployments: 67, color: 'var(--weatherhaven-orange)', region: 'Europe' },
+              { x: 50, y: 40, country: 'Germany', deployments: 89, color: 'var(--weatherhaven-blue)', region: 'Europe' },
+              { x: 55, y: 35, country: 'France', deployments: 52, color: 'var(--weatherhaven-orange)', region: 'Europe' },
+              { x: 60, y: 45, country: 'Italy', deployments: 38, color: 'var(--weatherhaven-blue)', region: 'Europe' },
+              { x: 70, y: 45, country: 'Australia', deployments: 34, color: 'var(--weatherhaven-blue)', region: 'Oceania' },
+              { x: 75, y: 50, country: 'Japan', deployments: 23, color: 'var(--weatherhaven-orange)', region: 'Asia' },
+              { x: 80, y: 40, country: 'China', deployments: 42, color: 'var(--weatherhaven-blue)', region: 'Asia' },
+              { x: 85, y: 45, country: 'India', deployments: 29, color: 'var(--weatherhaven-orange)', region: 'Asia' },
+              { x: 60, y: 55, country: 'South Africa', deployments: 18, color: 'var(--weatherhaven-blue)', region: 'Africa' },
+              { x: 35, y: 60, country: 'Brazil', deployments: 31, color: 'var(--weatherhaven-orange)', region: 'South America' },
+              { x: 30, y: 58, country: 'Argentina', deployments: 15, color: 'var(--weatherhaven-blue)', region: 'South America' },
+              { x: 65, y: 42, country: 'Russia', deployments: 25, color: 'var(--weatherhaven-orange)', region: 'Europe/Asia' },
+              { x: 40, y: 50, country: 'Saudi Arabia', deployments: 22, color: 'var(--weatherhaven-blue)', region: 'Middle East' }
             ].map((location, index) => (
               <motion.div
                 key={location.country}
@@ -1148,59 +1075,59 @@ export default function Hero() {
                   position: 'absolute',
                   left: `${location.x}%`,
                   top: `${location.y}%`,
-                  width: '8px',
-                  height: '8px',
+                  width: '10px',
+                  height: '10px',
                   background: location.color,
                   borderRadius: '50%',
-                  boxShadow: `0 0 15px ${location.color}`,
+                  boxShadow: `0 0 20px ${location.color}`,
                   cursor: 'pointer',
                   zIndex: 10
                 }}
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{
-                  scale: [1, 1.5, 1],
+                  scale: [1, 1.3, 1],
                   opacity: [0.7, 1, 0.7]
                 }}
                 transition={{
-                  duration: 3 + index * 0.2,
+                  duration: 3 + index * 0.1,
                   repeat: Infinity,
                   ease: 'easeInOut',
-                  delay: index * 0.1
+                  delay: index * 0.05
                 }}
                 whileHover={{
                   scale: 2.5,
-                  boxShadow: `0 0 25px ${location.color}`,
+                  boxShadow: `0 0 30px ${location.color}`,
                   transition: { duration: 0.3 }
                 }}
                 onHoverStart={() => setHoveredLocation(location)}
                 onHoverEnd={() => setHoveredLocation(null)}
               >
-                {/* Connection Lines */}
+                {/* Pulse Ring */}
                 <motion.div
                   style={{
                     position: 'absolute',
                     top: '50%',
                     left: '50%',
-                    width: '1px',
-                    height: '20px',
-                    background: `linear-gradient(180deg, ${location.color}, transparent)`,
+                    width: '100%',
+                    height: '100%',
+                    border: `2px solid ${location.color}`,
+                    borderRadius: '50%',
                     transform: 'translate(-50%, -50%)'
                   }}
                   animate={{
-                    scaleY: [0, 1, 0],
-                    opacity: [0, 0.6, 0]
+                    scale: [1, 2, 1],
+                    opacity: [0.5, 0, 0.5]
                   }}
                   transition={{
                     duration: 2,
                     repeat: Infinity,
-                    ease: 'easeInOut',
-                    delay: index * 0.2
+                    ease: 'easeOut'
                   }}
                 />
               </motion.div>
             ))}
 
-            {/* Animated Connection Lines */}
+            {/* Animated Global Network Lines */}
             <motion.div
               style={{
                 position: 'absolute',
@@ -1212,58 +1139,23 @@ export default function Hero() {
                 borderRadius: '50%'
               }}
               animate={{
-                scale: [1, 100, 1],
+                scale: [1, 150, 1],
                 opacity: [1, 0, 1]
               }}
               transition={{
-                duration: 8,
+                duration: 10,
                 repeat: Infinity,
                 ease: 'linear'
               }}
             />
-
-            {/* Major Hub Connections */}
-            {[
-              { from: { x: 15, y: 35 }, to: { x: 45, y: 35 }, color: 'var(--weatherhaven-blue)' },
-              { from: { x: 45, y: 35 }, to: { x: 70, y: 45 }, color: 'var(--weatherhaven-orange)' },
-              { from: { x: 70, y: 45 }, to: { x: 80, y: 40 }, color: 'var(--weatherhaven-blue)' },
-              { from: { x: 80, y: 40 }, to: { x: 60, y: 55 }, color: 'var(--weatherhaven-orange)' },
-              { from: { x: 60, y: 55 }, to: { x: 35, y: 60 }, color: 'var(--weatherhaven-blue)' },
-              { from: { x: 35, y: 60 }, to: { x: 15, y: 35 }, color: 'var(--weatherhaven-orange)' }
-            ].map((connection, index) => (
-              <motion.div
-                key={index}
-                style={{
-                  position: 'absolute',
-                  top: `${connection.from.y}%`,
-                  left: `${connection.from.x}%`,
-                  width: `${Math.sqrt(Math.pow(connection.to.x - connection.from.x, 2) + Math.pow(connection.to.y - connection.from.y, 2)) * 3.2}px`,
-                  height: '1px',
-                  background: `linear-gradient(90deg, ${connection.color}, transparent)`,
-                  transformOrigin: 'left center',
-                  transform: `rotate(${Math.atan2(connection.to.y - connection.from.y, connection.to.x - connection.from.x) * 180 / Math.PI}deg)`,
-                  zIndex: 5
-                }}
-                animate={{
-                  scaleX: [0, 1, 0],
-                  opacity: [0, 0.4, 0]
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                  delay: index * 0.5
-                }}
-              />
-            ))}
           </div>
 
-          {/* Deployment Stats */}
+          {/* Enhanced Deployment Stats */}
           <div style={{
             display: 'flex',
             justifyContent: 'space-between',
-            marginTop: '12px',
-            fontSize: '11px',
+            marginTop: '16px',
+            fontSize: '12px',
             color: 'var(--text-secondary)'
           }}>
             <div>
@@ -1273,12 +1165,12 @@ export default function Hero() {
               <span style={{ color: 'var(--weatherhaven-orange)' }}>●</span> Countries: 50+
             </div>
             <div>
-              <span style={{ color: 'var(--accent-cyan)' }}>●</span> Global
+              <span style={{ color: 'var(--accent-cyan)' }}>●</span> Continents: 6
             </div>
           </div>
         </motion.div>
 
-        {/* Deployment Tooltip */}
+        {/* Enhanced Deployment Tooltip */}
         {hoveredLocation && (
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
@@ -1287,7 +1179,7 @@ export default function Hero() {
             style={{
               position: 'absolute',
               top: `${hoveredLocation.y * 2.4}px`,
-              left: `${hoveredLocation.x * 3.2}px`,
+              left: `${hoveredLocation.x * 4}px`,
               background: 'rgba(0, 0, 0, 0.95)',
               backdropFilter: 'blur(20px)',
               border: `2px solid ${hoveredLocation.color}`,
@@ -1310,9 +1202,17 @@ export default function Hero() {
             </div>
             <div style={{
               fontSize: '11px',
-              color: 'var(--text-secondary)'
+              color: 'var(--text-secondary)',
+              marginBottom: '2px'
             }}>
               {hoveredLocation.deployments} Active Deployments
+            </div>
+            <div style={{
+              fontSize: '10px',
+              color: 'var(--text-muted)',
+              fontStyle: 'italic'
+            }}>
+              {hoveredLocation.region}
             </div>
           </motion.div>
         )}

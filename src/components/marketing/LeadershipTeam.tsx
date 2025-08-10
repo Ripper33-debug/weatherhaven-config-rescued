@@ -5,102 +5,125 @@ import { motion } from 'framer-motion';
 export default function LeadershipTeam() {
   const executiveTeam = [
     {
-      name: 'Sarah Johnson',
+      name: 'Ray Castelli, B. Comm',
       title: 'Chief Executive Officer',
-      bio: '20+ years of experience in defense and aerospace industries, leading Weatherhaven\'s global expansion and strategic vision.',
-      expertise: ['Strategic Leadership', 'Global Operations', 'Defense Markets', 'M&A'],
-      background: 'Former VP at Lockheed Martin, MBA from Harvard Business School',
-      achievements: ['Led company to 300% growth in 5 years', 'Established operations in 50+ countries', 'Named "Defense Executive of the Year" 2023']
+      bio: 'Ray joined Weatherhaven as CEO in 2008 after a 20 year international business career in technology, natural resources and government/defence. He has significant international procurement expertise.',
+      expertise: ['Strategic Leadership', 'International Business', 'Government Relations', 'Technology'],
+      background: 'Former co-founder and SVP of Dallas-based Quadrem (now SAP), Chair of Open Network for Commerce Exchange (ONCE), Chief of Staff to Minister of National Defence',
+      achievements: ['Led Weatherhaven since 2008', 'Established global procurement standards', 'Speaks 5 languages', 'Alumnus of SFU Business School and INSEAD']
     },
     {
-      name: 'Michael Chen',
-      title: 'Chief Technology Officer',
-      bio: 'Former NASA engineer with expertise in extreme environment systems and advanced materials. Leading innovation in deployable shelter technology.',
-      expertise: ['R&D Leadership', 'Innovation Strategy', 'Technical Excellence', 'AI Integration'],
-      background: 'PhD in Aerospace Engineering, 15+ patents in deployable systems',
-      achievements: ['Developed industry-first AI deployment optimization', 'Led team to 5 NASA contracts', 'Innovation Award recipient 2022']
+      name: 'James Kirk, M. Eng, C. Eng',
+      title: 'Chief Operating Officer',
+      bio: 'A graduate of the UK Ministry of Defence, Engineering and Science Group, James earned a Master\'s Degree in Mechanical Engineering from the University of Sheffield.',
+      expertise: ['Operations Management', 'Defense Procurement', 'Engineering Leadership', 'European Markets'],
+      background: '10 years within MOD leading strategic UK Defence procurement programmes, Technical Director at Weatherhaven since 2008',
+      achievements: ['Managing Director UK 2014-2019', 'Vice President of Global Sales 2019-2021', 'COO since 2021', 'Sustained growth in European military market']
     },
     {
-      name: 'Dr. Emily Rodriguez',
-      title: 'Chief Operations Officer',
-      bio: 'Operations expert with background in disaster response and humanitarian aid logistics. Ensuring flawless global operations.',
-      expertise: ['Supply Chain', 'Quality Management', 'Global Deployment', 'Crisis Response'],
-      background: 'PhD in Operations Research, Former UN Logistics Director',
-      achievements: ['Reduced deployment time by 60%', 'Achieved 99.9% uptime globally', 'Led 100+ disaster response missions']
+      name: 'Alberto Moreno, B. Eng.',
+      title: 'Chief Business Development Officer',
+      bio: 'A graduate of the engineering program at UDLAP in Mexico in 1992, Alberto brings extensive experience in program management and operations.',
+      expertise: ['Business Development', 'Program Management', 'Operations', 'Supply Chain'],
+      background: 'Former program manager at Oceanworks, led Weatherhaven PMO 2012-2015, Chief Operations Officer 2015-2020',
+      achievements: ['Led newly formed Project Management Office (PMO)', 'Oversaw all production operations, supply chain, quality, engineering', 'Appointed CBDO in November 2020']
+    },
+    {
+      name: 'Jessica Au, CPA, CA',
+      title: 'Chief Financial Officer',
+      bio: 'Jessica was appointed Chief Financial Officer of Weatherhaven in 2025, following her progression from Vice President of Finance, a role she assumed in 2022.',
+      expertise: ['Financial Strategy', 'Corporate Governance', 'Operational Excellence', 'Multinational Operations'],
+      background: 'Joined as Controller in 2018, VP Finance 2022-2025, Senior finance positions across utilities, energy, technology, manufacturing, and defense sectors',
+      achievements: ['Chartered Professional Accountant (CPA, CA)', 'Bachelor of Commerce from UBC', 'More than a decade of management and leadership experience', 'Former PwC professional']
     }
   ];
 
   const departmentHeads = [
     {
-      name: 'David Thompson',
-      title: 'VP of Engineering',
-      bio: 'Leading our engineering team in developing next-generation deployable shelter systems.',
-      expertise: ['Mechanical Engineering', 'Structural Design', 'Materials Science'],
-      background: '20+ years in structural engineering, PE license',
-      team: '45 engineers across 3 continents'
+      name: 'Natalia Mederios, B. Eng, MBA',
+      title: 'Managing Director, Weatherhaven Brazil',
+      bio: 'Natalia graduated from Universidad Federal de Minas Gerais, with a degree in Electrical Engineering, and a post graduate major in renewable energy.',
+      expertise: ['Brazilian Markets', 'Renewable Energy', 'Strategic Planning', 'Multilingual Leadership'],
+      background: 'MBA IBMEC in Rio de Janeiro, former Marketing and Sales Director at ESTRE Waste Management, Vice President of Environmental Solutions Brazil',
+      team: 'Leading Weatherhaven operations in Brazil since 2014'
     },
     {
-      name: 'Lisa Wang',
-      title: 'VP of Global Sales',
-      bio: 'Driving revenue growth and building strategic partnerships worldwide.',
-      expertise: ['International Sales', 'Strategic Partnerships', 'Market Development'],
-      background: 'Former VP at Boeing Defense, speaks 4 languages',
-      team: '25 sales professionals, 50+ countries covered'
+      name: 'Dr. Susannah Kirk, B.Eng PhD C. Eng MRAeS',
+      title: 'Managing Director, Weatherhaven Global Solutions (UK)',
+      bio: 'Susannah has a degree in Aeronautical Engineering from Loughborough University and a PhD in Static Aeroelasticity from University of Bristol.',
+      expertise: ['Aeronautical Engineering', 'Computational Fluid Dynamics', 'Finite Element Analysis', 'Camp Design'],
+      background: 'Chartered Engineer and Member of the Royal Aeronautical Society, 10 years experience in aerospace engineering',
+      team: 'Head of Engineering in UK, specializing in CAD and camp design visualizations'
     },
     {
-      name: 'James O\'Connor',
-      title: 'VP of Manufacturing',
-      bio: 'Overseeing state-of-the-art manufacturing facilities and quality control systems.',
-      expertise: ['Lean Manufacturing', 'Quality Control', 'Supply Chain Management'],
-      background: 'Former Toyota Production System expert',
-      team: '200+ manufacturing professionals, 3 global facilities'
+      name: 'Hugo Cueva, B. Eng.',
+      title: 'Managing Director, Weatherhaven Peru',
+      bio: 'A Civil Engineer with more than 15 years of experience in projects management and control, Hugo graduated from the National University of Engineering of Peru.',
+      expertise: ['Project Management', 'Civil Engineering', 'Process Improvement', 'Cost Control'],
+      background: 'Strong knowledge in project management based on PMI standards, joined Weatherhaven Peru as Logistics Coordinator in 2010',
+      team: 'General Manager of Peruvian branch since 2015, developed many processes achieving time and cost reduction'
+    },
+    {
+      name: 'Scott Jackson',
+      title: 'VP Business Development - USA',
+      bio: 'A skilled team leader and authority in expeditionary solutions, Scott leads Weatherhaven\'s business development efforts in the US shelter solutions market.',
+      expertise: ['US Defense Markets', 'Strategic Planning', 'Program Management', 'Expeditionary Solutions'],
+      background: 'Retired Air Force SMSgt with 20 years of honorable active-duty service, Regional Manager at DHS Systems (DRASH), AAR Mobility',
+      team: 'Member of Weatherhaven\'s Senior Management Team, introducing "Next Generation Shelter Solutions" to the US Market'
     }
   ];
 
   const technicalExperts = [
     {
-      name: 'Dr. Maria Santos',
-      title: 'Senior Research Scientist',
-      bio: 'Leading breakthrough research in advanced materials and extreme environment systems.',
-      expertise: ['Materials Science', 'Nanotechnology', 'Environmental Testing'],
-      background: 'PhD from MIT, 25+ peer-reviewed publications'
+      name: 'Karla Arias',
+      title: 'Business Development Director - Latin America',
+      bio: 'As the current Business Development Director for Latin America, Karla works with clients in the Latin American military and medical markets.',
+      expertise: ['Latin American Markets', 'Military Sales', 'Medical Markets', 'Bilingual Sales'],
+      background: 'Diploma in Hotel and Resort Management in 1993, started at Weatherhaven in 1993'
     },
     {
-      name: 'Robert Kim',
-      title: 'Chief Software Architect',
-      bio: 'Developing cutting-edge software for smart shelter systems and IoT integration.',
-      expertise: ['IoT Systems', 'Cloud Architecture', 'Cybersecurity'],
-      background: 'Former Google engineer, MS Computer Science Stanford'
+      name: 'Mike Ball',
+      title: 'Global Commercial Sales Lead',
+      bio: 'Mike has over 27 years of experience in the relocatable shelter and remote site based industry, primarily focusing on the mining and gas industry.',
+      expertise: ['Commercial Markets', 'Mining Industry', 'Gas Industry', 'Exploration'],
+      background: 'Graduate of Economics from the University of British Columbia, post graduate study in sales and marketing, extensive international experience'
     },
     {
-      name: 'Amanda Foster',
-      title: 'Head of Sustainability',
-      bio: 'Driving our commitment to environmental responsibility and sustainable practices.',
-      expertise: ['Environmental Science', 'Green Technology', 'Carbon Reduction'],
-      background: 'PhD Environmental Science, LEED certified'
+      name: 'Sweena Chatha',
+      title: 'Senior Director of Sales and Marketing - Canada Defence',
+      bio: 'Sweena focuses on the Canadian military and medical shelters, and works with clients to provide expertise on various options for remote-site shelters.',
+      expertise: ['Canadian Defence', 'Medical Shelters', 'Remote-Site Solutions', 'Marketing Communications'],
+      background: 'Bachelor of Journalism at Carleton University, Certificate of Media Techniques and Marketing Communications at BCIT, started at Weatherhaven in 2001'
+    },
+    {
+      name: 'George Banks-Martin',
+      title: 'Sales Lead - UK and Europe',
+      bio: 'George has worked at Weatherhaven Global Solutions since 2008 in a variety of roles from technical writing to training and joined the sales team in 2016.',
+      expertise: ['UK Markets', 'European Markets', 'Polar Research', 'Emergency Response'],
+      background: 'Studied history at Oxford University and African politics at SOAS, London University, previous career as a classical concert and opera singer'
     }
   ];
 
   const companyCulture = {
     values: [
-      'Innovation at the Core',
-      'Global Collaboration',
-      'Excellence in Execution',
-      'Customer Success Focus',
-      'Environmental Responsibility'
+      'Over 1000 Years Combined Experience',
+      'Global Deployment Expertise',
+      'Any Climate, Any Terrain',
+      'Customer-Centric Solutions',
+      'Innovation in Deployable Technology'
     ],
     stats: [
-      { number: '85%', label: 'Employee Retention Rate' },
-      { number: '92%', label: 'Customer Satisfaction' },
-      { number: '15+', label: 'Average Years Experience' },
-      { number: '40+', label: 'Countries Represented' }
+      { number: '1000+', label: 'Years Combined Experience' },
+      { number: '40+', label: 'Years in Business' },
+      { number: 'Global', label: 'Deployment Capability' },
+      { number: '5', label: 'Languages Spoken' }
     ],
     benefits: [
-      'Comprehensive health coverage',
+      'International career opportunities',
       'Professional development programs',
-      'Flexible work arrangements',
-      'Global travel opportunities',
-      'Innovation time allocation'
+      'Exposure to cutting-edge technology',
+      'Global travel and deployment experience',
+      'Work with world-class engineering teams'
     ]
   };
 
@@ -144,7 +167,7 @@ export default function LeadershipTeam() {
             lineHeight: '1.6',
             fontWeight: '300'
           }}>
-            World-class professionals driving innovation and excellence in deployable shelter technology.
+            Our team has over 1000 years of experience designing, planning, and implementing shelter and camp solutions in every corner of the globe. Any climate. Any terrain. Any logistical challenge.
           </p>
         </motion.div>
 
@@ -359,7 +382,7 @@ export default function LeadershipTeam() {
             marginBottom: '40px',
             textAlign: 'center'
           }}>
-            DEPARTMENT LEADERS
+            REGIONAL MANAGING DIRECTORS
           </h3>
 
           <div style={{
@@ -450,7 +473,7 @@ export default function LeadershipTeam() {
             marginBottom: '40px',
             textAlign: 'center'
           }}>
-            TECHNICAL EXPERTS
+            REGIONAL SALES LEADS
           </h3>
 
           <div style={{

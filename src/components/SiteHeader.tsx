@@ -1,7 +1,6 @@
 import React from 'react';
 
 interface SiteHeaderProps {
-  isAuthenticated: boolean;
   onLogoutClick: () => void;
 }
 
@@ -13,7 +12,7 @@ const navStyle: React.CSSProperties = {
 
 const linkStyle: React.CSSProperties = { color: 'white', textDecoration: 'none', opacity: 0.9 };
 
-const SiteHeader: React.FC<SiteHeaderProps> = ({ isAuthenticated, onLogoutClick }) => {
+const SiteHeader: React.FC<SiteHeaderProps> = ({ onLogoutClick }) => {
   return (
     <header style={{
       position: 'sticky', top: 0, zIndex: 40,
@@ -36,9 +35,7 @@ const SiteHeader: React.FC<SiteHeaderProps> = ({ isAuthenticated, onLogoutClick 
         <a href="/configurator" style={{ ...linkStyle, fontWeight: 600 }}>Configurator</a>
       </nav>
       <div>
-        {isAuthenticated && (
-          <button onClick={onLogoutClick} className="configure-button">Logout</button>
-        )}
+        <button onClick={onLogoutClick} className="configure-button">Back to Home</button>
       </div>
     </header>
   );

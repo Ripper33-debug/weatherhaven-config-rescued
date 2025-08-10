@@ -154,8 +154,8 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             <span className="user-clearance">{user.clearance}</span>
           </div>
           <button onClick={onLogout} className="logout-button">
-            <span>🚪</span>
-            <span>LOGOUT</span>
+            <span>🏠</span>
+            <span>BACK TO HOME</span>
           </button>
         </div>
       </header>

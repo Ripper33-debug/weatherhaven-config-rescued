@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import LoginPage from './components/LoginPage';
 import HomePage from './components/HomePage';
 import ProductDetailPage from './components/ProductDetailPage';
 import SiteHeader from './components/SiteHeader';
@@ -57,17 +56,20 @@ export interface ShelterConfiguration {
 }
 
 function App() {
-  const [user, setUser] = useState<User | null>(null);
+  // Create a default user to bypass login
+  const defaultUser: User = {
+    username: 'Demo User',
+    rank: 'Customer',
+    clearance: 'Standard'
+  };
+
+  const [user] = useState<User>(defaultUser);
   const [selectedShelter, setSelectedShelter] = useState<Shelter | null>(null);
   const [selectedConfiguration, setSelectedConfiguration] = useState<ShelterConfiguration | undefined>(undefined);
 
-  const handleLogin = (userData: User) => {
-    setUser(userData);
-  };
-
   const handleLogout = () => {
-    setUser(null);
-    setSelectedShelter(null);
+    // Redirect to home page instead of logout
+    window.location.href = '/';
   };
 
   const handleShelterSelect = (shelter: Shelter, configuration?: ShelterConfiguration) => {
@@ -82,9 +84,8 @@ function App() {
   return (
     <BrowserRouter>
       <div className="app-container">
-        <SiteHeader isAuthenticated={!!user} onLogoutClick={handleLogout} />
+        <SiteHeader onLogoutClick={handleLogout} />
         <Routes>
-          <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
           <Route path="/" element={<HomePage />} />
           {/* Static pages driven by siteContent config */}
           <Route path="/military" element={<StaticPage slug="military" />} />
@@ -94,15 +95,15 @@ function App() {
           <Route path="/company" element={<StaticPage slug="company" />} />
           <Route path="/instock" element={<StaticPage slug="instock" />} />
           <Route path="/contact" element={<StaticPage slug="contact" />} />
-          <Route path="/command-center" element={user ? (
+          <Route path="/command-center" element={
             <CollaborationProvider currentUser={user}>
               <CommandCenter user={user} onLogout={handleLogout} onShelterSelect={handleShelterSelect} />
             </CollaborationProvider>
-          ) : <Navigate to="/login" replace />} />
-          <Route path="/product" element={user && selectedShelter ? (
+          } />
+          <Route path="/product" element={selectedShelter ? (
             <ProductDetailPage shelter={selectedShelter} />
           ) : <Navigate to="/command-center" replace />} />
-          <Route path="/configurator" element={user ? (
+          <Route path="/configurator" element={
             selectedShelter ? (
               <CollaborationProvider currentUser={user}>
                 <ShelterConfigurator
@@ -114,7 +115,7 @@ function App() {
                 />
               </CollaborationProvider>
             ) : <Navigate to="/command-center" replace />
-          ) : <Navigate to="/login" replace />} />
+          } />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>

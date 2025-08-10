@@ -229,68 +229,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: 'easeOut' }}
         >
-          {/* Advanced Status Badge */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: -20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '12px',
-              padding: '16px 32px',
-              background: 'rgba(0, 0, 0, 0.8)',
-              backdropFilter: 'blur(30px)',
-              border: '2px solid var(--primary-cyan)',
-              borderRadius: '12px',
-              fontSize: '13px',
-              fontWeight: '700',
-              color: 'var(--primary-cyan)',
-              marginBottom: '40px',
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-              boxShadow: '0 0 30px rgba(0, 212, 255, 0.3)',
-              position: 'relative',
-              overflow: 'hidden'
-            }}
-          >
-            <motion.div
-              style={{
-                width: '8px',
-                height: '8px',
-                background: 'var(--primary-cyan)',
-                borderRadius: '50%',
-                boxShadow: '0 0 10px var(--primary-cyan)'
-              }}
-              animate={{
-                scale: [1, 1.5, 1],
-                opacity: [0.5, 1, 0.5]
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: 'easeInOut'
-              }}
-            />
-            <span>SYSTEM STATUS: OPERATIONAL</span>
-            <motion.div
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: '-100%',
-                width: '100%',
-                height: '100%',
-                background: 'linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.2), transparent)',
-                transition: 'left 0.8s ease'
-              }}
-              animate={{ left: '100%' }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                delay: 1
-              }}
-            />
-          </motion.div>
+
 
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
             <motion.h1
@@ -331,33 +270,7 @@ export default function Hero() {
               </span>
             </motion.h1>
 
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '16px',
-                padding: '12px 24px',
-                background: 'rgba(0, 0, 0, 0.6)',
-                backdropFilter: 'blur(20px)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                borderRadius: '8px',
-                fontSize: '14px',
-                fontWeight: '600',
-                color: 'var(--text-secondary)',
-                letterSpacing: '0.1em',
-                textTransform: 'uppercase'
-              }}
-            >
-              <span>⚡</span>
-              <span>MILITARY-GRADE TECHNOLOGY</span>
-              <span>•</span>
-              <span>GLOBAL DEPLOYMENT</span>
-              <span>•</span>
-              <span>24/7 SUPPORT</span>
-            </motion.div>
+
           </div>
 
           <motion.div

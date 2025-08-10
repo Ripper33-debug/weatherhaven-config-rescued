@@ -32,24 +32,52 @@ export default function SectorCards() {
   ];
 
   return (
-    <section className="py-24 bg-white/5 backdrop-blur-sm border-y border-white/10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section style={{
+      padding: '96px 0',
+      background: 'rgba(255, 255, 255, 0.05)',
+      backdropFilter: 'blur(10px)',
+      borderTop: '1px solid rgba(255, 255, 255, 0.1)'
+    }}>
+      <div style={{
+        maxWidth: '1280px',
+        margin: '0 auto',
+        padding: '0 16px'
+      }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          style={{
+            textAlign: 'center',
+            marginBottom: '64px'
+          }}
         >
-          <h2 className="text-3xl md:text-4xl font-light text-white mb-4">
+          <h2 style={{
+            fontSize: 'clamp(1.875rem, 3vw, 2.25rem)',
+            fontWeight: '300',
+            color: 'white',
+            marginBottom: '16px'
+          }}>
             SOLUTIONS FOR EVERY SECTOR
           </h2>
-          <p className="text-lg text-gray-300 max-w-3xl mx-auto font-light">
+          <p style={{
+            fontSize: '1.125rem',
+            color: '#d1d5db',
+            maxWidth: '768px',
+            margin: '0 auto',
+            fontWeight: '300'
+          }}>
             From military operations to humanitarian aid, our shelter systems adapt to your specific needs with unmatched flexibility and reliability.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gap: '32px',
+          marginBottom: '64px'
+        }}>
           {sectors.map((sector, index) => (
             <motion.div
               key={index}
@@ -57,17 +85,47 @@ export default function SectorCards() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="group"
+              style={{
+                textAlign: 'center'
+              }}
             >
-              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 h-full hover:bg-white/10 hover:border-white/20 transition-all duration-300">
-                <div className="text-4xl mb-6">{sector.icon}</div>
-                <h3 className="text-xl font-medium text-white mb-4">
+              <div style={{
+                background: 'rgba(255, 255, 255, 0.05)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                borderRadius: '16px',
+                padding: '32px',
+                transition: 'all 0.3s ease',
+                height: '100%'
+              }}>
+                <div style={{
+                  fontSize: '2.5rem',
+                  marginBottom: '24px'
+                }}>
+                  {sector.icon}
+                </div>
+                <h3 style={{
+                  fontSize: '1.25rem',
+                  fontWeight: '600',
+                  color: 'white',
+                  marginBottom: '16px'
+                }}>
                   {sector.title}
                 </h3>
-                <p className="text-gray-300 text-sm leading-relaxed mb-6">
+                <p style={{
+                  color: '#d1d5db',
+                  fontSize: '0.875rem',
+                  lineHeight: '1.6',
+                  marginBottom: '24px'
+                }}>
                   {sector.description}
                 </p>
-                <div className="text-white/60 text-sm font-medium tracking-wide">
+                <div style={{
+                  color: 'rgba(255, 255, 255, 0.6)',
+                  fontSize: '0.875rem',
+                  fontWeight: '500',
+                  letterSpacing: '0.025em'
+                }}>
                   LEARN MORE →
                 </div>
               </div>
@@ -75,12 +133,26 @@ export default function SectorCards() {
           ))}
         </div>
 
-        <div className="text-center">
+        <div style={{
+          textAlign: 'center'
+        }}>
           <Link href="/solutions">
             <motion.button
               whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.98 }}
-              className="px-12 py-4 bg-white text-black font-medium text-lg tracking-wide rounded-lg hover:bg-gray-100 transition-all duration-300 shadow-2xl hover:shadow-3xl"
+              style={{
+                padding: '16px 48px',
+                background: 'white',
+                color: 'black',
+                fontWeight: '500',
+                fontSize: '18px',
+                letterSpacing: '0.025em',
+                borderRadius: '8px',
+                border: 'none',
+                cursor: 'pointer',
+                boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+                transition: 'all 0.3s ease'
+              }}
             >
               VIEW ALL SOLUTIONS
             </motion.button>

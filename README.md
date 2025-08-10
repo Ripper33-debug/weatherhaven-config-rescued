@@ -1,203 +1,165 @@
-# Weatherhaven Military Shelter Configurator
+# Weatherhaven Shelter Configurator
 
-A modern, interactive 3D configurator for the Weatherhaven TRECC military shelter. Built with React, Three.js, and Tailwind CSS.
+A comprehensive marketing website with an interactive 3D shelter configurator, built with Next.js, TypeScript, and Three.js.
 
-## Features
+## 🚀 Quick Start
 
-- **Interactive 3D Model**: Full rotation, zoom, and pan controls
-- **Deployment Animation**: Toggle between deployed and stowed states
-- **Interior/Exterior Views**: Switch between inside and outside perspectives
-- **Color Customization**: Multiple military-grade color options
-- **Responsive Design**: Works on desktop and mobile devices
-- **Smooth Animations**: Professional transitions and loading states
-- **Modern UI**: Glass-morphism design inspired by premium configurators
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js (v14 or higher)
-- npm or yarn
-
-### Installation
-
-1. Clone the repository:
+### Development
 ```bash
-git clone <repository-url>
-cd trecc-configurator
+npm run dev
 ```
+Open [http://localhost:3000](http://localhost:3000) to view the marketing site.
 
-2. Install dependencies:
+### Production Build
 ```bash
-npm install
-```
-
-3. Start the development server:
-```bash
+npm run build
 npm start
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+## 📁 Project Structure
 
-## Usage
-
-### Basic Controls
-
-- **Mouse/Touch**: Drag to rotate the model
-- **Scroll**: Zoom in/out
-- **Right-click + drag**: Pan the view
-
-### Configuration Options
-
-1. **Deployment State**: Toggle between deployed (🛖) and stowed (📦) configurations
-2. **View Mode**: Switch between outside (🏠) and inside (👁️) views
-3. **Color Selection**: Choose from 6 military-grade color options:
-   - Military Green
-   - Desert Tan
-   - Arctic White
-   - Navy Blue
-   - Charcoal
-   - Camo Brown
-
-## Integrating Your 3D Models
-
-### Current Implementation
-
-The app currently uses a procedural geometry for demonstration. To integrate your actual GLB/GLTF models:
-
-1. **Place your model files** in the `public/models/` directory
-2. **Update the ModelViewer component** (`src/components/ModelViewer.tsx`):
-
-```typescript
-// Replace the procedural geometry with your model
-const { scene: modelScene } = useGLTF('/models/your-shelter-model.glb');
-
-// Clone the scene for manipulation
-const modelRef = useRef<Group>(null);
-
-useEffect(() => {
-  if (modelRef.current && modelScene) {
-    // Clear existing geometry
-    modelRef.current.clear();
-    
-    // Clone and add your model
-    const clonedScene = modelScene.clone();
-    modelRef.current.add(clonedScene);
-    
-    // Apply materials and transformations
-    clonedScene.traverse((child) => {
-      if (child instanceof Mesh) {
-        // Apply color changes
-        if (child.material) {
-          child.material.color.setHex(configState.color.replace('#', '0x'));
-        }
-      }
-    });
-  }
-}, [modelScene, configState.color]);
+```
+src/
+├── app/                    # Next.js App Router pages
+│   ├── page.tsx           # Homepage (marketing site)
+│   ├── configurator/      # 3D Configurator (existing React app)
+│   ├── solutions/         # Solution pages
+│   ├── products/          # Product pages
+│   ├── case-studies/      # Case study pages
+│   ├── resources/         # Resource downloads
+│   ├── about/             # About page
+│   ├── contact/           # Contact/RFQ form
+│   └── layout.tsx         # Root layout with header
+├── components/
+│   ├── marketing/         # Marketing site components
+│   │   ├── Hero.tsx       # Homepage hero section
+│   │   ├── Header.tsx     # Navigation header
+│   │   ├── ProofBar.tsx   # Statistics bar
+│   │   └── ...            # Other marketing components
+│   └── [existing]         # Original configurator components
+├── lib/
+│   ├── db.ts              # Database configuration
+│   └── schema.ts          # Drizzle ORM schema
+├── content/               # Static content (JSON/YAML)
+│   ├── products.json      # Product data
+│   ├── case-studies.json  # Case study data
+│   └── resources.json     # Resource data
+└── App.tsx                # Original React app (configurator)
 ```
 
-### Model Requirements
+## 🎯 Key Features
 
-- **Format**: GLB or GLTF
-- **Optimization**: Compressed textures, reasonable polygon count
-- **Materials**: PBR materials for best visual quality
-- **Scale**: Properly scaled for the scene (1 unit = 1 meter recommended)
+### Marketing Site
+- **Homepage**: Hero, value props, sectors, products, case studies
+- **Solutions Pages**: Military, Government, Industrial, Commercial
+- **Product Pages**: Detailed product specifications
+- **Case Studies**: Real-world deployment examples
+- **Resources**: Gated downloads and documentation
+- **Contact**: RFQ forms with lead capture
 
-### Animation Support
+### 3D Configurator
+- **Interactive 3D Models**: Real-time shelter visualization
+- **Configuration Options**: Colors, deployment states, interiors
+- **Collaboration**: Multi-user real-time editing
+- **Export**: Generate quotes and specifications
 
-For deployment animations, ensure your model includes:
-- Separate meshes for deployable sections
-- Proper bone structure for skeletal animations
-- Named objects for easy identification
+## 🔧 Configuration
 
-## Customization
-
-### Adding New Colors
-
-Edit the `colorOptions` array in `src/components/Controls.tsx`:
-
-```typescript
-const colorOptions = [
-  // ... existing colors
-  { name: 'New Color', value: '#HEXCODE' },
-];
+### Environment Variables
+```bash
+NEXT_PUBLIC_GTM_ID=GTM-XXXXXXX    # Google Tag Manager
+ADMIN_EXPORT_TOKEN=your-token     # Lead export security
+SITE_URL=https://weatherhaven.com # Sitemap generation
 ```
 
-### Modifying Animations
+### Database
+The app uses SQLite with Drizzle ORM for lead storage:
+- **Table**: `leads` (name, email, organization, sector, etc.)
+- **API**: `/api/leads/export` for CSV download (protected)
 
-Update the animation logic in `src/components/ModelViewer.tsx`:
+## 📊 Analytics & SEO
 
-```typescript
-// For deployment animations
-useFrame((state) => {
-  if (groupRef.current) {
-    // Add your custom animation logic here
-    const targetScale = configState.isDeployed ? 1 : 0.3;
-    groupRef.current.scale.lerp(new Vector3(targetScale, targetScale, targetScale), 0.05);
-  }
-});
-```
+- **Vercel Analytics**: Built-in performance tracking
+- **Google Tag Manager**: Custom event tracking
+- **Sitemap**: Auto-generated XML sitemap
+- **Metadata**: SEO-optimized page titles and descriptions
+- **Structured Data**: JSON-LD for products and organization
 
-### Styling
+## 🎨 Styling
 
-The app uses Tailwind CSS with custom components. Key classes:
-- `.glass-panel`: Glass-morphism effect
-- `.btn-primary`: Primary button styling
-- `.btn-secondary`: Secondary button styling
-- `.color-option`: Color picker styling
+- **Tailwind CSS**: Utility-first styling
+- **Framer Motion**: Smooth animations and transitions
+- **Responsive Design**: Mobile-first approach
+- **Accessibility**: WCAG AA compliant
 
-## Building for Production
+## 🚀 Deployment
 
+### Vercel (Recommended)
+1. Connect your GitHub repository
+2. Set environment variables
+3. Deploy automatically on push
+
+### Manual Deployment
 ```bash
 npm run build
+npm start
 ```
 
-The build output will be in the `build/` directory.
+## 📝 Content Management
 
-## Performance Optimization
+### Adding Products
+1. Edit `content/products.json`
+2. Add product specifications
+3. Include images in `public/images/products/`
 
-- **Model Optimization**: Use compressed textures and optimized geometry
-- **Lazy Loading**: Implement progressive loading for large models
-- **Level of Detail**: Add LOD systems for complex models
-- **Texture Compression**: Use KTX2 or DDS formats for better compression
+### Adding Case Studies
+1. Edit `content/case-studies.json`
+2. Include gallery images
+3. Add metrics and outcomes
 
-## Browser Support
+### Adding Resources
+1. Edit `content/resources.json`
+2. Mark as `gated: true` for lead capture
+3. Upload files to `public/resources/`
 
-- Chrome 80+
-- Firefox 75+
-- Safari 13+
-- Edge 80+
+## 🔗 Navigation
 
-## Troubleshooting
+The site includes:
+- **Header**: Mega-menu navigation with dropdowns
+- **Configurator Link**: Prominent CTA to 3D tool
+- **Sticky CTA**: "Request a Quote" button
+- **Footer**: Links, contact info, legal pages
 
-### Common Issues
+## 🛠️ Development
 
-1. **Model not loading**: Check file path and format
-2. **Performance issues**: Optimize model geometry and textures
-3. **Controls not working**: Ensure Three.js dependencies are properly installed
+### Adding New Pages
+1. Create page in `src/app/[route]/page.tsx`
+2. Add metadata export
+3. Update navigation in `Header.tsx`
 
-### Debug Mode
+### Adding Components
+1. Create in `src/components/marketing/`
+2. Use TypeScript interfaces
+3. Include accessibility attributes
 
-Enable debug mode by adding to your environment variables:
-```
-REACT_APP_DEBUG=true
-```
+### Database Changes
+1. Update `src/lib/schema.ts`
+2. Run database migration
+3. Update API endpoints
 
-## Contributing
+## 📞 Support
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
+For technical support or questions about the configurator:
+- Check the existing configurator documentation
+- Review the original React app structure
+- The configurator is preserved at `/configurator` route
 
-## License
+## 🔄 Migration Notes
 
-This project is licensed under the MIT License.
+This project was migrated from a React app to Next.js:
+- **Original App**: Preserved in `src/App.tsx`
+- **Configurator Route**: `/configurator` loads the original app
+- **Marketing Site**: New Next.js pages and components
+- **Database**: Added for lead capture and analytics
 
-## Acknowledgments
-
-- Weatherhaven for the TRECC shelter design
-- Three.js community for 3D graphics support
-- React Three Fiber for React integration
+The configurator functionality remains unchanged and is accessible via the marketing site navigation.

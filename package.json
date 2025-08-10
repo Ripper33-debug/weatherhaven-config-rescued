@@ -2,6 +2,15 @@
   "name": "weatherhaven-shelter-configurator",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "export": "next export",
+    "postbuild": "next-sitemap",
+    "import:wh": "node scripts/import-weatherhaven.js"
+  },
   "dependencies": {
     "@react-three/drei": "^10.6.1",
     "@react-three/fiber": "^9.3.0",
@@ -18,17 +27,20 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^6.30.1",
-    "react-scripts": "5.0.1",
     "three": "^0.179.1",
     "typescript": "^4.9.5",
-    "web-vitals": "^2.1.4"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "import:wh": "node scripts/import-weatherhaven.js"
+    "web-vitals": "^2.1.4",
+    "next": "^14.0.0",
+    "@vercel/analytics": "^1.1.1",
+    "@vercel/og": "^0.6.2",
+    "react-hook-form": "^7.48.2",
+    "@hookform/resolvers": "^3.3.2",
+    "zod": "^3.22.4",
+    "drizzle-orm": "^0.29.0",
+    "better-sqlite3": "^9.2.2",
+    "@types/better-sqlite3": "^7.6.8",
+    "framer-motion": "^10.16.16",
+    "next-sitemap": "^4.2.3"
   },
   "eslintConfig": {
     "extends": [

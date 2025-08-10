@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import ProductsHero from '../../components/marketing/ProductsHero';
 import ProductCategories from '../../components/marketing/ProductCategories';
+import InventoryStatus from '../../components/marketing/InventoryStatus';
 import TechnicalSpecs from '../../components/marketing/TechnicalSpecs';
 import ProductComparison from '../../components/marketing/ProductComparison';
 import CustomSolutions from '../../components/marketing/CustomSolutions';
@@ -16,6 +17,7 @@ export default function ProductsPage() {
     <div style={{ background: 'linear-gradient(135deg, #1a202c 0%, #2d3748 50%, #1a202c 100%)', minHeight: '100vh' }}>
       <ProductsHero />
       <ProductCategories />
+      <InventoryStatus />
       <TechnicalSpecs />
       <ProductComparison />
       <CustomSolutions />

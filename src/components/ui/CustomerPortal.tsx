@@ -40,11 +40,30 @@ interface Training {
   progress: number;
 }
 
+interface Invoice {
+  id: string;
+  orderId: string;
+  amount: number;
+  dueDate: string;
+  status: 'pending' | 'paid' | 'overdue' | 'partial';
+  items: Array<{
+    name: string;
+    quantity: number;
+    unitPrice: number;
+    total: number;
+  }>;
+  paidAmount: number;
+  remainingAmount: number;
+}
+
 export default function CustomerPortal() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loginForm, setLoginForm] = useState({ email: '', password: '' });
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
+  const [paymentMethod, setPaymentMethod] = useState('card');
 
   const orders: Order[] = [
     {
@@ -157,6 +176,45 @@ export default function CustomerPortal() {
     }
   ];
 
+  const invoices: Invoice[] = [
+    {
+      id: 'INV-2024-001',
+      orderId: 'ORD-2024-001',
+      amount: 450000,
+      dueDate: '2024-03-15',
+      status: 'pending',
+      items: [
+        { name: 'Tactical Command Center', quantity: 1, unitPrice: 450000, total: 450000 }
+      ],
+      paidAmount: 0,
+      remainingAmount: 450000
+    },
+    {
+      id: 'INV-2024-002',
+      orderId: 'ORD-2024-002',
+      amount: 650000,
+      dueDate: '2024-04-01',
+      status: 'partial',
+      items: [
+        { name: 'Field Hospital System', quantity: 1, unitPrice: 650000, total: 650000 }
+      ],
+      paidAmount: 200000,
+      remainingAmount: 450000
+    },
+    {
+      id: 'INV-2024-003',
+      orderId: 'ORD-2024-003',
+      amount: 120000,
+      dueDate: '2024-02-28',
+      status: 'overdue',
+      items: [
+        { name: 'Emergency Relief Shelter', quantity: 2, unitPrice: 60000, total: 120000 }
+      ],
+      paidAmount: 0,
+      remainingAmount: 120000
+    }
+  ];
+
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     // Simulate login
@@ -181,6 +239,39 @@ export default function CustomerPortal() {
       case 'low': return '#48bb78';
       default: return '#6b7280';
     }
+  };
+
+  const getInvoiceStatusColor = (status: string) => {
+    switch (status) {
+      case 'paid': return '#48bb78';
+      case 'partial': return '#3b82f6';
+      case 'pending': return '#f59e0b';
+      case 'overdue': return '#ef4444';
+      default: return '#6b7280';
+    }
+  };
+
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    }).format(amount);
+  };
+
+  const handlePayment = (invoice: Invoice) => {
+    setSelectedInvoice(invoice);
+    setShowPaymentModal(true);
+  };
+
+  const processPayment = () => {
+    // Simulate payment processing
+    setTimeout(() => {
+      setShowPaymentModal(false);
+      setSelectedInvoice(null);
+      // In a real app, you'd update the invoice status here
+    }, 2000);
   };
 
   const renderDashboard = () => (
@@ -244,6 +335,23 @@ export default function CustomerPortal() {
             {maintenance.filter(m => m.status === 'scheduled').length}
           </div>
           <div style={{ fontSize: '0.875rem', color: '#a0aec0' }}>Scheduled Maintenance</div>
+        </motion.div>
+        
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          style={{
+            padding: '20px',
+            background: 'rgba(255, 255, 255, 0.05)',
+            borderRadius: '8px',
+            border: '1px solid rgba(255, 255, 255, 0.1)'
+          }}
+        >
+          <div style={{ fontSize: '2rem', fontWeight: '700', color: '#f59e0b', marginBottom: '8px' }}>
+            {formatCurrency(invoices.reduce((sum, inv) => sum + inv.remainingAmount, 0))}
+          </div>
+          <div style={{ fontSize: '0.875rem', color: '#a0aec0' }}>Outstanding Balance</div>
         </motion.div>
       </div>
 
@@ -489,6 +597,115 @@ export default function CustomerPortal() {
             </div>
             <div style={{ fontSize: '0.875rem', color: '#a0aec0' }}>
               Scheduled: {item.scheduledDate}
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+
+  const renderInvoices = () => (
+    <div style={{ padding: '24px' }}>
+      <h3 style={{ color: '#f7fafc', marginBottom: '24px', fontSize: '1.5rem' }}>
+        Invoices & Payments
+      </h3>
+      
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        {invoices.map((invoice, index) => (
+          <motion.div
+            key={invoice.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+            style={{
+              padding: '20px',
+              background: 'rgba(255, 255, 255, 0.02)',
+              borderRadius: '8px',
+              border: '1px solid rgba(255, 255, 255, 0.05)'
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
+              <div>
+                <div style={{ fontSize: '1rem', fontWeight: '600', color: '#f7fafc', marginBottom: '4px' }}>
+                  Invoice #{invoice.id}
+                </div>
+                <div style={{ fontSize: '0.875rem', color: '#a0aec0' }}>
+                  Order: {invoice.orderId} • Due: {invoice.dueDate}
+                </div>
+              </div>
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <div style={{
+                  padding: '6px 12px',
+                  background: `rgba(${getInvoiceStatusColor(invoice.status).replace('#', '')}, 0.1)`,
+                  color: getInvoiceStatusColor(invoice.status),
+                  borderRadius: '6px',
+                  fontSize: '0.75rem',
+                  fontWeight: '600',
+                  textTransform: 'uppercase'
+                }}>
+                  {invoice.status}
+                </div>
+                {invoice.status !== 'paid' && (
+                  <button
+                    onClick={() => handlePayment(invoice)}
+                    style={{
+                      padding: '8px 16px',
+                      background: 'linear-gradient(135deg, #48bb78 0%, #38a169 100%)',
+                      border: 'none',
+                      borderRadius: '6px',
+                      color: '#ffffff',
+                      fontSize: '0.75rem',
+                      fontWeight: '600',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Pay Now
+                  </button>
+                )}
+              </div>
+            </div>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px', marginBottom: '16px' }}>
+              <div>
+                <div style={{ fontSize: '0.75rem', color: '#718096', marginBottom: '4px' }}>TOTAL AMOUNT</div>
+                <div style={{ fontSize: '1.125rem', fontWeight: '600', color: '#f7fafc' }}>
+                  {formatCurrency(invoice.amount)}
+                </div>
+              </div>
+              <div>
+                <div style={{ fontSize: '0.75rem', color: '#718096', marginBottom: '4px' }}>PAID AMOUNT</div>
+                <div style={{ fontSize: '1.125rem', fontWeight: '600', color: '#48bb78' }}>
+                  {formatCurrency(invoice.paidAmount)}
+                </div>
+              </div>
+              <div>
+                <div style={{ fontSize: '0.75rem', color: '#718096', marginBottom: '4px' }}>REMAINING</div>
+                <div style={{ fontSize: '1.125rem', fontWeight: '600', color: '#f59e0b' }}>
+                  {formatCurrency(invoice.remainingAmount)}
+                </div>
+              </div>
+            </div>
+            
+            <div style={{ marginBottom: '16px' }}>
+              <div style={{ fontSize: '0.875rem', fontWeight: '600', color: '#f7fafc', marginBottom: '8px' }}>
+                Items:
+              </div>
+              {invoice.items.map((item, idx) => (
+                <div key={idx} style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: '8px 0',
+                  borderBottom: '1px solid rgba(255, 255, 255, 0.05)'
+                }}>
+                  <div style={{ fontSize: '0.875rem', color: '#e2e8f0' }}>
+                    {item.name} (x{item.quantity})
+                  </div>
+                  <div style={{ fontSize: '0.875rem', color: '#f7fafc', fontWeight: '600' }}>
+                    {formatCurrency(item.total)}
+                  </div>
+                </div>
+              ))}
             </div>
           </motion.div>
         ))}
@@ -772,6 +989,7 @@ export default function CustomerPortal() {
                       {[
                         { id: 'dashboard', label: 'Dashboard', icon: '📊' },
                         { id: 'orders', label: 'Orders', icon: '📦' },
+                        { id: 'invoices', label: 'Invoices', icon: '💰' },
                         { id: 'documents', label: 'Documents', icon: '📄' },
                         { id: 'maintenance', label: 'Maintenance', icon: '🔧' },
                         { id: 'training', label: 'Training', icon: '🎓' }
@@ -801,14 +1019,179 @@ export default function CustomerPortal() {
 
                     {/* Main Content */}
                     <div style={{ flex: 1, overflow: 'auto' }}>
-                      {activeTab === 'dashboard' && renderDashboard()}
-                      {activeTab === 'orders' && renderOrders()}
-                      {activeTab === 'documents' && renderDocuments()}
-                      {activeTab === 'maintenance' && renderMaintenance()}
-                      {activeTab === 'training' && renderTraining()}
+                                          {activeTab === 'dashboard' && renderDashboard()}
+                    {activeTab === 'orders' && renderOrders()}
+                    {activeTab === 'invoices' && renderInvoices()}
+                    {activeTab === 'documents' && renderDocuments()}
+                    {activeTab === 'maintenance' && renderMaintenance()}
+                    {activeTab === 'training' && renderTraining()}
                     </div>
                   </>
                 )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Payment Modal */}
+      <AnimatePresence>
+        {showPaymentModal && selectedInvoice && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'rgba(0, 0, 0, 0.8)',
+              zIndex: 1002,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '20px'
+            }}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              style={{
+                width: '100%',
+                maxWidth: '500px',
+                background: 'rgba(26, 32, 44, 0.95)',
+                backdropFilter: 'blur(20px)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                borderRadius: '12px',
+                padding: '32px'
+              }}
+            >
+              <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+                <div style={{ fontSize: '2rem', marginBottom: '8px' }}>💳</div>
+                <h3 style={{ color: '#f7fafc', marginBottom: '8px' }}>
+                  Payment for Invoice #{selectedInvoice.id}
+                </h3>
+                <p style={{ color: '#a0aec0' }}>
+                  Amount due: {formatCurrency(selectedInvoice.remainingAmount)}
+                </p>
+              </div>
+
+              <div style={{ marginBottom: '24px' }}>
+                <label style={{ display: 'block', marginBottom: '8px', color: '#e2e8f0', fontSize: '0.875rem' }}>
+                  Payment Method
+                </label>
+                <select
+                  value={paymentMethod}
+                  onChange={(e) => setPaymentMethod(e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: '12px',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    borderRadius: '6px',
+                    color: '#f7fafc',
+                    fontSize: '0.875rem'
+                  }}
+                >
+                  <option value="card">Credit/Debit Card</option>
+                  <option value="bank">Bank Transfer</option>
+                  <option value="wire">Wire Transfer</option>
+                  <option value="check">Check</option>
+                </select>
+              </div>
+
+              {paymentMethod === 'card' && (
+                <div style={{ marginBottom: '24px' }}>
+                  <div style={{ marginBottom: '16px' }}>
+                    <label style={{ display: 'block', marginBottom: '8px', color: '#e2e8f0', fontSize: '0.875rem' }}>
+                      Card Number
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="1234 5678 9012 3456"
+                      style={{
+                        width: '100%',
+                        padding: '12px',
+                        background: 'rgba(255, 255, 255, 0.05)',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        borderRadius: '6px',
+                        color: '#f7fafc',
+                        fontSize: '0.875rem'
+                      }}
+                    />
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                    <div>
+                      <label style={{ display: 'block', marginBottom: '8px', color: '#e2e8f0', fontSize: '0.875rem' }}>
+                        Expiry Date
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="MM/YY"
+                        style={{
+                          width: '100%',
+                          padding: '12px',
+                          background: 'rgba(255, 255, 255, 0.05)',
+                          border: '1px solid rgba(255, 255, 255, 0.1)',
+                          borderRadius: '6px',
+                          color: '#f7fafc',
+                          fontSize: '0.875rem'
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <label style={{ display: 'block', marginBottom: '8px', color: '#e2e8f0', fontSize: '0.875rem' }}>
+                        CVV
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="123"
+                        style={{
+                          width: '100%',
+                          padding: '12px',
+                          background: 'rgba(255, 255, 255, 0.05)',
+                          border: '1px solid rgba(255, 255, 255, 0.1)',
+                          borderRadius: '6px',
+                          color: '#f7fafc',
+                          fontSize: '0.875rem'
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+                <button
+                  onClick={() => setShowPaymentModal(false)}
+                  style={{
+                    padding: '12px 24px',
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    borderRadius: '8px',
+                    color: '#f7fafc',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={processPayment}
+                  style={{
+                    padding: '12px 24px',
+                    background: 'linear-gradient(135deg, #48bb78 0%, #38a169 100%)',
+                    border: 'none',
+                    borderRadius: '8px',
+                    color: '#ffffff',
+                    cursor: 'pointer',
+                    fontWeight: '600'
+                  }}
+                >
+                  Process Payment
+                </button>
               </div>
             </motion.div>
           </motion.div>

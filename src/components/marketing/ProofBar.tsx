@@ -11,24 +11,52 @@ export default function ProofBar() {
   ];
 
   return (
-    <section className="py-20 bg-white/5 backdrop-blur-sm border-y border-white/10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section style={{
+      padding: '80px 0',
+      background: 'rgba(255, 255, 255, 0.05)',
+      backdropFilter: 'blur(10px)',
+      borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+      borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+    }}>
+      <div style={{
+        maxWidth: '1280px',
+        margin: '0 auto',
+        padding: '0 16px'
+      }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          style={{
+            textAlign: 'center',
+            marginBottom: '64px'
+          }}
         >
-          <h2 className="text-3xl md:text-4xl font-light text-white mb-4">
+          <h2 style={{
+            fontSize: 'clamp(1.875rem, 3vw, 2.25rem)',
+            fontWeight: '300',
+            color: 'white',
+            marginBottom: '16px'
+          }}>
             PROVEN PERFORMANCE
           </h2>
-          <p className="text-lg text-gray-300 max-w-3xl mx-auto font-light">
+          <p style={{
+            fontSize: '1.125rem',
+            color: '#d1d5db',
+            maxWidth: '768px',
+            margin: '0 auto',
+            fontWeight: '300'
+          }}>
             Trusted by governments and organizations worldwide for rapid, reliable deployment
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+          gap: '32px'
+        }}>
           {stats.map((stat, index) => (
             <motion.div
               key={index}
@@ -36,17 +64,46 @@ export default function ProofBar() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="text-center group"
+              style={{
+                textAlign: 'center'
+              }}
             >
-              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 hover:bg-white/10 hover:border-white/20 transition-all duration-300">
-                <div className="text-4xl mb-4">{stat.icon}</div>
-                <div className="text-3xl md:text-4xl font-light text-white mb-2">
+              <div style={{
+                background: 'rgba(255, 255, 255, 0.05)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                borderRadius: '16px',
+                padding: '32px',
+                transition: 'all 0.3s ease'
+              }}>
+                <div style={{
+                  fontSize: '2.25rem',
+                  marginBottom: '16px'
+                }}>
+                  {stat.icon}
+                </div>
+                <div style={{
+                  fontSize: 'clamp(1.875rem, 3vw, 2.25rem)',
+                  fontWeight: '300',
+                  color: 'white',
+                  marginBottom: '8px'
+                }}>
                   {stat.value}
                 </div>
-                <div className="text-sm font-medium text-gray-300 mb-1 tracking-wide">
+                <div style={{
+                  fontSize: '0.875rem',
+                  fontWeight: '500',
+                  color: '#d1d5db',
+                  marginBottom: '4px',
+                  letterSpacing: '0.025em'
+                }}>
                   {stat.label}
                 </div>
-                <div className="text-xs text-gray-400 font-light">
+                <div style={{
+                  fontSize: '0.75rem',
+                  color: '#9ca3af',
+                  fontWeight: '300'
+                }}>
                   {stat.description}
                 </div>
               </div>

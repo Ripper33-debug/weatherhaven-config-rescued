@@ -4,6 +4,7 @@ import '../index.css'
 import Header from '../components/marketing/Header'
 import Footer from '../components/marketing/Footer'
 import ScrollToTop from '../components/ui/ScrollToTop'
+import FloatingChat from '../components/ui/FloatingChat'
 import { Analytics } from '@vercel/analytics/react'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -118,6 +119,7 @@ export default function RootLayout({
         </main>
         <Footer />
         <ScrollToTop />
+        <FloatingChat />
         <Analytics />
       </body>
     </html>

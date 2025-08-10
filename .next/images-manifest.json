@@ -25,12 +25,13 @@
     "loader": "default",
     "loaderFile": "",
     "domains": [
-      "eiec269001.blob.core.windows.net"
+      "weatherhaven-config.vercel.app"
     ],
     "disableStaticImages": false,
     "minimumCacheTTL": 60,
     "formats": [
-      "image/webp"
+      "image/webp",
+      "image/avif"
     ],
     "dangerouslyAllowSVG": false,
     "contentSecurityPolicy": "script-src 'none'; frame-src 'none'; sandbox;",

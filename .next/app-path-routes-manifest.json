@@ -1,7 +1,13 @@
 {
+  "/robots.txt/route": "/robots.txt",
+  "/sitemap.xml/route": "/sitemap.xml",
   "/_not-found/page": "/_not-found",
-  "/products/page": "/products",
+  "/case-studies/page": "/case-studies",
+  "/configurator/page": "/configurator",
+  "/about/page": "/about",
   "/page": "/",
-  "/solutions/page": "/solutions",
-  "/configurator/page": "/configurator"
+  "/contact/page": "/contact",
+  "/products/page": "/products",
+  "/resources/page": "/resources",
+  "/solutions/page": "/solutions"
 }

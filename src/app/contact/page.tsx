@@ -13,16 +13,78 @@ export default function ContactPage() {
     sector: 'military'
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = 'Name is required';
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+
+    if (!formData.message.trim()) {
+      newErrors.message = 'Message is required';
+    } else if (formData.message.trim().length < 10) {
+      newErrors.message = 'Message must be at least 10 characters long';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission - would typically send to API
+    
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // In a real implementation, you would send the data to your API
+      // const response = await fetch('/api/contact', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify(formData)
+      // });
+
+      setSubmitStatus('success');
+      setFormData({
+        name: '',
+        email: '',
+        organization: '',
+        phone: '',
+        message: '',
+        sector: 'military'
+      });
+    } catch (error) {
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: '' }));
+    }
   };
 
   const contactInfo = [
@@ -117,6 +179,50 @@ export default function ContactPage() {
             }}>
               SEND US A MESSAGE
             </h2>
+
+            {/* Success/Error Messages */}
+            {submitStatus === 'success' && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                style={{
+                  padding: '16px',
+                  background: 'rgba(16, 185, 129, 0.1)',
+                  border: '1px solid rgba(16, 185, 129, 0.3)',
+                  borderRadius: '8px',
+                  color: '#10b981',
+                  marginBottom: '24px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px'
+                }}
+              >
+                <span style={{ fontSize: '1.2rem' }}>✓</span>
+                Thank you! Your message has been sent successfully. We'll get back to you within 24 hours.
+              </motion.div>
+            )}
+
+            {submitStatus === 'error' && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                style={{
+                  padding: '16px',
+                  background: 'rgba(239, 68, 68, 0.1)',
+                  border: '1px solid rgba(239, 68, 68, 0.3)',
+                  borderRadius: '8px',
+                  color: '#ef4444',
+                  marginBottom: '24px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px'
+                }}
+              >
+                <span style={{ fontSize: '1.2rem' }}>✕</span>
+                Something went wrong. Please try again or contact us directly.
+              </motion.div>
+            )}
+
             <form onSubmit={handleSubmit} style={{
               display: 'flex',
               flexDirection: 'column',
@@ -147,13 +253,22 @@ export default function ContactPage() {
                       width: '100%',
                       padding: '12px 16px',
                       background: 'rgba(255, 255, 255, 0.1)',
-                      border: '1px solid rgba(255, 255, 255, 0.2)',
+                      border: `1px solid ${errors.name ? 'rgba(239, 68, 68, 0.5)' : 'rgba(255, 255, 255, 0.2)'}`,
                       borderRadius: '8px',
                       color: 'white',
                       fontSize: '1rem',
                       transition: 'all 0.3s ease'
                     }}
                   />
+                  {errors.name && (
+                    <div style={{
+                      color: '#ef4444',
+                      fontSize: '0.875rem',
+                      marginTop: '4px'
+                    }}>
+                      {errors.name}
+                    </div>
+                  )}
                 </div>
                 <div>
                   <label style={{
@@ -175,13 +290,22 @@ export default function ContactPage() {
                       width: '100%',
                       padding: '12px 16px',
                       background: 'rgba(255, 255, 255, 0.1)',
-                      border: '1px solid rgba(255, 255, 255, 0.2)',
+                      border: `1px solid ${errors.email ? 'rgba(239, 68, 68, 0.5)' : 'rgba(255, 255, 255, 0.2)'}`,
                       borderRadius: '8px',
                       color: 'white',
                       fontSize: '1rem',
                       transition: 'all 0.3s ease'
                     }}
                   />
+                  {errors.email && (
+                    <div style={{
+                      color: '#ef4444',
+                      fontSize: '0.875rem',
+                      marginTop: '4px'
+                    }}>
+                      {errors.email}
+                    </div>
+                  )}
                 </div>
               </div>
               
@@ -298,7 +422,7 @@ export default function ContactPage() {
                     width: '100%',
                     padding: '12px 16px',
                     background: 'rgba(255, 255, 255, 0.1)',
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    border: `1px solid ${errors.message ? 'rgba(239, 68, 68, 0.5)' : 'rgba(255, 255, 255, 0.2)'}`,
                     borderRadius: '8px',
                     color: 'white',
                     fontSize: '1rem',
@@ -306,27 +430,55 @@ export default function ContactPage() {
                     transition: 'all 0.3s ease'
                   }}
                 />
+                {errors.message && (
+                  <div style={{
+                    color: '#ef4444',
+                    fontSize: '0.875rem',
+                    marginTop: '4px'
+                  }}>
+                    {errors.message}
+                  </div>
+                )}
               </div>
 
               <motion.button
                 type="submit"
-                whileHover={{ scale: 1.02, y: -2 }}
-                whileTap={{ scale: 0.98 }}
+                disabled={isSubmitting}
+                whileHover={!isSubmitting ? { scale: 1.02, y: -2 } : {}}
+                whileTap={!isSubmitting ? { scale: 0.98 } : {}}
                 style={{
                   padding: '16px 32px',
-                  background: 'white',
+                  background: isSubmitting ? 'rgba(255, 255, 255, 0.3)' : 'white',
                   color: 'black',
                   fontWeight: '500',
                   fontSize: '16px',
                   letterSpacing: '0.025em',
                   borderRadius: '8px',
                   border: 'none',
-                  cursor: 'pointer',
+                  cursor: isSubmitting ? 'not-allowed' : 'pointer',
                   boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-                  transition: 'all 0.3s ease'
+                  transition: 'all 0.3s ease',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px'
                 }}
               >
-                SEND MESSAGE
+                {isSubmitting ? (
+                  <>
+                    <div style={{
+                      width: '16px',
+                      height: '16px',
+                      border: '2px solid rgba(0, 0, 0, 0.3)',
+                      borderTop: '2px solid black',
+                      borderRadius: '50%',
+                      animation: 'spin 1s linear infinite'
+                    }}></div>
+                    SENDING...
+                  </>
+                ) : (
+                  'SEND MESSAGE'
+                )}
               </motion.button>
             </form>
           </motion.div>
@@ -431,6 +583,13 @@ export default function ContactPage() {
           </motion.div>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   );
 }

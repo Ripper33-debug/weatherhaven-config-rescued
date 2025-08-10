@@ -34,9 +34,9 @@ export default function Header() {
       right: 0,
       zIndex: 50,
       transition: 'all 0.3s ease',
-      background: isScrolled ? 'rgba(0, 0, 0, 0.9)' : 'transparent',
+      background: isScrolled ? 'rgba(26, 32, 44, 0.95)' : 'transparent',
       backdropFilter: isScrolled ? 'blur(10px)' : 'none',
-      borderBottom: isScrolled ? '1px solid rgba(255, 255, 255, 0.1)' : 'none'
+      borderBottom: isScrolled ? '1px solid rgba(255, 255, 255, 0.05)' : 'none'
     }}>
       <div style={{
         maxWidth: '1280px',
@@ -52,15 +52,16 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" style={{ display: 'flex', alignItems: 'center' }}>
             <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               style={{
-                fontSize: '24px',
+                fontSize: '20px',
                 fontWeight: '700',
-                color: 'white',
-                letterSpacing: '0.025em',
+                color: '#f7fafc',
+                letterSpacing: '0.05em',
                 cursor: 'pointer',
-                transition: 'all 0.3s ease'
+                transition: 'all 0.3s ease',
+                textTransform: 'uppercase'
               }}
             >
               WEATHERHAVEN
@@ -83,25 +84,26 @@ export default function Header() {
               >
                 <Link href={item.href}>
                   <motion.div
-                    whileHover={{ y: -2 }}
+                    whileHover={{ y: -1 }}
                     whileTap={{ y: 0 }}
                     style={{
-                      color: 'rgba(255, 255, 255, 0.8)',
+                      color: 'rgba(226, 232, 240, 0.8)',
                       fontWeight: '500',
-                      fontSize: '14px',
-                      letterSpacing: '0.025em',
+                      fontSize: '13px',
+                      letterSpacing: '0.05em',
                       cursor: 'pointer',
                       padding: '8px 12px',
-                      borderRadius: '6px',
+                      borderRadius: '4px',
                       transition: 'all 0.3s ease',
-                      position: 'relative'
+                      position: 'relative',
+                      textTransform: 'uppercase'
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.color = 'white';
-                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                      e.currentTarget.style.color = '#f7fafc';
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.color = 'rgba(255, 255, 255, 0.8)';
+                      e.currentTarget.style.color = 'rgba(226, 232, 240, 0.8)';
                       e.currentTarget.style.background = 'transparent';
                     }}
                   >
@@ -113,7 +115,7 @@ export default function Header() {
                         left: '50%',
                         width: 0,
                         height: '2px',
-                        background: 'white',
+                        background: '#e2e8f0',
                         transform: 'translateX(-50%)'
                       }}
                       whileHover={{ width: '100%' }}
@@ -132,22 +134,23 @@ export default function Header() {
             >
               <Link href="/configurator">
                 <motion.button
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={{ scale: 1.02, y: -1 }}
+                  whileTap={{ scale: 0.98 }}
                   style={{
-                    padding: '10px 24px',
-                    background: 'white',
-                    color: 'black',
-                    fontWeight: '500',
-                    fontSize: '14px',
-                    letterSpacing: '0.025em',
-                    borderRadius: '8px',
+                    padding: '8px 20px',
+                    background: '#e2e8f0',
+                    color: '#1a202c',
+                    fontWeight: '600',
+                    fontSize: '13px',
+                    letterSpacing: '0.05em',
+                    borderRadius: '4px',
                     border: 'none',
                     cursor: 'pointer',
                     transition: 'all 0.3s ease',
-                    boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
                     position: 'relative',
-                    overflow: 'hidden'
+                    overflow: 'hidden',
+                    textTransform: 'uppercase'
                   }}
                 >
                   <motion.div

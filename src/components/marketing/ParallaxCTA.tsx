@@ -26,7 +26,7 @@ export default function ParallaxCTA() {
         overflow: 'hidden'
       }}
     >
-      {/* Parallax Background */}
+      {/* Professional Background */}
       <motion.div
         style={{
           y,
@@ -35,12 +35,12 @@ export default function ParallaxCTA() {
           left: 0,
           right: 0,
           bottom: 0,
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          background: 'linear-gradient(135deg, #1a202c 0%, #2d3748 50%, #1a202c 100%)',
           zIndex: -2
         }}
       />
 
-      {/* Animated Grid */}
+      {/* Professional Grid Pattern */}
       <div style={{
         position: 'absolute',
         top: 0,
@@ -48,74 +48,57 @@ export default function ParallaxCTA() {
         right: 0,
         bottom: 0,
         zIndex: -1,
-        opacity: 0.1
-      }}>
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            style={{
-              position: 'absolute',
-              width: '2px',
-              height: '100px',
-              background: 'white',
-              left: `${(i * 5) % 100}%`,
-              top: `${Math.random() * 100}%`
-            }}
-            animate={{
-              y: [0, -200, 0],
-              opacity: [0.1, 0.5, 0.1]
-            }}
-            transition={{
-              duration: 3 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 2
-            }}
-          />
-        ))}
-      </div>
+        opacity: 0.03,
+        backgroundImage: `
+          linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px)
+        `,
+        backgroundSize: '50px 50px'
+      }} />
 
-      {/* Floating Elements */}
+      {/* Professional Accent Lines */}
       <motion.div
         style={{
           position: 'absolute',
           top: '20%',
           right: '10%',
-          fontSize: '4rem',
-          opacity: 0.1
+          width: '300px',
+          height: '2px',
+          background: 'linear-gradient(90deg, transparent, #e2e8f0, transparent)',
+          zIndex: -1
         }}
         animate={{
-          rotate: 360,
-          scale: [1, 1.2, 1]
+          opacity: [0.2, 0.6, 0.2],
+          scaleX: [0.8, 1, 0.8]
         }}
         transition={{
-          duration: 20,
+          duration: 4,
           repeat: Infinity,
-          ease: 'linear'
+          ease: 'easeInOut'
         }}
-      >
-        🏗️
-      </motion.div>
+      />
 
       <motion.div
         style={{
           position: 'absolute',
           bottom: '30%',
           left: '5%',
-          fontSize: '3rem',
-          opacity: 0.1
+          width: '200px',
+          height: '2px',
+          background: 'linear-gradient(90deg, transparent, #718096, transparent)',
+          zIndex: -1
         }}
         animate={{
-          rotate: -360,
-          scale: [1, 0.8, 1]
+          opacity: [0.1, 0.4, 0.1],
+          scaleX: [0.6, 1, 0.6]
         }}
         transition={{
-          duration: 25,
+          duration: 6,
           repeat: Infinity,
-          ease: 'linear'
+          ease: 'easeInOut',
+          delay: 2
         }}
-      >
-        🚀
-      </motion.div>
+      />
 
       {/* Main Content */}
       <motion.div
@@ -134,7 +117,7 @@ export default function ParallaxCTA() {
           transition={{ duration: 1 }}
           viewport={{ once: true }}
         >
-          {/* Badge */}
+          {/* Professional Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -144,25 +127,27 @@ export default function ParallaxCTA() {
               display: 'inline-flex',
               alignItems: 'center',
               gap: '8px',
-              padding: '12px 24px',
-              background: 'rgba(255, 255, 255, 0.15)',
+              padding: '10px 20px',
+              background: 'rgba(255, 255, 255, 0.05)',
               backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '30px',
-              fontSize: '16px',
-              fontWeight: '600',
-              color: 'white',
-              marginBottom: '32px'
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              borderRadius: '4px',
+              fontSize: '12px',
+              fontWeight: '500',
+              color: '#a0aec0',
+              marginBottom: '32px',
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase'
             }}
           >
-            <span style={{ fontSize: '14px' }}>⚡</span>
+            <span style={{ fontSize: '10px' }}>⚡</span>
             READY TO DEPLOY?
           </motion.div>
 
           <h2 style={{
             fontSize: 'clamp(3rem, 8vw, 5rem)',
             fontWeight: '700',
-            color: 'white',
+            color: '#f7fafc',
             marginBottom: '24px',
             lineHeight: '1.1',
             letterSpacing: '-0.02em'
@@ -170,10 +155,11 @@ export default function ParallaxCTA() {
             START YOUR
             <br />
             <span style={{
-              background: 'linear-gradient(45deg, #fff, #f0f0f0)',
+              background: 'linear-gradient(45deg, #f7fafc, #e2e8f0)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text'
+              backgroundClip: 'text',
+              fontWeight: '800'
             }}>
               DEPLOYMENT
             </span>
@@ -188,7 +174,7 @@ export default function ParallaxCTA() {
             viewport={{ once: true }}
             style={{
               fontSize: 'clamp(1.125rem, 3vw, 1.5rem)',
-              color: '#d1d5db',
+              color: '#a0aec0',
               marginBottom: '48px',
               lineHeight: '1.6',
               fontWeight: '300'
@@ -212,22 +198,23 @@ export default function ParallaxCTA() {
           >
             <Link href="/configurator">
               <motion.button
-                whileHover={{ scale: 1.05, y: -3 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.02, y: -2 }}
+                whileTap={{ scale: 0.98 }}
                 style={{
-                  padding: '20px 40px',
-                  background: 'white',
-                  color: 'black',
-                  fontWeight: '700',
-                  fontSize: '18px',
+                  padding: '18px 36px',
+                  background: '#e2e8f0',
+                  color: '#1a202c',
+                  fontWeight: '600',
+                  fontSize: '16px',
                   letterSpacing: '0.025em',
-                  borderRadius: '16px',
+                  borderRadius: '4px',
                   border: 'none',
                   cursor: 'pointer',
-                  boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
                   transition: 'all 0.3s ease',
                   position: 'relative',
-                  overflow: 'hidden'
+                  overflow: 'hidden',
+                  textTransform: 'uppercase'
                 }}
               >
                 <motion.div
@@ -250,20 +237,21 @@ export default function ParallaxCTA() {
 
             <Link href="/contact">
               <motion.button
-                whileHover={{ scale: 1.05, y: -3 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.02, y: -2 }}
+                whileTap={{ scale: 0.98 }}
                 style={{
-                  padding: '20px 40px',
+                  padding: '18px 36px',
                   background: 'transparent',
-                  border: '3px solid rgba(255, 255, 255, 0.4)',
-                  color: 'white',
-                  fontWeight: '700',
-                  fontSize: '18px',
+                  border: '2px solid #4a5568',
+                  color: '#e2e8f0',
+                  fontWeight: '600',
+                  fontSize: '16px',
                   letterSpacing: '0.025em',
-                  borderRadius: '16px',
+                  borderRadius: '4px',
                   cursor: 'pointer',
                   backdropFilter: 'blur(20px)',
-                  transition: 'all 0.3s ease'
+                  transition: 'all 0.3s ease',
+                  textTransform: 'uppercase'
                 }}
               >
                 TALK TO EXPERTS
@@ -299,24 +287,26 @@ export default function ParallaxCTA() {
                 style={{
                   textAlign: 'center',
                   padding: '20px',
-                  background: 'rgba(255, 255, 255, 0.1)',
+                  background: 'rgba(255, 255, 255, 0.02)',
                   backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
-                  borderRadius: '16px'
+                  border: '1px solid rgba(255, 255, 255, 0.05)',
+                  borderRadius: '8px'
                 }}
               >
                 <div style={{
                   fontSize: '1.5rem',
                   fontWeight: '700',
-                  color: 'white',
+                  color: '#f7fafc',
                   marginBottom: '8px'
                 }}>
                   {stat.number}
                 </div>
                 <div style={{
-                  fontSize: '0.875rem',
-                  color: '#d1d5db',
-                  fontWeight: '500'
+                  fontSize: '0.75rem',
+                  color: '#718096',
+                  fontWeight: '500',
+                  letterSpacing: '0.05em',
+                  textTransform: 'uppercase'
                 }}>
                   {stat.label}
                 </div>

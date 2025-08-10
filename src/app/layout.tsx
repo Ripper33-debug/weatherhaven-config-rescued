@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Inter, Roboto } from 'next/font/google'
 import '../index.css'
 import Header from '../components/marketing/Header'
 import Footer from '../components/marketing/Footer'
@@ -8,6 +8,11 @@ import FloatingChat from '../components/ui/FloatingChat'
 import { Analytics } from '@vercel/analytics/react'
 
 const inter = Inter({ subsets: ['latin'] })
+const roboto = Roboto({ 
+  weight: ['300', '400', '500', '700'],
+  subsets: ['latin'],
+  variable: '--font-roboto'
+})
 
 export const metadata: Metadata = {
   title: 'Weatherhaven - Deployable Shelter Solutions',
@@ -103,15 +108,17 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#667eea" />
+        <meta name="theme-color" content="#1a202c" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body style={{
-        fontFamily: inter.style.fontFamily,
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        color: 'white',
+        fontFamily: `${roboto.style.fontFamily}, ${inter.style.fontFamily}, system-ui, -apple-system, sans-serif`,
+        background: 'linear-gradient(135deg, #1a202c 0%, #2d3748 50%, #1a202c 100%)',
+        color: '#e2e8f0',
         margin: 0,
-        padding: 0
+        padding: 0,
+        fontWeight: '400',
+        lineHeight: '1.6'
       }}>
         <Header />
         <main style={{ paddingTop: '64px' }}>

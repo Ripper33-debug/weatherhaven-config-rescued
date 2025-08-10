@@ -13,18 +13,18 @@ export default function Hero() {
       justifyContent: 'center',
       overflow: 'hidden'
     }}>
-      {/* Animated Background */}
+      {/* Professional Background */}
       <div style={{
         position: 'absolute',
         top: 0,
         left: 0,
         right: 0,
         bottom: 0,
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        background: 'linear-gradient(135deg, #1a202c 0%, #2d3748 50%, #1a202c 100%)',
         zIndex: -2
       }} />
       
-      {/* Floating Particles */}
+      {/* Subtle Grid Pattern */}
       <div style={{
         position: 'absolute',
         top: 0,
@@ -32,76 +32,55 @@ export default function Hero() {
         right: 0,
         bottom: 0,
         zIndex: -1,
-        overflow: 'hidden'
-      }}>
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            style={{
-              position: 'absolute',
-              width: '4px',
-              height: '4px',
-              background: 'rgba(255, 255, 255, 0.3)',
-              borderRadius: '50%',
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`
-            }}
-            animate={{
-              y: [0, -100, 0],
-              opacity: [0.3, 0.8, 0.3],
-              scale: [1, 1.5, 1]
-            }}
-            transition={{
-              duration: 3 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 2
-            }}
-          />
-        ))}
-      </div>
+        opacity: 0.03,
+        backgroundImage: `
+          linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px)
+        `,
+        backgroundSize: '50px 50px'
+      }} />
 
-      {/* Geometric Shapes */}
+      {/* Professional Accent Elements */}
       <motion.div
         style={{
           position: 'absolute',
-          top: '10%',
+          top: '15%',
           right: '10%',
-          width: '200px',
-          height: '200px',
-          border: '2px solid rgba(255, 255, 255, 0.1)',
-          borderRadius: '50%',
+          width: '300px',
+          height: '2px',
+          background: 'linear-gradient(90deg, transparent, #e2e8f0, transparent)',
           zIndex: -1
         }}
         animate={{
-          rotate: 360,
-          scale: [1, 1.1, 1]
+          opacity: [0.3, 0.8, 0.3],
+          scaleX: [0.8, 1, 0.8]
         }}
         transition={{
-          duration: 20,
+          duration: 4,
           repeat: Infinity,
-          ease: 'linear'
+          ease: 'easeInOut'
         }}
       />
       
       <motion.div
         style={{
           position: 'absolute',
-          bottom: '20%',
+          bottom: '25%',
           left: '5%',
-          width: '150px',
-          height: '150px',
-          border: '2px solid rgba(255, 255, 255, 0.1)',
-          transform: 'rotate(45deg)',
+          width: '200px',
+          height: '2px',
+          background: 'linear-gradient(90deg, transparent, #718096, transparent)',
           zIndex: -1
         }}
         animate={{
-          rotate: -360,
-          scale: [1, 0.9, 1]
+          opacity: [0.2, 0.6, 0.2],
+          scaleX: [0.6, 1, 0.6]
         }}
         transition={{
-          duration: 25,
+          duration: 6,
           repeat: Infinity,
-          ease: 'linear'
+          ease: 'easeInOut',
+          delay: 2
         }}
       />
 
@@ -118,7 +97,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          {/* Badge */}
+          {/* Professional Badge */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -127,36 +106,40 @@ export default function Hero() {
               display: 'inline-flex',
               alignItems: 'center',
               gap: '8px',
-              padding: '8px 16px',
-              background: 'rgba(255, 255, 255, 0.1)',
+              padding: '10px 20px',
+              background: 'rgba(255, 255, 255, 0.05)',
               backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-              borderRadius: '20px',
-              fontSize: '14px',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              borderRadius: '4px',
+              fontSize: '12px',
               fontWeight: '500',
-              color: 'white',
-              marginBottom: '24px'
+              color: '#a0aec0',
+              marginBottom: '32px',
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase'
             }}
           >
-            <span style={{ fontSize: '12px' }}>🚀</span>
-            RAPID DEPLOYMENT TECHNOLOGY
+            <span style={{ fontSize: '10px' }}>⚡</span>
+            MILITARY-GRADE DEPLOYMENT TECHNOLOGY
           </motion.div>
 
           <h1 style={{
-            fontSize: 'clamp(3rem, 8vw, 5rem)',
+            fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
             fontWeight: '700',
-            color: 'white',
+            color: '#f7fafc',
             marginBottom: '24px',
             lineHeight: '1.1',
-            letterSpacing: '-0.02em'
+            letterSpacing: '-0.02em',
+            fontFamily: 'inherit'
           }}>
             DEPLOYABLE
             <br />
             <span style={{
-              background: 'linear-gradient(45deg, #fff, #f0f0f0)',
+              background: 'linear-gradient(45deg, #f7fafc, #e2e8f0)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text'
+              backgroundClip: 'text',
+              fontWeight: '800'
             }}>
               SHELTER SOLUTIONS
             </span>
@@ -167,17 +150,18 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             style={{
-              fontSize: 'clamp(1.125rem, 3vw, 1.5rem)',
-              color: '#d1d5db',
+              fontSize: 'clamp(1.125rem, 2.5vw, 1.375rem)',
+              color: '#a0aec0',
               maxWidth: '800px',
               margin: '0 auto 48px',
               lineHeight: '1.6',
-              fontWeight: '300'
+              fontWeight: '300',
+              letterSpacing: '0.01em'
             }}
           >
             Rapidly deployable shelter systems for defense, disaster response, and remote industry. 
             <br />
-            <strong style={{ color: 'white' }}>Ready in hours, not weeks.</strong>
+            <strong style={{ color: '#e2e8f0', fontWeight: '600' }}>Ready in hours, not weeks.</strong>
           </motion.p>
 
           <motion.div
@@ -189,27 +173,28 @@ export default function Hero() {
               gap: '24px',
               justifyContent: 'center',
               flexWrap: 'wrap',
-              marginBottom: '64px'
+              marginBottom: '80px'
             }}
           >
             <Link href="/configurator">
               <motion.button
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.02, y: -2 }}
+                whileTap={{ scale: 0.98 }}
                 style={{
-                  padding: '18px 36px',
-                  background: 'white',
-                  color: 'black',
+                  padding: '16px 32px',
+                  background: '#e2e8f0',
+                  color: '#1a202c',
                   fontWeight: '600',
-                  fontSize: '18px',
+                  fontSize: '16px',
                   letterSpacing: '0.025em',
-                  borderRadius: '12px',
+                  borderRadius: '4px',
                   border: 'none',
                   cursor: 'pointer',
-                  boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
                   transition: 'all 0.3s ease',
                   position: 'relative',
-                  overflow: 'hidden'
+                  overflow: 'hidden',
+                  textTransform: 'uppercase'
                 }}
               >
                 <motion.div
@@ -232,20 +217,21 @@ export default function Hero() {
 
             <Link href="/solutions">
               <motion.button
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.02, y: -2 }}
+                whileTap={{ scale: 0.98 }}
                 style={{
-                  padding: '18px 36px',
+                  padding: '16px 32px',
                   background: 'transparent',
-                  border: '2px solid rgba(255, 255, 255, 0.3)',
-                  color: 'white',
+                  border: '2px solid #4a5568',
+                  color: '#e2e8f0',
                   fontWeight: '600',
-                  fontSize: '18px',
+                  fontSize: '16px',
                   letterSpacing: '0.025em',
-                  borderRadius: '12px',
+                  borderRadius: '4px',
                   cursor: 'pointer',
                   backdropFilter: 'blur(10px)',
-                  transition: 'all 0.3s ease'
+                  transition: 'all 0.3s ease',
+                  textTransform: 'uppercase'
                 }}
               >
                 EXPLORE SOLUTIONS
@@ -253,7 +239,7 @@ export default function Hero() {
             </Link>
           </motion.div>
 
-          {/* Stats */}
+          {/* Professional Stats */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -262,7 +248,7 @@ export default function Hero() {
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
               gap: '32px',
-              maxWidth: '800px',
+              maxWidth: '900px',
               margin: '0 auto'
             }}
           >
@@ -280,27 +266,29 @@ export default function Hero() {
                 style={{
                   textAlign: 'center',
                   padding: '24px',
-                  background: 'rgba(255, 255, 255, 0.05)',
+                  background: 'rgba(255, 255, 255, 0.02)',
                   backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  borderRadius: '16px'
+                  border: '1px solid rgba(255, 255, 255, 0.05)',
+                  borderRadius: '8px'
                 }}
               >
-                <div style={{ fontSize: '2rem', marginBottom: '8px' }}>
+                <div style={{ fontSize: '1.5rem', marginBottom: '8px' }}>
                   {stat.icon}
                 </div>
                 <div style={{
                   fontSize: '2rem',
                   fontWeight: '700',
-                  color: 'white',
+                  color: '#f7fafc',
                   marginBottom: '8px'
                 }}>
                   {stat.number}
                 </div>
                 <div style={{
-                  fontSize: '0.875rem',
-                  color: '#d1d5db',
-                  fontWeight: '500'
+                  fontSize: '0.75rem',
+                  color: '#718096',
+                  fontWeight: '500',
+                  letterSpacing: '0.05em',
+                  textTransform: 'uppercase'
                 }}>
                   {stat.label}
                 </div>
@@ -310,7 +298,7 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Scroll Indicator */}
+      {/* Professional Scroll Indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -324,14 +312,17 @@ export default function Hero() {
           flexDirection: 'column',
           alignItems: 'center',
           gap: '8px',
-          color: 'rgba(255, 255, 255, 0.6)',
-          fontSize: '14px'
+          color: '#718096',
+          fontSize: '12px',
+          fontWeight: '500',
+          letterSpacing: '0.1em',
+          textTransform: 'uppercase'
         }}
       >
         <motion.div
-          animate={{ y: [0, 10, 0] }}
+          animate={{ y: [0, 8, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
-          style={{ fontSize: '1.5rem' }}
+          style={{ fontSize: '1rem' }}
         >
           ↓
         </motion.div>

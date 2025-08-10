@@ -60,8 +60,8 @@ export default function FloatingChat() {
     <>
       {/* Floating Chat Button */}
       <motion.button
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(!isOpen)}
         style={{
           position: 'fixed',
@@ -69,11 +69,11 @@ export default function FloatingChat() {
           right: '24px',
           width: '60px',
           height: '60px',
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          background: 'linear-gradient(135deg, #2d3748 0%, #4a5568 100%)',
           border: 'none',
           borderRadius: '50%',
           cursor: 'pointer',
-          boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)',
+          boxShadow: '0 10px 25px rgba(0, 0, 0, 0.3)',
           zIndex: 1000,
           display: 'flex',
           alignItems: 'center',
@@ -97,10 +97,10 @@ export default function FloatingChat() {
             right: '24px',
             width: '350px',
             height: '500px',
-            background: 'rgba(255, 255, 255, 0.95)',
+            background: 'rgba(26, 32, 44, 0.95)',
             backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
-            borderRadius: '20px',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            borderRadius: '8px',
             boxShadow: '0 25px 50px rgba(0, 0, 0, 0.25)',
             zIndex: 1000,
             display: 'flex',
@@ -111,10 +111,10 @@ export default function FloatingChat() {
           {/* Chat Header */}
           <div style={{
             padding: '20px',
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            background: 'linear-gradient(135deg, #2d3748 0%, #4a5568 100%)',
             color: 'white',
-            borderTopLeftRadius: '20px',
-            borderTopRightRadius: '20px'
+            borderTopLeftRadius: '8px',
+            borderTopRightRadius: '8px'
           }}>
             <div style={{
               display: 'flex',
@@ -124,7 +124,7 @@ export default function FloatingChat() {
               <div style={{
                 width: '40px',
                 height: '40px',
-                background: 'rgba(255, 255, 255, 0.2)',
+                background: 'rgba(255, 255, 255, 0.1)',
                 borderRadius: '50%',
                 display: 'flex',
                 alignItems: 'center',
@@ -173,10 +173,10 @@ export default function FloatingChat() {
                   maxWidth: '80%',
                   padding: '12px 16px',
                   background: message.sender === 'user' 
-                    ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-                    : '#f3f4f6',
-                  color: message.sender === 'user' ? 'white' : '#374151',
-                  borderRadius: '18px',
+                    ? 'linear-gradient(135deg, #2d3748 0%, #4a5568 100%)'
+                    : '#f7fafc',
+                  color: message.sender === 'user' ? 'white' : '#2d3748',
+                  borderRadius: '12px',
                   fontSize: '0.875rem',
                   lineHeight: '1.4'
                 }}>
@@ -199,7 +199,7 @@ export default function FloatingChat() {
               >
                 <div style={{
                   fontSize: '0.75rem',
-                  color: '#6b7280',
+                  color: '#a0aec0',
                   marginBottom: '8px'
                 }}>
                   Quick replies:
@@ -212,11 +212,11 @@ export default function FloatingChat() {
                     onClick={() => handleSendMessage(reply)}
                     style={{
                       padding: '8px 12px',
-                      background: 'rgba(102, 126, 234, 0.1)',
-                      border: '1px solid rgba(102, 126, 234, 0.2)',
-                      borderRadius: '12px',
+                      background: 'rgba(45, 55, 72, 0.1)',
+                      border: '1px solid rgba(45, 55, 72, 0.2)',
+                      borderRadius: '6px',
                       fontSize: '0.75rem',
-                      color: '#667eea',
+                      color: '#e2e8f0',
                       cursor: 'pointer',
                       textAlign: 'left',
                       transition: 'all 0.2s ease'
@@ -232,7 +232,7 @@ export default function FloatingChat() {
           {/* Chat Input */}
           <div style={{
             padding: '20px',
-            borderTop: '1px solid #e5e7eb'
+            borderTop: '1px solid rgba(255, 255, 255, 0.1)'
           }}>
             <div style={{
               display: 'flex',
@@ -247,11 +247,13 @@ export default function FloatingChat() {
                 style={{
                   flex: 1,
                   padding: '12px 16px',
-                  border: '1px solid #d1d5db',
-                  borderRadius: '12px',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  borderRadius: '6px',
                   fontSize: '0.875rem',
                   outline: 'none',
-                  transition: 'border-color 0.2s ease'
+                  transition: 'border-color 0.2s ease',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  color: '#e2e8f0'
                 }}
               />
               <motion.button
@@ -260,9 +262,9 @@ export default function FloatingChat() {
                 onClick={() => handleSendMessage(inputValue)}
                 style={{
                   padding: '12px',
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  background: 'linear-gradient(135deg, #2d3748 0%, #4a5568 100%)',
                   border: 'none',
-                  borderRadius: '12px',
+                  borderRadius: '6px',
                   color: 'white',
                   cursor: 'pointer',
                   display: 'flex',

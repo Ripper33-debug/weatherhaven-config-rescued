@@ -48,7 +48,7 @@ export default function FeaturesShowcase() {
   return (
     <section style={{
       padding: '120px 0',
-      background: 'rgba(255, 255, 255, 0.03)',
+      background: 'rgba(255, 255, 255, 0.01)',
       backdropFilter: 'blur(10px)'
     }}>
       <div style={{
@@ -72,34 +72,38 @@ export default function FeaturesShowcase() {
             alignItems: 'center',
             gap: '8px',
             padding: '8px 16px',
-            background: 'rgba(255, 255, 255, 0.1)',
+            background: 'rgba(255, 255, 255, 0.05)',
             backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
-            borderRadius: '20px',
-            fontSize: '14px',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            borderRadius: '4px',
+            fontSize: '12px',
             fontWeight: '500',
-            color: 'white',
-            marginBottom: '24px'
+            color: '#a0aec0',
+            marginBottom: '24px',
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase'
           }}>
-            <span style={{ fontSize: '12px' }}>🚀</span>
+            <span style={{ fontSize: '10px' }}>⚡</span>
             CUTTING-EDGE TECHNOLOGY
           </div>
           
           <h2 style={{
             fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
-            fontWeight: '600',
-            color: 'white',
-            marginBottom: '16px'
+            fontWeight: '700',
+            color: '#f7fafc',
+            marginBottom: '16px',
+            letterSpacing: '-0.02em'
           }}>
             WHY CHOOSE WEATHERHAVEN
           </h2>
           
           <p style={{
             fontSize: '1.125rem',
-            color: '#d1d5db',
+            color: '#a0aec0',
             maxWidth: '600px',
             margin: '0 auto',
-            lineHeight: '1.6'
+            lineHeight: '1.6',
+            fontWeight: '300'
           }}>
             Advanced features that set our deployable shelter systems apart from the competition.
           </p>
@@ -119,17 +123,17 @@ export default function FeaturesShowcase() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
-              whileHover={{ y: -8 }}
+              whileHover={{ y: -4 }}
               onClick={() => setActiveFeature(index)}
               style={{
                 background: activeFeature === index 
-                  ? 'rgba(255, 255, 255, 0.1)' 
-                  : 'rgba(255, 255, 255, 0.05)',
+                  ? 'rgba(255, 255, 255, 0.05)' 
+                  : 'rgba(255, 255, 255, 0.02)',
                 backdropFilter: 'blur(20px)',
                 border: `1px solid ${activeFeature === index 
-                  ? 'rgba(255, 255, 255, 0.3)' 
-                  : 'rgba(255, 255, 255, 0.1)'}`,
-                borderRadius: '20px',
+                  ? 'rgba(255, 255, 255, 0.1)' 
+                  : 'rgba(255, 255, 255, 0.05)'}`,
+                borderRadius: '8px',
                 padding: '32px',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
@@ -145,7 +149,7 @@ export default function FeaturesShowcase() {
                   left: 0,
                   right: 0,
                   bottom: 0,
-                  background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent)',
+                  background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.05), transparent)',
                   opacity: 0
                 }}
                 whileHover={{ opacity: 1 }}
@@ -170,17 +174,19 @@ export default function FeaturesShowcase() {
                   <h3 style={{
                     fontSize: '1.25rem',
                     fontWeight: '600',
-                    color: 'white',
-                    marginBottom: '12px'
+                    color: '#f7fafc',
+                    marginBottom: '12px',
+                    letterSpacing: '0.02em'
                   }}>
                     {feature.title}
                   </h3>
                   
                   <p style={{
                     fontSize: '0.875rem',
-                    color: '#d1d5db',
+                    color: '#a0aec0',
                     lineHeight: '1.6',
-                    marginBottom: '16px'
+                    marginBottom: '16px',
+                    fontWeight: '300'
                   }}>
                     {feature.description}
                   </p>
@@ -203,13 +209,13 @@ export default function FeaturesShowcase() {
                           alignItems: 'center',
                           gap: '8px',
                           fontSize: '0.75rem',
-                          color: '#9ca3af'
+                          color: '#718096'
                         }}
                       >
                         <div style={{
                           width: '4px',
                           height: '4px',
-                          background: '#10b981',
+                          background: '#48bb78',
                           borderRadius: '50%'
                         }} />
                         {benefit}
@@ -229,10 +235,10 @@ export default function FeaturesShowcase() {
           transition={{ duration: 0.8, delay: 0.4 }}
           viewport={{ once: true }}
           style={{
-            background: 'rgba(255, 255, 255, 0.05)',
+            background: 'rgba(255, 255, 255, 0.02)',
             backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            borderRadius: '24px',
+            border: '1px solid rgba(255, 255, 255, 0.05)',
+            borderRadius: '8px',
             padding: '48px',
             textAlign: 'center'
           }}
@@ -240,7 +246,7 @@ export default function FeaturesShowcase() {
           <h3 style={{
             fontSize: '1.5rem',
             fontWeight: '600',
-            color: 'white',
+            color: '#f7fafc',
             marginBottom: '16px'
           }}>
             EXPERIENCE THE DIFFERENCE
@@ -248,10 +254,11 @@ export default function FeaturesShowcase() {
           
           <p style={{
             fontSize: '1rem',
-            color: '#d1d5db',
+            color: '#a0aec0',
             marginBottom: '32px',
             maxWidth: '600px',
-            margin: '0 auto 32px'
+            margin: '0 auto 32px',
+            fontWeight: '300'
           }}>
             See how our advanced features work together to create the most efficient deployable shelter system in the world.
           </p>
@@ -263,40 +270,42 @@ export default function FeaturesShowcase() {
             flexWrap: 'wrap'
           }}>
             <motion.button
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.02, y: -2 }}
+              whileTap={{ scale: 0.98 }}
               style={{
                 padding: '16px 32px',
-                background: 'white',
-                color: 'black',
+                background: '#e2e8f0',
+                color: '#1a202c',
                 fontWeight: '600',
                 fontSize: '16px',
                 letterSpacing: '0.025em',
-                borderRadius: '12px',
+                borderRadius: '4px',
                 border: 'none',
                 cursor: 'pointer',
-                boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)',
-                transition: 'all 0.3s ease'
+                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                transition: 'all 0.3s ease',
+                textTransform: 'uppercase'
               }}
             >
               WATCH DEMO
             </motion.button>
 
             <motion.button
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.02, y: -2 }}
+              whileTap={{ scale: 0.98 }}
               style={{
                 padding: '16px 32px',
                 background: 'transparent',
-                border: '2px solid rgba(255, 255, 255, 0.3)',
-                color: 'white',
+                border: '2px solid #4a5568',
+                color: '#e2e8f0',
                 fontWeight: '600',
                 fontSize: '16px',
                 letterSpacing: '0.025em',
-                borderRadius: '12px',
+                borderRadius: '4px',
                 cursor: 'pointer',
                 backdropFilter: 'blur(10px)',
-                transition: 'all 0.3s ease'
+                transition: 'all 0.3s ease',
+                textTransform: 'uppercase'
               }}
             >
               DOWNLOAD SPECS

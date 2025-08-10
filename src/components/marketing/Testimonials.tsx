@@ -52,10 +52,10 @@ export default function Testimonials() {
   return (
     <section style={{
       padding: '100px 0',
-      background: 'rgba(255, 255, 255, 0.02)',
+      background: 'rgba(255, 255, 255, 0.01)',
       backdropFilter: 'blur(10px)',
-      borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-      borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+      borderTop: '1px solid rgba(255, 255, 255, 0.05)',
+      borderBottom: '1px solid rgba(255, 255, 255, 0.05)'
     }}>
       <div style={{
         maxWidth: '1200px',
@@ -78,34 +78,38 @@ export default function Testimonials() {
             alignItems: 'center',
             gap: '8px',
             padding: '8px 16px',
-            background: 'rgba(255, 255, 255, 0.1)',
+            background: 'rgba(255, 255, 255, 0.05)',
             backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
-            borderRadius: '20px',
-            fontSize: '14px',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            borderRadius: '4px',
+            fontSize: '12px',
             fontWeight: '500',
-            color: 'white',
-            marginBottom: '24px'
+            color: '#a0aec0',
+            marginBottom: '24px',
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase'
           }}>
-            <span style={{ fontSize: '12px' }}>⭐</span>
+            <span style={{ fontSize: '10px' }}>⭐</span>
             TRUSTED BY LEADERS WORLDWIDE
           </div>
           
           <h2 style={{
             fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
-            fontWeight: '600',
-            color: 'white',
-            marginBottom: '16px'
+            fontWeight: '700',
+            color: '#f7fafc',
+            marginBottom: '16px',
+            letterSpacing: '-0.02em'
           }}>
             WHAT OUR CLIENTS SAY
           </h2>
           
           <p style={{
             fontSize: '1.125rem',
-            color: '#d1d5db',
+            color: '#a0aec0',
             maxWidth: '600px',
             margin: '0 auto',
-            lineHeight: '1.6'
+            lineHeight: '1.6',
+            fontWeight: '300'
           }}>
             Real feedback from military, disaster response, and research organizations worldwide.
           </p>
@@ -124,10 +128,10 @@ export default function Testimonials() {
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.5 }}
             style={{
-              background: 'rgba(255, 255, 255, 0.05)',
+              background: 'rgba(255, 255, 255, 0.02)',
               backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderRadius: '24px',
+              border: '1px solid rgba(255, 255, 255, 0.05)',
+              borderRadius: '8px',
               padding: '48px',
               textAlign: 'center',
               position: 'relative',
@@ -140,7 +144,7 @@ export default function Testimonials() {
               top: '24px',
               left: '24px',
               fontSize: '3rem',
-              color: 'rgba(255, 255, 255, 0.1)'
+              color: 'rgba(255, 255, 255, 0.05)'
             }}>
               "
             </div>
@@ -153,7 +157,7 @@ export default function Testimonials() {
               marginBottom: '24px'
             }}>
               {[...Array(testimonials[currentIndex].rating)].map((_, i) => (
-                <span key={i} style={{ fontSize: '1.2rem', color: '#fbbf24' }}>
+                <span key={i} style={{ fontSize: '1.2rem', color: '#f6ad55' }}>
                   ★
                 </span>
               ))}
@@ -162,7 +166,7 @@ export default function Testimonials() {
             {/* Quote */}
             <blockquote style={{
               fontSize: '1.25rem',
-              color: 'white',
+              color: '#e2e8f0',
               lineHeight: '1.6',
               marginBottom: '32px',
               fontStyle: 'italic',
@@ -188,20 +192,20 @@ export default function Testimonials() {
                 <div style={{
                   fontSize: '1.125rem',
                   fontWeight: '600',
-                  color: 'white',
+                  color: '#f7fafc',
                   marginBottom: '4px'
                 }}>
                   {testimonials[currentIndex].author}
                 </div>
                 <div style={{
                   fontSize: '0.875rem',
-                  color: '#d1d5db'
+                  color: '#a0aec0'
                 }}>
                   {testimonials[currentIndex].position}
                 </div>
                 <div style={{
                   fontSize: '0.875rem',
-                  color: '#9ca3af',
+                  color: '#718096',
                   fontWeight: '500'
                 }}>
                   {testimonials[currentIndex].organization}
@@ -229,7 +233,7 @@ export default function Testimonials() {
                   borderRadius: '50%',
                   border: 'none',
                   cursor: 'pointer',
-                  background: index === currentIndex ? 'white' : 'rgba(255, 255, 255, 0.3)',
+                  background: index === currentIndex ? '#e2e8f0' : 'rgba(226, 232, 240, 0.3)',
                   transition: 'all 0.3s ease'
                 }}
               />
@@ -251,7 +255,7 @@ export default function Testimonials() {
           <h3 style={{
             fontSize: '1.25rem',
             fontWeight: '600',
-            color: 'white',
+            color: '#f7fafc',
             marginBottom: '32px'
           }}>
             TRUSTED BY LEADING ORGANIZATIONS
@@ -284,9 +288,9 @@ export default function Testimonials() {
                   alignItems: 'center',
                   gap: '12px',
                   padding: '20px',
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  borderRadius: '12px',
-                  border: '1px solid rgba(255, 255, 255, 0.1)'
+                  background: 'rgba(255, 255, 255, 0.02)',
+                  borderRadius: '8px',
+                  border: '1px solid rgba(255, 255, 255, 0.05)'
                 }}
               >
                 <div style={{ fontSize: '2rem' }}>
@@ -295,7 +299,7 @@ export default function Testimonials() {
                 <div style={{
                   fontSize: '0.875rem',
                   fontWeight: '500',
-                  color: '#d1d5db'
+                  color: '#a0aec0'
                 }}>
                   {org.name}
                 </div>

@@ -11,7 +11,24 @@ import StickyCTA from '../components/marketing/StickyCTA'
 
 export default function HomePage() {
   return (
-    <>
+    <div style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', minHeight: '100vh' }}>
+      {/* TEST BANNER */}
+      <div style={{
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        right: '0',
+        background: 'red',
+        color: 'white',
+        padding: '10px',
+        textAlign: 'center',
+        fontSize: '16px',
+        fontWeight: 'bold',
+        zIndex: 9999
+      }}>
+        🚨 COMPONENTS SHOULD BE RENDERING BELOW! 🚨
+      </div>
+      
       <Hero />
       <ProofBar />
       <SectorCards />
@@ -22,6 +39,6 @@ export default function HomePage() {
       <DocDownload />
       <GlobalDeploymentsStrip />
       <StickyCTA />
-    </>
+    </div>
   )
 }

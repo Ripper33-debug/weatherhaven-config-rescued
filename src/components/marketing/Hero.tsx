@@ -57,7 +57,13 @@ export default function Hero() {
   });
 
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [hoveredLocation, setHoveredLocation] = useState(null);
+  const [hoveredLocation, setHoveredLocation] = useState<{
+    x: number;
+    y: number;
+    country: string;
+    deployments: number;
+    color: string;
+  } | null>(null);
 
   // Live data counters
   useEffect(() => {

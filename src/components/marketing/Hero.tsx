@@ -140,8 +140,8 @@ export default function Hero() {
             left: '10%',
             width: '80px',
             height: '80px',
-            background: 'rgba(0, 212, 255, 0.1)',
-            border: '2px solid rgba(0, 212, 255, 0.3)',
+            background: 'rgba(0, 102, 204, 0.1)',
+            border: '2px solid rgba(0, 102, 204, 0.3)',
             borderRadius: '8px',
             zIndex: 2,
             transform: 'rotateX(45deg) rotateY(45deg)',
@@ -164,10 +164,10 @@ export default function Hero() {
             left: '50%',
             width: '4px',
             height: '4px',
-            background: 'var(--primary-cyan)',
+            background: 'var(--weatherhaven-blue-light)',
             borderRadius: '50%',
             transform: 'translate(-50%, -50%)',
-            boxShadow: '0 0 10px var(--primary-cyan)'
+            boxShadow: '0 0 10px var(--weatherhaven-blue-light)'
           }} />
         </motion.div>
 
@@ -178,8 +178,8 @@ export default function Hero() {
             right: '15%',
             width: '60px',
             height: '60px',
-            background: 'rgba(0, 255, 136, 0.1)',
-            border: '2px solid rgba(0, 255, 136, 0.3)',
+            background: 'rgba(255, 102, 0, 0.1)',
+            border: '2px solid rgba(255, 102, 0, 0.3)',
             borderRadius: '50%',
             zIndex: 2,
             transform: 'rotateX(30deg) rotateZ(30deg)',
@@ -203,10 +203,10 @@ export default function Hero() {
             left: '50%',
             width: '3px',
             height: '3px',
-            background: 'var(--primary-green)',
+            background: 'var(--weatherhaven-orange)',
             borderRadius: '50%',
             transform: 'translate(-50%, -50%)',
-            boxShadow: '0 0 8px var(--primary-green)'
+            boxShadow: '0 0 8px var(--weatherhaven-orange)'
           }} />
         </motion.div>
 
@@ -445,24 +445,24 @@ export default function Hero() {
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 1.2, delay: 0.3 }}
-                style={{
-                  fontSize: 'clamp(3.5rem, 10vw, 8rem)',
-                  fontWeight: '900',
-                  color: 'var(--text-primary)',
-                  marginBottom: '32px',
-                  lineHeight: '0.85',
-                  letterSpacing: '-0.04em',
-                  fontFamily: 'Inter, system-ui, sans-serif',
-                  textShadow: '0 0 60px rgba(0, 212, 255, 0.5)',
-                  position: 'relative'
-                }}
+                                  style={{
+                    fontSize: 'clamp(3.5rem, 10vw, 8rem)',
+                    fontWeight: '900',
+                    color: 'var(--text-primary)',
+                    marginBottom: '32px',
+                    lineHeight: '0.85',
+                    letterSpacing: '-0.04em',
+                    fontFamily: 'var(--font-display)',
+                    textShadow: '0 0 60px rgba(0, 102, 204, 0.5)',
+                    position: 'relative'
+                  }}
               >
                 <motion.span
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.8, delay: 0.6 }}
                   style={{
-                    background: 'linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%)',
+                    background: 'var(--gradient-text)',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     backgroundClip: 'text',
@@ -478,7 +478,7 @@ export default function Hero() {
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.8, delay: 0.8 }}
                   style={{
-                    background: 'var(--gradient-primary)',
+                    background: 'var(--gradient-accent)',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     backgroundClip: 'text',
@@ -575,7 +575,7 @@ export default function Hero() {
                       borderRadius: '12px',
                       border: 'none',
                       cursor: 'pointer',
-                      boxShadow: '0 0 40px rgba(0, 102, 255, 0.4)',
+                      boxShadow: 'var(--shadow-blue)',
                       transition: 'all 0.3s ease',
                       position: 'relative',
                       overflow: 'hidden',
@@ -626,8 +626,8 @@ export default function Hero() {
                     style={{
                       padding: '20px 40px',
                       background: 'rgba(0, 0, 0, 0.8)',
-                      border: '2px solid var(--primary-cyan)',
-                      color: 'var(--primary-cyan)',
+                      border: '2px solid var(--weatherhaven-orange)',
+                      color: 'var(--weatherhaven-orange)',
                       fontWeight: '700',
                       fontSize: '16px',
                       letterSpacing: '0.1em',
@@ -636,7 +636,7 @@ export default function Hero() {
                       backdropFilter: 'blur(30px)',
                       transition: 'all 0.3s ease',
                       textTransform: 'uppercase',
-                      boxShadow: '0 0 30px rgba(0, 212, 255, 0.3)',
+                      boxShadow: 'var(--shadow-orange)',
                       minWidth: '200px',
                       position: 'relative',
                       overflow: 'hidden'
@@ -687,15 +687,15 @@ export default function Hero() {
                 style={{
                   width: '300px',
                   height: '300px',
-                  border: '3px solid var(--primary-cyan)',
+                  border: '3px solid var(--weatherhaven-blue-light)',
                   borderRadius: '50%',
                   position: 'relative',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  background: 'rgba(0, 212, 255, 0.05)',
+                  background: 'rgba(0, 102, 204, 0.05)',
                   backdropFilter: 'blur(20px)',
-                  boxShadow: '0 0 50px rgba(0, 212, 255, 0.3)'
+                  boxShadow: '0 0 50px rgba(0, 102, 204, 0.3)'
                 }}
                 animate={{
                   rotate: 360,
@@ -711,7 +711,7 @@ export default function Hero() {
                   style={{
                     width: '200px',
                     height: '200px',
-                    border: '2px solid var(--primary-green)',
+                    border: '2px solid var(--weatherhaven-orange)',
                     borderRadius: '50%',
                     position: 'relative'
                   }}
@@ -729,7 +729,7 @@ export default function Hero() {
                     style={{
                       width: '100px',
                       height: '100px',
-                      border: '2px solid var(--primary-orange)',
+                      border: '2px solid var(--accent-cyan)',
                       borderRadius: '50%',
                       position: 'relative',
                       display: 'flex',
@@ -749,9 +749,9 @@ export default function Hero() {
                     <div style={{
                       width: '40px',
                       height: '40px',
-                      background: 'var(--gradient-primary)',
+                      background: 'var(--gradient-accent)',
                       borderRadius: '50%',
-                      boxShadow: '0 0 30px rgba(0, 212, 255, 0.5)'
+                      boxShadow: '0 0 30px rgba(0, 102, 204, 0.5)'
                     }} />
                   </motion.div>
                 </motion.div>
@@ -867,7 +867,7 @@ export default function Hero() {
                 number: counts.hours, 
                 label: 'HOURS TO DEPLOY', 
                 icon: '⚡',
-                color: 'var(--primary-green)',
+                color: 'var(--weatherhaven-orange)',
                 description: 'Rapid deployment capability',
                 suffix: ''
               },
@@ -875,7 +875,7 @@ export default function Hero() {
                 number: counts.countries, 
                 label: 'COUNTRIES SERVED', 
                 icon: '🌍',
-                color: 'var(--primary-cyan)',
+                color: 'var(--weatherhaven-blue-light)',
                 description: 'Global operational reach',
                 suffix: '+'
               },
@@ -883,7 +883,7 @@ export default function Hero() {
                 number: counts.deployments, 
                 label: 'SUCCESSFUL DEPLOYMENTS', 
                 icon: '✅',
-                color: 'var(--primary-blue)',
+                color: 'var(--weatherhaven-blue)',
                 description: 'Proven track record',
                 suffix: '+'
               },
@@ -891,7 +891,7 @@ export default function Hero() {
                 number: counts.reliability, 
                 label: 'UPTIME RELIABILITY', 
                 icon: '🛡️',
-                color: 'var(--primary-orange)',
+                color: 'var(--accent-cyan)',
                 description: 'Mission-critical reliability',
                 suffix: '%'
               }

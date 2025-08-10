@@ -63,6 +63,7 @@ export default function Hero() {
     country: string;
     deployments: number;
     color: string;
+    region: string;
   } | null>(null);
 
   // Live data counters
@@ -151,6 +152,91 @@ export default function Hero() {
           }}
         />
         
+        {/* Weatherhaven Logo */}
+        <motion.div
+          style={{
+            position: 'absolute',
+            top: '40px',
+            left: '40px',
+            zIndex: 20,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '16px',
+            background: 'rgba(0, 0, 0, 0.8)',
+            backdropFilter: 'blur(20px)',
+            padding: '16px 24px',
+            borderRadius: '50px',
+            border: '2px solid var(--weatherhaven-blue)',
+            boxShadow: 'var(--shadow-blue)'
+          }}
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.5 }}
+          whileHover={{
+            scale: 1.05,
+            boxShadow: '0 0 30px var(--weatherhaven-blue)',
+            transition: { duration: 0.3 }
+          }}
+        >
+          <Image
+            src="/logos/weatherhaven-logo.svg"
+            alt="Weatherhaven"
+            width={40}
+            height={40}
+            style={{
+              filter: 'brightness(0) invert(1)',
+              opacity: 0.9
+            }}
+          />
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start'
+          }}>
+            <motion.div
+              style={{
+                fontSize: '16px',
+                fontWeight: '700',
+                color: 'var(--weatherhaven-white)',
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase'
+              }}
+              animate={{
+                textShadow: [
+                  '0 0 10px var(--weatherhaven-blue)',
+                  '0 0 20px var(--weatherhaven-blue)',
+                  '0 0 10px var(--weatherhaven-blue)'
+                ]
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: 'easeInOut'
+              }}
+            >
+              Weatherhaven
+            </motion.div>
+            <motion.div
+              style={{
+                fontSize: '10px',
+                color: 'var(--text-muted)',
+                fontWeight: '500',
+                letterSpacing: '0.05em'
+              }}
+              animate={{
+                opacity: [0.7, 1, 0.7]
+              }}
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                ease: 'easeInOut'
+              }}
+            >
+              Deployable Shelter Solutions
+            </motion.div>
+          </div>
+        </motion.div>
+
         {/* Weatherhaven Brand Lines */}
         <motion.div
           style={{

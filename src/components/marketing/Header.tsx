@@ -6,7 +6,6 @@ import { motion } from 'framer-motion';
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -66,10 +65,10 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <nav style={{
-            display: 'none',
+            display: 'flex',
             alignItems: 'center',
             gap: '32px'
-          }} className="md:flex">
+          }}>
             {navigation.map((item) => (
               <Link
                 key={item.name}
@@ -112,97 +111,8 @@ export default function Header() {
               </motion.button>
             </Link>
           </nav>
-
-          {/* Mobile menu button */}
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            style={{
-              display: 'block',
-              padding: '8px',
-              color: 'rgba(255, 255, 255, 0.8)',
-              transition: 'color 0.2s ease',
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer'
-            }}
-            className="md:hidden"
-            onMouseEnter={(e) => (e.target as HTMLElement).style.color = 'white'}
-            onMouseLeave={(e) => (e.target as HTMLElement).style.color = 'rgba(255, 255, 255, 0.8)'}
-          >
-            <svg style={{ width: '24px', height: '24px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
         </div>
       </div>
-
-      {/* Mobile Navigation */}
-      {isMobileMenuOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          style={{
-            display: 'block',
-            background: 'rgba(0, 0, 0, 0.95)',
-            backdropFilter: 'blur(10px)',
-            borderTop: '1px solid rgba(255, 255, 255, 0.1)'
-          }}
-          className="md:hidden"
-        >
-          <div style={{
-            padding: '24px 16px',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '16px'
-          }}>
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                style={{
-                  display: 'block',
-                  color: 'rgba(255, 255, 255, 0.8)',
-                  fontWeight: '500',
-                  fontSize: '14px',
-                  letterSpacing: '0.025em',
-                  transition: 'color 0.2s ease',
-                  textDecoration: 'none'
-                }}
-                onClick={() => setIsMobileMenuOpen(false)}
-                onMouseEnter={(e) => (e.target as HTMLElement).style.color = 'white'}
-                onMouseLeave={(e) => (e.target as HTMLElement).style.color = 'rgba(255, 255, 255, 0.8)'}
-              >
-                {item.name}
-              </Link>
-            ))}
-            
-            <Link href="/configurator">
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                style={{
-                  width: '100%',
-                  padding: '12px 24px',
-                  background: 'white',
-                  color: 'black',
-                  fontWeight: '500',
-                  fontSize: '14px',
-                  letterSpacing: '0.025em',
-                  borderRadius: '8px',
-                  border: 'none',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                  boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
-                }}
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                CONFIGURATOR
-              </motion.button>
-            </Link>
-          </div>
-        </motion.div>
-      )}
     </header>
   );
 }

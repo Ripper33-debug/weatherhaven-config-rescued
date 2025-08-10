@@ -46,44 +46,11 @@ export default function Hero() {
         padding: '0 20px',
         textAlign: 'center'
       }}>
-        {/* Status badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          style={{
-            marginBottom: '48px'
-          }}
-        >
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            padding: '12px 24px',
-            background: 'rgba(255, 255, 255, 0.1)',
-            backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
-            borderRadius: '50px',
-            color: 'rgba(255, 255, 255, 0.8)',
-            fontSize: '14px',
-            fontWeight: '500'
-          }}>
-            <div style={{
-              width: '8px',
-              height: '8px',
-              background: '#10b981',
-              borderRadius: '50%',
-              marginRight: '12px',
-              animation: 'pulse 2s infinite'
-            }}></div>
-            SYSTEM ACTIVE
-          </div>
-        </motion.div>
-
         {/* Main headline */}
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 0.8 }}
           style={{
             fontSize: 'clamp(3rem, 8vw, 6rem)',
             fontWeight: '300',
@@ -131,16 +98,13 @@ export default function Hero() {
           style={{
             fontSize: 'clamp(1.125rem, 2vw, 1.5rem)',
             color: '#d1d5db',
-            marginBottom: '64px',
             maxWidth: '800px',
-            marginLeft: 'auto',
-            marginRight: 'auto',
+            margin: '0 auto 48px',
             lineHeight: '1.6',
             fontWeight: '300'
           }}
         >
-          Weatherhaven delivers modular, field-proven shelter systems for defense, 
-          disaster response, and remote industry with unmatched speed and reliability.
+          Weatherhaven delivers modular, field-proven shelter systems for defense, disaster response, and remote industry with unmatched speed and reliability.
         </motion.p>
 
         {/* CTA Buttons */}
@@ -150,10 +114,9 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.6 }}
           style={{
             display: 'flex',
-            flexDirection: 'column',
             gap: '24px',
             justifyContent: 'center',
-            alignItems: 'center'
+            flexWrap: 'wrap'
           }}
         >
           <Link href="/contact">

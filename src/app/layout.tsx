@@ -5,6 +5,7 @@ import Header from '../components/marketing/Header'
 import Footer from '../components/marketing/Footer'
 import ScrollToTop from '../components/ui/ScrollToTop'
 import FloatingChat from '../components/ui/FloatingChat'
+import LoadingScreen from '../components/ui/LoadingScreen'
 import { Analytics } from '@vercel/analytics/react'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -120,6 +121,7 @@ export default function RootLayout({
         fontWeight: '400',
         lineHeight: '1.6'
       }}>
+        <LoadingScreen />
         <Header />
         <main style={{ paddingTop: '64px' }}>
           {children}

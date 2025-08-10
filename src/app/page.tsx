@@ -1,6 +1,8 @@
 import Hero from '../components/marketing/Hero'
 import ProofBar from '../components/marketing/ProofBar'
 import SectorCards from '../components/marketing/SectorCards'
+import CompanyOverview from '../components/marketing/CompanyOverview'
+import SolutionsShowcase from '../components/marketing/SolutionsShowcase'
 import FeaturesShowcase from '../components/marketing/FeaturesShowcase'
 import Testimonials from '../components/marketing/Testimonials'
 import ParallaxCTA from '../components/marketing/ParallaxCTA'
@@ -13,6 +15,8 @@ export default function HomePage() {
       <Hero />
       <ProofBar />
       <SectorCards />
+      <CompanyOverview />
+      <SolutionsShowcase />
       <FeaturesShowcase />
       <Testimonials />
       <ParallaxCTA />

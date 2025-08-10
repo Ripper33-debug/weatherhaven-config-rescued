@@ -1369,8 +1369,7 @@ export default function Hero() {
             }}
           />
         </motion.div>
-            </motion.div>
-          </div>
+      </div>
 
           {/* Advanced Stats Dashboard */}
           <motion.div

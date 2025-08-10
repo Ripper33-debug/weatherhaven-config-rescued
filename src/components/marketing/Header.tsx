@@ -27,28 +27,63 @@ export default function Header() {
   ];
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-white/10 backdrop-blur-md border-b border-white/10' : 'bg-transparent'
-    }`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+    <header style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      zIndex: 50,
+      transition: 'all 0.3s ease',
+      background: isScrolled ? 'rgba(0, 0, 0, 0.9)' : 'transparent',
+      backdropFilter: isScrolled ? 'blur(10px)' : 'none',
+      borderBottom: isScrolled ? '1px solid rgba(255, 255, 255, 0.1)' : 'none'
+    }}>
+      <div style={{
+        maxWidth: '1280px',
+        margin: '0 auto',
+        padding: '0 16px'
+      }}>
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          height: '64px'
+        }}>
           {/* Logo */}
-          <Link href="/" className="flex items-center">
+          <Link href="/" style={{ display: 'flex', alignItems: 'center' }}>
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="text-2xl font-bold text-white tracking-wide"
+              style={{
+                fontSize: '24px',
+                fontWeight: '700',
+                color: 'white',
+                letterSpacing: '0.025em'
+              }}
             >
               WEATHERHAVEN
             </motion.div>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav style={{
+            display: 'none',
+            alignItems: 'center',
+            gap: '32px'
+          }} className="md:flex">
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-white/80 hover:text-white font-medium text-sm tracking-wide transition-colors duration-200"
+                style={{
+                  color: 'rgba(255, 255, 255, 0.8)',
+                  fontWeight: '500',
+                  fontSize: '14px',
+                  letterSpacing: '0.025em',
+                  transition: 'color 0.2s ease',
+                  textDecoration: 'none'
+                }}
+                onMouseEnter={(e) => (e.target as HTMLElement).style.color = 'white'}
+                onMouseLeave={(e) => (e.target as HTMLElement).style.color = 'rgba(255, 255, 255, 0.8)'}
               >
                 {item.name}
               </Link>
@@ -59,7 +94,19 @@ export default function Header() {
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="px-6 py-2 bg-white text-black font-medium text-sm tracking-wide rounded-lg hover:bg-gray-100 transition-all duration-200 shadow-lg"
+                style={{
+                  padding: '8px 24px',
+                  background: 'white',
+                  color: 'black',
+                  fontWeight: '500',
+                  fontSize: '14px',
+                  letterSpacing: '0.025em',
+                  borderRadius: '8px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
+                }}
               >
                 CONFIGURATOR
               </motion.button>
@@ -69,9 +116,20 @@ export default function Header() {
           {/* Mobile menu button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 text-white/80 hover:text-white transition-colors duration-200"
+            style={{
+              display: 'block',
+              padding: '8px',
+              color: 'rgba(255, 255, 255, 0.8)',
+              transition: 'color 0.2s ease',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer'
+            }}
+            className="md:hidden"
+            onMouseEnter={(e) => (e.target as HTMLElement).style.color = 'white'}
+            onMouseLeave={(e) => (e.target as HTMLElement).style.color = 'rgba(255, 255, 255, 0.8)'}
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg style={{ width: '24px', height: '24px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
@@ -84,15 +142,36 @@ export default function Header() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          className="md:hidden bg-white/10 backdrop-blur-md border-t border-white/10"
+          style={{
+            display: 'block',
+            background: 'rgba(0, 0, 0, 0.95)',
+            backdropFilter: 'blur(10px)',
+            borderTop: '1px solid rgba(255, 255, 255, 0.1)'
+          }}
+          className="md:hidden"
         >
-          <div className="px-4 py-6 space-y-4">
+          <div style={{
+            padding: '24px 16px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '16px'
+          }}>
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className="block text-white/80 hover:text-white font-medium text-sm tracking-wide transition-colors duration-200"
+                style={{
+                  display: 'block',
+                  color: 'rgba(255, 255, 255, 0.8)',
+                  fontWeight: '500',
+                  fontSize: '14px',
+                  letterSpacing: '0.025em',
+                  transition: 'color 0.2s ease',
+                  textDecoration: 'none'
+                }}
                 onClick={() => setIsMobileMenuOpen(false)}
+                onMouseEnter={(e) => (e.target as HTMLElement).style.color = 'white'}
+                onMouseLeave={(e) => (e.target as HTMLElement).style.color = 'rgba(255, 255, 255, 0.8)'}
               >
                 {item.name}
               </Link>
@@ -102,7 +181,20 @@ export default function Header() {
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full px-6 py-3 bg-white text-black font-medium text-sm tracking-wide rounded-lg hover:bg-gray-100 transition-all duration-200 shadow-lg"
+                style={{
+                  width: '100%',
+                  padding: '12px 24px',
+                  background: 'white',
+                  color: 'black',
+                  fontWeight: '500',
+                  fontSize: '14px',
+                  letterSpacing: '0.025em',
+                  borderRadius: '8px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
+                }}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 CONFIGURATOR

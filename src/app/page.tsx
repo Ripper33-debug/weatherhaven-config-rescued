@@ -1,6 +1,7 @@
 import Hero from '../components/marketing/Hero'
 import ProofBar from '../components/marketing/ProofBar'
 import SectorCards from '../components/marketing/SectorCards'
+import StickyCTA from '../components/marketing/StickyCTA'
 
 export default function HomePage() {
   return (
@@ -8,6 +9,7 @@ export default function HomePage() {
       <Hero />
       <ProofBar />
       <SectorCards />
+      <StickyCTA />
     </div>
   )
 }

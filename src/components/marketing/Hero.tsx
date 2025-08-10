@@ -36,7 +36,7 @@ export default function Hero() {
         >
           <div className="inline-flex items-center px-4 py-2 bg-green-400/10 border border-green-400/30 text-green-400 text-sm font-mono tracking-wider">
             <div className="w-2 h-2 bg-green-400 rounded-full mr-3 animate-pulse"></div>
-            SYSTEM ONLINE
+            SYSTEM ONLINE - MILITARY GRADE
           </div>
         </motion.div>
 

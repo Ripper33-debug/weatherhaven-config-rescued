@@ -83,7 +83,7 @@ export const metadata: Metadata = {
     google: 'your-google-verification-code',
     yandex: 'your-yandex-verification-code',
     yahoo: 'your-yahoo-verification-code',
-  },
+  }, // Force deployment with latest fixes
 };
 
 const structuredData = {

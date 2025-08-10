@@ -5,31 +5,31 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 
 const navigation = [
-  { name: 'Home', href: '/' },
+  { name: 'HOME', href: '/' },
   { 
-    name: 'Solutions', 
+    name: 'SOLUTIONS', 
     href: '/solutions',
     children: [
-      { name: 'Military & Defense', href: '/solutions/military-defense' },
-      { name: 'Governments & NGOs', href: '/solutions/governments-ngos' },
-      { name: 'Industrial', href: '/solutions/industrial' },
-      { name: 'Commercial', href: '/solutions/commercial' },
+      { name: 'MILITARY & DEFENSE', href: '/solutions/military-defense' },
+      { name: 'GOVERNMENTS & NGOS', href: '/solutions/governments-ngos' },
+      { name: 'INDUSTRIAL', href: '/solutions/industrial' },
+      { name: 'COMMERCIAL', href: '/solutions/commercial' },
     ]
   },
   { 
-    name: 'Products', 
+    name: 'PRODUCTS', 
     href: '/products',
     children: [
-      { name: 'Deployable Shelters', href: '/products/deployable-shelters' },
-      { name: 'Mobile Command Centers', href: '/products/mobile-command-centers' },
-      { name: 'Medical Clinics', href: '/products/medical-clinics' },
-      { name: 'Remote Camps', href: '/products/remote-camps' },
+      { name: 'DEPLOYABLE SHELTERS', href: '/products/deployable-shelters' },
+      { name: 'MOBILE COMMAND CENTERS', href: '/products/mobile-command-centers' },
+      { name: 'MEDICAL CLINICS', href: '/products/medical-clinics' },
+      { name: 'REMOTE CAMPS', href: '/products/remote-camps' },
     ]
   },
-  { name: 'Case Studies', href: '/case-studies' },
-  { name: 'Resources', href: '/resources' },
-  { name: 'About', href: '/about' },
-  { name: 'Contact', href: '/contact' },
+  { name: 'CASE STUDIES', href: '/case-studies' },
+  { name: 'RESOURCES', href: '/resources' },
+  { name: 'ABOUT', href: '/about' },
+  { name: 'CONTACT', href: '/contact' },
 ];
 
 export default function Header() {
@@ -48,7 +48,7 @@ export default function Header() {
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       scrolled 
-        ? 'bg-slate-900/95 backdrop-blur-md border-b border-slate-700/50 shadow-lg' 
+        ? 'bg-black/95 backdrop-blur-md border-b border-gray-800 shadow-lg' 
         : 'bg-transparent'
     }`}>
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -56,14 +56,14 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-3 group">
             <motion.div 
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              className="relative w-10 h-10 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-green-500/25 transition-all duration-300"
+              whileHover={{ scale: 1.05, rotate: 5 }}
+              className="relative w-10 h-10 bg-green-400 rounded-sm flex items-center justify-center shadow-lg group-hover:shadow-green-400/25 transition-all duration-300"
             >
-              <span className="text-white font-bold text-lg">W</span>
-              <div className="absolute inset-0 bg-gradient-to-br from-green-400 to-green-500 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <span className="text-black font-black text-lg">W</span>
+              <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-sm"></div>
             </motion.div>
-            <span className="text-white font-bold text-xl lg:text-2xl group-hover:text-green-400 transition-colors duration-300">
-              Weatherhaven
+            <span className="text-white font-black text-xl lg:text-2xl group-hover:text-green-400 transition-colors duration-300 tracking-tight">
+              WEATHERHAVEN
             </span>
           </Link>
 
@@ -77,7 +77,7 @@ export default function Header() {
                     onMouseLeave={() => setActiveDropdown(null)}
                     className="relative"
                   >
-                    <button className="text-slate-300 hover:text-white px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:bg-white/5 relative group">
+                    <button className="text-gray-300 hover:text-white px-4 py-2 text-sm font-bold transition-all duration-300 hover:bg-gray-800/50 relative group tracking-wider">
                       {item.name}
                       <svg className="w-4 h-4 ml-1 inline-block group-hover:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -90,7 +90,7 @@ export default function Header() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute top-full left-0 mt-2 w-64 bg-slate-800/95 backdrop-blur-md rounded-xl shadow-2xl border border-slate-700/50 overflow-hidden"
+                        className="absolute top-full left-0 mt-2 w-64 bg-gray-900/95 backdrop-blur-md border border-gray-800 overflow-hidden"
                       >
                         <div className="py-2">
                           {item.children.map((child, index) => (
@@ -102,7 +102,7 @@ export default function Header() {
                             >
                               <Link
                                 href={child.href}
-                                className="block px-4 py-3 text-sm text-slate-300 hover:text-white hover:bg-slate-700/50 transition-all duration-200 group"
+                                className="block px-4 py-3 text-sm text-gray-300 hover:text-white hover:bg-gray-800/50 transition-all duration-200 group font-mono tracking-wide"
                               >
                                 <span className="group-hover:text-green-400 transition-colors duration-200">
                                   {child.name}
@@ -117,7 +117,7 @@ export default function Header() {
                 ) : (
                   <Link
                     href={item.href}
-                    className="text-slate-300 hover:text-white px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg hover:bg-white/5"
+                    className="text-gray-300 hover:text-white px-4 py-2 text-sm font-bold transition-all duration-300 hover:bg-gray-800/50 tracking-wider"
                   >
                     {item.name}
                   </Link>
@@ -129,17 +129,17 @@ export default function Header() {
             <div className="ml-4">
               <Link href="/configurator">
                 <motion.button
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="group relative px-6 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold rounded-lg text-sm transition-all duration-300 overflow-hidden shadow-lg hover:shadow-green-500/25"
+                  whileHover={{ scale: 1.02, y: -1 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="group relative px-6 py-2 bg-green-400 text-black font-black text-sm transition-all duration-300 overflow-hidden border-2 border-green-400 hover:bg-transparent hover:text-green-400"
                 >
-                  <span className="relative z-10 flex items-center">
+                  <span className="relative z-10 flex items-center tracking-wider">
                     <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
-                    Configurator
+                    CONFIGURATOR
                   </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-green-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </motion.button>
               </Link>
             </div>
@@ -148,7 +148,7 @@ export default function Header() {
           {/* Mobile menu button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden text-slate-300 hover:text-white p-2 rounded-lg hover:bg-white/5 transition-all duration-300"
+            className="lg:hidden text-gray-300 hover:text-white p-2 hover:bg-gray-800/50 transition-all duration-300"
           >
             <motion.div
               animate={mobileMenuOpen ? "open" : "closed"}
@@ -186,14 +186,14 @@ export default function Header() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="lg:hidden border-t border-slate-700/50 bg-slate-900/95 backdrop-blur-md"
+            className="lg:hidden border-t border-gray-800 bg-black/95 backdrop-blur-md"
           >
             <div className="px-2 pt-2 pb-3 space-y-1">
               {navigation.map((item) => (
                 <div key={item.name}>
                   <Link
                     href={item.href}
-                    className="block px-3 py-2 text-base font-medium text-slate-300 hover:text-white hover:bg-slate-700/50 rounded-lg transition-all duration-200"
+                    className="block px-3 py-2 text-base font-bold text-gray-300 hover:text-white hover:bg-gray-800/50 transition-all duration-200 tracking-wider"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     {item.name}
@@ -204,7 +204,7 @@ export default function Header() {
                         <Link
                           key={child.name}
                           href={child.href}
-                          className="block px-3 py-2 text-sm text-slate-400 hover:text-white hover:bg-slate-700/50 rounded-lg transition-all duration-200"
+                          className="block px-3 py-2 text-sm text-gray-500 hover:text-white hover:bg-gray-800/50 transition-all duration-200 font-mono tracking-wide"
                           onClick={() => setMobileMenuOpen(false)}
                         >
                           {child.name}
@@ -216,10 +216,10 @@ export default function Header() {
               ))}
               <Link
                 href="/configurator"
-                className="block px-3 py-2 text-base font-medium bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg mt-4"
+                className="block px-3 py-2 text-base font-black bg-green-400 text-black mt-4 tracking-wider"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Configurator
+                CONFIGURATOR
               </Link>
             </div>
           </motion.div>

@@ -1,10 +1,106 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
 import Link from 'next/link';
 import VideoBackground from '../ui/VideoBackground';
+import { useEffect, useState, useRef } from 'react';
+
+// Magnetic Button Component
+const MagneticButton = ({ children, ...props }: any) => {
+  const ref = useRef<HTMLButtonElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const handleMouse = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const rect = ref.current?.getBoundingClientRect();
+    if (rect) {
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      x.set(e.clientX - centerX);
+      y.set(e.clientY - centerY);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  const springConfig = { damping: 15, stiffness: 150 };
+  const springX = useSpring(x, springConfig);
+  const springY = useSpring(y, springConfig);
+
+  return (
+    <motion.button
+      ref={ref}
+      onMouseMove={handleMouse}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        ...props.style,
+        x: springX,
+        y: springY
+      }}
+      {...props}
+    >
+      {children}
+    </motion.button>
+  );
+};
 
 export default function Hero() {
+  const [counts, setCounts] = useState({
+    deployments: 0,
+    countries: 0,
+    reliability: 0,
+    hours: 0
+  });
+
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  // Live data counters
+  useEffect(() => {
+    const targetCounts = {
+      deployments: 1000,
+      countries: 50,
+      reliability: 99.9,
+      hours: 24
+    };
+
+    const duration = 2000; // 2 seconds
+    const steps = 60;
+    const stepDuration = duration / steps;
+
+    let currentStep = 0;
+    const interval = setInterval(() => {
+      currentStep++;
+      const progress = currentStep / steps;
+      
+      setCounts({
+        deployments: Math.floor(targetCounts.deployments * progress),
+        countries: Math.floor(targetCounts.countries * progress),
+        reliability: Number((targetCounts.reliability * progress).toFixed(1)),
+        hours: Math.floor(targetCounts.hours * progress)
+      });
+
+      if (currentStep >= steps) {
+        clearInterval(interval);
+        setCounts(targetCounts);
+      }
+    }, stepDuration);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // Mouse tracking for particle system
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
   return (
     <section style={{
       position: 'relative',
@@ -466,7 +562,7 @@ export default function Hero() {
                 }}
               >
                 <Link href="/configurator">
-                  <motion.button
+                  <MagneticButton
                     whileHover={{ scale: 1.05, y: -3 }}
                     whileTap={{ scale: 0.95 }}
                     style={{
@@ -499,15 +595,32 @@ export default function Hero() {
                       }}
                       whileHover={{ left: '100%' }}
                     />
+                    <motion.div
+                      style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        width: '0',
+                        height: '0',
+                        background: 'rgba(255, 255, 255, 0.2)',
+                        borderRadius: '50%',
+                        transform: 'translate(-50%, -50%)'
+                      }}
+                      whileHover={{
+                        width: '300px',
+                        height: '300px',
+                        transition: { duration: 0.6 }
+                      }}
+                    />
                     <span style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <span>🚀</span>
                       <span>LAUNCH CONFIGURATOR</span>
                     </span>
-                  </motion.button>
+                  </MagneticButton>
                 </Link>
 
                 <Link href="/solutions">
-                  <motion.button
+                  <MagneticButton
                     whileHover={{ scale: 1.05, y: -3 }}
                     whileTap={{ scale: 0.95 }}
                     style={{
@@ -524,14 +637,33 @@ export default function Hero() {
                       transition: 'all 0.3s ease',
                       textTransform: 'uppercase',
                       boxShadow: '0 0 30px rgba(0, 212, 255, 0.3)',
-                      minWidth: '200px'
+                      minWidth: '200px',
+                      position: 'relative',
+                      overflow: 'hidden'
                     }}
                   >
-                    <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <motion.div
+                      style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        width: '0',
+                        height: '0',
+                        background: 'rgba(0, 212, 255, 0.1)',
+                        borderRadius: '50%',
+                        transform: 'translate(-50%, -50%)'
+                      }}
+                      whileHover={{
+                        width: '300px',
+                        height: '300px',
+                        transition: { duration: 0.6 }
+                      }}
+                    />
+                    <span style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <span>🔍</span>
                       <span>EXPLORE SOLUTIONS</span>
                     </span>
-                  </motion.button>
+                  </MagneticButton>
                 </Link>
               </motion.div>
             </div>
@@ -625,32 +757,95 @@ export default function Hero() {
                 </motion.div>
               </motion.div>
 
-              {/* Floating Data Points */}
-              {Array.from({ length: 6 }).map((_, i) => (
-                <motion.div
-                  key={i}
-                  style={{
-                    position: 'absolute',
-                    width: '8px',
-                    height: '8px',
-                    background: `hsl(${i * 60}, 70%, 60%)`,
-                    borderRadius: '50%',
-                    boxShadow: `0 0 15px hsl(${i * 60}, 70%, 60%)`
-                  }}
-                  animate={{
-                    x: [0, Math.sin(i) * 50, 0],
-                    y: [0, Math.cos(i) * 50, 0],
-                    scale: [1, 1.5, 1],
-                    opacity: [0.5, 1, 0.5]
-                  }}
-                  transition={{
-                    duration: 4 + i,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                    delay: i * 0.5
-                  }}
-                />
-              ))}
+                      {/* Floating Data Points */}
+        {Array.from({ length: 6 }).map((_, i) => (
+          <motion.div
+            key={i}
+            style={{
+              position: 'absolute',
+              width: '8px',
+              height: '8px',
+              background: `hsl(${i * 60}, 70%, 60%)`,
+              borderRadius: '50%',
+              boxShadow: `0 0 15px hsl(${i * 60}, 70%, 60%)`
+            }}
+            animate={{
+              x: [0, Math.sin(i) * 50, 0],
+              y: [0, Math.cos(i) * 50, 0],
+              scale: [1, 1.5, 1],
+              opacity: [0.5, 1, 0.5]
+            }}
+            transition={{
+              duration: 4 + i,
+              repeat: Infinity,
+              ease: 'easeInOut',
+              delay: i * 0.5
+            }}
+          />
+        ))}
+
+        {/* Interactive Particle System */}
+        {Array.from({ length: 50 }).map((_, i) => (
+          <motion.div
+            key={`particle-${i}`}
+            style={{
+              position: 'absolute',
+              width: `${Math.random() * 4 + 2}px`,
+              height: `${Math.random() * 4 + 2}px`,
+              background: `rgba(${Math.random() * 255}, ${Math.random() * 255}, 255, ${Math.random() * 0.3 + 0.1})`,
+              borderRadius: '50%',
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              pointerEvents: 'none',
+              zIndex: 1
+            }}
+            animate={{
+              x: [0, Math.random() * 100 - 50],
+              y: [0, Math.random() * 100 - 50],
+              scale: [1, Math.random() * 2 + 0.5],
+              opacity: [0, 1, 0]
+            }}
+            transition={{
+              duration: Math.random() * 10 + 10,
+              repeat: Infinity,
+              ease: 'linear',
+              delay: Math.random() * 5
+            }}
+            whileHover={{
+              scale: 3,
+              opacity: 1,
+              transition: { duration: 0.3 }
+            }}
+          />
+        ))}
+
+        {/* Mouse-following particles */}
+        {Array.from({ length: 8 }).map((_, i) => (
+          <motion.div
+            key={`mouse-particle-${i}`}
+            style={{
+              position: 'fixed',
+              width: '4px',
+              height: '4px',
+              background: `rgba(0, 212, 255, ${0.3 - i * 0.03})`,
+              borderRadius: '50%',
+              pointerEvents: 'none',
+              zIndex: 1000
+            }}
+            animate={{
+              x: mousePosition.x + i * 10,
+              y: mousePosition.y + i * 10,
+              scale: [1, 0],
+              opacity: [0.3, 0]
+            }}
+            transition={{
+              duration: 1,
+              repeat: Infinity,
+              ease: 'linear',
+              delay: i * 0.1
+            }}
+          />
+        ))}
             </motion.div>
           </div>
 
@@ -669,32 +864,36 @@ export default function Hero() {
           >
             {[
               { 
-                number: '24', 
+                number: counts.hours, 
                 label: 'HOURS TO DEPLOY', 
                 icon: '⚡',
                 color: 'var(--primary-green)',
-                description: 'Rapid deployment capability'
+                description: 'Rapid deployment capability',
+                suffix: ''
               },
               { 
-                number: '50+', 
+                number: counts.countries, 
                 label: 'COUNTRIES SERVED', 
                 icon: '🌍',
                 color: 'var(--primary-cyan)',
-                description: 'Global operational reach'
+                description: 'Global operational reach',
+                suffix: '+'
               },
               { 
-                number: '1000+', 
+                number: counts.deployments, 
                 label: 'SUCCESSFUL DEPLOYMENTS', 
                 icon: '✅',
                 color: 'var(--primary-blue)',
-                description: 'Proven track record'
+                description: 'Proven track record',
+                suffix: '+'
               },
               { 
-                number: '99.9%', 
+                number: counts.reliability, 
                 label: 'UPTIME RELIABILITY', 
                 icon: '🛡️',
                 color: 'var(--primary-orange)',
-                description: 'Mission-critical reliability'
+                description: 'Mission-critical reliability',
+                suffix: '%'
               }
             ].map((stat, index) => (
               <motion.div
@@ -702,7 +901,11 @@ export default function Hero() {
                 initial={{ opacity: 0, scale: 0.8, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 1.2 + index * 0.1 }}
-                whileHover={{ scale: 1.02, y: -5 }}
+                whileHover={{ 
+                  scale: 1.05, 
+                  y: -10,
+                  transition: { duration: 0.3 }
+                }}
                 style={{
                   textAlign: 'center',
                   padding: '32px 24px',
@@ -736,6 +939,21 @@ export default function Hero() {
                   }}
                 />
                 
+                {/* Hover Overlay */}
+                <motion.div
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    background: `linear-gradient(135deg, ${stat.color}15, transparent)`,
+                    opacity: 0,
+                    transition: 'opacity 0.3s ease'
+                  }}
+                  whileHover={{ opacity: 1 }}
+                />
+                
                 <div style={{ 
                   fontSize: '2rem', 
                   marginBottom: '16px',
@@ -750,7 +968,7 @@ export default function Hero() {
                   marginBottom: '8px',
                   textShadow: `0 0 20px ${stat.color}80`
                 }}>
-                  {stat.number}
+                  {stat.number}{stat.suffix}
                 </div>
                 <div style={{
                   fontSize: '0.875rem',

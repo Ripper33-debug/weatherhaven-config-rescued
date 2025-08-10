@@ -5,51 +5,76 @@ import Link from 'next/link';
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-black to-slate-900 overflow-hidden">
-      {/* Subtle animated background */}
-      <div className="absolute inset-0">
-        <motion.div
-          animate={{ 
-            scale: [1, 1.1, 1],
-            opacity: [0.3, 0.5, 0.3]
-          }}
-          transition={{ 
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"
-        />
-        <motion.div
-          animate={{ 
-            scale: [1.1, 1, 1.1],
-            opacity: [0.4, 0.6, 0.4]
-          }}
-          transition={{ 
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 2
-          }}
-          className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl"
-        />
-      </div>
-
-      {/* Modern grid overlay */}
-      <div className="absolute inset-0 opacity-[0.02]" style={{
-        backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='%23ffffff' stroke-width='1' fill='none'%3E%3Cpath d='M0 0h100v100H0z'/%3E%3C/g%3E%3C/svg%3E")`
+    <section style={{
+      minHeight: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      position: 'relative',
+      overflow: 'hidden'
+    }}>
+      {/* Simple animated background */}
+      <div style={{
+        position: 'absolute',
+        top: '25%',
+        left: '25%',
+        width: '400px',
+        height: '400px',
+        background: 'rgba(59, 130, 246, 0.1)',
+        borderRadius: '50%',
+        filter: 'blur(100px)',
+        animation: 'pulse 8s ease-in-out infinite'
+      }}></div>
+      
+      <div style={{
+        position: 'absolute',
+        bottom: '25%',
+        right: '25%',
+        width: '300px',
+        height: '300px',
+        background: 'rgba(147, 51, 234, 0.1)',
+        borderRadius: '50%',
+        filter: 'blur(100px)',
+        animation: 'pulse 10s ease-in-out infinite 2s'
       }}></div>
 
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div style={{
+        position: 'relative',
+        zIndex: 10,
+        maxWidth: '1200px',
+        margin: '0 auto',
+        padding: '0 20px',
+        textAlign: 'center'
+      }}>
         {/* Status badge */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="mb-12"
+          style={{
+            marginBottom: '48px'
+          }}
         >
-          <div className="inline-flex items-center px-6 py-3 bg-white/5 backdrop-blur-sm border border-white/10 text-white/80 text-sm font-medium rounded-full">
-            <div className="w-2 h-2 bg-emerald-400 rounded-full mr-3 animate-pulse"></div>
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            padding: '12px 24px',
+            background: 'rgba(255, 255, 255, 0.1)',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+            borderRadius: '50px',
+            color: 'rgba(255, 255, 255, 0.8)',
+            fontSize: '14px',
+            fontWeight: '500'
+          }}>
+            <div style={{
+              width: '8px',
+              height: '8px',
+              background: '#10b981',
+              borderRadius: '50%',
+              marginRight: '12px',
+              animation: 'pulse 2s infinite'
+            }}></div>
             SYSTEM ACTIVE
           </div>
         </motion.div>
@@ -59,15 +84,41 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-5xl md:text-7xl lg:text-8xl font-light text-white mb-8 leading-none tracking-tight"
+          style={{
+            fontSize: 'clamp(3rem, 8vw, 6rem)',
+            fontWeight: '300',
+            color: 'white',
+            marginBottom: '32px',
+            lineHeight: '1',
+            letterSpacing: '-0.02em'
+          }}
         >
-          <span className="block bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+          <span style={{
+            display: 'block',
+            background: 'linear-gradient(to right, white, #d1d5db)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text'
+          }}>
             DEPLOYABLE
           </span>
-          <span className="block bg-gradient-to-r from-gray-300 to-white bg-clip-text text-transparent">
+          <span style={{
+            display: 'block',
+            background: 'linear-gradient(to right, #d1d5db, white)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text'
+          }}>
             SHELTERS
           </span>
-          <span className="block text-lg md:text-xl text-gray-400 font-light mt-6 tracking-widest">
+          <span style={{
+            display: 'block',
+            fontSize: 'clamp(1rem, 2vw, 1.25rem)',
+            color: '#9ca3af',
+            fontWeight: '300',
+            marginTop: '24px',
+            letterSpacing: '0.1em'
+          }}>
             READY IN HOURS — NOT WEEKS
           </span>
         </motion.h1>
@@ -77,7 +128,16 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-xl md:text-2xl text-gray-300 mb-16 max-w-4xl mx-auto leading-relaxed font-light"
+          style={{
+            fontSize: 'clamp(1.125rem, 2vw, 1.5rem)',
+            color: '#d1d5db',
+            marginBottom: '64px',
+            maxWidth: '800px',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            lineHeight: '1.6',
+            fontWeight: '300'
+          }}
         >
           Weatherhaven delivers modular, field-proven shelter systems for defense, 
           disaster response, and remote industry with unmatched speed and reliability.
@@ -88,13 +148,31 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="flex flex-col sm:flex-row gap-6 justify-center items-center"
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '24px',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
         >
           <Link href="/contact">
             <motion.button
               whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.98 }}
-              className="group relative px-12 py-4 bg-white text-black font-medium text-lg tracking-wide rounded-lg hover:bg-gray-100 transition-all duration-300 shadow-2xl hover:shadow-3xl"
+              style={{
+                padding: '16px 48px',
+                background: 'white',
+                color: 'black',
+                fontWeight: '500',
+                fontSize: '18px',
+                letterSpacing: '0.025em',
+                borderRadius: '8px',
+                border: 'none',
+                cursor: 'pointer',
+                boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+                transition: 'all 0.3s ease'
+              }}
             >
               REQUEST QUOTE
             </motion.button>
@@ -104,10 +182,22 @@ export default function Hero() {
             <motion.button
               whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.98 }}
-              className="group relative px-12 py-4 bg-transparent border-2 border-white/20 text-white font-medium text-lg tracking-wide rounded-lg hover:bg-white/5 hover:border-white/40 transition-all duration-300 backdrop-blur-sm"
+              style={{
+                padding: '16px 48px',
+                background: 'transparent',
+                border: '2px solid rgba(255, 255, 255, 0.2)',
+                color: 'white',
+                fontWeight: '500',
+                fontSize: '18px',
+                letterSpacing: '0.025em',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                backdropFilter: 'blur(10px)',
+                transition: 'all 0.3s ease'
+              }}
             >
-              <span className="flex items-center">
-                <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <span style={{ display: 'flex', alignItems: 'center' }}>
+                <svg style={{ width: '20px', height: '20px', marginRight: '12px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
                 OPEN CONFIGURATOR
@@ -121,18 +211,46 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1 }}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+          style={{
+            position: 'absolute',
+            bottom: '32px',
+            left: '50%',
+            transform: 'translateX(-50%)'
+          }}
         >
           <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
-            className="flex flex-col items-center text-white/60"
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              color: 'rgba(255, 255, 255, 0.6)'
+            }}
           >
-            <span className="text-xs font-medium tracking-widest mb-2">SCROLL</span>
-            <div className="w-px h-8 bg-gradient-to-b from-white/60 to-transparent"></div>
+            <span style={{
+              fontSize: '12px',
+              fontWeight: '500',
+              letterSpacing: '0.1em',
+              marginBottom: '8px'
+            }}>
+              SCROLL
+            </span>
+            <div style={{
+              width: '1px',
+              height: '32px',
+              background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.6), transparent)'
+            }}></div>
           </motion.div>
         </motion.div>
       </div>
+
+      <style jsx>{`
+        @keyframes pulse {
+          0%, 100% { opacity: 0.3; transform: scale(1); }
+          50% { opacity: 0.5; transform: scale(1.1); }
+        }
+      `}</style>
     </section>
   );
 }

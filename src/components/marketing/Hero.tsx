@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-black to-slate-900 overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center bg-red-600 overflow-hidden">
       {/* Subtle animated background */}
       <div className="absolute inset-0">
         <motion.div
@@ -50,7 +50,7 @@ export default function Hero() {
         >
           <div className="inline-flex items-center px-6 py-3 bg-white/5 backdrop-blur-sm border border-white/10 text-white/80 text-sm font-medium rounded-full">
             <div className="w-2 h-2 bg-emerald-400 rounded-full mr-3 animate-pulse"></div>
-            SYSTEM ACTIVE
+            SYSTEM ACTIVE - DEPLOYMENT TEST
           </div>
         </motion.div>
 

@@ -34,10 +34,16 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body className={`${inter.className} bg-gradient-to-br from-slate-900 via-black to-slate-900 text-white`}>
+    <html lang="en" style={{ scrollBehavior: 'smooth' }}>
+      <body style={{
+        fontFamily: inter.style.fontFamily,
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        color: 'white',
+        margin: 0,
+        padding: 0
+      }}>
         <Header />
-        <main className="pt-16">
+        <main style={{ paddingTop: '64px' }}>
           {children}
         </main>
         <Analytics />

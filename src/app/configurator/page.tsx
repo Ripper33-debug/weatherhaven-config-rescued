@@ -6,10 +6,24 @@ import dynamic from 'next/dynamic';
 const ConfiguratorApp = dynamic(() => import('../../App'), {
   ssr: false,
   loading: () => (
-    <div className="min-h-screen bg-slate-900 flex items-center justify-center">
-      <div className="text-center">
-        <div className="w-16 h-16 border-4 border-green-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-        <p className="text-white text-lg">Loading Configurator...</p>
+    <div style={{
+      minHeight: '100vh',
+      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }}>
+      <div style={{ textAlign: 'center' }}>
+        <div style={{
+          width: '64px',
+          height: '64px',
+          border: '4px solid #10b981',
+          borderTop: '4px solid transparent',
+          borderRadius: '50%',
+          animation: 'spin 1s linear infinite',
+          margin: '0 auto 16px'
+        }}></div>
+        <p style={{ color: 'white', fontSize: '18px' }}>Loading Configurator...</p>
       </div>
     </div>
   ),
@@ -17,7 +31,10 @@ const ConfiguratorApp = dynamic(() => import('../../App'), {
 
 export default function ConfiguratorPage() {
   return (
-    <div className="min-h-screen bg-slate-900">
+    <div style={{
+      minHeight: '100vh',
+      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+    }}>
       <ConfiguratorApp />
     </div>
   );

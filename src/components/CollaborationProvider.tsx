@@ -73,26 +73,26 @@ export const CollaborationProvider: React.FC<CollaborationProviderProps> = ({
     
     setActiveUsers(mockUsers);
     
-    console.log('Joined collaboration session:', newSessionId);
+            // Joined collaboration session
   };
 
   const leaveSession = () => {
     setIsCollaborating(false);
     setSessionId(null);
     setActiveUsers([]);
-    console.log('Left collaboration session');
+            // Left collaboration session
   };
 
   const updatePosition = (position: { x: number; y: number; z: number }) => {
     if (isCollaborating) {
-      console.log('Position updated:', position);
+              // Position updated
       // In a real implementation, this would send to other users
     }
   };
 
   const shareConfiguration = (config: ConfiguratorState) => {
     if (isCollaborating) {
-      console.log('Configuration shared:', config);
+              // Configuration shared
       // In a real implementation, this would sync with other users
     }
   };

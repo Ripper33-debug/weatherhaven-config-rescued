@@ -4,25 +4,75 @@ import { motion } from 'framer-motion';
 
 export default function GlobalDeploymentsStrip() {
   return (
-    <section className="py-24 bg-white/5 backdrop-blur-sm border-y border-white/10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section style={{
+      padding: '96px 0',
+      background: 'rgba(255, 255, 255, 0.05)',
+      backdropFilter: 'blur(10px)',
+      borderTop: '1px solid rgba(255, 255, 255, 0.1)'
+    }}>
+      <div style={{
+        maxWidth: '1280px',
+        margin: '0 auto',
+        padding: '0 16px'
+      }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          style={{
+            textAlign: 'center',
+            marginBottom: '64px'
+          }}
         >
-          <h2 className="text-3xl md:text-4xl font-light text-white mb-4">
+          <h2 style={{
+            fontSize: 'clamp(1.875rem, 3vw, 2.25rem)',
+            fontWeight: '300',
+            color: 'white',
+            marginBottom: '16px'
+          }}>
             GLOBAL DEPLOYMENTS
           </h2>
-          <p className="text-lg text-gray-300 max-w-3xl mx-auto font-light">
+          <p style={{
+            fontSize: '1.125rem',
+            color: '#d1d5db',
+            maxWidth: '768px',
+            margin: '0 auto',
+            fontWeight: '300'
+          }}>
             Weatherhaven shelters are deployed worldwide, providing reliable infrastructure in the most challenging environments.
           </p>
         </motion.div>
 
-        <div className="text-center">
-          <div className="text-gray-400 font-medium tracking-wide">GLOBAL DEPLOYMENT MAP COMING SOON</div>
+        <div style={{
+          textAlign: 'center',
+          padding: '60px',
+          background: 'rgba(255, 255, 255, 0.05)',
+          backdropFilter: 'blur(10px)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          borderRadius: '20px'
+        }}>
+          <div style={{
+            fontSize: '3rem',
+            marginBottom: '24px'
+          }}>
+            🌍
+          </div>
+          <h3 style={{
+            fontSize: '1.5rem',
+            fontWeight: '600',
+            color: 'white',
+            marginBottom: '16px'
+          }}>
+            GLOBAL DEPLOYMENT MAP
+          </h3>
+          <p style={{
+            color: '#d1d5db',
+            fontSize: '1rem',
+            margin: 0
+          }}>
+            Interactive map showing our worldwide deployments coming soon.
+          </p>
         </div>
       </div>
     </section>

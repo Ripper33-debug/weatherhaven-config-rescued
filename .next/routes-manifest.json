@@ -37,6 +37,18 @@
       "regex": "^/configurator(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/configurator(?:/)?$"
+    },
+    {
+      "page": "/products",
+      "regex": "^/products(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/products(?:/)?$"
+    },
+    {
+      "page": "/solutions",
+      "regex": "^/solutions(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/solutions(?:/)?$"
     }
   ],
   "dataRoutes": [],

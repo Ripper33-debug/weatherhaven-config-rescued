@@ -76,8 +76,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   const handleConfigurationChange = (configuration: ShelterConfiguration) => {
     // Update the selected configuration
     // This would typically update the model or interior
-    console.log('Configuration changed to:', configuration);
-    // TODO: Implement configuration change logic when interior models are available
+    // Configuration change logic will be implemented when interior models are available
   };
 
   const handleModelLoaded = () => {

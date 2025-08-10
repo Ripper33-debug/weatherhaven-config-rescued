@@ -57,6 +57,7 @@ export default function Hero() {
   });
 
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [hoveredLocation, setHoveredLocation] = useState(null);
 
   // Live data counters
   useEffect(() => {
@@ -1057,20 +1058,22 @@ export default function Hero() {
           />
         ))}
 
-        {/* Interactive Floating Info Panel */}
+        {/* Global Deployment Map */}
         <motion.div
           style={{
             position: 'absolute',
-            top: '15%',
+            top: '10%',
             right: '5%',
-            background: 'rgba(0, 0, 0, 0.9)',
+            background: 'rgba(0, 0, 0, 0.95)',
             backdropFilter: 'blur(20px)',
             border: '2px solid var(--weatherhaven-blue)',
-            borderRadius: '16px',
-            padding: '20px',
-            maxWidth: '280px',
+            borderRadius: '20px',
+            padding: '24px',
+            width: '320px',
+            height: '240px',
             zIndex: 15,
-            cursor: 'pointer'
+            cursor: 'pointer',
+            overflow: 'hidden'
           }}
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
@@ -1081,6 +1084,232 @@ export default function Hero() {
             transition: { duration: 0.3 }
           }}
         >
+          {/* Map Header */}
+          <motion.div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              marginBottom: '16px'
+            }}
+          >
+            <div style={{
+              width: '12px',
+              height: '12px',
+              background: 'var(--weatherhaven-orange)',
+              borderRadius: '50%',
+              boxShadow: '0 0 10px var(--weatherhaven-orange)'
+            }} />
+            <div style={{
+              fontSize: '14px',
+              fontWeight: '700',
+              color: 'var(--weatherhaven-white)',
+              letterSpacing: '0.05em',
+              textTransform: 'uppercase'
+            }}>
+              Global Deployments
+            </div>
+          </motion.div>
+
+          {/* World Map Background */}
+          <div style={{
+            position: 'relative',
+            width: '100%',
+            height: '160px',
+            background: 'radial-gradient(circle at center, rgba(0, 102, 204, 0.1) 0%, transparent 70%)',
+            borderRadius: '12px',
+            border: '1px solid rgba(0, 102, 204, 0.3)',
+            overflow: 'hidden'
+          }}>
+            {/* Interactive Deployment Dots */}
+            {[
+              { x: 20, y: 30, country: 'Canada', deployments: 45, color: 'var(--weatherhaven-blue)' },
+              { x: 15, y: 35, country: 'USA', deployments: 120, color: 'var(--weatherhaven-orange)' },
+              { x: 25, y: 40, country: 'Mexico', deployments: 28, color: 'var(--weatherhaven-blue)' },
+              { x: 45, y: 35, country: 'UK', deployments: 67, color: 'var(--weatherhaven-orange)' },
+              { x: 50, y: 40, country: 'Germany', deployments: 89, color: 'var(--weatherhaven-blue)' },
+              { x: 55, y: 35, country: 'France', deployments: 52, color: 'var(--weatherhaven-orange)' },
+              { x: 70, y: 45, country: 'Australia', deployments: 34, color: 'var(--weatherhaven-blue)' },
+              { x: 75, y: 50, country: 'Japan', deployments: 23, color: 'var(--weatherhaven-orange)' },
+              { x: 60, y: 55, country: 'South Africa', deployments: 18, color: 'var(--weatherhaven-blue)' },
+              { x: 35, y: 60, country: 'Brazil', deployments: 31, color: 'var(--weatherhaven-orange)' },
+              { x: 80, y: 40, country: 'China', deployments: 42, color: 'var(--weatherhaven-blue)' },
+              { x: 85, y: 45, country: 'India', deployments: 29, color: 'var(--weatherhaven-orange)' }
+            ].map((location, index) => (
+              <motion.div
+                key={location.country}
+                style={{
+                  position: 'absolute',
+                  left: `${location.x}%`,
+                  top: `${location.y}%`,
+                  width: '8px',
+                  height: '8px',
+                  background: location.color,
+                  borderRadius: '50%',
+                  boxShadow: `0 0 15px ${location.color}`,
+                  cursor: 'pointer',
+                  zIndex: 10
+                }}
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{
+                  scale: [1, 1.5, 1],
+                  opacity: [0.7, 1, 0.7]
+                }}
+                transition={{
+                  duration: 3 + index * 0.2,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                  delay: index * 0.1
+                }}
+                whileHover={{
+                  scale: 2.5,
+                  boxShadow: `0 0 25px ${location.color}`,
+                  transition: { duration: 0.3 }
+                }}
+                onHoverStart={() => setHoveredLocation(location)}
+                onHoverEnd={() => setHoveredLocation(null)}
+              >
+                {/* Connection Lines */}
+                <motion.div
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    width: '1px',
+                    height: '20px',
+                    background: `linear-gradient(180deg, ${location.color}, transparent)`,
+                    transform: 'translate(-50%, -50%)'
+                  }}
+                  animate={{
+                    scaleY: [0, 1, 0],
+                    opacity: [0, 0.6, 0]
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                    delay: index * 0.2
+                  }}
+                />
+              </motion.div>
+            ))}
+
+            {/* Animated Connection Lines */}
+            <motion.div
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                width: '2px',
+                height: '2px',
+                background: 'var(--weatherhaven-blue)',
+                borderRadius: '50%'
+              }}
+              animate={{
+                scale: [1, 100, 1],
+                opacity: [1, 0, 1]
+              }}
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+                ease: 'linear'
+              }}
+            />
+
+            {/* Major Hub Connections */}
+            {[
+              { from: { x: 15, y: 35 }, to: { x: 45, y: 35 }, color: 'var(--weatherhaven-blue)' },
+              { from: { x: 45, y: 35 }, to: { x: 70, y: 45 }, color: 'var(--weatherhaven-orange)' },
+              { from: { x: 70, y: 45 }, to: { x: 80, y: 40 }, color: 'var(--weatherhaven-blue)' },
+              { from: { x: 80, y: 40 }, to: { x: 60, y: 55 }, color: 'var(--weatherhaven-orange)' },
+              { from: { x: 60, y: 55 }, to: { x: 35, y: 60 }, color: 'var(--weatherhaven-blue)' },
+              { from: { x: 35, y: 60 }, to: { x: 15, y: 35 }, color: 'var(--weatherhaven-orange)' }
+            ].map((connection, index) => (
+              <motion.div
+                key={index}
+                style={{
+                  position: 'absolute',
+                  top: `${connection.from.y}%`,
+                  left: `${connection.from.x}%`,
+                  width: `${Math.sqrt(Math.pow(connection.to.x - connection.from.x, 2) + Math.pow(connection.to.y - connection.from.y, 2)) * 3.2}px`,
+                  height: '1px',
+                  background: `linear-gradient(90deg, ${connection.color}, transparent)`,
+                  transformOrigin: 'left center',
+                  transform: `rotate(${Math.atan2(connection.to.y - connection.from.y, connection.to.x - connection.from.x) * 180 / Math.PI}deg)`,
+                  zIndex: 5
+                }}
+                animate={{
+                  scaleX: [0, 1, 0],
+                  opacity: [0, 0.4, 0]
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                  delay: index * 0.5
+                }}
+              />
+            ))}
+          </div>
+
+          {/* Deployment Stats */}
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginTop: '12px',
+            fontSize: '11px',
+            color: 'var(--text-secondary)'
+          }}>
+            <div>
+              <span style={{ color: 'var(--weatherhaven-blue)' }}>●</span> Active: 678
+            </div>
+            <div>
+              <span style={{ color: 'var(--weatherhaven-orange)' }}>●</span> Countries: 50+
+            </div>
+            <div>
+              <span style={{ color: 'var(--accent-cyan)' }}>●</span> Global
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Deployment Tooltip */}
+        {hoveredLocation && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            style={{
+              position: 'absolute',
+              top: `${hoveredLocation.y * 2.4}px`,
+              left: `${hoveredLocation.x * 3.2}px`,
+              background: 'rgba(0, 0, 0, 0.95)',
+              backdropFilter: 'blur(20px)',
+              border: `2px solid ${hoveredLocation.color}`,
+              borderRadius: '12px',
+              padding: '12px 16px',
+              fontSize: '12px',
+              color: 'var(--weatherhaven-white)',
+              zIndex: 20,
+              pointerEvents: 'none',
+              whiteSpace: 'nowrap',
+              boxShadow: `0 0 20px ${hoveredLocation.color}40`
+            }}
+          >
+            <div style={{
+              fontWeight: '700',
+              marginBottom: '4px',
+              color: hoveredLocation.color
+            }}>
+              {hoveredLocation.country}
+            </div>
+            <div style={{
+              fontSize: '11px',
+              color: 'var(--text-secondary)'
+            }}>
+              {hoveredLocation.deployments} Active Deployments
+            </div>
+          </motion.div>
+        )}
           <motion.div
             style={{
               display: 'flex',

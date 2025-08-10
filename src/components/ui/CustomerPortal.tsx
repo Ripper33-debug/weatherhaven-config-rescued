@@ -816,8 +816,7 @@ export default function CustomerPortal() {
       </motion.button>
 
       {/* Portal Modal */}
-      <AnimatePresence>
-        {isOpen && (
+      {isOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -1032,11 +1031,9 @@ export default function CustomerPortal() {
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
 
       {/* Payment Modal */}
-      <AnimatePresence>
-        {showPaymentModal && selectedInvoice && (
+      {showPaymentModal && selectedInvoice && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -1196,7 +1193,6 @@ export default function CustomerPortal() {
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
     </>
   );
 }

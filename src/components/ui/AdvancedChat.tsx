@@ -81,7 +81,6 @@ export default function AdvancedChat() {
       // Welcome message
       setTimeout(() => {
         addMessage({
-          id: '1',
           text: 'Hello! I\'m Weatherhaven AI Assistant. I can help you with product information, instant quotes, and connect you with our experts. How can I assist you today?',
           sender: 'ai',
           timestamp: new Date(),
@@ -120,7 +119,6 @@ export default function AdvancedChat() {
     };
 
     addMessage({
-      id: Date.now().toString(),
       text: `Here's your instant quote based on your requirements:`,
       sender: 'ai',
       timestamp: new Date(),
@@ -133,7 +131,6 @@ export default function AdvancedChat() {
     if (!inputValue.trim()) return;
 
     const userMessage = {
-      id: Date.now().toString(),
       text: inputValue,
       sender: 'user' as const,
       timestamp: new Date(),
@@ -160,7 +157,6 @@ export default function AdvancedChat() {
         
         if (product) {
           addMessage({
-            id: Date.now().toString(),
             text: `Here's information about the ${product.name}:`,
             sender: 'ai',
             timestamp: new Date(),
@@ -169,7 +165,6 @@ export default function AdvancedChat() {
           });
         } else {
           addMessage({
-            id: Date.now().toString(),
             text: 'I can help you find the right product. What type of shelter do you need? (Military, Healthcare, Disaster Response, or Industrial?)',
             sender: 'ai',
             timestamp: new Date(),
@@ -178,7 +173,6 @@ export default function AdvancedChat() {
         }
       } else if (lowerInput.includes('video') || lowerInput.includes('consultation') || lowerInput.includes('expert')) {
         addMessage({
-          id: Date.now().toString(),
           text: 'I can connect you with one of our experts for a video consultation. Would you like to schedule one?',
           sender: 'ai',
           timestamp: new Date(),
@@ -186,7 +180,6 @@ export default function AdvancedChat() {
         });
       } else {
         addMessage({
-          id: Date.now().toString(),
           text: 'I can help you with product information, instant quotes, or connect you with our experts. What would you like to know?',
           sender: 'ai',
           timestamp: new Date(),
@@ -202,7 +195,6 @@ export default function AdvancedChat() {
       setCurrentAgent(agent.name);
       setShowVideoCall(true);
       addMessage({
-        id: Date.now().toString(),
         text: `Connecting you with ${agent.name} for a video consultation...`,
         sender: 'ai',
         timestamp: new Date(),
@@ -320,12 +312,10 @@ export default function AdvancedChat() {
       </motion.button>
 
       {/* Chat Widget */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 20 }}
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
             style={{
               position: 'fixed',
               bottom: '100px',
@@ -488,7 +478,6 @@ export default function AdvancedChat() {
               </button>
               <button
                 onClick={() => addMessage({
-                  id: Date.now().toString(),
                   text: 'Here are our available products:',
                   sender: 'ai',
                   timestamp: new Date(),
@@ -548,11 +537,9 @@ export default function AdvancedChat() {
             </div>
           </motion.div>
         )}
-      </AnimatePresence>
 
       {/* Video Call Modal */}
-      <AnimatePresence>
-        {showVideoCall && (
+      {showVideoCall && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -621,7 +608,6 @@ export default function AdvancedChat() {
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
     </>
   );
 }

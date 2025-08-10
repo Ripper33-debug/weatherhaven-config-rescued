@@ -10,10 +10,9 @@ export default function StickyCTA() {
         <motion.button
           whileHover={{ scale: 1.05, y: -2 }}
           whileTap={{ scale: 0.95 }}
-          className="group relative px-8 py-4 bg-green-400 text-black font-black text-lg tracking-wider border-2 border-green-400 hover:bg-transparent hover:text-green-400 transition-all duration-300 overflow-hidden shadow-2xl"
+          className="px-8 py-4 bg-white text-black font-medium text-lg tracking-wide rounded-lg hover:bg-gray-100 transition-all duration-300 shadow-2xl hover:shadow-3xl backdrop-blur-sm"
         >
-          <span className="relative z-10">REQUEST QUOTE</span>
-          <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          REQUEST QUOTE
         </motion.button>
       </Link>
     </div>

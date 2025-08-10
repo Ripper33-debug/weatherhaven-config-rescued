@@ -4,6 +4,7 @@ import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
 import Link from 'next/link';
 import VideoBackground from '../ui/VideoBackground';
 import { useEffect, useState, useRef } from 'react';
+import Image from 'next/image';
 
 // Magnetic Button Component
 const MagneticButton = ({ children, ...props }: any) => {
@@ -117,20 +118,76 @@ export default function Hero() {
         overlay={true}
         overlayOpacity={0.7}
       >
-        {/* Advanced Grid Pattern */}
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundImage: `
-            linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px)
-          `,
-          backgroundSize: '100px 100px',
-          zIndex: 1
-        }} />
+        {/* Weatherhaven Brand Grid Pattern */}
+        <motion.div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundImage: `
+              linear-gradient(rgba(0, 102, 204, 0.05) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(0, 102, 204, 0.05) 1px, transparent 1px)
+            `,
+            backgroundSize: '100px 100px',
+            zIndex: 1
+          }}
+          animate={{
+            backgroundPosition: ['0px 0px', '100px 100px'],
+            opacity: [0.3, 0.6, 0.3]
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: 'linear'
+          }}
+        />
+        
+        {/* Weatherhaven Brand Lines */}
+        <motion.div
+          style={{
+            position: 'absolute',
+            top: '20%',
+            left: '10%',
+            width: '200px',
+            height: '2px',
+            background: 'linear-gradient(90deg, transparent, var(--weatherhaven-blue), transparent)',
+            zIndex: 2
+          }}
+          animate={{
+            scaleX: [0, 1, 0],
+            opacity: [0, 1, 0]
+          }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            ease: 'easeInOut',
+            delay: 0
+          }}
+        />
+        
+        <motion.div
+          style={{
+            position: 'absolute',
+            top: '60%',
+            right: '15%',
+            width: '150px',
+            height: '2px',
+            background: 'linear-gradient(90deg, transparent, var(--weatherhaven-orange), transparent)',
+            zIndex: 2
+          }}
+          animate={{
+            scaleX: [0, 1, 0],
+            opacity: [0, 1, 0]
+          }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            ease: 'easeInOut',
+            delay: 2
+          }}
+        />
 
         {/* Floating 3D Elements */}
         <motion.div
@@ -210,33 +267,89 @@ export default function Hero() {
           }} />
         </motion.div>
 
-        {/* Floating Pyramid */}
+        {/* Weatherhaven Brand Elements */}
         <motion.div
           style={{
             position: 'absolute',
             top: '25%',
             right: '25%',
-            width: '0',
-            height: '0',
-            borderLeft: '20px solid transparent',
-            borderRight: '20px solid transparent',
-            borderBottom: '35px solid rgba(139, 92, 246, 0.2)',
+            width: '60px',
+            height: '60px',
+            background: 'rgba(0, 102, 204, 0.1)',
+            border: '2px solid var(--weatherhaven-blue)',
+            borderRadius: '12px',
             zIndex: 2,
-            transform: 'rotateX(60deg) rotateY(45deg)',
-            transformStyle: 'preserve-3d'
+            transform: 'rotateX(45deg) rotateY(45deg)',
+            transformStyle: 'preserve-3d',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '24px',
+            fontWeight: 'bold',
+            color: 'var(--weatherhaven-blue)',
+            cursor: 'pointer'
           }}
           animate={{
             rotateY: [45, 405],
-            rotateX: [60, 420],
+            rotateX: [45, 405],
             scale: [1, 1.2, 1]
           }}
           transition={{
-            duration: 18,
+            duration: 15,
             repeat: Infinity,
             ease: 'linear',
             delay: 1
           }}
-        />
+          whileHover={{
+            scale: 1.5,
+            boxShadow: '0 0 30px var(--weatherhaven-blue)',
+            transition: { duration: 0.3 }
+          }}
+        >
+          W
+        </motion.div>
+
+        {/* Weatherhaven Orange Element */}
+        <motion.div
+          style={{
+            position: 'absolute',
+            bottom: '30%',
+            left: '20%',
+            width: '50px',
+            height: '50px',
+            background: 'rgba(255, 102, 0, 0.1)',
+            border: '2px solid var(--weatherhaven-orange)',
+            borderRadius: '50%',
+            zIndex: 2,
+            transform: 'rotateX(30deg) rotateZ(30deg)',
+            transformStyle: 'preserve-3d',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '20px',
+            fontWeight: 'bold',
+            color: 'var(--weatherhaven-orange)',
+            cursor: 'pointer'
+          }}
+          animate={{
+            rotateX: [30, 390],
+            rotateZ: [30, 390],
+            y: [0, -20, 0]
+          }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: 'linear',
+            delay: 2
+          }}
+          whileHover={{
+            scale: 1.4,
+            boxShadow: '0 0 25px var(--weatherhaven-orange)',
+            transition: { duration: 0.3 }
+          }}
+        >
+          H
+        </motion.div>
 
         {/* Advanced Tech HUD Elements */}
         <motion.div
@@ -418,6 +531,103 @@ export default function Hero() {
           borderRight: '2px solid var(--primary-green)',
           zIndex: 2
         }} />
+
+      {/* Weatherhaven Logo Section */}
+      <motion.div
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 0.2 }}
+        style={{
+          position: 'absolute',
+          top: '40px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 20,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '20px',
+          background: 'rgba(0, 0, 0, 0.8)',
+          backdropFilter: 'blur(20px)',
+          padding: '16px 32px',
+          borderRadius: '50px',
+          border: '2px solid var(--weatherhaven-blue)',
+          boxShadow: 'var(--shadow-blue)'
+        }}
+      >
+        <motion.div
+          style={{
+            width: '40px',
+            height: '40px',
+            position: 'relative',
+            borderRadius: '50%',
+            background: 'var(--gradient-primary)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '20px',
+            fontWeight: 'bold',
+            color: 'var(--weatherhaven-white)'
+          }}
+          animate={{
+            rotate: [0, 360],
+            scale: [1, 1.1, 1]
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: 'linear'
+          }}
+        >
+          W
+        </motion.div>
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}>
+          <motion.div
+            style={{
+              fontSize: '18px',
+              fontWeight: '700',
+              color: 'var(--weatherhaven-white)',
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase'
+            }}
+            animate={{
+              textShadow: [
+                '0 0 10px var(--weatherhaven-blue)',
+                '0 0 20px var(--weatherhaven-blue)',
+                '0 0 10px var(--weatherhaven-blue)'
+              ]
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: 'easeInOut'
+            }}
+          >
+            Weatherhaven
+          </motion.div>
+          <motion.div
+            style={{
+              fontSize: '12px',
+              color: 'var(--text-muted)',
+              fontWeight: '500',
+              letterSpacing: '0.05em'
+            }}
+            animate={{
+              opacity: [0.7, 1, 0.7]
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: 'easeInOut'
+            }}
+          >
+            Deployable Shelter Solutions
+          </motion.div>
+        </div>
+      </motion.div>
 
       <div style={{
         maxWidth: '1600px',
@@ -827,7 +1037,7 @@ export default function Hero() {
               position: 'fixed',
               width: '4px',
               height: '4px',
-              background: `rgba(0, 212, 255, ${0.3 - i * 0.03})`,
+              background: `rgba(0, 102, 204, ${0.3 - i * 0.03})`,
               borderRadius: '50%',
               pointerEvents: 'none',
               zIndex: 1000
@@ -846,6 +1056,90 @@ export default function Hero() {
             }}
           />
         ))}
+
+        {/* Interactive Floating Info Panel */}
+        <motion.div
+          style={{
+            position: 'absolute',
+            top: '15%',
+            right: '5%',
+            background: 'rgba(0, 0, 0, 0.9)',
+            backdropFilter: 'blur(20px)',
+            border: '2px solid var(--weatherhaven-blue)',
+            borderRadius: '16px',
+            padding: '20px',
+            maxWidth: '280px',
+            zIndex: 15,
+            cursor: 'pointer'
+          }}
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1, delay: 2 }}
+          whileHover={{
+            scale: 1.05,
+            boxShadow: 'var(--shadow-blue)',
+            transition: { duration: 0.3 }
+          }}
+        >
+          <motion.div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              marginBottom: '16px'
+            }}
+          >
+            <div style={{
+              width: '12px',
+              height: '12px',
+              background: 'var(--weatherhaven-orange)',
+              borderRadius: '50%',
+              boxShadow: '0 0 10px var(--weatherhaven-orange)'
+            }} />
+            <div style={{
+              fontSize: '14px',
+              fontWeight: '700',
+              color: 'var(--weatherhaven-white)',
+              letterSpacing: '0.05em',
+              textTransform: 'uppercase'
+            }}>
+              Live Status
+            </div>
+          </motion.div>
+          
+          <div style={{
+            fontSize: '12px',
+            color: 'var(--text-secondary)',
+            lineHeight: '1.5',
+            marginBottom: '12px'
+          }}>
+            <div style={{ marginBottom: '8px' }}>
+              <span style={{ color: 'var(--weatherhaven-orange)' }}>●</span> System: Operational
+            </div>
+            <div style={{ marginBottom: '8px' }}>
+              <span style={{ color: 'var(--accent-cyan)' }}>●</span> Global Network: Active
+            </div>
+            <div>
+              <span style={{ color: 'var(--weatherhaven-blue-light)' }}>●</span> Deployments: Ready
+            </div>
+          </div>
+          
+          <motion.div
+            style={{
+              height: '2px',
+              background: 'var(--gradient-primary)',
+              borderRadius: '1px'
+            }}
+            animate={{
+              scaleX: [0, 1, 0]
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: 'easeInOut'
+            }}
+          />
+        </motion.div>
             </motion.div>
           </div>
 
@@ -994,7 +1288,7 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Advanced Scroll Indicator */}
+      {/* Weatherhaven Brand Scroll Indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -1008,7 +1302,7 @@ export default function Hero() {
           flexDirection: 'column',
           alignItems: 'center',
           gap: '12px',
-          color: 'var(--primary-cyan)',
+          color: 'var(--weatherhaven-blue-light)',
           fontSize: '13px',
           fontWeight: '600',
           letterSpacing: '0.15em',
@@ -1020,7 +1314,7 @@ export default function Hero() {
           style={{
             width: '2px',
             height: '40px',
-            background: 'linear-gradient(180deg, var(--primary-cyan), transparent)',
+            background: 'linear-gradient(180deg, var(--weatherhaven-blue-light), transparent)',
             borderRadius: '1px'
           }}
           animate={{ 

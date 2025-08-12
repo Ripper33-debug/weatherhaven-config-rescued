@@ -205,18 +205,27 @@ const WeatherEffects: React.FC<{
   );
 };
 
-const WHEEL_RX = /(wheel|tyre|tire|rim|hub|axle|suspension|spoke|lug|valve|fender|mudflap|mudguard|chassis)/i;
-const BODY_RX  = /(body|main|shell|wall|panel|shelter|container|box|unit|roof|side|end|floor|ceiling|exterior|outer|surface|skin|hull|casing|enclosure|housing|frame|structure)/i;
+const WHEEL_RX = /(wheel|tyre|tire|rim|hub|axle|suspension|spoke|lug|valve|fender|mudflap|mudguard|chassis|trailer|truck|vehicle|carriage|undercarriage|running|gear|brake|drum|disc|caliper|spring|shock|strut|link|arm|bracket|mount|bushing|bearing|nut|bolt|fastener|hardware)/i;
+const BODY_RX  = /(body|main|shell|wall|panel|shelter|container|box|unit|roof|side|end|floor|ceiling|exterior|outer|surface|skin|hull|casing|enclosure|housing|frame|structure|module|section|compartment|space|interior|inner|inside|room|area|zone|volume|cabin|pod|capsule|cylinder|tube|pipe|duct|channel|passage|opening|door|window|hatch|access|entry|exit|vent|port|connection|joint|seam|edge|corner|angle|curve|bend|fold|crease|pleat|gusset|reinforcement|stiffener|support|brace|girder|beam|column|post|pillar|stud|joist|rafter|truss|arch|dome|vault|canopy|awning|cover|lid|cap|top|bottom|base|foundation|platform|deck|stage|level|tier|layer|sheet|plate|board|panel|slab|block|brick|tile|shingle|cladding|siding|facade|face|front|back|left|right|north|south|east|west|upper|lower|middle|center|central|core|heart|nucleus|kernel|essence|main|primary|principal|chief|head|lead|key|essential|vital|crucial|important|significant|major|main|primary|principal|chief|head|lead|key|essential|vital|crucial|important|significant|major)/i;
 
 function looksLikeWheel(node: Object3D) {
   const n = (node.name || '').toLowerCase();
   const p = (node.parent?.name || '').toLowerCase();
-  return WHEEL_RX.test(n) || WHEEL_RX.test(p);
+  const pp = (node.parent?.parent?.name || '').toLowerCase();
+  
+  // Check current node, parent, and grandparent names
+  return WHEEL_RX.test(n) || WHEEL_RX.test(p) || WHEEL_RX.test(pp);
 }
 
 function looksLikeBody(node: Object3D) {
   const n = (node.name || '').toLowerCase();
-  return BODY_RX.test(n);
+  const p = (node.parent?.name || '').toLowerCase();
+  
+  // Only color if it's clearly a body part AND not a wheel/trailer part
+  const isWheelOrTrailer = WHEEL_RX.test(n) || WHEEL_RX.test(p);
+  const isBodyPart = BODY_RX.test(n);
+  
+  return isBodyPart && !isWheelOrTrailer;
 }
 
 const ModelViewer: React.FC<ModelViewerProps> = ({ 
@@ -349,8 +358,24 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
   useEffect(() => {
     if (!processedScene) return;
 
+    let coloredCount = 0;
+    let skippedCount = 0;
+
     processedScene.traverse((child: any) => {
       if (!child.isMesh || !child.material) return;
+      
+      // Debug logging
+      if (child.userData.isBody) {
+        coloredCount++;
+        console.log(`Coloring body part: ${child.name}`);
+      } else if (child.userData.isWheel) {
+        skippedCount++;
+        console.log(`Skipping wheel/trailer part: ${child.name}`);
+      } else {
+        skippedCount++;
+        console.log(`Skipping unknown part: ${child.name}`);
+      }
+      
       if (!child.userData.isBody) return;       // only the body
       if (child.userData.isWheel) return;       // just in case
 
@@ -386,6 +411,8 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
         child.material.needsUpdate = true;
       }
     });
+    
+    console.log(`Color application complete: ${coloredCount} body parts colored, ${skippedCount} parts skipped`);
   }, [configState.color, processedScene]);
 
   useFrame(() => {

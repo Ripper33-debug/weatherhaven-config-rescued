@@ -336,184 +336,196 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
         user={user}
       />
 
-      {/* Advanced Controls */}
-      <div className="advanced-controls">
-        <div className="environment-control">
-          <label className="env-label">Environment</label>
-          <select
-            className="configuration-dropdown"
-            value={environment}
-            onChange={(e) => setEnvironment(e.target.value as any)}
-            aria-label="Environment"
-          >
-            <option value="day">Day</option>
-            <option value="night">Night</option>
-            <option value="desert">Desert</option>
-            <option value="arctic">Arctic</option>
-            <option value="jungle">Jungle</option>
-          </select>
-        </div>
+      {/* Simplified Environment & Lighting Controls */}
+      <div className="simplified-controls">
         
-        {/* Weather Effects Control */}
-        <div className="weather-control">
-          <label className="env-label">Weather</label>
-          <select
-            className="configuration-dropdown"
-            value={weatherEffects.type}
-            onChange={(e) => setWeatherEffects(prev => ({ ...prev, type: e.target.value as any }))}
-            aria-label="Weather"
-          >
-            <option value="none">Clear</option>
-            <option value="rain">Rain</option>
-            <option value="snow">Snow</option>
-            <option value="dust">Dust</option>
-            <option value="storm">Storm</option>
-            <option value="fog">Fog</option>
-          </select>
+        {/* Environment Presets */}
+        <div className="control-section">
+          <h3 className="section-title">🌍 Environment</h3>
+          <div className="preset-buttons">
+            <button 
+              className={`preset-btn ${environment === 'day' ? 'active' : ''}`}
+              onClick={() => setEnvironment('day')}
+            >
+              ☀️ Day
+            </button>
+            <button 
+              className={`preset-btn ${environment === 'night' ? 'active' : ''}`}
+              onClick={() => setEnvironment('night')}
+            >
+              🌙 Night
+            </button>
+            <button 
+              className={`preset-btn ${environment === 'desert' ? 'active' : ''}`}
+              onClick={() => setEnvironment('desert')}
+            >
+              🏜️ Desert
+            </button>
+            <button 
+              className={`preset-btn ${environment === 'arctic' ? 'active' : ''}`}
+              onClick={() => setEnvironment('arctic')}
+            >
+              ❄️ Arctic
+            </button>
+            <button 
+              className={`preset-btn ${environment === 'jungle' ? 'active' : ''}`}
+              onClick={() => setEnvironment('jungle')}
+            >
+              🌴 Jungle
+            </button>
+          </div>
+        </div>
+
+        {/* Weather Effects */}
+        <div className="control-section">
+          <h3 className="section-title">🌤️ Weather</h3>
+          <div className="weather-presets">
+            <button 
+              className={`weather-btn ${weatherEffects.type === 'none' ? 'active' : ''}`}
+              onClick={() => setWeatherEffects(prev => ({ ...prev, type: 'none' }))}
+            >
+              ☀️ Clear
+            </button>
+            <button 
+              className={`weather-btn ${weatherEffects.type === 'rain' ? 'active' : ''}`}
+              onClick={() => setWeatherEffects(prev => ({ ...prev, type: 'rain' }))}
+            >
+              🌧️ Rain
+            </button>
+            <button 
+              className={`weather-btn ${weatherEffects.type === 'snow' ? 'active' : ''}`}
+              onClick={() => setWeatherEffects(prev => ({ ...prev, type: 'snow' }))}
+            >
+              ❄️ Snow
+            </button>
+            <button 
+              className={`weather-btn ${weatherEffects.type === 'storm' ? 'active' : ''}`}
+              onClick={() => setWeatherEffects(prev => ({ ...prev, type: 'storm' }))}
+            >
+              ⛈️ Storm
+            </button>
+            <button 
+              className={`weather-btn ${weatherEffects.type === 'fog' ? 'active' : ''}`}
+              onClick={() => setWeatherEffects(prev => ({ ...prev, type: 'fog' }))}
+            >
+              🌫️ Fog
+            </button>
+          </div>
+          
           {weatherEffects.type !== 'none' && (
             <div className="weather-sliders">
-              <label>Intensity: {weatherEffects.intensity.toFixed(1)}</label>
-              <input
-                type="range"
-                min="0.1"
-                max="1.0"
-                step="0.1"
-                value={weatherEffects.intensity}
-                onChange={(e) => setWeatherEffects(prev => ({ ...prev, intensity: parseFloat(e.target.value) }))}
-              />
-              <label>Wind Speed: {weatherEffects.windSpeed.toFixed(1)}</label>
+              <div className="slider-group">
+                <label>💨 Intensity: {weatherEffects.intensity.toFixed(1)}</label>
+                <input
+                  type="range"
+                  min="0.1"
+                  max="1.0"
+                  step="0.1"
+                  value={weatherEffects.intensity}
+                  onChange={(e) => setWeatherEffects(prev => ({ ...prev, intensity: parseFloat(e.target.value) }))}
+                />
+              </div>
+              <div className="slider-group">
+                <label>🌪️ Wind: {weatherEffects.windSpeed.toFixed(1)}</label>
+                <input
+                  type="range"
+                  min="0.1"
+                  max="3.0"
+                  step="0.1"
+                  value={weatherEffects.windSpeed}
+                  onChange={(e) => setWeatherEffects(prev => ({ ...prev, windSpeed: parseFloat(e.target.value) }))}
+                />
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Sun & Lighting */}
+        <div className="control-section">
+          <h3 className="section-title">☀️ Sun & Lighting</h3>
+          
+          {/* Sun Position Presets */}
+          <div className="sun-presets">
+            <button 
+              className="sun-btn"
+              onClick={() => setLightingControls(prev => ({ 
+                ...prev, 
+                sunPosition: [100, 50, 100] 
+              }))}
+            >
+              🌅 Sunrise
+            </button>
+            <button 
+              className="sun-btn"
+              onClick={() => setLightingControls(prev => ({ 
+                ...prev, 
+                sunPosition: [0, 100, 0] 
+              }))}
+            >
+              ☀️ Noon
+            </button>
+            <button 
+              className="sun-btn"
+              onClick={() => setLightingControls(prev => ({ 
+                ...prev, 
+                sunPosition: [-100, 50, 100] 
+              }))}
+            >
+              🌇 Sunset
+            </button>
+            <button 
+              className="sun-btn"
+              onClick={() => setLightingControls(prev => ({ 
+                ...prev, 
+                sunPosition: [0, -50, 0] 
+              }))}
+            >
+              🌃 Night
+            </button>
+          </div>
+
+          {/* Simple Lighting Controls */}
+          <div className="lighting-sliders">
+            <div className="slider-group">
+              <label>💡 Brightness: {lightingControls.lightIntensity.toFixed(1)}</label>
               <input
                 type="range"
                 min="0.1"
                 max="3.0"
                 step="0.1"
-                value={weatherEffects.windSpeed}
-                onChange={(e) => setWeatherEffects(prev => ({ ...prev, windSpeed: parseFloat(e.target.value) }))}
-              />
-              <label>Particle Size: {weatherEffects.particleSize || 'Auto'}</label>
-              <input
-                type="range"
-                min="0.01"
-                max="0.3"
-                step="0.01"
-                value={weatherEffects.particleSize || 0.05}
-                onChange={(e) => setWeatherEffects(prev => ({ ...prev, particleSize: parseFloat(e.target.value) }))}
-              />
-              <label>Wind Direction X: {weatherEffects.windDirection[0].toFixed(1)}</label>
-              <input
-                type="range"
-                min="-1"
-                max="1"
-                step="0.1"
-                value={weatherEffects.windDirection[0]}
-                onChange={(e) => setWeatherEffects(prev => ({ 
-                  ...prev, 
-                  windDirection: [parseFloat(e.target.value), prev.windDirection[1], prev.windDirection[2]] 
-                }))}
-              />
-              <label>Wind Direction Z: {weatherEffects.windDirection[2].toFixed(1)}</label>
-              <input
-                type="range"
-                min="-1"
-                max="1"
-                step="0.1"
-                value={weatherEffects.windDirection[2]}
-                onChange={(e) => setWeatherEffects(prev => ({ 
-                  ...prev, 
-                  windDirection: [prev.windDirection[0], prev.windDirection[1], parseFloat(e.target.value)] 
-                }))}
+                value={lightingControls.lightIntensity}
+                onChange={(e) => setLightingControls(prev => ({ ...prev, lightIntensity: parseFloat(e.target.value) }))}
               />
             </div>
-          )}
-        </div>
-        
-        {/* Lighting Controls */}
-        <div className="lighting-control">
-          <label className="env-label">Lighting & Sun</label>
-          <div className="lighting-sliders">
-            <label>Light Intensity: {lightingControls.lightIntensity.toFixed(1)}</label>
-            <input
-              type="range"
-              min="0.1"
-              max="3.0"
-              step="0.1"
-              value={lightingControls.lightIntensity}
-              onChange={(e) => setLightingControls(prev => ({ ...prev, lightIntensity: parseFloat(e.target.value) }))}
-            />
-            <label>Ambient: {lightingControls.ambientIntensity.toFixed(1)}</label>
-            <input
-              type="range"
-              min="0.1"
-              max="2.0"
-              step="0.1"
-              value={lightingControls.ambientIntensity}
-              onChange={(e) => setLightingControls(prev => ({ ...prev, ambientIntensity: parseFloat(e.target.value) }))}
-            />
-            <label>Sun Position X: {lightingControls.sunPosition[0]}</label>
-            <input
-              type="range"
-              min="-200"
-              max="200"
-              step="10"
-              value={lightingControls.sunPosition[0]}
-              onChange={(e) => setLightingControls(prev => ({ 
-                ...prev, 
-                sunPosition: [parseInt(e.target.value), prev.sunPosition[1], prev.sunPosition[2]] 
-              }))}
-            />
-            <label>Sun Position Y: {lightingControls.sunPosition[1]}</label>
-            <input
-              type="range"
-              min="-50"
-              max="100"
-              step="5"
-              value={lightingControls.sunPosition[1]}
-              onChange={(e) => setLightingControls(prev => ({ 
-                ...prev, 
-                sunPosition: [prev.sunPosition[0], parseInt(e.target.value), prev.sunPosition[2]] 
-              }))}
-            />
-            <label>Sun Position Z: {lightingControls.sunPosition[2]}</label>
-            <input
-              type="range"
-              min="-200"
-              max="200"
-              step="10"
-              value={lightingControls.sunPosition[2]}
-              onChange={(e) => setLightingControls(prev => ({ 
-                ...prev, 
-                sunPosition: [prev.sunPosition[0], prev.sunPosition[1], parseInt(e.target.value)] 
-              }))}
-            />
-            <label>Sky Turbidity: {lightingControls.skyTurbidity}</label>
-            <input
-              type="range"
-              min="1"
-              max="20"
-              step="1"
-              value={lightingControls.skyTurbidity}
-              onChange={(e) => setLightingControls(prev => ({ ...prev, skyTurbidity: parseInt(e.target.value) }))}
-            />
-            <label>Shadow Bias: {lightingControls.shadowBias.toFixed(4)}</label>
-            <input
-              type="range"
-              min="-0.001"
-              max="0.001"
-              step="0.0001"
-              value={lightingControls.shadowBias}
-              onChange={(e) => setLightingControls(prev => ({ ...prev, shadowBias: parseFloat(e.target.value) }))}
-            />
-            <label>Shadow Softness: {lightingControls.shadowRadius}</label>
-            <input
-              type="range"
-              min="0"
-              max="5"
-              step="0.5"
-              value={lightingControls.shadowRadius}
-              onChange={(e) => setLightingControls(prev => ({ ...prev, shadowRadius: parseFloat(e.target.value) }))}
-            />
-            <label>Shadow Quality: {lightingControls.shadowMapSize}</label>
+            <div className="slider-group">
+              <label>🌅 Ambient: {lightingControls.ambientIntensity.toFixed(1)}</label>
+              <input
+                type="range"
+                min="0.1"
+                max="2.0"
+                step="0.1"
+                value={lightingControls.ambientIntensity}
+                onChange={(e) => setLightingControls(prev => ({ ...prev, ambientIntensity: parseFloat(e.target.value) }))}
+              />
+            </div>
+            <div className="slider-group">
+              <label>🌫️ Sky: {lightingControls.skyTurbidity}</label>
+              <input
+                type="range"
+                min="1"
+                max="20"
+                step="1"
+                value={lightingControls.skyTurbidity}
+                onChange={(e) => setLightingControls(prev => ({ ...prev, skyTurbidity: parseInt(e.target.value) }))}
+              />
+            </div>
+          </div>
+
+          {/* Shadow Quality */}
+          <div className="shadow-controls">
+            <label>🕶️ Shadow Quality:</label>
             <select
+              className="quality-select"
               value={lightingControls.shadowMapSize}
               onChange={(e) => setLightingControls(prev => ({ ...prev, shadowMapSize: parseInt(e.target.value) }))}
             >

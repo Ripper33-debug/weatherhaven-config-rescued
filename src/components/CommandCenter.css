@@ -913,3 +913,276 @@
     font-size: 0.75rem;
   }
 }
+
+/* Simplified Controls Styles */
+.simplified-controls {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  width: 320px;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  z-index: 1000;
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.control-section {
+  margin-bottom: 2rem;
+}
+
+.control-section:last-child {
+  margin-bottom: 0;
+}
+
+.section-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 1rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Environment Preset Buttons */
+.preset-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.preset-btn {
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.preset-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.preset-btn.active {
+  background: #4299e1;
+  border-color: #4299e1;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
+}
+
+/* Weather Preset Buttons */
+.weather-presets {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.weather-btn {
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.weather-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.weather-btn.active {
+  background: #48bb78;
+  border-color: #48bb78;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+}
+
+/* Sun Position Presets */
+.sun-presets {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.sun-btn {
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.sun-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.sun-btn:active {
+  background: #ed8936;
+  border-color: #ed8936;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(237, 137, 54, 0.3);
+}
+
+/* Slider Groups */
+.slider-group {
+  margin-bottom: 1rem;
+}
+
+.slider-group label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 0.5rem;
+}
+
+.slider-group input[type="range"] {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.slider-group input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  background: #4299e1;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.slider-group input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  background: #4299e1;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Shadow Controls */
+.shadow-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.shadow-controls label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  white-space: nowrap;
+}
+
+.quality-select {
+  flex: 1;
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 0.875rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.quality-select:focus {
+  border-color: #4299e1;
+}
+
+.quality-select option {
+  background: #1a202c;
+  color: #ffffff;
+}
+
+/* Responsive Design for Simplified Controls */
+@media (max-width: 1200px) {
+  .simplified-controls {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    top: auto;
+    width: 300px;
+    max-height: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .simplified-controls {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    width: auto;
+    max-height: 350px;
+  }
+  
+  .preset-buttons,
+  .weather-presets,
+  .sun-presets {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .simplified-controls {
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    padding: 1rem;
+    max-height: 300px;
+  }
+  
+  .preset-buttons,
+  .weather-presets,
+  .sun-presets {
+    grid-template-columns: 1fr;
+  }
+  
+  .section-title {
+    font-size: 0.875rem;
+  }
+  
+  .preset-btn,
+  .weather-btn,
+  .sun-btn {
+    padding: 0.5rem;
+    font-size: 0.75rem;
+  }
+}

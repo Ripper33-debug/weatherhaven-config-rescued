@@ -31,57 +31,88 @@ interface ModelViewerProps {
     ambientIntensity: number;
     shadowBias: number;
     shadowMapSize: number;
+    sunPosition?: [number, number, number];
+    skyTurbidity?: number;
+    skyRayleigh?: number;
+    skyMieCoefficient?: number;
+    skyMieDirectionalG?: number;
   };
   weatherEffects?: {
-    type: 'none' | 'rain' | 'snow' | 'dust';
+    type: 'none' | 'rain' | 'snow' | 'dust' | 'storm' | 'fog';
     intensity: number;
     windSpeed: number;
+    windDirection?: [number, number, number];
+    particleSize?: number;
+    particleColor?: string;
   };
 }
 
 // Weather Effects Component
 const WeatherEffects: React.FC<{
-  type: 'none' | 'rain' | 'snow' | 'dust';
+  type: 'none' | 'rain' | 'snow' | 'dust' | 'storm' | 'fog';
   intensity: number;
   windSpeed: number;
-}> = ({ type, intensity, windSpeed }) => {
+  windDirection?: [number, number, number];
+  particleSize?: number;
+  particleColor?: string;
+}> = ({ type, intensity, windSpeed, windDirection = [0, 0, 1], particleSize, particleColor }) => {
   const particlesRef = useRef<THREE.Points>(null);
   
   const particles = useMemo(() => {
     if (type === 'none') return null;
     
-    const count = Math.floor(intensity * 500); // Reduced for performance
+    const count = Math.floor(intensity * (type === 'storm' ? 800 : type === 'fog' ? 300 : 500)); // Adjust count by type
     const positions = new Float32Array(count * 3);
     const velocities = new Float32Array(count * 3);
+    const sizes = new Float32Array(count);
     
     for (let i = 0; i < count; i++) {
       // Random positions in a large area
-      positions[i * 3] = (Math.random() - 0.5) * 50; // x
-      positions[i * 3 + 1] = Math.random() * 30 + 5; // y (height)
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 50; // z
+      positions[i * 3] = (Math.random() - 0.5) * 60; // x
+      positions[i * 3 + 1] = Math.random() * (type === 'fog' ? 15 : 35) + (type === 'fog' ? 0 : 5); // y (height)
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 60; // z
+      
+      // Calculate wind influence
+      const windX = windDirection[0] * windSpeed;
+      const windY = windDirection[1] * windSpeed;
+      const windZ = windDirection[2] * windSpeed;
       
       // Velocities based on weather type
       if (type === 'rain') {
-        velocities[i * 3] = windSpeed * (Math.random() - 0.5) * 0.05; // x drift
-        velocities[i * 3 + 1] = -1 - Math.random(); // y (falling)
-        velocities[i * 3 + 2] = windSpeed * (Math.random() - 0.5) * 0.05; // z drift
+        velocities[i * 3] = windX * (Math.random() - 0.5) * 0.1 + (Math.random() - 0.5) * 0.02;
+        velocities[i * 3 + 1] = -1.2 - Math.random() * 0.5; // y (falling)
+        velocities[i * 3 + 2] = windZ * (Math.random() - 0.5) * 0.1 + (Math.random() - 0.5) * 0.02;
+        sizes[i] = particleSize || 0.05;
       } else if (type === 'snow') {
-        velocities[i * 3] = windSpeed * (Math.random() - 0.5) * 0.02; // x drift
-        velocities[i * 3 + 1] = -0.3 - Math.random() * 0.2; // y (falling slowly)
-        velocities[i * 3 + 2] = windSpeed * (Math.random() - 0.5) * 0.02; // z drift
+        velocities[i * 3] = windX * (Math.random() - 0.5) * 0.05 + (Math.random() - 0.5) * 0.01;
+        velocities[i * 3 + 1] = -0.4 - Math.random() * 0.3; // y (falling slowly)
+        velocities[i * 3 + 2] = windZ * (Math.random() - 0.5) * 0.05 + (Math.random() - 0.5) * 0.01;
+        sizes[i] = particleSize || 0.12;
       } else if (type === 'dust') {
-        velocities[i * 3] = windSpeed * (Math.random() - 0.5) * 0.1; // x drift
-        velocities[i * 3 + 1] = (Math.random() - 0.5) * 0.05; // y (floating)
-        velocities[i * 3 + 2] = windSpeed * (Math.random() - 0.5) * 0.1; // z drift
+        velocities[i * 3] = windX * (Math.random() - 0.5) * 0.15 + (Math.random() - 0.5) * 0.02;
+        velocities[i * 3 + 1] = (Math.random() - 0.5) * 0.08; // y (floating)
+        velocities[i * 3 + 2] = windZ * (Math.random() - 0.5) * 0.15 + (Math.random() - 0.5) * 0.02;
+        sizes[i] = particleSize || 0.03;
+      } else if (type === 'storm') {
+        velocities[i * 3] = windX * (Math.random() - 0.5) * 0.2 + (Math.random() - 0.5) * 0.05;
+        velocities[i * 3 + 1] = -1.5 - Math.random() * 0.8; // y (heavy rain)
+        velocities[i * 3 + 2] = windZ * (Math.random() - 0.5) * 0.2 + (Math.random() - 0.5) * 0.05;
+        sizes[i] = particleSize || 0.08;
+      } else if (type === 'fog') {
+        velocities[i * 3] = windX * (Math.random() - 0.5) * 0.02 + (Math.random() - 0.5) * 0.005;
+        velocities[i * 3 + 1] = (Math.random() - 0.5) * 0.01; // y (very slow drift)
+        velocities[i * 3 + 2] = windZ * (Math.random() - 0.5) * 0.02 + (Math.random() - 0.5) * 0.005;
+        sizes[i] = particleSize || 0.15;
       }
     }
     
     const geometry = new BufferGeometry();
     geometry.setAttribute('position', new Float32BufferAttribute(positions, 3));
     geometry.setAttribute('velocity', new Float32BufferAttribute(velocities, 3));
+    geometry.setAttribute('size', new Float32BufferAttribute(sizes, 1));
     
-    return { geometry, velocities };
-  }, [type, intensity, windSpeed]);
+    return { geometry, velocities, sizes };
+  }, [type, intensity, windSpeed, windDirection, particleSize]);
   
   useFrame(() => {
     if (particlesRef.current && particles) {
@@ -109,33 +140,62 @@ const WeatherEffects: React.FC<{
   if (type === 'none' || !particles) return null;
   
   const getParticleMaterial = () => {
+    const baseColor = particleColor ? new Color(particleColor) : new Color(0xFFFFFF);
+    
     switch (type) {
       case 'rain':
         return new PointsMaterial({
           color: new Color(0x87CEEB),
-          size: 0.05,
+          size: particleSize || 0.05,
           transparent: true,
-          opacity: 0.6,
-          sizeAttenuation: true
+          opacity: 0.7,
+          sizeAttenuation: true,
+          blending: THREE.AdditiveBlending
         });
       case 'snow':
         return new PointsMaterial({
           color: new Color(0xFFFFFF),
-          size: 0.1,
+          size: particleSize || 0.12,
           transparent: true,
-          opacity: 0.8,
-          sizeAttenuation: true
+          opacity: 0.9,
+          sizeAttenuation: true,
+          blending: THREE.AdditiveBlending
         });
       case 'dust':
         return new PointsMaterial({
           color: new Color(0xD2B48C),
-          size: 0.03,
+          size: particleSize || 0.03,
           transparent: true,
-          opacity: 0.4,
-          sizeAttenuation: true
+          opacity: 0.5,
+          sizeAttenuation: true,
+          blending: THREE.MultiplyBlending
+        });
+      case 'storm':
+        return new PointsMaterial({
+          color: new Color(0x2C3E50),
+          size: particleSize || 0.08,
+          transparent: true,
+          opacity: 0.8,
+          sizeAttenuation: true,
+          blending: THREE.AdditiveBlending
+        });
+      case 'fog':
+        return new PointsMaterial({
+          color: new Color(0xBDC3C7),
+          size: particleSize || 0.15,
+          transparent: true,
+          opacity: 0.3,
+          sizeAttenuation: true,
+          blending: THREE.NormalBlending
         });
       default:
-        return new PointsMaterial({ color: 0xFFFFFF, size: 0.05 });
+        return new PointsMaterial({ 
+          color: baseColor, 
+          size: particleSize || 0.05,
+          transparent: true,
+          opacity: 0.6,
+          sizeAttenuation: true
+        });
     }
   };
   
@@ -368,7 +428,13 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
       <ContactShadows position={[0, -0.095, 0]} opacity={0.5} scale={60} blur={2.2} far={25} />
 
       {/* Realistic procedural sky and environment matching selected mode */}
-      <Sky sunPosition={[100, 20, 100]} turbidity={6} rayleigh={1.5} mieCoefficient={0.005} mieDirectionalG={0.8} />
+      <Sky 
+        sunPosition={lightingControls?.sunPosition ?? [100, 20, 100]} 
+        turbidity={lightingControls?.skyTurbidity ?? 6} 
+        rayleigh={lightingControls?.skyRayleigh ?? 1.5} 
+        mieCoefficient={lightingControls?.skyMieCoefficient ?? 0.005} 
+        mieDirectionalG={lightingControls?.skyMieDirectionalG ?? 0.8} 
+      />
       <Environment preset={envSettings.environmentPreset} background={false} />
 
       {/* Ground plane with subtle roughness */}
@@ -406,6 +472,9 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
           type={weatherEffects.type}
           intensity={weatherEffects.intensity}
           windSpeed={weatherEffects.windSpeed}
+          windDirection={weatherEffects.windDirection}
+          particleSize={weatherEffects.particleSize}
+          particleColor={weatherEffects.particleColor}
         />
       )}
 

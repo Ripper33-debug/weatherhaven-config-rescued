@@ -60,14 +60,22 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
     lightIntensity: 1.2,
     ambientIntensity: 0.8,
     shadowBias: -0.0001,
-    shadowMapSize: 2048
+    shadowMapSize: 2048,
+    sunPosition: [100, 20, 100] as [number, number, number],
+    skyTurbidity: 6,
+    skyRayleigh: 1.5,
+    skyMieCoefficient: 0.005,
+    skyMieDirectionalG: 0.8
   });
   
   // Weather effects state
   const [weatherEffects, setWeatherEffects] = useState({
-    type: 'none' as 'none' | 'rain' | 'snow' | 'dust',
+    type: 'none' as 'none' | 'rain' | 'snow' | 'dust' | 'storm' | 'fog',
     intensity: 0.5,
-    windSpeed: 1.0
+    windSpeed: 1.0,
+    windDirection: [0, 0, 1] as [number, number, number],
+    particleSize: undefined as number | undefined,
+    particleColor: undefined as string | undefined
   });
   
   // Collaboration context
@@ -358,6 +366,8 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             <option value="rain">Rain</option>
             <option value="snow">Snow</option>
             <option value="dust">Dust</option>
+            <option value="storm">Storm</option>
+            <option value="fog">Fog</option>
           </select>
           {weatherEffects.type !== 'none' && (
             <div className="weather-sliders">
@@ -370,7 +380,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                 value={weatherEffects.intensity}
                 onChange={(e) => setWeatherEffects(prev => ({ ...prev, intensity: parseFloat(e.target.value) }))}
               />
-              <label>Wind: {weatherEffects.windSpeed.toFixed(1)}</label>
+              <label>Wind Speed: {weatherEffects.windSpeed.toFixed(1)}</label>
               <input
                 type="range"
                 min="0.1"
@@ -379,13 +389,46 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                 value={weatherEffects.windSpeed}
                 onChange={(e) => setWeatherEffects(prev => ({ ...prev, windSpeed: parseFloat(e.target.value) }))}
               />
+              <label>Particle Size: {weatherEffects.particleSize || 'Auto'}</label>
+              <input
+                type="range"
+                min="0.01"
+                max="0.3"
+                step="0.01"
+                value={weatherEffects.particleSize || 0.05}
+                onChange={(e) => setWeatherEffects(prev => ({ ...prev, particleSize: parseFloat(e.target.value) }))}
+              />
+              <label>Wind Direction X: {weatherEffects.windDirection[0].toFixed(1)}</label>
+              <input
+                type="range"
+                min="-1"
+                max="1"
+                step="0.1"
+                value={weatherEffects.windDirection[0]}
+                onChange={(e) => setWeatherEffects(prev => ({ 
+                  ...prev, 
+                  windDirection: [parseFloat(e.target.value), prev.windDirection[1], prev.windDirection[2]] 
+                }))}
+              />
+              <label>Wind Direction Z: {weatherEffects.windDirection[2].toFixed(1)}</label>
+              <input
+                type="range"
+                min="-1"
+                max="1"
+                step="0.1"
+                value={weatherEffects.windDirection[2]}
+                onChange={(e) => setWeatherEffects(prev => ({ 
+                  ...prev, 
+                  windDirection: [prev.windDirection[0], prev.windDirection[1], parseFloat(e.target.value)] 
+                }))}
+              />
             </div>
           )}
         </div>
         
         {/* Lighting Controls */}
         <div className="lighting-control">
-          <label className="env-label">Lighting</label>
+          <label className="env-label">Lighting & Sun</label>
           <div className="lighting-sliders">
             <label>Light Intensity: {lightingControls.lightIntensity.toFixed(1)}</label>
             <input
@@ -404,6 +447,51 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               step="0.1"
               value={lightingControls.ambientIntensity}
               onChange={(e) => setLightingControls(prev => ({ ...prev, ambientIntensity: parseFloat(e.target.value) }))}
+            />
+            <label>Sun Position X: {lightingControls.sunPosition[0]}</label>
+            <input
+              type="range"
+              min="-200"
+              max="200"
+              step="10"
+              value={lightingControls.sunPosition[0]}
+              onChange={(e) => setLightingControls(prev => ({ 
+                ...prev, 
+                sunPosition: [parseInt(e.target.value), prev.sunPosition[1], prev.sunPosition[2]] 
+              }))}
+            />
+            <label>Sun Position Y: {lightingControls.sunPosition[1]}</label>
+            <input
+              type="range"
+              min="-50"
+              max="100"
+              step="5"
+              value={lightingControls.sunPosition[1]}
+              onChange={(e) => setLightingControls(prev => ({ 
+                ...prev, 
+                sunPosition: [prev.sunPosition[0], parseInt(e.target.value), prev.sunPosition[2]] 
+              }))}
+            />
+            <label>Sun Position Z: {lightingControls.sunPosition[2]}</label>
+            <input
+              type="range"
+              min="-200"
+              max="200"
+              step="10"
+              value={lightingControls.sunPosition[2]}
+              onChange={(e) => setLightingControls(prev => ({ 
+                ...prev, 
+                sunPosition: [prev.sunPosition[0], prev.sunPosition[1], parseInt(e.target.value)] 
+              }))}
+            />
+            <label>Sky Turbidity: {lightingControls.skyTurbidity}</label>
+            <input
+              type="range"
+              min="1"
+              max="20"
+              step="1"
+              value={lightingControls.skyTurbidity}
+              onChange={(e) => setLightingControls(prev => ({ ...prev, skyTurbidity: parseInt(e.target.value) }))}
             />
             <label>Shadow Quality: {lightingControls.shadowMapSize}</label>
             <select

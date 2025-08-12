@@ -108,33 +108,15 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
           const childName = child.name.toLowerCase();
           const parentName = child.parent?.name?.toLowerCase() || '';
           
-          // Define what should be colored (main shelter parts) - be more specific
-          const shouldColor = childName.includes('body') || 
-                             childName.includes('main') || 
-                             childName.includes('shell') || 
-                             childName.includes('wall') ||
-                             childName.includes('panel') ||
-                             childName.includes('shelter') ||
+          // Define what should be colored (ONLY the main shelter container box)
+          const shouldColor = childName.includes('shelter') || 
                              childName.includes('container') ||
                              childName.includes('box') ||
-                             childName.includes('unit') ||
-                             childName.includes('roof') ||
-                             childName.includes('side') ||
-                             childName.includes('end') ||
-                             childName.includes('floor') ||
-                             childName.includes('ceiling') ||
-                             childName.includes('exterior') ||
-                             childName.includes('outer') ||
-                             childName.includes('surface') ||
-                             childName.includes('skin') ||
-                             childName.includes('hull') ||
-                             childName.includes('casing') ||
-                             childName.includes('enclosure') ||
-                             childName.includes('housing') ||
-                             childName.includes('frame') ||
-                             childName.includes('structure');
+                             childName.includes('body') ||
+                             childName.includes('main') ||
+                             childName.includes('shell');
           
-          // Define what should NOT be colored (only actual trailer/wheel parts)
+          // Define what should NOT be colored (everything except main shelter box)
           const shouldNotColor = childName.includes('wheel') ||
                                 childName.includes('tire') ||
                                 childName.includes('trailer') ||
@@ -175,6 +157,24 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
                                 childName.includes('mudguard') ||
                                 childName.includes('flap') ||
                                 childName.includes('mudflap') ||
+                                childName.includes('wall') ||
+                                childName.includes('panel') ||
+                                childName.includes('roof') ||
+                                childName.includes('side') ||
+                                childName.includes('end') ||
+                                childName.includes('floor') ||
+                                childName.includes('ceiling') ||
+                                childName.includes('exterior') ||
+                                childName.includes('outer') ||
+                                childName.includes('surface') ||
+                                childName.includes('skin') ||
+                                childName.includes('hull') ||
+                                childName.includes('casing') ||
+                                childName.includes('enclosure') ||
+                                childName.includes('housing') ||
+                                childName.includes('frame') ||
+                                childName.includes('structure') ||
+                                childName.includes('unit') ||
                                 parentName.includes('trailer') ||
                                 parentName.includes('wheel') ||
                                 parentName.includes('chassis') ||

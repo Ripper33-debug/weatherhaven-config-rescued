@@ -14,7 +14,7 @@ useGLTF.preload('/models/trecc-open.glb');
 useGLTF.preload('/models/titanium.glb');
 
 interface ModelViewerProps {
-  configState: ConfiguratorState;
+  configState: ConfiguratorState; 
   onModelLoaded: () => void;
   shelter: Shelter;
   isAutoRotating?: boolean;

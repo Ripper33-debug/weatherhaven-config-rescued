@@ -137,22 +137,47 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
             if (Array.isArray(child.material)) {
               child.material.forEach((mat: any) => {
                 if (mat.isMeshStandardMaterial || mat.isMeshPhysicalMaterial) {
-                  // Preserve original material properties but change color
-                  const originalMetalness = mat.metalness;
-                  const originalRoughness = mat.roughness;
+                  // Apply color and finish based on selection
                   mat.color.setHex(configState.color.replace('#', '0x'));
-                  mat.metalness = Math.min(originalMetalness + 0.1, 0.8);
-                  mat.roughness = Math.max(originalRoughness - 0.1, 0.2);
+                  
+                  // Apply finish based on color selection
+                  if (configState.color === '#2F4F2F') { // Dark Green - Matte
+                    mat.metalness = 0.1;
+                    mat.roughness = 0.9;
+                  } else if (configState.color === '#D2B48C') { // Tan - Satin
+                    mat.metalness = 0.3;
+                    mat.roughness = 0.4;
+                  } else if (configState.color === '#FFFFFF') { // White - Matte
+                    mat.metalness = 0.1;
+                    mat.roughness = 0.8;
+                  } else { // Custom color - Premium finish
+                    mat.metalness = 0.2;
+                    mat.roughness = 0.6;
+                  }
+                  
                   mat.needsUpdate = true;
                 }
               });
             } else {
               if (child.material.isMeshStandardMaterial || child.material.isMeshPhysicalMaterial) {
-                const originalMetalness = child.material.metalness;
-                const originalRoughness = child.material.roughness;
+                // Apply color and finish based on selection
                 child.material.color.setHex(configState.color.replace('#', '0x'));
-                child.material.metalness = Math.min(originalMetalness + 0.1, 0.8);
-                child.material.roughness = Math.max(originalRoughness - 0.1, 0.2);
+                
+                // Apply finish based on color selection
+                if (configState.color === '#2F4F2F') { // Dark Green - Matte
+                  child.material.metalness = 0.1;
+                  child.material.roughness = 0.9;
+                } else if (configState.color === '#D2B48C') { // Tan - Satin
+                  child.material.metalness = 0.3;
+                  child.material.roughness = 0.4;
+                } else if (configState.color === '#FFFFFF') { // White - Matte
+                  child.material.metalness = 0.1;
+                  child.material.roughness = 0.8;
+                } else { // Custom color - Premium finish
+                  child.material.metalness = 0.2;
+                  child.material.roughness = 0.6;
+                }
+                
                 child.material.needsUpdate = true;
               }
             }

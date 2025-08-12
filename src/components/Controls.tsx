@@ -28,9 +28,10 @@ const Controls: React.FC<ControlsProps> = ({
   const [showPricing, setShowPricing] = useState(false);
   
   const colorOptions = [
-    { name: 'Dark Green (Matte)', value: '#2F4F2F' },
-    { name: 'Tan', value: '#D2B48C' },
-    { name: 'White', value: '#FFFFFF' },
+    { name: 'Dark Green (Matte)', value: '#2F4F2F', finish: 'matte', premium: 0 },
+    { name: 'Tan (Satin)', value: '#D2B48C', finish: 'satin', premium: 0 },
+    { name: 'White (Matte)', value: '#FFFFFF', finish: 'matte', premium: 0 },
+    { name: 'Custom Color (+$50,000)', value: '#FF6B35', finish: 'custom', premium: 50000 },
   ];
 
   const specifications = {
@@ -130,10 +131,39 @@ const Controls: React.FC<ControlsProps> = ({
                 className={`color-button ${
                   configState.color === color.value ? 'active' : ''
                 }`}
-                style={{ backgroundColor: color.value }}
+                style={{ 
+                  backgroundColor: color.value,
+                  position: 'relative'
+                }}
                 title={color.name}
-              />
+              >
+                {color.finish === 'custom' && (
+                  <span style={{
+                    position: 'absolute',
+                    top: '-8px',
+                    right: '-8px',
+                    background: '#FFD700',
+                    color: '#000',
+                    fontSize: '10px',
+                    padding: '2px 4px',
+                    borderRadius: '4px',
+                    fontWeight: 'bold'
+                  }}>
+                    $50K
+                  </span>
+                )}
+              </button>
               <p className="color-name">{color.name}</p>
+              {color.premium > 0 && (
+                <p style={{
+                  fontSize: '10px',
+                  color: '#FFD700',
+                  fontWeight: 'bold',
+                  margin: '2px 0 0 0'
+                }}>
+                  +${color.premium.toLocaleString()}
+                </p>
+              )}
             </div>
           ))}
         </div>

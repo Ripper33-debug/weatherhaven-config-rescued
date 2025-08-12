@@ -93,16 +93,47 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
     if (scene && modelLoaded) {
       scene.traverse((child: any) => {
         if (child.isMesh && child.material) {
-          // Only apply color to main body materials, not details like windows, handles, etc.
+          // Only apply color to main shelter body, exclude trailer, wheels, and other parts
           const childName = child.name.toLowerCase();
-          const isMainBody = childName.includes('body') || 
-                            childName.includes('main') || 
-                            childName.includes('shell') || 
-                            childName.includes('wall') ||
-                            childName.includes('panel') ||
-                            (childName.length < 10 && !childName.includes('window') && !childName.includes('handle') && !childName.includes('door'));
+          const parentName = child.parent?.name?.toLowerCase() || '';
           
-          if (isMainBody) {
+          // Define what should be colored (main shelter parts)
+          const shouldColor = childName.includes('body') || 
+                             childName.includes('main') || 
+                             childName.includes('shell') || 
+                             childName.includes('wall') ||
+                             childName.includes('panel') ||
+                             childName.includes('shelter') ||
+                             childName.includes('container') ||
+                             childName.includes('box') ||
+                             childName.includes('unit');
+          
+          // Define what should NOT be colored (trailer, wheels, details)
+          const shouldNotColor = childName.includes('wheel') ||
+                                childName.includes('tire') ||
+                                childName.includes('trailer') ||
+                                childName.includes('chassis') ||
+                                childName.includes('axle') ||
+                                childName.includes('suspension') ||
+                                childName.includes('window') ||
+                                childName.includes('handle') ||
+                                childName.includes('door') ||
+                                childName.includes('lock') ||
+                                childName.includes('hinge') ||
+                                childName.includes('bracket') ||
+                                childName.includes('mount') ||
+                                childName.includes('frame') ||
+                                childName.includes('support') ||
+                                childName.includes('leg') ||
+                                childName.includes('foot') ||
+                                childName.includes('jack') ||
+                                childName.includes('stabilizer') ||
+                                parentName.includes('trailer') ||
+                                parentName.includes('wheel') ||
+                                parentName.includes('chassis');
+          
+          // Only color if it should be colored AND not in the exclusion list
+          if (shouldColor && !shouldNotColor) {
             if (Array.isArray(child.material)) {
               child.material.forEach((mat: any) => {
                 if (mat.isMeshStandardMaterial || mat.isMeshPhysicalMaterial) {

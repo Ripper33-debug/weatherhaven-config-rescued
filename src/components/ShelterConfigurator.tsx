@@ -54,6 +54,22 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   const [showScale, setShowScale] = useState(false);
   const [environment, setEnvironment] = useState<'day' | 'night' | 'desert' | 'arctic' | 'jungle'>('day');
   
+  // Lighting controls state
+  const [lightingControls, setLightingControls] = useState({
+    lightPosition: [10, 10, 5] as [number, number, number],
+    lightIntensity: 1.2,
+    ambientIntensity: 0.8,
+    shadowBias: -0.0001,
+    shadowMapSize: 2048
+  });
+  
+  // Weather effects state
+  const [weatherEffects, setWeatherEffects] = useState({
+    type: 'none' as 'none' | 'rain' | 'snow' | 'dust',
+    intensity: 0.5,
+    windSpeed: 1.0
+  });
+  
   // Collaboration context
   const collaboration = useCollaboration();
 
@@ -285,6 +301,8 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               shelter={shelter}
               showScale={showScale}
               environment={environment}
+              lightingControls={lightingControls}
+              weatherEffects={weatherEffects}
             />
           </Suspense>
         </Canvas>
@@ -325,6 +343,78 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             <option value="arctic">Arctic</option>
             <option value="jungle">Jungle</option>
           </select>
+        </div>
+        
+        {/* Weather Effects Control */}
+        <div className="weather-control">
+          <label className="env-label">Weather</label>
+          <select
+            className="configuration-dropdown"
+            value={weatherEffects.type}
+            onChange={(e) => setWeatherEffects(prev => ({ ...prev, type: e.target.value as any }))}
+            aria-label="Weather"
+          >
+            <option value="none">Clear</option>
+            <option value="rain">Rain</option>
+            <option value="snow">Snow</option>
+            <option value="dust">Dust</option>
+          </select>
+          {weatherEffects.type !== 'none' && (
+            <div className="weather-sliders">
+              <label>Intensity: {weatherEffects.intensity.toFixed(1)}</label>
+              <input
+                type="range"
+                min="0.1"
+                max="1.0"
+                step="0.1"
+                value={weatherEffects.intensity}
+                onChange={(e) => setWeatherEffects(prev => ({ ...prev, intensity: parseFloat(e.target.value) }))}
+              />
+              <label>Wind: {weatherEffects.windSpeed.toFixed(1)}</label>
+              <input
+                type="range"
+                min="0.1"
+                max="3.0"
+                step="0.1"
+                value={weatherEffects.windSpeed}
+                onChange={(e) => setWeatherEffects(prev => ({ ...prev, windSpeed: parseFloat(e.target.value) }))}
+              />
+            </div>
+          )}
+        </div>
+        
+        {/* Lighting Controls */}
+        <div className="lighting-control">
+          <label className="env-label">Lighting</label>
+          <div className="lighting-sliders">
+            <label>Light Intensity: {lightingControls.lightIntensity.toFixed(1)}</label>
+            <input
+              type="range"
+              min="0.1"
+              max="3.0"
+              step="0.1"
+              value={lightingControls.lightIntensity}
+              onChange={(e) => setLightingControls(prev => ({ ...prev, lightIntensity: parseFloat(e.target.value) }))}
+            />
+            <label>Ambient: {lightingControls.ambientIntensity.toFixed(1)}</label>
+            <input
+              type="range"
+              min="0.1"
+              max="2.0"
+              step="0.1"
+              value={lightingControls.ambientIntensity}
+              onChange={(e) => setLightingControls(prev => ({ ...prev, ambientIntensity: parseFloat(e.target.value) }))}
+            />
+            <label>Shadow Quality: {lightingControls.shadowMapSize}</label>
+            <select
+              value={lightingControls.shadowMapSize}
+              onChange={(e) => setLightingControls(prev => ({ ...prev, shadowMapSize: parseInt(e.target.value) }))}
+            >
+              <option value={1024}>Low</option>
+              <option value={2048}>Medium</option>
+              <option value={4096}>High</option>
+            </select>
+          </div>
         </div>
         <button 
           className="advanced-button"

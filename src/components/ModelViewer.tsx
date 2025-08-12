@@ -1,7 +1,8 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useMemo } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, Environment, useGLTF, ContactShadows, Sky } from '@react-three/drei';
-import { Box3, Group, Vector3, PerspectiveCamera, OrthographicCamera } from 'three';
+import { Box3, Group, Vector3, PerspectiveCamera, OrthographicCamera, BufferGeometry, Float32BufferAttribute, PointsMaterial, Color } from 'three';
+import * as THREE from 'three';
 import { ConfiguratorState } from './ShelterConfigurator';
 import { Shelter } from '../App';
 
@@ -18,7 +19,124 @@ interface ModelViewerProps {
   environment?: 'day' | 'night' | 'desert' | 'arctic' | 'jungle';
   showScale?: boolean;
   showParticles?: boolean;
+  lightingControls?: {
+    lightPosition: [number, number, number];
+    lightIntensity: number;
+    ambientIntensity: number;
+    shadowBias: number;
+    shadowMapSize: number;
+  };
+  weatherEffects?: {
+    type: 'none' | 'rain' | 'snow' | 'dust';
+    intensity: number;
+    windSpeed: number;
+  };
 }
+
+// Weather Effects Component
+const WeatherEffects: React.FC<{
+  type: 'none' | 'rain' | 'snow' | 'dust';
+  intensity: number;
+  windSpeed: number;
+}> = ({ type, intensity, windSpeed }) => {
+  const particlesRef = useRef<THREE.Points>(null);
+  
+  const particles = useMemo(() => {
+    if (type === 'none') return null;
+    
+    const count = Math.floor(intensity * 500); // Reduced for performance
+    const positions = new Float32Array(count * 3);
+    const velocities = new Float32Array(count * 3);
+    
+    for (let i = 0; i < count; i++) {
+      // Random positions in a large area
+      positions[i * 3] = (Math.random() - 0.5) * 50; // x
+      positions[i * 3 + 1] = Math.random() * 30 + 5; // y (height)
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 50; // z
+      
+      // Velocities based on weather type
+      if (type === 'rain') {
+        velocities[i * 3] = windSpeed * (Math.random() - 0.5) * 0.05; // x drift
+        velocities[i * 3 + 1] = -1 - Math.random(); // y (falling)
+        velocities[i * 3 + 2] = windSpeed * (Math.random() - 0.5) * 0.05; // z drift
+      } else if (type === 'snow') {
+        velocities[i * 3] = windSpeed * (Math.random() - 0.5) * 0.02; // x drift
+        velocities[i * 3 + 1] = -0.3 - Math.random() * 0.2; // y (falling slowly)
+        velocities[i * 3 + 2] = windSpeed * (Math.random() - 0.5) * 0.02; // z drift
+      } else if (type === 'dust') {
+        velocities[i * 3] = windSpeed * (Math.random() - 0.5) * 0.1; // x drift
+        velocities[i * 3 + 1] = (Math.random() - 0.5) * 0.05; // y (floating)
+        velocities[i * 3 + 2] = windSpeed * (Math.random() - 0.5) * 0.1; // z drift
+      }
+    }
+    
+    const geometry = new BufferGeometry();
+    geometry.setAttribute('position', new Float32BufferAttribute(positions, 3));
+    geometry.setAttribute('velocity', new Float32BufferAttribute(velocities, 3));
+    
+    return { geometry, velocities };
+  }, [type, intensity, windSpeed]);
+  
+  useFrame(() => {
+    if (particlesRef.current && particles) {
+      const positions = particles.geometry.attributes.position.array as Float32Array;
+      const velocities = particles.velocities;
+      
+      for (let i = 0; i < positions.length; i += 3) {
+        // Update positions based on velocities
+        positions[i] += velocities[i];
+        positions[i + 1] += velocities[i + 1];
+        positions[i + 2] += velocities[i + 2];
+        
+        // Reset particles that go out of bounds
+        if (positions[i + 1] < -2) {
+          positions[i + 1] = 35; // Reset to top
+          positions[i] = (Math.random() - 0.5) * 50;
+          positions[i + 2] = (Math.random() - 0.5) * 50;
+        }
+      }
+      
+      particles.geometry.attributes.position.needsUpdate = true;
+    }
+  });
+  
+  if (type === 'none' || !particles) return null;
+  
+  const getParticleMaterial = () => {
+    switch (type) {
+      case 'rain':
+        return new PointsMaterial({
+          color: new Color(0x87CEEB),
+          size: 0.05,
+          transparent: true,
+          opacity: 0.6,
+          sizeAttenuation: true
+        });
+      case 'snow':
+        return new PointsMaterial({
+          color: new Color(0xFFFFFF),
+          size: 0.1,
+          transparent: true,
+          opacity: 0.8,
+          sizeAttenuation: true
+        });
+      case 'dust':
+        return new PointsMaterial({
+          color: new Color(0xD2B48C),
+          size: 0.03,
+          transparent: true,
+          opacity: 0.4,
+          sizeAttenuation: true
+        });
+      default:
+        return new PointsMaterial({ color: 0xFFFFFF, size: 0.05 });
+    }
+  };
+  
+  return (
+    <primitive object={new THREE.Points(particles.geometry, getParticleMaterial())} ref={particlesRef} />
+  );
+};
 
 const ModelViewer: React.FC<ModelViewerProps> = ({ 
   configState, 
@@ -27,7 +145,9 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
   isAutoRotating = false,
   environment = 'day',
   showScale = false,
-  showParticles = false
+  showParticles = false,
+  lightingControls,
+  weatherEffects
 }) => {
   const groupRef = useRef<Group>(null);
   const controlsRef = useRef<any>(null);
@@ -398,19 +518,20 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
 
   return (
     <>
-      {/* Enhanced Lighting */}
-      <ambientLight intensity={envSettings.ambientIntensity} />
+      {/* Enhanced Lighting with User Controls */}
+      <ambientLight intensity={lightingControls?.ambientIntensity ?? envSettings.ambientIntensity} />
       <directionalLight
-        position={[10, 10, 5]}
-        intensity={envSettings.directionalIntensity}
+        position={lightingControls?.lightPosition ?? [10, 10, 5]}
+        intensity={lightingControls?.lightIntensity ?? envSettings.directionalIntensity}
         castShadow
-        shadow-mapSize-width={2048}
-        shadow-mapSize-height={2048}
+        shadow-mapSize-width={lightingControls?.shadowMapSize ?? 2048}
+        shadow-mapSize-height={lightingControls?.shadowMapSize ?? 2048}
         shadow-camera-far={50}
         shadow-camera-left={-10}
         shadow-camera-right={10}
         shadow-camera-top={10}
         shadow-camera-bottom={-10}
+        shadow-bias={lightingControls?.shadowBias ?? -0.0001}
       />
       {/* Additional fill light */}
       <directionalLight
@@ -440,6 +561,15 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
 
       {/* TRECC-T Model */}
       {renderTRECCModel()}
+
+      {/* Weather Effects */}
+      {weatherEffects && (
+        <WeatherEffects 
+          type={weatherEffects.type}
+          intensity={weatherEffects.intensity}
+          windSpeed={weatherEffects.windSpeed}
+        />
+      )}
 
       {/* Enhanced Controls */}
       <OrbitControls

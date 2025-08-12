@@ -113,6 +113,71 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
       ]
     },
     
+    // TRECC Titanium
+    {
+      id: 'trecc-titanium',
+      name: 'TRECC Titanium',
+      model: 'TACTICAL REDEPLOYABLE EXPANDABLE CONTAINER CAPABILITY™ - TITANIUM',
+      category: 'trecc',
+      description: 'Premium titanium version of the TRECC with enhanced durability, corrosion resistance, and lightweight construction.',
+      image: 'trecc',
+      modelPath: '/models/titanium.glb',
+      specs: {
+        deployed: { length: '14.3 ft', width: '7.1 ft', height: '7.9 ft' },
+        stowed: { length: '7.0 ft', width: '7.1 ft', height: '4.8 ft' }
+      },
+      configurations: [
+        {
+          id: 'titanium-command',
+          name: 'Command Post',
+          description: 'Premium titanium command post with integrated power, HVAC, display systems, and deployable workstations.',
+          category: 'command',
+          modelPath: '/models/titanium.glb',
+          interiorPath: '/models/interiors/trecc-command.glb'
+        },
+        {
+          id: 'titanium-medical',
+          name: 'Medical Unit',
+          description: 'Premium titanium medical unit with surgical capabilities, patient care areas, and medical equipment integration.',
+          category: 'medical',
+          modelPath: '/models/titanium.glb',
+          interiorPath: '/models/interiors/trecc-medical.glb'
+        },
+        {
+          id: 'titanium-living',
+          name: 'Living Quarters',
+          description: 'Premium titanium living quarters with sleeping areas, dining facilities, and recreational space.',
+          category: 'living',
+          modelPath: '/models/titanium.glb',
+          interiorPath: '/models/interiors/trecc-living.glb'
+        },
+        {
+          id: 'titanium-communications',
+          name: 'Communications Hub',
+          description: 'Premium titanium communications center with satellite systems, radio equipment, and network infrastructure.',
+          category: 'communications',
+          modelPath: '/models/titanium.glb',
+          interiorPath: '/models/interiors/trecc-communications.glb'
+        },
+        {
+          id: 'titanium-storage',
+          name: 'Equipment Storage',
+          description: 'Premium titanium storage facility with climate control, inventory management, and equipment maintenance areas.',
+          category: 'storage',
+          modelPath: '/models/titanium.glb',
+          interiorPath: '/models/interiors/trecc-storage.glb'
+        },
+        {
+          id: 'titanium-kitchen',
+          name: 'Field Kitchen',
+          description: 'Premium titanium field kitchen with cooking facilities, food storage, and dining areas.',
+          category: 'kitchen',
+          modelPath: '/models/titanium.glb',
+          interiorPath: '/models/interiors/trecc-kitchen.glb'
+        }
+      ]
+    },
+    
     // HERCON
     {
       id: 'hercon',

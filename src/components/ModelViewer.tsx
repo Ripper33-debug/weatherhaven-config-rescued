@@ -5,9 +5,10 @@ import { Box3, Group, Vector3, PerspectiveCamera, OrthographicCamera } from 'thr
 import { ConfiguratorState } from './ShelterConfigurator';
 import { Shelter } from '../App';
 
-// Preload both TRECC models
+// Preload TRECC models
 useGLTF.preload('/models/trecc.glb');
 useGLTF.preload('/models/trecc-open.glb');
+useGLTF.preload('/models/titanium.glb');
 
 interface ModelViewerProps {
   configState: ConfiguratorState;
@@ -34,8 +35,18 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
   const { camera } = useThree();
   const [controlsTarget, setControlsTarget] = useState<[number, number, number]>([0, 0.2, 0]);
   
-  // Load the GLB model based on deployment state
-  const modelPath = configState.isDeployed ? '/models/trecc-open.glb' : '/models/trecc.glb';
+  // Load the GLB model based on shelter configuration and deployment state
+  let modelPath = shelter.modelPath || '/models/trecc.glb';
+  
+  // For standard TRECC models, use different models for deployed vs stowed state
+  if (shelter.id === 'trecc') {
+    modelPath = configState.isDeployed ? '/models/trecc-open.glb' : '/models/trecc.glb';
+  }
+  // For titanium TRECC, use the titanium model (assuming it handles both states internally)
+  else if (shelter.id === 'trecc-titanium') {
+    modelPath = '/models/titanium.glb';
+  }
+  
   const { scene } = useGLTF(modelPath);
 
   useEffect(() => {

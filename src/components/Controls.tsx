@@ -26,12 +26,14 @@ const Controls: React.FC<ControlsProps> = ({
 }) => {
   const [specsExpanded, setSpecsExpanded] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
+  const [showColorPicker, setShowColorPicker] = useState(false);
+  const [customColor, setCustomColor] = useState('#FF6B35');
   
   const colorOptions = [
     { name: 'Dark Green (Matte)', value: '#2F4F2F', finish: 'matte', premium: 0 },
     { name: 'Tan (Satin)', value: '#D2B48C', finish: 'satin', premium: 0 },
     { name: 'White (Matte)', value: '#FFFFFF', finish: 'matte', premium: 0 },
-    { name: 'Custom Color (+$50,000)', value: '#FF6B35', finish: 'custom', premium: 50000 },
+    { name: 'Custom Color (+$150,000)', value: '#FF6B35', finish: 'custom', premium: 150000 },
   ];
 
   const specifications = {
@@ -127,7 +129,13 @@ const Controls: React.FC<ControlsProps> = ({
           {colorOptions.map((color) => (
             <div key={color.value} className="color-option">
               <button
-                onClick={() => onColorChange(color.value)}
+                onClick={() => {
+                  if (color.finish === 'custom') {
+                    setShowColorPicker(true);
+                  } else {
+                    onColorChange(color.value);
+                  }
+                }}
                 className={`color-button ${
                   configState.color === color.value ? 'active' : ''
                 }`}
@@ -149,7 +157,7 @@ const Controls: React.FC<ControlsProps> = ({
                     borderRadius: '4px',
                     fontWeight: 'bold'
                   }}>
-                    $50K
+                    $150K
                   </span>
                 )}
               </button>
@@ -167,6 +175,94 @@ const Controls: React.FC<ControlsProps> = ({
             </div>
           ))}
         </div>
+        
+        {/* Custom Color Picker Modal */}
+        {showColorPicker && (
+          <div style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(0, 0, 0, 0.8)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000
+          }}>
+            <div style={{
+              background: 'var(--bg-card)',
+              padding: '24px',
+              borderRadius: '12px',
+              border: '2px solid var(--weatherhaven-blue)',
+              maxWidth: '400px',
+              width: '90%'
+            }}>
+              <h3 style={{ color: 'var(--weatherhaven-white)', marginBottom: '16px' }}>
+                Choose Custom Color (+$150,000)
+              </h3>
+              
+              <div style={{ marginBottom: '16px' }}>
+                <label style={{ 
+                  color: 'var(--text-secondary)', 
+                  display: 'block', 
+                  marginBottom: '8px' 
+                }}>
+                  Color:
+                </label>
+                <input
+                  type="color"
+                  value={customColor}
+                  onChange={(e) => setCustomColor(e.target.value)}
+                  style={{
+                    width: '100%',
+                    height: '50px',
+                    border: 'none',
+                    borderRadius: '8px',
+                    cursor: 'pointer'
+                  }}
+                />
+              </div>
+              
+              <div style={{
+                display: 'flex',
+                gap: '12px',
+                justifyContent: 'flex-end'
+              }}>
+                <button
+                  onClick={() => setShowColorPicker(false)}
+                  style={{
+                    padding: '8px 16px',
+                    background: 'transparent',
+                    border: '1px solid var(--text-muted)',
+                    color: 'var(--text-secondary)',
+                    borderRadius: '6px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    onColorChange(customColor);
+                    setShowColorPicker(false);
+                  }}
+                  style={{
+                    padding: '8px 16px',
+                    background: 'var(--weatherhaven-blue)',
+                    border: 'none',
+                    color: 'var(--weatherhaven-white)',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    fontWeight: 'bold'
+                  }}
+                >
+                  Apply Color
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Interior Selection */}

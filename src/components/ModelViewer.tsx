@@ -109,85 +109,29 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
           const parentName = child.parent?.name?.toLowerCase() || '';
           
           // Define what should be colored (ONLY the main shelter container box)
-          const shouldColor = childName.includes('shelter') || 
-                             childName.includes('container') ||
-                             childName.includes('box') ||
-                             childName.includes('body') ||
-                             childName.includes('main') ||
-                             childName.includes('shell');
+          // Be very specific - only color if it's clearly a shelter part AND not a wheel/trailer part
+          const isWheelOrTrailer = childName.includes('wheel') || 
+                                   childName.includes('tire') || 
+                                   childName.includes('trailer') ||
+                                   childName.includes('chassis') ||
+                                   childName.includes('axle') ||
+                                   childName.includes('hub') ||
+                                   childName.includes('rim') ||
+                                   childName.includes('spoke') ||
+                                   parentName.includes('wheel') ||
+                                   parentName.includes('trailer') ||
+                                   parentName.includes('chassis');
           
-          // Define what should NOT be colored (everything except main shelter box)
-          const shouldNotColor = childName.includes('wheel') ||
-                                childName.includes('tire') ||
-                                childName.includes('trailer') ||
-                                childName.includes('chassis') ||
-                                childName.includes('axle') ||
-                                childName.includes('suspension') ||
-                                childName.includes('window') ||
-                                childName.includes('handle') ||
-                                childName.includes('lock') ||
-                                childName.includes('hinge') ||
-                                childName.includes('bracket') ||
-                                childName.includes('mount') ||
-                                childName.includes('support') ||
-                                childName.includes('leg') ||
-                                childName.includes('foot') ||
-                                childName.includes('jack') ||
-                                childName.includes('stabilizer') ||
-                                childName.includes('bolt') ||
-                                childName.includes('screw') ||
-                                childName.includes('nut') ||
-                                childName.includes('washer') ||
-                                childName.includes('gasket') ||
-                                childName.includes('seal') ||
-                                childName.includes('o-ring') ||
-                                childName.includes('bearing') ||
-                                childName.includes('spring') ||
-                                childName.includes('shock') ||
-                                childName.includes('strut') ||
-                                childName.includes('hub') ||
-                                childName.includes('rim') ||
-                                childName.includes('spoke') ||
-                                childName.includes('lug') ||
-                                childName.includes('valve') ||
-                                childName.includes('cap') ||
-                                childName.includes('cover') ||
-                                childName.includes('guard') ||
-                                childName.includes('fender') ||
-                                childName.includes('mudguard') ||
-                                childName.includes('flap') ||
-                                childName.includes('mudflap') ||
-                                childName.includes('wall') ||
-                                childName.includes('panel') ||
-                                childName.includes('roof') ||
-                                childName.includes('side') ||
-                                childName.includes('end') ||
-                                childName.includes('floor') ||
-                                childName.includes('ceiling') ||
-                                childName.includes('exterior') ||
-                                childName.includes('outer') ||
-                                childName.includes('surface') ||
-                                childName.includes('skin') ||
-                                childName.includes('hull') ||
-                                childName.includes('casing') ||
-                                childName.includes('enclosure') ||
-                                childName.includes('housing') ||
-                                childName.includes('frame') ||
-                                childName.includes('structure') ||
-                                childName.includes('unit') ||
-                                parentName.includes('trailer') ||
-                                parentName.includes('wheel') ||
-                                parentName.includes('chassis') ||
-                                parentName.includes('tire') ||
-                                parentName.includes('hub');
+          const isShelterPart = childName.includes('shelter') || 
+                               childName.includes('container') ||
+                               childName.includes('box');
           
-                    // Check exclusions first - if it's a wheel/trailer part, never color it
-          if (shouldNotColor) {
-            console.log('❌ Skipping wheel/trailer part:', childName);
-            return;
-          }
+          const shouldColor = isShelterPart && !isWheelOrTrailer;
           
-          // Only color if it should be colored
+          // Use the simplified logic - no need for separate shouldNotColor
+          // The shouldColor logic above handles everything
+          
+                    // Only color if it should be colored
           if (shouldColor) {
             console.log('✅ Coloring shelter part:', childName, 'with color:', configState.color);
             if (Array.isArray(child.material)) {

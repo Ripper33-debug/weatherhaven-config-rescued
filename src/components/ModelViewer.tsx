@@ -221,11 +221,19 @@ function looksLikeBody(node: Object3D) {
   const n = (node.name || '').toLowerCase();
   const p = (node.parent?.name || '').toLowerCase();
   
-  // Only color if it's clearly a body part AND not a wheel/trailer part
+  // Check if it's a wheel/trailer part first
   const isWheelOrTrailer = WHEEL_RX.test(n) || WHEEL_RX.test(p);
-  const isBodyPart = BODY_RX.test(n);
   
-  return isBodyPart && !isWheelOrTrailer;
+  // If it's a wheel/trailer part, definitely don't color it
+  if (isWheelOrTrailer) {
+    return false;
+  }
+  
+  // For everything else, be more permissive - color it unless it's clearly not a body part
+  // This ensures we catch the shelter body even if it doesn't have obvious body-related names
+  const isDefinitelyNotBody = /(wheel|tyre|tire|rim|hub|axle|suspension|spoke|lug|valve|fender|mudflap|mudguard|chassis|trailer|truck|vehicle|carriage|undercarriage|running|gear|brake|drum|disc|caliper|spring|shock|strut|link|arm|bracket|mount|bushing|bearing|nut|bolt|fastener|hardware)/i.test(n);
+  
+  return !isDefinitelyNotBody;
 }
 
 const ModelViewer: React.FC<ModelViewerProps> = ({ 
@@ -291,6 +299,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
       // Wheels: force rubber material (unique instance per mesh)
       if (looksLikeWheel(o)) {
         o.userData.isWheel = true;
+        console.log(`🔧 Marked as wheel: ${o.name}`);
         if (Array.isArray(o.material)) {
           o.material = o.material.map(() => rubberBase.clone());
         } else {
@@ -298,6 +307,9 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
         }
       } else if (looksLikeBody(o)) {
         o.userData.isBody = true;
+        console.log(`🏠 Marked as body: ${o.name}`);
+      } else {
+        console.log(`❓ Unclassified: ${o.name} (parent: ${o.parent?.name || 'none'})`);
       }
 
       // Enhanced shadow settings for each mesh
@@ -367,13 +379,13 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
       // Debug logging
       if (child.userData.isBody) {
         coloredCount++;
-        console.log(`Coloring body part: ${child.name}`);
+        console.log(`✅ Coloring body part: ${child.name} (parent: ${child.parent?.name || 'none'})`);
       } else if (child.userData.isWheel) {
         skippedCount++;
-        console.log(`Skipping wheel/trailer part: ${child.name}`);
+        console.log(`🚫 Skipping wheel/trailer part: ${child.name} (parent: ${child.parent?.name || 'none'})`);
       } else {
         skippedCount++;
-        console.log(`Skipping unknown part: ${child.name}`);
+        console.log(`❓ Skipping unknown part: ${child.name} (parent: ${child.parent?.name || 'none'})`);
       }
       
       if (!child.userData.isBody) return;       // only the body

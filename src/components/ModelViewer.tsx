@@ -124,14 +124,38 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
           
           const isShelterPart = childName.includes('shelter') || 
                                childName.includes('container') ||
-                               childName.includes('box');
+                               childName.includes('box') ||
+                               childName.includes('body') ||
+                               childName.includes('main') ||
+                               childName.includes('shell') ||
+                               childName.includes('wall') ||
+                               childName.includes('panel') ||
+                               childName.includes('roof') ||
+                               childName.includes('side') ||
+                               childName.includes('end') ||
+                               childName.includes('floor') ||
+                               childName.includes('ceiling') ||
+                               childName.includes('exterior') ||
+                               childName.includes('outer') ||
+                               childName.includes('surface') ||
+                               childName.includes('skin') ||
+                               childName.includes('hull') ||
+                               childName.includes('casing') ||
+                               childName.includes('enclosure') ||
+                               childName.includes('housing') ||
+                               childName.includes('frame') ||
+                               childName.includes('structure') ||
+                               childName.includes('unit');
           
           const shouldColor = isShelterPart && !isWheelOrTrailer;
           
           // Use the simplified logic - no need for separate shouldNotColor
           // The shouldColor logic above handles everything
           
-                    // Only color if it should be colored
+                    // Debug: Log all parts to see what we're working with
+          console.log('🔍 Part:', childName, 'Parent:', parentName, 'ShouldColor:', shouldColor);
+          
+          // Only color if it should be colored
           if (shouldColor) {
             console.log('✅ Coloring shelter part:', childName, 'with color:', configState.color);
             if (Array.isArray(child.material)) {

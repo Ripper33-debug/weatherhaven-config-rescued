@@ -108,7 +108,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
           const childName = child.name.toLowerCase();
           const parentName = child.parent?.name?.toLowerCase() || '';
           
-          // Define what should be colored (main shelter parts) - be more inclusive
+          // Define what should be colored (main shelter parts) - be more specific
           const shouldColor = childName.includes('body') || 
                              childName.includes('main') || 
                              childName.includes('shell') || 
@@ -133,9 +133,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
                              childName.includes('enclosure') ||
                              childName.includes('housing') ||
                              childName.includes('frame') ||
-                             childName.includes('structure') ||
-                             // If the name is short and doesn't contain excluded terms, it's likely a main part
-                             (childName.length <= 8 && !childName.includes('wheel') && !childName.includes('tire') && !childName.includes('trailer'));
+                             childName.includes('structure');
           
           // Define what should NOT be colored (only actual trailer/wheel parts)
           const shouldNotColor = childName.includes('wheel') ||
@@ -166,9 +164,23 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
                                 childName.includes('spring') ||
                                 childName.includes('shock') ||
                                 childName.includes('strut') ||
+                                childName.includes('hub') ||
+                                childName.includes('rim') ||
+                                childName.includes('spoke') ||
+                                childName.includes('lug') ||
+                                childName.includes('valve') ||
+                                childName.includes('cap') ||
+                                childName.includes('cover') ||
+                                childName.includes('guard') ||
+                                childName.includes('fender') ||
+                                childName.includes('mudguard') ||
+                                childName.includes('flap') ||
+                                childName.includes('mudflap') ||
                                 parentName.includes('trailer') ||
                                 parentName.includes('wheel') ||
-                                parentName.includes('chassis');
+                                parentName.includes('chassis') ||
+                                parentName.includes('tire') ||
+                                parentName.includes('hub');
           
           // Only color if it should be colored AND not in the exclusion list
           if (shouldColor && !shouldNotColor) {

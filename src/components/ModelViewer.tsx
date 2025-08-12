@@ -159,7 +159,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
     setControlsTarget([center.x, center.y, center.z]);
     if (controlsRef.current) {
       controlsRef.current.target.set(center.x, center.y, center.z);
-      controlsRef.current.update();
+      controlsRef.current.update(); 
     }
   }, [processedScene, camera]);
 

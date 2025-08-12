@@ -59,8 +59,9 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
     lightPosition: [10, 10, 5] as [number, number, number],
     lightIntensity: 1.2,
     ambientIntensity: 0.8,
-    shadowBias: -0.0001,
-    shadowMapSize: 2048,
+    shadowBias: -0.0005,
+    shadowMapSize: 4096,
+    shadowRadius: 2,
     sunPosition: [100, 20, 100] as [number, number, number],
     skyTurbidity: 6,
     skyRayleigh: 1.5,
@@ -493,6 +494,24 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               value={lightingControls.skyTurbidity}
               onChange={(e) => setLightingControls(prev => ({ ...prev, skyTurbidity: parseInt(e.target.value) }))}
             />
+            <label>Shadow Bias: {lightingControls.shadowBias.toFixed(4)}</label>
+            <input
+              type="range"
+              min="-0.001"
+              max="0.001"
+              step="0.0001"
+              value={lightingControls.shadowBias}
+              onChange={(e) => setLightingControls(prev => ({ ...prev, shadowBias: parseFloat(e.target.value) }))}
+            />
+            <label>Shadow Softness: {lightingControls.shadowRadius}</label>
+            <input
+              type="range"
+              min="0"
+              max="5"
+              step="0.5"
+              value={lightingControls.shadowRadius}
+              onChange={(e) => setLightingControls(prev => ({ ...prev, shadowRadius: parseFloat(e.target.value) }))}
+            />
             <label>Shadow Quality: {lightingControls.shadowMapSize}</label>
             <select
               value={lightingControls.shadowMapSize}
@@ -501,6 +520,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               <option value={1024}>Low</option>
               <option value={2048}>Medium</option>
               <option value={4096}>High</option>
+              <option value={8192}>Ultra</option>
             </select>
           </div>
         </div>

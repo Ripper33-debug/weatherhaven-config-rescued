@@ -31,6 +31,7 @@ interface ModelViewerProps {
     ambientIntensity: number;
     shadowBias: number;
     shadowMapSize: number;
+    shadowRadius?: number;
     sunPosition?: [number, number, number];
     skyTurbidity?: number;
     skyRayleigh?: number;
@@ -290,8 +291,16 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
         o.userData.isBody = true;
       }
 
+      // Enhanced shadow settings for each mesh
       o.castShadow = true;
       o.receiveShadow = true;
+      
+      // Optimize shadow casting for better performance and quality
+      if (o.geometry) {
+        // Ensure geometry is optimized for shadows
+        o.geometry.computeBoundingSphere();
+        o.geometry.computeBoundingBox();
+      }
     });
 
     setProcessedScene(cloned);
@@ -398,34 +407,60 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
     <>
       {/* Enhanced Lighting with User Controls */}
       <ambientLight intensity={lightingControls?.ambientIntensity ?? envSettings.ambientIntensity} />
+      
+      {/* Main directional light with realistic shadows */}
       <directionalLight
         position={lightingControls?.lightPosition ?? [10, 10, 5]}
         intensity={lightingControls?.lightIntensity ?? envSettings.directionalIntensity}
         castShadow
-        shadow-mapSize-width={lightingControls?.shadowMapSize ?? 2048}
-        shadow-mapSize-height={lightingControls?.shadowMapSize ?? 2048}
+        shadow-mapSize-width={lightingControls?.shadowMapSize ?? 4096}
+        shadow-mapSize-height={lightingControls?.shadowMapSize ?? 4096}
+        shadow-camera-far={100}
+        shadow-camera-left={-20}
+        shadow-camera-right={20}
+        shadow-camera-top={20}
+        shadow-camera-bottom={-20}
+        shadow-bias={lightingControls?.shadowBias ?? -0.0005}
+        shadow-normalBias={0.02}
+        shadow-radius={lightingControls?.shadowRadius ?? 2}
+        shadow-blurSamples={16}
+      />
+      
+      {/* Secondary fill light with soft shadows */}
+      <directionalLight
+        position={[-10, 5, -5]}
+        intensity={0.3}
+        color="#ffffff"
+        castShadow
+        shadow-mapSize-width={1024}
+        shadow-mapSize-height={1024}
         shadow-camera-far={50}
         shadow-camera-left={-10}
         shadow-camera-right={10}
         shadow-camera-top={10}
         shadow-camera-bottom={-10}
-        shadow-bias={lightingControls?.shadowBias ?? -0.0001}
+        shadow-bias={-0.0001}
+        shadow-normalBias={0.01}
+        shadow-radius={1}
       />
-      {/* Additional fill light */}
-      <directionalLight
-        position={[-10, 5, -5]}
-        intensity={0.5}
-        color="#ffffff"
-      />
+      
       {/* Rim light for better definition */}
       <directionalLight
         position={[0, 10, -10]}
-        intensity={0.3}
+        intensity={0.2}
         color="#ffffff"
       />
       
       {/* Contact shadows for realism */}
-      <ContactShadows position={[0, -0.095, 0]} opacity={0.5} scale={60} blur={2.2} far={25} />
+      <ContactShadows 
+        position={[0, -0.095, 0]} 
+        opacity={0.6} 
+        scale={80} 
+        blur={3} 
+        far={30}
+        resolution={1024}
+        frames={1}
+      />
 
       {/* Realistic procedural sky and environment matching selected mode */}
       <Sky 
@@ -437,11 +472,34 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
       />
       <Environment preset={envSettings.environmentPreset} background={false} />
 
-      {/* Ground plane with subtle roughness */}
+      {/* Enhanced ground plane with realistic shadow reception */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.1, 0]} receiveShadow>
-        <planeGeometry args={[100, 100]} />
-        <meshStandardMaterial color={envSettings.groundColor} roughness={0.9} metalness={0} />
+        <planeGeometry args={[200, 200]} />
+        <meshStandardMaterial 
+          color={envSettings.groundColor} 
+          roughness={0.8} 
+          metalness={0}
+          transparent={true}
+          opacity={0.95}
+        />
       </mesh>
+      
+      {/* Additional shadow-casting elements for realism */}
+      <group position={[0, 0, 0]}>
+        {/* Small ground details that cast shadows */}
+        <mesh position={[5, 0.01, 5]} castShadow receiveShadow>
+          <boxGeometry args={[0.5, 0.02, 0.5]} />
+          <meshStandardMaterial color="#2d3748" roughness={0.9} metalness={0} />
+        </mesh>
+        <mesh position={[-3, 0.01, -2]} castShadow receiveShadow>
+          <cylinderGeometry args={[0.3, 0.3, 0.02, 8]} />
+          <meshStandardMaterial color="#4a5568" roughness={0.8} metalness={0} />
+        </mesh>
+        <mesh position={[8, 0.01, -8]} castShadow receiveShadow>
+          <boxGeometry args={[1, 0.02, 1]} />
+          <meshStandardMaterial color="#2d3748" roughness={0.9} metalness={0} />
+        </mesh>
+      </group>
 
       <group ref={groupRef}>
         {processedScene ? (

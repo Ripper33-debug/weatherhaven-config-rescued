@@ -93,18 +93,37 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
     if (scene && modelLoaded) {
       scene.traverse((child: any) => {
         if (child.isMesh && child.material) {
-          // Apply color to the material
-          if (Array.isArray(child.material)) {
-            child.material.forEach((mat: any) => {
-              if (mat.isMeshStandardMaterial || mat.isMeshPhysicalMaterial) {
-                mat.color.setHex(configState.color.replace('#', '0x'));
-                mat.needsUpdate = true;
+          // Only apply color to main body materials, not details like windows, handles, etc.
+          const childName = child.name.toLowerCase();
+          const isMainBody = childName.includes('body') || 
+                            childName.includes('main') || 
+                            childName.includes('shell') || 
+                            childName.includes('wall') ||
+                            childName.includes('panel') ||
+                            (childName.length < 10 && !childName.includes('window') && !childName.includes('handle') && !childName.includes('door'));
+          
+          if (isMainBody) {
+            if (Array.isArray(child.material)) {
+              child.material.forEach((mat: any) => {
+                if (mat.isMeshStandardMaterial || mat.isMeshPhysicalMaterial) {
+                  // Preserve original material properties but change color
+                  const originalMetalness = mat.metalness;
+                  const originalRoughness = mat.roughness;
+                  mat.color.setHex(configState.color.replace('#', '0x'));
+                  mat.metalness = Math.min(originalMetalness + 0.1, 0.8);
+                  mat.roughness = Math.max(originalRoughness - 0.1, 0.2);
+                  mat.needsUpdate = true;
+                }
+              });
+            } else {
+              if (child.material.isMeshStandardMaterial || child.material.isMeshPhysicalMaterial) {
+                const originalMetalness = child.material.metalness;
+                const originalRoughness = child.material.roughness;
+                child.material.color.setHex(configState.color.replace('#', '0x'));
+                child.material.metalness = Math.min(originalMetalness + 0.1, 0.8);
+                child.material.roughness = Math.max(originalRoughness - 0.1, 0.2);
+                child.material.needsUpdate = true;
               }
-            });
-          } else {
-            if (child.material.isMeshStandardMaterial || child.material.isMeshPhysicalMaterial) {
-              child.material.color.setHex(configState.color.replace('#', '0x'));
-              child.material.needsUpdate = true;
             }
           }
         }
@@ -176,9 +195,9 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
         };
       default: // day
         return {
-          ambientIntensity: 0.5,
-          directionalIntensity: 0.9,
-          environmentPreset: 'sunset' as const,
+          ambientIntensity: 0.8,
+          directionalIntensity: 1.2,
+          environmentPreset: 'apartment' as const,
           groundColor: '#2d3748',
           skyColor: '#87ceeb'
         };
@@ -298,6 +317,18 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
         shadow-camera-right={10}
         shadow-camera-top={10}
         shadow-camera-bottom={-10}
+      />
+      {/* Additional fill light */}
+      <directionalLight
+        position={[-10, 5, -5]}
+        intensity={0.5}
+        color="#ffffff"
+      />
+      {/* Rim light for better definition */}
+      <directionalLight
+        position={[0, 10, -10]}
+        intensity={0.3}
+        color="#ffffff"
       />
       
       {/* Contact shadows for realism */}

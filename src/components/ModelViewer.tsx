@@ -152,12 +152,8 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
           // Use the simplified logic - no need for separate shouldNotColor
           // The shouldColor logic above handles everything
           
-                    // Debug: Log all parts to see what we're working with
-          console.log('🔍 Part:', childName, 'Parent:', parentName, 'ShouldColor:', shouldColor);
-          
           // Only color if it should be colored
           if (shouldColor) {
-            console.log('✅ Coloring shelter part:', childName, 'with color:', configState.color);
             if (Array.isArray(child.material)) {
               child.material.forEach((mat: any) => {
                 if (mat.isMeshStandardMaterial || mat.isMeshPhysicalMaterial) {
@@ -165,15 +161,24 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
                   mat.color.setHex(configState.color.replace('#', '0x'));
                   
                   // Apply finish based on color selection
-                  if (configState.color === '#2F4F2F') { // Dark Green - Matte
+                  if (configState.color === '#4A5568') { // Military Green - Matte
                     mat.metalness = 0.1;
                     mat.roughness = 0.9;
-                  } else if (configState.color === '#D2B48C') { // Tan - Satin
+                  } else if (configState.color === '#D69E2E') { // Desert Tan - Satin
                     mat.metalness = 0.3;
                     mat.roughness = 0.4;
-                  } else if (configState.color === '#FFFFFF') { // White - Matte
+                  } else if (configState.color === '#F7FAFC') { // Arctic White - Matte
                     mat.metalness = 0.1;
                     mat.roughness = 0.8;
+                  } else if (configState.color === '#2C5282') { // Navy Blue - Satin
+                    mat.metalness = 0.3;
+                    mat.roughness = 0.4;
+                  } else if (configState.color === '#2D3748') { // Charcoal - Matte
+                    mat.metalness = 0.1;
+                    mat.roughness = 0.9;
+                  } else if (configState.color === '#8B4513') { // Camo Brown - Satin
+                    mat.metalness = 0.3;
+                    mat.roughness = 0.4;
                   } else { // Custom color - Premium finish
                     mat.metalness = 0.2;
                     mat.roughness = 0.6;
@@ -188,15 +193,24 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
                 child.material.color.setHex(configState.color.replace('#', '0x'));
                 
                 // Apply finish based on color selection
-                if (configState.color === '#2F4F2F') { // Dark Green - Matte
+                if (configState.color === '#4A5568') { // Military Green - Matte
                   child.material.metalness = 0.1;
                   child.material.roughness = 0.9;
-                } else if (configState.color === '#D2B48C') { // Tan - Satin
+                } else if (configState.color === '#D69E2E') { // Desert Tan - Satin
                   child.material.metalness = 0.3;
                   child.material.roughness = 0.4;
-                } else if (configState.color === '#FFFFFF') { // White - Matte
+                } else if (configState.color === '#F7FAFC') { // Arctic White - Matte
                   child.material.metalness = 0.1;
                   child.material.roughness = 0.8;
+                } else if (configState.color === '#2C5282') { // Navy Blue - Satin
+                  child.material.metalness = 0.3;
+                  child.material.roughness = 0.4;
+                } else if (configState.color === '#2D3748') { // Charcoal - Matte
+                  child.material.metalness = 0.1;
+                  child.material.roughness = 0.9;
+                } else if (configState.color === '#8B4513') { // Camo Brown - Satin
+                  child.material.metalness = 0.3;
+                  child.material.roughness = 0.4;
                 } else { // Custom color - Premium finish
                   child.material.metalness = 0.2;
                   child.material.roughness = 0.6;

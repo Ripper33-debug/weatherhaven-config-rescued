@@ -85,10 +85,32 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
         controlsRef.current.target.set(center.x, center.y, center.z);
         controlsRef.current.update();
       }
-
-      // Preserve original GLTF materials/colors; avoid overriding
     }
   }, [scene, modelLoaded, camera]);
+
+  // Apply color to model materials when color changes
+  useEffect(() => {
+    if (scene && modelLoaded) {
+      scene.traverse((child: any) => {
+        if (child.isMesh && child.material) {
+          // Apply color to the material
+          if (Array.isArray(child.material)) {
+            child.material.forEach((mat: any) => {
+              if (mat.isMeshStandardMaterial || mat.isMeshPhysicalMaterial) {
+                mat.color.setHex(configState.color.replace('#', '0x'));
+                mat.needsUpdate = true;
+              }
+            });
+          } else {
+            if (child.material.isMeshStandardMaterial || child.material.isMeshPhysicalMaterial) {
+              child.material.color.setHex(configState.color.replace('#', '0x'));
+              child.material.needsUpdate = true;
+            }
+          }
+        }
+      });
+    }
+  }, [configState.color, scene, modelLoaded]);
 
   // Animation removed since we're using GLB models now
 
@@ -237,15 +259,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
         
 
         
-        {/* Color overlay for GLB models */}
-        <mesh position={[0, 0, 0]} visible={false}>
-          <boxGeometry args={[20, 20, 20]} />
-          <meshStandardMaterial 
-            color={configState.color}
-            transparent
-            opacity={0.1}
-          />
-        </mesh>
+
         
         {/* Per-model lighting removed to avoid overexposure (we light globally below) */}
         

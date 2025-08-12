@@ -28,6 +28,8 @@ const Controls: React.FC<ControlsProps> = ({
   const [showPricing, setShowPricing] = useState(false);
   
   const colorOptions = [
+    { name: 'Tan', value: '#D2B48C' },
+    { name: 'Forest Green', value: '#228B22' },
     { name: 'Military Green', value: '#4A5568' },
     { name: 'Desert Tan', value: '#D69E2E' },
     { name: 'Arctic White', value: '#F7FAFC' },

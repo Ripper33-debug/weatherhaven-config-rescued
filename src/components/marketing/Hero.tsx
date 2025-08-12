@@ -686,7 +686,7 @@ export default function Hero() {
                   flexWrap: 'wrap'
                 }}
               >
-                <Link href="/configurator">
+                                 <Link href="/command-center">
                   <MagneticButton
                     whileHover={{ scale: 1.05, y: -3 }}
                     whileTap={{ scale: 0.95 }}

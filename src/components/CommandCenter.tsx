@@ -48,7 +48,7 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
       category: 'trecc',
       description: 'Lightweight, extended-height expandable container known for its unmatched capability and versatile shipping configuration.',
       image: 'trecc',
-      modelPath: '/models/trecc-main.glb',
+      modelPath: '/models/trecc.glb',
       specs: {
         deployed: { length: '14.3 ft', width: '7.1 ft', height: '7.9 ft' },
         stowed: { length: '7.0 ft', width: '7.1 ft', height: '4.8 ft' }
@@ -59,7 +59,7 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
           name: 'Command Post',
           description: 'Advanced command post with integrated power, HVAC, display systems, and deployable workstations.',
           category: 'command',
-          modelPath: '/models/trecc-main.glb',
+          modelPath: '/models/trecc.glb',
           interiorPath: '/models/interiors/trecc-command.glb'
         },
         {
@@ -67,7 +67,7 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
           name: 'Medical Unit',
           description: 'Field hospital with surgical capabilities, patient care areas, and medical equipment integration.',
           category: 'medical',
-          modelPath: '/models/trecc-main.glb',
+          modelPath: '/models/trecc.glb',
           interiorPath: '/models/interiors/trecc-medical.glb'
         },
         {
@@ -75,7 +75,7 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
           name: 'Living Quarters',
           description: 'Comfortable living quarters with sleeping areas, dining facilities, and recreational space.',
           category: 'living',
-          modelPath: '/models/trecc-main.glb',
+          modelPath: '/models/trecc.glb',
           interiorPath: '/models/interiors/trecc-living.glb'
         },
         {
@@ -83,7 +83,7 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
           name: 'Communications Hub',
           description: 'Advanced communications center with satellite systems, radio equipment, and network infrastructure.',
           category: 'communications',
-          modelPath: '/models/trecc-main.glb',
+          modelPath: '/models/trecc.glb',
           interiorPath: '/models/interiors/trecc-communications.glb'
         },
         {
@@ -91,7 +91,7 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
           name: 'Equipment Storage',
           description: 'Secure storage facility with climate control, inventory management, and equipment maintenance areas.',
           category: 'storage',
-          modelPath: '/models/trecc-main.glb',
+          modelPath: '/models/trecc.glb',
           interiorPath: '/models/interiors/trecc-storage.glb'
         },
         {
@@ -99,7 +99,7 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
           name: 'Field Kitchen',
           description: 'Mobile kitchen with cooking facilities, food storage, and dining areas.',
           category: 'kitchen',
-          modelPath: '/models/trecc-main.glb',
+          modelPath: '/models/trecc.glb',
           interiorPath: '/models/interiors/trecc-kitchen.glb'
         },
         {
@@ -107,7 +107,7 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
           name: 'Drone Manufacturing',
           description: 'Advanced drone manufacturing facility with assembly lines, testing equipment, and quality control systems.',
           category: 'manufacturing',
-          modelPath: '/models/trecc-main.glb',
+          modelPath: '/models/trecc.glb',
           interiorPath: '/models/interiors/trecc-drone-manufacturing.glb'
         }
       ]

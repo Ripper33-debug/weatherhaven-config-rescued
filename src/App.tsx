@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import ProductDetailPage from './components/ProductDetailPage';
 import SiteHeader from './components/SiteHeader';
@@ -55,7 +55,9 @@ export interface ShelterConfiguration {
   interiorPath?: string;
 }
 
-function App() {
+function AppContent() {
+  const navigate = useNavigate();
+  
   // Create a default user to bypass login
   const defaultUser: User = {
     username: 'Demo User',
@@ -75,50 +77,59 @@ function App() {
   const handleShelterSelect = (shelter: Shelter, configuration?: ShelterConfiguration) => {
     setSelectedShelter(shelter);
     setSelectedConfiguration(configuration || undefined);
+    // Navigate to configurator after selecting shelter
+    navigate('/configurator');
   };
 
   const handleBackToCommandCenter = () => {
     setSelectedConfiguration(undefined);
+    navigate('/command-center');
   };
 
   return (
-    <BrowserRouter>
-      <div className="app-container">
-        <SiteHeader onLogoutClick={handleLogout} />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          {/* Static pages driven by siteContent config */}
-          <Route path="/military" element={<StaticPage slug="military" />} />
-          <Route path="/medical" element={<StaticPage slug="medical" />} />
-          <Route path="/commercial" element={<StaticPage slug="commercial" />} />
-          <Route path="/innovation" element={<StaticPage slug="innovation" />} />
-          <Route path="/company" element={<StaticPage slug="company" />} />
-          <Route path="/instock" element={<StaticPage slug="instock" />} />
-          <Route path="/contact" element={<StaticPage slug="contact" />} />
-          <Route path="/command-center" element={
+    <div className="app-container">
+      <SiteHeader onLogoutClick={handleLogout} />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        {/* Static pages driven by siteContent config */}
+        <Route path="/military" element={<StaticPage slug="military" />} />
+        <Route path="/medical" element={<StaticPage slug="medical" />} />
+        <Route path="/commercial" element={<StaticPage slug="commercial" />} />
+        <Route path="/innovation" element={<StaticPage slug="innovation" />} />
+        <Route path="/company" element={<StaticPage slug="company" />} />
+        <Route path="/instock" element={<StaticPage slug="instock" />} />
+        <Route path="/contact" element={<StaticPage slug="contact" />} />
+        <Route path="/command-center" element={
+          <CollaborationProvider currentUser={user}>
+            <CommandCenter user={user} onLogout={handleLogout} onShelterSelect={handleShelterSelect} />
+          </CollaborationProvider>
+        } />
+        <Route path="/product" element={selectedShelter ? (
+          <ProductDetailPage shelter={selectedShelter} />
+        ) : <Navigate to="/command-center" replace />} />
+        <Route path="/configurator" element={
+          selectedShelter ? (
             <CollaborationProvider currentUser={user}>
-              <CommandCenter user={user} onLogout={handleLogout} onShelterSelect={handleShelterSelect} />
+              <ShelterConfigurator
+                user={user}
+                shelter={selectedShelter}
+                selectedConfiguration={selectedConfiguration}
+                onBack={handleBackToCommandCenter}
+                onLogout={handleLogout}
+              />
             </CollaborationProvider>
-          } />
-          <Route path="/product" element={selectedShelter ? (
-            <ProductDetailPage shelter={selectedShelter} />
-          ) : <Navigate to="/command-center" replace />} />
-          <Route path="/configurator" element={
-            selectedShelter ? (
-              <CollaborationProvider currentUser={user}>
-                <ShelterConfigurator
-                  user={user}
-                  shelter={selectedShelter}
-                  selectedConfiguration={selectedConfiguration}
-                  onBack={handleBackToCommandCenter}
-                  onLogout={handleLogout}
-                />
-              </CollaborationProvider>
-            ) : <Navigate to="/command-center" replace />
-          } />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </div>
+          ) : <Navigate to="/command-center" replace />
+        } />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AppContent />
     </BrowserRouter>
   );
 }

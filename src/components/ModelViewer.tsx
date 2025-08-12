@@ -1,12 +1,18 @@
-import React, { useRef, useEffect, useState, useMemo } from 'react';
+'use client';
+
+import React, { useRef, useEffect, useMemo, useState } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, Environment, useGLTF, ContactShadows, Sky } from '@react-three/drei';
-import { Box3, Group, Vector3, PerspectiveCamera, OrthographicCamera, BufferGeometry, Float32BufferAttribute, PointsMaterial, Color } from 'three';
+import {
+  Box3, Group, Vector3, PerspectiveCamera, OrthographicCamera,
+  MeshStandardMaterial, MeshPhysicalMaterial, Object3D,
+  BufferGeometry, Float32BufferAttribute, PointsMaterial, Color
+} from 'three';
 import * as THREE from 'three';
-import { ConfiguratorState } from './ShelterConfigurator';
-import { Shelter } from '../App';
+import type { ConfiguratorState } from './ShelterConfigurator';
+import type { Shelter } from '../App';
 
-// Preload TRECC models
+// Preload models
 useGLTF.preload('/models/trecc.glb');
 useGLTF.preload('/models/trecc-open.glb');
 useGLTF.preload('/models/titanium.glb');
@@ -138,6 +144,20 @@ const WeatherEffects: React.FC<{
   );
 };
 
+const WHEEL_RX = /(wheel|tyre|tire|rim|hub|axle|suspension|spoke|lug|valve|fender|mudflap|mudguard|chassis)/i;
+const BODY_RX  = /(body|main|shell|wall|panel|shelter|container|box|unit|roof|side|end|floor|ceiling|exterior|outer|surface|skin|hull|casing|enclosure|housing|frame|structure)/i;
+
+function looksLikeWheel(node: Object3D) {
+  const n = (node.name || '').toLowerCase();
+  const p = (node.parent?.name || '').toLowerCase();
+  return WHEEL_RX.test(n) || WHEEL_RX.test(p);
+}
+
+function looksLikeBody(node: Object3D) {
+  const n = (node.name || '').toLowerCase();
+  return BODY_RX.test(n);
+}
+
 const ModelViewer: React.FC<ModelViewerProps> = ({ 
   configState, 
   onModelLoaded, 
@@ -151,370 +171,168 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
 }) => {
   const groupRef = useRef<Group>(null);
   const controlsRef = useRef<any>(null);
-  const [modelLoaded, setModelLoaded] = useState(false);
   const { camera } = useThree();
   const [controlsTarget, setControlsTarget] = useState<[number, number, number]>([0, 0.2, 0]);
-  
-  // Load the GLB model based on shelter configuration and deployment state
+  const [processedScene, setProcessedScene] = useState<Object3D | null>(null);
+  const [modelLoaded, setModelLoaded] = useState(false);
+
+  // Choose model
   let modelPath = shelter.modelPath || '/models/trecc.glb';
-  
-  // For standard TRECC models, use different models for deployed vs stowed state
-  if (shelter.id === 'trecc') {
-    modelPath = configState.isDeployed ? '/models/trecc-open.glb' : '/models/trecc.glb';
-  }
-  // For titanium TRECC, use the titanium model (assuming it handles both states internally)
-  else if (shelter.id === 'trecc-titanium') {
-    modelPath = '/models/titanium.glb';
-  }
-  
+  if (shelter.id === 'trecc') modelPath = configState.isDeployed ? '/models/trecc-open.glb' : '/models/trecc.glb';
+  if (shelter.id === 'trecc-titanium') modelPath = '/models/titanium.glb';
   const { scene } = useGLTF(modelPath);
 
-  useEffect(() => {
-    // Model is loaded when GLTF is ready
-    if (scene && !modelLoaded) {
-      setModelLoaded(true);
-      onModelLoaded();
-    }
-  }, [scene, modelLoaded, onModelLoaded]);
+  // Rubber material (base for wheels)
+  const rubberBase = useMemo(
+    () =>
+      new MeshPhysicalMaterial({
+        color: '#111111',   // black rubber
+        roughness: 0.9,
+        metalness: 0.0,
+        reflectivity: 0.05,
+        clearcoat: 0,
+      }),
+    []
+  );
 
-  // Reset model loaded state when model path changes
+  // Clone + sanitize materials; tag wheel meshes; assign rubber
   useEffect(() => {
-    setModelLoaded(false);
-  }, [modelPath]);
+    if (!scene) return;
 
-  // Fix material lighting when model loads
-  useEffect(() => {
-    if (scene && modelLoaded) {
-      // Auto-frame model and center controls target
-      const box = new Box3().setFromObject(scene);
-      const center = new Vector3();
-      const size = new Vector3();
-      box.getCenter(center);
-      box.getSize(size);
-      const maxSize = Math.max(size.x, size.y, size.z);
+    const cloned = scene.clone(true);
 
-      if ((camera as PerspectiveCamera).isPerspectiveCamera) {
-        const persp = camera as PerspectiveCamera;
-        const fitHeightDistance = maxSize / (2 * Math.tan((persp.fov * Math.PI) / 360));
-        const fitWidthDistance = fitHeightDistance / persp.aspect;
-        const distance = 1.2 * Math.max(fitHeightDistance, fitWidthDistance);
-        persp.position.set(center.x, center.y + size.y * 0.15, center.z + distance);
-        // Allow extreme close-ups by reducing near plane conservatively
-        persp.near = Math.max(0.02, maxSize / 300);
-        persp.far = Math.max(100, maxSize * 100);
-        persp.updateProjectionMatrix();
-      } else {
-        const ortho = camera as OrthographicCamera;
-        const distance = maxSize * 2.5;
-        ortho.position.set(center.x, center.y + size.y * 0.1, center.z + distance);
-        ortho.near = Math.max(0.02, maxSize / 300);
-        ortho.far = Math.max(100, maxSize * 100);
-        ortho.updateProjectionMatrix();
-      }
-      setControlsTarget([center.x, center.y, center.z]);
-      if (controlsRef.current) {
-        controlsRef.current.target.set(center.x, center.y, center.z);
-        controlsRef.current.update();
-      }
-    }
-  }, [scene, modelLoaded, camera]);
+    cloned.traverse((o: any) => {
+      if (!o.isMesh) return;
 
-  // Apply color to model materials when color changes
-  useEffect(() => {
-    if (scene && modelLoaded) {
-      scene.traverse((child: any) => {
-        if (child.isMesh && child.material) {
-          // Only apply color to main shelter body, exclude trailer, wheels, and other parts
-          const childName = child.name.toLowerCase();
-          const parentName = child.parent?.name?.toLowerCase() || '';
-          
-          // Define what should be colored (ONLY the main shelter container box)
-          // Be very specific - only color if it's clearly a shelter part AND not a wheel/trailer part
-          const isWheelOrTrailer = childName.includes('wheel') || 
-                                   childName.includes('tire') || 
-                                   childName.includes('trailer') ||
-                                   childName.includes('chassis') ||
-                                   childName.includes('axle') ||
-                                   childName.includes('hub') ||
-                                   childName.includes('rim') ||
-                                   childName.includes('spoke') ||
-                                   parentName.includes('wheel') ||
-                                   parentName.includes('trailer') ||
-                                   parentName.includes('chassis');
-          
-          const isShelterPart = childName.includes('shelter') || 
-                               childName.includes('container') ||
-                               childName.includes('box') ||
-                               childName.includes('body') ||
-                               childName.includes('main') ||
-                               childName.includes('shell') ||
-                               childName.includes('wall') ||
-                               childName.includes('panel') ||
-                               childName.includes('roof') ||
-                               childName.includes('side') ||
-                               childName.includes('end') ||
-                               childName.includes('floor') ||
-                               childName.includes('ceiling') ||
-                               childName.includes('exterior') ||
-                               childName.includes('outer') ||
-                               childName.includes('surface') ||
-                               childName.includes('skin') ||
-                               childName.includes('hull') ||
-                               childName.includes('casing') ||
-                               childName.includes('enclosure') ||
-                               childName.includes('housing') ||
-                               childName.includes('frame') ||
-                               childName.includes('structure') ||
-                               childName.includes('unit');
-          
-          const shouldColor = isShelterPart && !isWheelOrTrailer;
-          
-          // Use the simplified logic - no need for separate shouldNotColor
-          // The shouldColor logic above handles everything
-          
-          // Only color if it should be colored
-          if (shouldColor) {
-            if (Array.isArray(child.material)) {
-              child.material.forEach((mat: any) => {
-                if (mat.isMeshStandardMaterial || mat.isMeshPhysicalMaterial) {
-                  // Apply color and finish based on selection
-                  mat.color.setHex(configState.color.replace('#', '0x'));
-                  
-                  // Apply finish based on color selection
-                  if (configState.color === '#4A5568') { // Military Green - Matte
-                    mat.metalness = 0.1;
-                    mat.roughness = 0.9;
-                  } else if (configState.color === '#D69E2E') { // Desert Tan - Satin
-                    mat.metalness = 0.3;
-                    mat.roughness = 0.4;
-                  } else if (configState.color === '#F7FAFC') { // Arctic White - Matte
-                    mat.metalness = 0.1;
-                    mat.roughness = 0.8;
-                  } else if (configState.color === '#2C5282') { // Navy Blue - Satin
-                    mat.metalness = 0.3;
-                    mat.roughness = 0.4;
-                  } else if (configState.color === '#2D3748') { // Charcoal - Matte
-                    mat.metalness = 0.1;
-                    mat.roughness = 0.9;
-                  } else if (configState.color === '#8B4513') { // Camo Brown - Satin
-                    mat.metalness = 0.3;
-                    mat.roughness = 0.4;
-                  } else { // Custom color - Premium finish
-                    mat.metalness = 0.2;
-                    mat.roughness = 0.6;
-                  }
-                  
-                  mat.needsUpdate = true;
-                }
-              });
-            } else {
-              if (child.material.isMeshStandardMaterial || child.material.isMeshPhysicalMaterial) {
-                // Apply color and finish based on selection
-                child.material.color.setHex(configState.color.replace('#', '0x'));
-                
-                // Apply finish based on color selection
-                if (configState.color === '#4A5568') { // Military Green - Matte
-                  child.material.metalness = 0.1;
-                  child.material.roughness = 0.9;
-                } else if (configState.color === '#D69E2E') { // Desert Tan - Satin
-                  child.material.metalness = 0.3;
-                  child.material.roughness = 0.4;
-                } else if (configState.color === '#F7FAFC') { // Arctic White - Matte
-                  child.material.metalness = 0.1;
-                  child.material.roughness = 0.8;
-                } else if (configState.color === '#2C5282') { // Navy Blue - Satin
-                  child.material.metalness = 0.3;
-                  child.material.roughness = 0.4;
-                } else if (configState.color === '#2D3748') { // Charcoal - Matte
-                  child.material.metalness = 0.1;
-                  child.material.roughness = 0.9;
-                } else if (configState.color === '#8B4513') { // Camo Brown - Satin
-                  child.material.metalness = 0.3;
-                  child.material.roughness = 0.4;
-                } else { // Custom color - Premium finish
-                  child.material.metalness = 0.2;
-                  child.material.roughness = 0.6;
-                }
-                
-                child.material.needsUpdate = true;
-              }
-            }
-          }
+      // Always break sharing
+      if (o.material) {
+        if (Array.isArray(o.material)) {
+          o.material = o.material.map((m: any) => {
+            const mm = m.clone();
+            if ('vertexColors' in mm) mm.vertexColors = false;
+            return mm;
+          });
+        } else {
+          o.material = o.material.clone();
+          if ('vertexColors' in o.material) o.material.vertexColors = false;
         }
-      });
+      }
+
+      // Wheels: force rubber material (unique instance per mesh)
+      if (looksLikeWheel(o)) {
+        o.userData.isWheel = true;
+        if (Array.isArray(o.material)) {
+          o.material = o.material.map(() => rubberBase.clone());
+        } else {
+          o.material = rubberBase.clone();
+        }
+      } else if (looksLikeBody(o)) {
+        o.userData.isBody = true;
+      }
+
+      o.castShadow = true;
+      o.receiveShadow = true;
+    });
+
+    setProcessedScene(cloned);
+    setModelLoaded(true);
+    onModelLoaded();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scene, rubberBase]);
+
+  // Frame camera/controls
+  useEffect(() => {
+    if (!processedScene) return;
+
+    const box = new Box3().setFromObject(processedScene);
+    const center = new Vector3();
+    const size = new Vector3();
+    box.getCenter(center);
+    box.getSize(size);
+    const maxSize = Math.max(size.x, size.y, size.z);
+
+    if ((camera as PerspectiveCamera).isPerspectiveCamera) {
+      const persp = camera as PerspectiveCamera;
+      const fitHeightDistance = maxSize / (2 * Math.tan((persp.fov * Math.PI) / 360));
+      const fitWidthDistance = fitHeightDistance / persp.aspect;
+      const distance = 1.2 * Math.max(fitHeightDistance, fitWidthDistance);
+      persp.position.set(center.x, center.y + size.y * 0.15, center.z + distance);
+      persp.near = Math.max(0.02, maxSize / 300);
+      persp.far = Math.max(100, maxSize * 100);
+      persp.updateProjectionMatrix();
+    } else {
+      const ortho = camera as OrthographicCamera;
+      const distance = maxSize * 2.5;
+      ortho.position.set(center.x, center.y + size.y * 0.1, center.z + distance);
+      ortho.near = Math.max(0.02, maxSize / 300);
+      ortho.far = Math.max(100, maxSize * 100);
+      ortho.updateProjectionMatrix();
     }
-  }, [configState.color, scene, modelLoaded]);
 
-  // Animation removed since we're using GLB models now
-
-  // Animation code removed since we're using GLB models now
-  // useEffect(() => {
-  //   if (configState.isDeployed) {
-  //     setCurrentDimensions({
-  //       length: stowedDimensions.length + (deployedDimensions.length - stowedDimensions.length) * animationProgress,
-  //       width: stowedDimensions.width + (deployedDimensions.width - stowedDimensions.width) * animationProgress,
-  //       height: stowedDimensions.height + (deployedDimensions.height - stowedDimensions.height) * animationProgress
-  //     });
-  //   } else {
-  //     setCurrentDimensions({
-  //       length: deployedDimensions.length + (stowedDimensions.length - deployedDimensions.length) * animationProgress,
-  //       width: deployedDimensions.width + (stowedDimensions.width - deployedDimensions.width) * animationProgress,
-  //       height: deployedDimensions.height + (stowedDimensions.height - deployedDimensions.height) * animationProgress
-  //     });
-  //   }
-  // }, [animationProgress, configState.isDeployed, deployedDimensions.height, deployedDimensions.length, deployedDimensions.width, stowedDimensions.height, stowedDimensions.length, stowedDimensions.width]);
-
-  useFrame((state) => {
-    if (groupRef.current && isAutoRotating) {
-      // Auto-rotation only in demo mode
-      groupRef.current.rotation.y += 0.01;
+    setControlsTarget([center.x, center.y, center.z]);
+    if (controlsRef.current) {
+      controlsRef.current.target.set(center.x, center.y, center.z);
+      controlsRef.current.update();
     }
-    // No auto-rotation in normal mode - user controls only
+  }, [processedScene, camera]);
+
+  // BODY recolor only (wheels are locked)
+  useEffect(() => {
+    if (!processedScene) return;
+
+    processedScene.traverse((child: any) => {
+      if (!child.isMesh || !child.material) return;
+      if (!child.userData.isBody) return;       // only the body
+      if (child.userData.isWheel) return;       // just in case
+
+      const applyFinish = (mat: any) => {
+        const m = mat.clone();                  // break any lingering sharing
+        m.color.set(configState.color);
+
+        if (configState.color === '#2F4F2F') {        // Dark Green - Matte
+          m.metalness = 0.1; m.roughness = 0.9;
+        } else if (configState.color === '#D2B48C') { // Tan - Satin
+          m.metalness = 0.3; m.roughness = 0.4;
+        } else if (configState.color === '#FFFFFF') { // White - Matte
+          m.metalness = 0.1; m.roughness = 0.8;
+        } else {                                      // Custom - Premium
+          m.metalness = 0.2; m.roughness = 0.6;
+        }
+        m.needsUpdate = true;
+        return m;
+      };
+
+      if (Array.isArray(child.material)) {
+        child.material = child.material.map((mm: any) =>
+          (mm.isMeshStandardMaterial || mm.isMeshPhysicalMaterial)
+            ? applyFinish(mm)
+            : new MeshStandardMaterial({ color: configState.color, metalness: 0.2, roughness: 0.6 })
+        );
+      } else {
+        const mm = child.material;
+        child.material =
+          (mm.isMeshStandardMaterial || mm.isMeshPhysicalMaterial)
+            ? applyFinish(mm)
+            : new MeshStandardMaterial({ color: configState.color, metalness: 0.2, roughness: 0.6 });
+        child.material.needsUpdate = true;
+      }
+    });
+  }, [configState.color, processedScene]);
+
+  useFrame(() => {
+    if (groupRef.current && isAutoRotating) groupRef.current.rotation.y += 0.01;
   });
 
-  // Get environment settings
-  const getEnvironmentSettings = () => {
+  // Env setup
+  const envSettings = (() => {
     switch (environment) {
-      case 'night':
-        return {
-          ambientIntensity: 0.3,
-          directionalIntensity: 0.4,
-          environmentPreset: 'night' as const,
-          groundColor: '#1a1a2e',
-          skyColor: '#16213e'
-        };
-      case 'desert':
-        return {
-          ambientIntensity: 0.5,
-          directionalIntensity: 0.9,
-          environmentPreset: 'sunset' as const,
-          groundColor: '#d4a574',
-          skyColor: '#87ceeb'
-        };
-      case 'arctic':
-        return {
-          ambientIntensity: 0.5,
-          directionalIntensity: 0.8,
-          environmentPreset: 'dawn' as const,
-          groundColor: '#f0f8ff',
-          skyColor: '#e6f3ff'
-        };
-      case 'jungle':
-        return {
-          ambientIntensity: 0.5,
-          directionalIntensity: 0.8,
-          environmentPreset: 'forest' as const,
-          groundColor: '#228b22',
-          skyColor: '#98fb98'
-        };
-      default: // day
-        return {
-          ambientIntensity: 0.8,
-          directionalIntensity: 1.2,
-          environmentPreset: 'apartment' as const,
-          groundColor: '#2d3748',
-          skyColor: '#87ceeb'
-        };
+      case 'night':  return { ambientIntensity: 0.3, directionalIntensity: 0.4, environmentPreset: 'night' as const,   groundColor: '#1a1a2e' };
+      case 'desert': return { ambientIntensity: 0.5, directionalIntensity: 0.9, environmentPreset: 'sunset' as const,  groundColor: '#d4a574' };
+      case 'arctic': return { ambientIntensity: 0.5, directionalIntensity: 0.8, environmentPreset: 'dawn' as const,    groundColor: '#f0f8ff' };
+      case 'jungle': return { ambientIntensity: 0.5, directionalIntensity: 0.8, environmentPreset: 'forest' as const,  groundColor: '#228b22' };
+      default:       return { ambientIntensity: 0.8, directionalIntensity: 1.2, environmentPreset: 'apartment' as const, groundColor: '#2d3748' };
     }
-  };
-
-  const envSettings = getEnvironmentSettings();
-
-    // Render the TRECC GLB model
-  const renderTRECCModel = () => {
-    if (!scene) {
-      // Fallback to placeholder if GLB doesn't load
-      return (
-        <group ref={groupRef}>
-          {configState.isDeployed ? (
-            // Deployed placeholder
-            <>
-              <mesh position={[0, 2, 0]} castShadow receiveShadow>
-                <boxGeometry args={[8, 4, 2]} />
-                <meshStandardMaterial 
-                  color={configState.color} 
-                  metalness={0.3}
-                  roughness={0.7}
-                />
-              </mesh>
-              <mesh position={[0, 4, 0]} castShadow receiveShadow>
-                <boxGeometry args={[8.2, 0.1, 2.2]} />
-                <meshStandardMaterial color="#2d3748" metalness={0.8} roughness={0.2} />
-              </mesh>
-              {/* Extended sections */}
-              <mesh position={[-6, 2, 0]} castShadow receiveShadow>
-                <boxGeometry args={[4, 4, 2]} />
-                <meshStandardMaterial 
-                  color={configState.color} 
-                  metalness={0.3}
-                  roughness={0.7}
-                />
-              </mesh>
-              <mesh position={[6, 2, 0]} castShadow receiveShadow>
-                <boxGeometry args={[4, 4, 2]} />
-                <meshStandardMaterial 
-                  color={configState.color} 
-                  metalness={0.3}
-                  roughness={0.7}
-                />
-              </mesh>
-            </>
-          ) : (
-            // Stowed placeholder
-            <>
-              <mesh position={[0, 2, 0]} castShadow receiveShadow>
-                <boxGeometry args={[4, 4, 2]} />
-                <meshStandardMaterial 
-                  color={configState.color} 
-                  metalness={0.3}
-                  roughness={0.7}
-                />
-              </mesh>
-              <mesh position={[0, 4, 0]} castShadow receiveShadow>
-                <boxGeometry args={[4.2, 0.1, 2.2]} />
-                <meshStandardMaterial color="#2d3748" metalness={0.8} roughness={0.2} />
-              </mesh>
-            </>
-          )}
-        </group>
-      );
-    }
-
-    return (
-      <group ref={groupRef}>
-        {/* Clone the GLB scene with proper positioning and lighting */}
-        <primitive 
-          object={scene.clone()} 
-          position={[0, 0, 0]}
-          scale={[1, 1, 1]}
-          rotation={[0, 0, 0]}
-        />
-        
-
-        
-
-        
-        {/* Per-model lighting removed to avoid overexposure (we light globally below) */}
-        
-        {/* Scale indicators */}
-        {showScale && (
-          <group>
-            {/* Human figure for scale */}
-            <mesh position={[5, 1.7, 0]}>
-              <cylinderGeometry args={[0.3, 0.3, 1.7, 8]} />
-              <meshStandardMaterial color="#8B4513" />
-            </mesh>
-            
-            {/* Vehicle for scale */}
-            <mesh position={[8, 1.5, 0]}>
-              <boxGeometry args={[2, 1.5, 4]} />
-              <meshStandardMaterial color="#2d3748" />
-            </mesh>
-          </group>
-        )}
-      </group>
-    );
-  };
+  })();
 
   return (
     <>
@@ -559,8 +377,28 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
         <meshStandardMaterial color={envSettings.groundColor} roughness={0.9} metalness={0} />
       </mesh>
 
-      {/* TRECC-T Model */}
-      {renderTRECCModel()}
+      <group ref={groupRef}>
+        {processedScene ? (
+          <primitive object={processedScene} />
+        ) : (
+          <mesh position={[0, 2, 0]} castShadow receiveShadow>
+            <boxGeometry args={[4, 4, 2]} />
+            <meshStandardMaterial color={configState.color} metalness={0.2} roughness={0.6} />
+          </mesh>
+        )}
+        {showScale && (
+          <group>
+            <mesh position={[5, 1.7, 0]}>
+              <cylinderGeometry args={[0.3, 0.3, 1.7, 8]} />
+              <meshStandardMaterial color="#8B4513" />
+            </mesh>
+            <mesh position={[8, 1.5, 0]}>
+              <boxGeometry args={[2, 1.5, 4]} />
+              <meshStandardMaterial color="#2d3748" />
+            </mesh>
+          </group>
+        )}
+      </group>
 
       {/* Weather Effects */}
       {weatherEffects && (
@@ -574,19 +412,12 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
       {/* Enhanced Controls */}
       <OrbitControls
         ref={controlsRef}
-        enablePan={true}
-        enableZoom={true}
-        enableRotate={true}
-        minDistance={0.5}
-        maxDistance={100}
-        maxPolarAngle={Math.PI / 2}
-        minPolarAngle={0}
+        enablePan enableZoom enableRotate
+        minDistance={0.5} maxDistance={100}
+        maxPolarAngle={Math.PI / 2} minPolarAngle={0}
         target={controlsTarget}
-        dampingFactor={0.05}
-        enableDamping={true}
-        rotateSpeed={0.5}
-        zoomSpeed={1.2}
-        panSpeed={0.8}
+        dampingFactor={0.05} enableDamping
+        rotateSpeed={0.5} zoomSpeed={1.2} panSpeed={0.8}
       />
     </>
   );

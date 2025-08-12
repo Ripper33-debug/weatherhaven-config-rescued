@@ -89,7 +89,8 @@ const PricingPanel: React.FC<PricingPanelProps> = ({
       '#2D3748': 0,     // Charcoal
       '#8B4513': 500    // Camo Brown
     };
-    return colorPremiums[color] || 0;
+    // Custom colors get a premium of 10-15k (using 12.5k as average)
+    return colorPremiums[color] || 12500;
   };
 
   const getColorName = (color: string) => {
@@ -101,7 +102,7 @@ const PricingPanel: React.FC<PricingPanelProps> = ({
       '#2D3748': 'Charcoal',
       '#8B4513': 'Camo Brown'
     };
-    return colorMap[color] || 'Custom';
+    return colorMap[color] || `Custom Color (${color})`;
   };
 
   const formatCurrency = (amount: number) => {

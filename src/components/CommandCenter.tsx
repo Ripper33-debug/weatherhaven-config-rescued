@@ -551,7 +551,13 @@ const CommandCenter: React.FC<CommandCenterProps> = ({ user, onLogout, onShelter
                 )}
               </div>
               <div className="shelter-action">
-                <button className="configure-button">
+                <button 
+                  className="configure-button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onShelterSelect(shelter);
+                  }}
+                >
                   <span className="icon-configure"></span>
                   <span>CONFIGURE</span>
                 </button>

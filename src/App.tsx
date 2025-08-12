@@ -104,17 +104,74 @@ function App() {
             <ProductDetailPage shelter={selectedShelter} />
           ) : <Navigate to="/command-center" replace />} />
           <Route path="/configurator" element={
-            selectedShelter ? (
-              <CollaborationProvider currentUser={user}>
-                <ShelterConfigurator
-                  user={user}
-                  shelter={selectedShelter}
-                  selectedConfiguration={selectedConfiguration}
-                  onBack={handleBackToCommandCenter}
-                  onLogout={handleLogout}
-                />
-              </CollaborationProvider>
-            ) : <Navigate to="/command-center" replace />
+            (() => {
+              // If no shelter is selected, default to TRECC
+              if (!selectedShelter) {
+                const defaultShelter: Shelter = {
+                  id: 'trecc',
+                  name: 'TRECC',
+                  model: 'TACTICAL REDEPLOYABLE EXPANDABLE CONTAINER CAPABILITY™',
+                  category: 'trecc',
+                  description: 'Lightweight, extended-height expandable container known for its unmatched capability and versatile shipping configuration.',
+                  image: 'trecc',
+                  modelPath: '/models/trecc.glb',
+                  specs: {
+                    deployed: { length: '14.3 ft', width: '7.1 ft', height: '7.9 ft' },
+                    stowed: { length: '7.0 ft', width: '7.1 ft', height: '4.8 ft' }
+                  },
+                  configurations: [
+                    {
+                      id: 'trecc-command',
+                      name: 'Command Post',
+                      description: 'Advanced command post with integrated power, HVAC, display systems, and deployable workstations.',
+                      category: 'command',
+                      modelPath: '/models/trecc.glb',
+                      interiorPath: '/models/interiors/trecc-command.glb'
+                    },
+                    {
+                      id: 'trecc-medical',
+                      name: 'Medical Unit',
+                      description: 'Field hospital with surgical capabilities, patient care areas, and medical equipment integration.',
+                      category: 'medical',
+                      modelPath: '/models/trecc.glb',
+                      interiorPath: '/models/interiors/trecc-medical.glb'
+                    },
+                    {
+                      id: 'trecc-living',
+                      name: 'Living Quarters',
+                      description: 'Comfortable living quarters with sleeping areas, dining facilities, and recreational space.',
+                      category: 'living',
+                      modelPath: '/models/trecc.glb',
+                      interiorPath: '/models/interiors/trecc-living.glb'
+                    }
+                  ]
+                };
+                
+                return (
+                  <CollaborationProvider currentUser={user}>
+                    <ShelterConfigurator
+                      user={user}
+                      shelter={defaultShelter}
+                      selectedConfiguration={defaultShelter.configurations?.[0]}
+                      onBack={() => window.location.href = '/'}
+                      onLogout={handleLogout}
+                    />
+                  </CollaborationProvider>
+                );
+              }
+              
+              return (
+                <CollaborationProvider currentUser={user}>
+                  <ShelterConfigurator
+                    user={user}
+                    shelter={selectedShelter}
+                    selectedConfiguration={selectedConfiguration}
+                    onBack={handleBackToCommandCenter}
+                    onLogout={handleLogout}
+                  />
+                </CollaborationProvider>
+              );
+            })()
           } />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

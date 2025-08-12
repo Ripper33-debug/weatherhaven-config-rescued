@@ -126,7 +126,6 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
                              childName.includes('exterior') ||
                              childName.includes('outer') ||
                              childName.includes('surface') ||
-                             childName.includes('cover') ||
                              childName.includes('skin') ||
                              childName.includes('hull') ||
                              childName.includes('casing') ||
@@ -182,9 +181,15 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
                                 parentName.includes('tire') ||
                                 parentName.includes('hub');
           
-          // Only color if it should be colored AND not in the exclusion list
-          if (shouldColor && !shouldNotColor) {
-            console.log('Coloring part:', childName, 'with color:', configState.color);
+                    // Check exclusions first - if it's a wheel/trailer part, never color it
+          if (shouldNotColor) {
+            console.log('❌ Skipping wheel/trailer part:', childName);
+            return;
+          }
+          
+          // Only color if it should be colored
+          if (shouldColor) {
+            console.log('✅ Coloring shelter part:', childName, 'with color:', configState.color);
             if (Array.isArray(child.material)) {
               child.material.forEach((mat: any) => {
                 if (mat.isMeshStandardMaterial || mat.isMeshPhysicalMaterial) {

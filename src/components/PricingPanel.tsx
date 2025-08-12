@@ -82,25 +82,19 @@ const PricingPanel: React.FC<PricingPanelProps> = ({
 
   const getColorPremium = (color: string) => {
     const colorPremiums: { [key: string]: number } = {
-      '#F7FAFC': 2000, // Arctic White
-      '#D69E2E': 1500,  // Desert Tan
-      '#2C5282': 1000,  // Navy Blue
-      '#4A5568': 0,     // Military Green
-      '#2D3748': 0,     // Charcoal
-      '#8B4513': 500    // Camo Brown
+      '#2F4F2F': 0,     // Dark Military Green (Matte)
+      '#D2B48C': 0,     // Matte Tan
+      '#FFFFFF': 0,     // Matte White
     };
-    // Custom colors get a premium of 10-15k (using 12.5k as average)
-    return colorPremiums[color] || 12500;
+    // Custom colors get a premium of $10,000
+    return colorPremiums[color] || 10000;
   };
 
   const getColorName = (color: string) => {
     const colorMap: { [key: string]: string } = {
-      '#4A5568': 'Military Green',
-      '#D69E2E': 'Desert Tan',
-      '#F7FAFC': 'Arctic White',
-      '#2C5282': 'Navy Blue',
-      '#2D3748': 'Charcoal',
-      '#8B4513': 'Camo Brown'
+      '#2F4F2F': 'Dark Military Green (Matte)',
+      '#D2B48C': 'Matte Tan',
+      '#FFFFFF': 'Matte White'
     };
     return colorMap[color] || `Custom Color (${color})`;
   };

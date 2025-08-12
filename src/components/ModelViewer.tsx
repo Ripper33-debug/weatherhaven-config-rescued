@@ -395,11 +395,11 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
         const m = mat.clone();                  // break any lingering sharing
         m.color.set(configState.color);
 
-        if (configState.color === '#2F4F2F') {        // Dark Green - Matte
+        if (configState.color === '#2F4F2F') {        // Dark Military Green - Matte
           m.metalness = 0.1; m.roughness = 0.9;
-        } else if (configState.color === '#D2B48C') { // Tan - Satin
-          m.metalness = 0.3; m.roughness = 0.4;
-        } else if (configState.color === '#FFFFFF') { // White - Matte
+        } else if (configState.color === '#D2B48C') { // Matte Tan
+          m.metalness = 0.1; m.roughness = 0.9;
+        } else if (configState.color === '#FFFFFF') { // Matte White
           m.metalness = 0.1; m.roughness = 0.8;
         } else {                                      // Custom - Premium
           m.metalness = 0.2; m.roughness = 0.6;

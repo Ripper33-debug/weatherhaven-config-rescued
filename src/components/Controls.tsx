@@ -30,13 +30,10 @@ const Controls: React.FC<ControlsProps> = ({
   const [customColor, setCustomColor] = useState('#FF6B35');
   
   const colorOptions = [
-    { name: 'Military Green (Matte)', value: '#4A5568', finish: 'matte', premium: 0 },
-    { name: 'Desert Tan (Satin)', value: '#D69E2E', finish: 'satin', premium: 1500 },
-    { name: 'Arctic White (Matte)', value: '#F7FAFC', finish: 'matte', premium: 2000 },
-    { name: 'Navy Blue (Satin)', value: '#2C5282', finish: 'satin', premium: 1000 },
-    { name: 'Charcoal (Matte)', value: '#2D3748', finish: 'matte', premium: 0 },
-    { name: 'Camo Brown (Satin)', value: '#8B4513', finish: 'satin', premium: 500 },
-    { name: 'Custom Color (+$12,500)', value: '#FF6B35', finish: 'custom', premium: 12500 },
+    { name: 'Dark Military Green (Matte)', value: '#2F4F2F', finish: 'matte', premium: 0 },
+    { name: 'Matte Tan', value: '#D2B48C', finish: 'matte', premium: 0 },
+    { name: 'Matte White', value: '#FFFFFF', finish: 'matte', premium: 0 },
+    { name: 'Custom Color (+$10,000)', value: '#FF6B35', finish: 'custom', premium: 10000 },
   ];
 
   const specifications = {
@@ -160,7 +157,7 @@ const Controls: React.FC<ControlsProps> = ({
                     borderRadius: '4px',
                     fontWeight: 'bold'
                   }}>
-                    $150K
+                    $10K
                   </span>
                 )}
               </button>

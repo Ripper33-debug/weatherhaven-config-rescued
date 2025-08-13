@@ -1,8 +1,8 @@
-/* Custom styles for TRECC Configurator */
+/* Custom styles for TRECC Configurator - Unified Theme */
 
 /* Smooth transitions for all elements */
 * {
-  transition: all 0.2s ease-in-out;
+  transition: var(--transition-fast);
 }
 
 /* Custom scrollbar for webkit browsers */
@@ -48,10 +48,10 @@ canvas {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 24px;
-  background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
-  border-bottom: 2px solid #4a5568;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  padding: var(--spacing-md) var(--spacing-xl);
+  background: var(--gradient-card);
+  border-bottom: 2px solid var(--border-secondary);
+  box-shadow: var(--shadow-card);
   position: relative;
   overflow: hidden;
 }
@@ -249,15 +249,15 @@ canvas {
 }
 
 .pricing-panel {
-  background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
-  border: 2px solid #4a5568;
-  border-radius: 12px;
-  padding: 24px;
+  background: var(--gradient-card);
+  border: 2px solid var(--border-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
   max-width: 600px;
   width: 90%;
   max-height: 80vh;
   overflow-y: auto;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--shadow-dark);
   position: relative;
 }
 

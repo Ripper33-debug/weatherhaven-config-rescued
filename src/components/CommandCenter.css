@@ -1322,7 +1322,262 @@
   box-shadow: var(--shadow-glass);
 }
 
-/* Floating Controls */
+/* Left Side - Collapsible Environment Controls */
+.left-controls {
+  position: absolute;
+  top: 80px;
+  left: 20px;
+  width: 300px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md);
+  z-index: var(--z-sticky);
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+  box-shadow: var(--shadow-glass);
+}
+
+.collapsible-section {
+  margin-bottom: var(--spacing-md);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-md);
+  background: var(--bg-secondary);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.section-header:hover {
+  background: var(--bg-glass-medium);
+}
+
+.section-header h3 {
+  color: var(--text-primary);
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.expand-icon {
+  color: var(--text-secondary);
+  font-size: 1.25rem;
+  font-weight: 700;
+  transition: var(--transition-fast);
+}
+
+.section-content {
+  padding: var(--spacing-md);
+  background: var(--bg-glass-light);
+  border-top: 1px solid var(--border-primary);
+}
+
+/* Right Side - Color Panel */
+.right-color-panel {
+  position: absolute;
+  top: 80px;
+  right: 20px;
+  width: 280px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  z-index: var(--z-sticky);
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+  box-shadow: var(--shadow-glass);
+}
+
+.color-panel-title {
+  color: var(--text-primary);
+  margin: 0 0 var(--spacing-lg) 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.matte-colors h4,
+.custom-color-section h4 {
+  color: var(--text-primary);
+  margin: 0 0 var(--spacing-md) 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.color-grid {
+  display: grid;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.color-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.color-button {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid var(--border-primary);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  position: relative;
+}
+
+.color-button:hover {
+  transform: scale(1.1);
+  border-color: var(--border-accent);
+}
+
+.color-button.active {
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 15px var(--primary-blue);
+}
+
+.color-button.custom {
+  border: 3px solid var(--border-orange);
+}
+
+.color-button.custom.active {
+  border-color: var(--primary-orange);
+  box-shadow: 0 0 15px var(--primary-orange);
+}
+
+.custom-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: var(--accent-gold);
+  color: var(--text-primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-primary);
+}
+
+.color-name {
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.color-finish {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.color-price {
+  color: var(--accent-gold);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.color-description {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  text-align: center;
+  margin-top: var(--spacing-xs);
+}
+
+.custom-color-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-md);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-orange);
+}
+
+/* Color Picker Modal */
+.color-picker-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--bg-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-modal-backdrop);
+}
+
+.color-picker-content {
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-xl);
+  text-align: center;
+  box-shadow: var(--shadow-dark);
+}
+
+.color-picker-content h4 {
+  color: var(--text-primary);
+  margin: 0 0 var(--spacing-lg) 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.color-input {
+  width: 100px;
+  height: 100px;
+  border: none;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  margin-bottom: var(--spacing-lg);
+}
+
+.color-picker-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: center;
+}
+
+.color-picker-actions button {
+  background: var(--gradient-primary);
+  border: none;
+  color: var(--text-primary);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.color-picker-actions button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-primary);
+}
+
+.color-picker-actions button:last-child {
+  background: var(--bg-glass-light);
+  border: 1px solid var(--border-primary);
+}
+
+.color-picker-actions button:last-child:hover {
+  background: var(--bg-glass-medium);
+}
+
+/* Floating Controls (Legacy - keeping for reference) */
 .floating-controls {
   position: absolute;
   top: 80px;
@@ -1377,7 +1632,16 @@
 
 /* Responsive Design for Full Screen */
 @media (max-width: 1200px) {
-  .floating-controls {
+  .left-controls {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    top: auto;
+    width: 280px;
+    max-height: 400px;
+  }
+  
+  .right-color-panel {
     position: fixed;
     bottom: 20px;
     right: 20px;
@@ -1413,7 +1677,15 @@
     font-size: 0.75rem;
   }
   
-  .floating-controls {
+  .left-controls {
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    width: auto;
+    max-height: 350px;
+  }
+  
+  .right-color-panel {
     bottom: 20px;
     left: 20px;
     right: 20px;

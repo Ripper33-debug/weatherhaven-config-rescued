@@ -170,21 +170,27 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
 
   return (
     <div className="fullscreen-configurator">
-      {/* Minimal Header */}
-      <header className="minimal-header">
+      {/* Single Clean Header */}
+      <header className="configurator-header">
         <div className="header-left">
-          <button onClick={onBack} className="minimal-back-button">
-            ← Back
+          <button onClick={onBack} className="back-button">
+            ← Back to Command Center
           </button>
-          <div className="shelter-title">
+          <div className="shelter-info">
             <h1>{shelter.name}</h1>
+            <p>{shelter.model}</p>
           </div>
         </div>
         <div className="header-right">
-          <div className="user-badge">
-            <span className="user-name">{user.username}</span>
+          <div className="user-info">
             <span className="user-rank">{user.rank}</span>
+            <span className="user-name">{user.username}</span>
+            <span className="user-clearance">{user.clearance}</span>
           </div>
+          <button onClick={onLogout} className="logout-button">
+            <span>🏠</span>
+            <span>BACK TO HOME</span>
+          </button>
         </div>
       </header>
 

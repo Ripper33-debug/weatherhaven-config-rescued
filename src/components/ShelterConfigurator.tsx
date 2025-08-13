@@ -11,6 +11,9 @@ import DemoMode from './DemoMode';
 import { useCollaboration } from './CollaborationProvider';
 import BreadcrumbNav from './BreadcrumbNav';
 import LeadTimeCalculator from './LeadTimeCalculator';
+import SmartAssistant from './SmartAssistant';
+import CRMIntegration from './CRMIntegration';
+import PerformanceOptimizer from './PerformanceOptimizer';
 import './CommandCenter.css';
 
 interface ShelterConfiguratorProps {
@@ -498,6 +501,39 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
           <p>CLASSIFIED MILITARY SYSTEM • WEATHERHAVEN TECHNOLOGIES • {shelter.name}</p>
         </div>
       </footer>
+
+      {/* Smart Configuration Assistant */}
+      <SmartAssistant
+        onConfigurationSuggested={(config) => {
+          console.log('AI suggested configuration:', config);
+          // Apply the suggested configuration
+        }}
+        availableShelters={[shelter]}
+        availableInteriors={availableInteriors}
+      />
+
+      {/* CRM Integration */}
+      <CRMIntegration
+        user={user}
+        shelter={shelter}
+        configuration={configState}
+        onQuoteGenerated={(quote) => {
+          console.log('Quote generated:', quote);
+        }}
+        onLeadCreated={(lead) => {
+          console.log('Lead created:', lead);
+        }}
+      />
+
+      {/* Performance Optimizer */}
+      <PerformanceOptimizer
+        onOptimizationApplied={(optimizations) => {
+          console.log('Performance optimizations applied:', optimizations);
+        }}
+        onPerformanceMetrics={(metrics) => {
+          console.log('Performance metrics:', metrics);
+        }}
+      />
 
       {/* Lead Time Calculator */}
       <LeadTimeCalculator

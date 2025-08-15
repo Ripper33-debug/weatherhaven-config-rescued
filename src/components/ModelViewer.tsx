@@ -2,7 +2,7 @@
 
 import React, { useRef, useState, Suspense } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
-import { useGLTF, Html, OrbitControls, Environment } from '@react-three/drei';
+import { useGLTF, Html, OrbitControls, Environment, PerspectiveCamera } from '@react-three/drei';
 import * as THREE from 'three';
 
 interface ModelViewerProps {
@@ -238,16 +238,28 @@ export const ModelViewerScene: React.FC<ModelViewerProps> = ({
   const directionalIntensity = lighting.directionalIntensity ?? 1.2;
   const sunPosition = lighting.sunPosition ?? { x: 5, y: 8, z: 5 };
 
+  // Check if this is interior view
+  const isInteriorView = modelPath.includes('interior');
+
   return (
     <>
+      {/* Camera with different positions for interior vs exterior */}
+      <PerspectiveCamera
+        makeDefault
+        position={isInteriorView ? [0, 1.7, 2] : [5, 3, 5]}
+        fov={75}
+        near={0.1}
+        far={1000}
+      />
+
       {/* Basic Camera Controls */}
       <OrbitControls 
         enablePan={true}
         enableZoom={true}
         enableRotate={true}
-        minDistance={2}
-        maxDistance={20}
-        target={[0, 0.5, 0]}
+        minDistance={isInteriorView ? 0.5 : 2}
+        maxDistance={isInteriorView ? 8 : 20}
+        target={isInteriorView ? [0, 1.7, 0] : [0, 0.5, 0]} // Eye level for interior, ground level for exterior
       />
 
       {/* Realistic Lighting Setup */}
@@ -278,15 +290,17 @@ export const ModelViewerScene: React.FC<ModelViewerProps> = ({
       {/* Realistic Environment */}
       <Environment preset="sunset" />
 
-      {/* Ground Plane with better material */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
-        <planeGeometry args={[50, 50]} />
-        <meshStandardMaterial 
-          color="#2a2a2a" 
-          roughness={0.8}
-          metalness={0.0}
-        />
-      </mesh>
+      {/* Ground Plane with better material - only show for exterior */}
+      {!isInteriorView && (
+        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
+          <planeGeometry args={[50, 50]} />
+          <meshStandardMaterial 
+            color="#2a2a2a" 
+            roughness={0.8}
+            metalness={0.0}
+          />
+        </mesh>
+      )}
 
       {/* Main Model */}
       <Suspense fallback={<LoadingSpinner />}>

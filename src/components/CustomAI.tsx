@@ -129,7 +129,7 @@ What would you like to know about today?`;
 **Description:** ${shelter.description}
 
 **Key Features:**
-${shelter.keyFeatures.map(feature => `• ${feature}`).join('\n')}
+${shelter.keyFeatures.map((feature: string) => `• ${feature}`).join('\n')}
 
 **Specifications:**
 • **Capacity:** ${shelter.capacity}
@@ -138,12 +138,12 @@ ${shelter.keyFeatures.map(feature => `• ${feature}`).join('\n')}
 • **Maintenance Level:** ${shelter.maintenanceLevel}
 
 **Best Use Cases:**
-${shelter.bestUseCases.map(useCase => `• ${useCase}`).join('\n')}
+${shelter.bestUseCases.map((useCase: string) => `• ${useCase}`).join('\n')}
 
 **Environments:** ${shelter.environments.join(', ')}
 
 **Unique Advantages:**
-${shelter.uniqueSellingPoints.map(point => `• ${point}`).join('\n')}
+${shelter.uniqueSellingPoints.map((point: string) => `• ${point}`).join('\n')}
 
 Would you like me to provide more details about any specific aspect of this shelter system?`;
   };
@@ -154,18 +154,18 @@ Would you like me to provide more details about any specific aspect of this shel
 **Description:** ${useCase.description}
 
 **Requirements:**
-${useCase.requirements.map(req => `• ${req}`).join('\n')}
+${useCase.requirements.map((req: string) => `• ${req}`).join('\n')}
 
 **Recommended Shelters:** ${useCase.recommendedShelters.join(', ')}
 
 **Key Considerations:**
-${useCase.keyConsiderations.map(consideration => `• ${consideration}`).join('\n')}
+${useCase.keyConsiderations.map((consideration: string) => `• ${consideration}`).join('\n')}
 
 **Estimated Cost:** ${useCase.estimatedCost}
 **Deployment Time:** ${useCase.deploymentTime}
 
 **Maintenance Needs:**
-${useCase.maintenanceNeeds.map(need => `• ${need}`).join('\n')}
+${useCase.maintenanceNeeds.map((need: string) => `• ${need}`).join('\n')}
 
 Would you like me to configure one of these recommended shelters for you?`;
   };
@@ -178,7 +178,7 @@ Based on your requirements: *${requirements.join(', ')}*
 I recommend the **${shelter.name}** for your needs.
 
 **Why This Shelter:**
-${shelter.advantages.slice(0, 4).map(advantage => `• ${advantage}`).join('\n')}
+${shelter.advantages.slice(0, 4).map((advantage: string) => `• ${advantage}`).join('\n')}
 
 **Key Specifications:**
 • **Capacity:** ${shelter.capacity}
@@ -187,10 +187,10 @@ ${shelter.advantages.slice(0, 4).map(advantage => `• ${advantage}`).join('\n')
 • **Environments:** ${shelter.environments.slice(0, 3).join(', ')}
 
 **Best Use Cases:**
-${shelter.bestUseCases.slice(0, 3).map(useCase => `• ${useCase}`).join('\n')}
+${shelter.bestUseCases.slice(0, 3).map((useCase: string) => `• ${useCase}`).join('\n')}
 
 **Important Considerations:**
-${shelter.disadvantages.slice(0, 2).map(disadvantage => `• ${disadvantage}`).join('\n')}
+${shelter.disadvantages.slice(0, 2).map((disadvantage: string) => `• ${disadvantage}`).join('\n')}
 
 Would you like me to:
 1. Configure this shelter for you

@@ -109,8 +109,13 @@ const Model: React.FC<{
   // Clone the scene to avoid sharing materials
   const clonedScene = useMemo(() => {
     if (!scene) return null;
-    const clone = scene.clone();
-    return clone;
+    try {
+      const clone = scene.clone();
+      return clone;
+    } catch (error) {
+      console.error('Scene cloning error:', error);
+      return scene; // Fallback to original scene
+    }
   }, [scene]);
 
   useEffect(() => {
@@ -252,6 +257,11 @@ const Model: React.FC<{
 
   if (!clonedScene) {
     return <LoadingSpinner />;
+  }
+
+  if (!clonedScene) {
+    console.error('No cloned scene available');
+    return null;
   }
 
   return (

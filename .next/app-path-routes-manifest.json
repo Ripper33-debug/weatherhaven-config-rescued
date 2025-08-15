@@ -3,11 +3,13 @@
   "/sitemap.xml/route": "/sitemap.xml",
   "/configurator/page": "/configurator",
   "/_not-found/page": "/_not-found",
-  "/contact/page": "/contact",
-  "/resources/page": "/resources",
   "/page": "/",
-  "/solutions/page": "/solutions",
   "/case-studies/page": "/case-studies",
+  "/products/trecc/page": "/products/trecc",
+  "/solutions/military/page": "/solutions/military",
+  "/solutions/page": "/solutions",
+  "/resources/page": "/resources",
+  "/contact/page": "/contact",
   "/about/page": "/about",
   "/products/page": "/products"
 }

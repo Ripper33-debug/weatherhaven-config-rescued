@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { Suspense } from 'react';
+import * as THREE from 'three';
 import { ModelViewerScene } from './ModelViewer';
 
 interface ConfigState {
@@ -97,7 +98,22 @@ const ShelterConfigurator: React.FC = () => {
       <div className="configurator-main">
         {/* 3D Viewer */}
         <div className="viewer-section">
-          <Canvas camera={{ position: [0, 0.2, 6], fov: 50 }} gl={{ antialias: true, alpha: false }} dpr={[1, 2]} shadows>
+          <Canvas 
+            camera={{ position: [0, 0.2, 6], fov: 50 }} 
+            gl={{ 
+              antialias: true, 
+              alpha: false,
+              powerPreference: "high-performance",
+              failIfMajorPerformanceCaveat: false
+            }} 
+            dpr={[1, 2]} 
+            shadows
+            onCreated={({ gl }) => {
+              gl.setClearColor('#000000', 0);
+              gl.shadowMap.enabled = true;
+              gl.shadowMap.type = THREE.PCFSoftShadowMap;
+            }}
+          >
             <Suspense fallback={null}>
               <ModelViewerScene
                 modelPath={

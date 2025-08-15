@@ -82,6 +82,12 @@
       "namedRegex": "^/products(?:/)?$"
     },
     {
+      "page": "/products/trecc",
+      "regex": "^/products/trecc(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/products/trecc(?:/)?$"
+    },
+    {
       "page": "/resources",
       "regex": "^/resources(?:/)?$",
       "routeKeys": {},
@@ -104,6 +110,12 @@
       "regex": "^/solutions(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/solutions(?:/)?$"
+    },
+    {
+      "page": "/solutions/military",
+      "regex": "^/solutions/military(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/solutions/military(?:/)?$"
     }
   ],
   "dataRoutes": [],

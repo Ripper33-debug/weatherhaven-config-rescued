@@ -15,9 +15,6 @@ interface ConfigState {
 const ShelterConfigurator: React.FC = () => {
   console.log('🚀 ShelterConfigurator component rendering...');
 
-  // Add error state
-  const [error, setError] = useState<string | null>(null);
-
   // Simplified state
   const [configState, setConfigState] = useState<ConfigState>({
     color: '#D2B48C',
@@ -33,94 +30,37 @@ const ShelterConfigurator: React.FC = () => {
     { name: 'Coyote Brown', value: '#8B4513' },
   ];
 
-  // Simple handlers with error handling
+  // Simple handlers
   const handleColorChange = (newColor: string) => {
-    try {
-      console.log('🎨 Color change requested:', newColor);
-      console.log('🎨 Previous color was:', configState.color);
-      setConfigState(prev => {
-        console.log('🎨 Setting new color:', newColor);
-        return { ...prev, color: newColor };
-      });
-    } catch (err) {
-      console.error('❌ Error in handleColorChange:', err);
-      setError('Failed to change color');
-    }
+    console.log('🎨 Color change requested:', newColor);
+    console.log('🎨 Previous color was:', configState.color);
+    setConfigState(prev => {
+      console.log('🎨 Setting new color:', newColor);
+      return { ...prev, color: newColor };
+    });
   };
 
   const handleDeployToggle = () => {
-    try {
-      console.log('🚀 Deploy toggle');
-      setConfigState(prev => ({ ...prev, isDeployed: !prev.isDeployed }));
-    } catch (err) {
-      console.error('❌ Error in handleDeployToggle:', err);
-      setError('Failed to toggle deployment');
-    }
+    console.log('🚀 Deploy toggle');
+    setConfigState(prev => ({ ...prev, isDeployed: !prev.isDeployed }));
   };
 
   const handleInteriorViewToggle = () => {
-    try {
-      console.log('🏠 Interior view toggle');
-      setConfigState(prev => ({ ...prev, isInteriorView: !prev.isInteriorView }));
-    } catch (err) {
-      console.error('❌ Error in handleInteriorViewToggle:', err);
-      setError('Failed to toggle interior view');
-    }
+    console.log('🏠 Interior view toggle');
+    setConfigState(prev => ({ ...prev, isInteriorView: !prev.isInteriorView }));
   };
 
   // Determine model path
   const getModelPath = () => {
-    try {
-      if (configState.isInteriorView) {
-        return "/models/trecc-open.glb";
-      }
-      return configState.isDeployed ? "/models/trecc-open.glb" : "/models/trecc.glb";
-    } catch (err) {
-      console.error('❌ Error in getModelPath:', err);
-      return "/models/trecc.glb"; // fallback
+    if (configState.isInteriorView) {
+      return "/models/trecc-open.glb";
     }
+    return configState.isDeployed ? "/models/trecc-open.glb" : "/models/trecc.glb";
   };
 
   console.log('🎯 Current state:', configState);
   console.log('📁 Model path:', getModelPath());
   console.log('🎨 Color being passed to ModelViewerScene:', configState.color);
-
-  // Show error if there is one
-  if (error) {
-    return (
-      <div style={{
-        height: '100vh',
-        width: '100vw',
-        background: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: 'white',
-        fontSize: '1.5rem',
-        fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
-        textAlign: 'center'
-      }}>
-        <div>
-          <h2>Error: {error}</h2>
-          <button 
-            onClick={() => window.location.reload()}
-            style={{
-              padding: '1rem 2rem',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-              borderRadius: '8px',
-              color: 'white',
-              fontSize: '1rem',
-              cursor: 'pointer',
-              marginTop: '1rem'
-            }}
-          >
-            Reload Page
-          </button>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="configurator-container" style={{

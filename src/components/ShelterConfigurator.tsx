@@ -48,8 +48,15 @@ const ShelterConfigurator: React.FC = () => {
   };
 
   const handleInteriorViewToggle = () => {
-    console.log('🏠 Interior view toggle');
-    setConfigState(prev => ({ ...prev, isInteriorView: !prev.isInteriorView }));
+    console.log('🏠 Interior view toggle clicked');
+    console.log('🏠 Current isInteriorView:', configState.isInteriorView);
+    console.log('🏠 Current isDeployed:', configState.isDeployed);
+    
+    setConfigState(prev => {
+      const newState = { ...prev, isInteriorView: !prev.isInteriorView };
+      console.log('🏠 New state will be:', newState);
+      return newState;
+    });
   };
 
   const handleLightingChange = (type: string, value: number) => {

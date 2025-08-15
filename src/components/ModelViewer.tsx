@@ -69,6 +69,12 @@ const Model: React.FC<{
 
   // Track when model path changes
   React.useEffect(() => {
+    console.log('🔄 ModelViewer useEffect triggered');
+    console.log('📁 Model path:', modelPath);
+    console.log('🎨 Color:', color);
+    console.log('🚀 Is deployed:', isDeployed);
+    console.log('🏠 Is interior view:', modelPath.includes('interior'));
+    
     if (modelPath !== currentModelPath) {
       console.log('🔄 Model path changed from:', currentModelPath, 'to:', modelPath);
       setCurrentModelPath(modelPath);
@@ -78,11 +84,10 @@ const Model: React.FC<{
   // Apply color to shelter ONLY (very specific)
   React.useEffect(() => {
     if (scene && color) {
-      // Add a small delay to ensure the model is fully loaded
       const timer = setTimeout(() => {
-        console.log('🎨 Starting color application for model:', modelPath);
-        console.log('🎨 Color to apply:', color);
-        console.log('🎨 Is deployed:', isDeployed);
+        console.log('⏰ Applying color after delay...');
+        console.log('🎨 Target color:', color);
+        console.log('📁 Current model path:', modelPath);
         
         const applyColorToShelter = (scene: THREE.Object3D) => {
           const coloredParts: string[] = [];

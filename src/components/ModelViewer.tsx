@@ -44,6 +44,57 @@ const ErrorDisplay: React.FC<{ error: string }> = ({ error }) => (
   </Html>
 );
 
+// Lighting Controls Component
+const LightingControls: React.FC<{
+  ambientIntensity: number;
+  directionalIntensity: number;
+  onAmbientChange: (value: number) => void;
+  onDirectionalChange: (value: number) => void;
+}> = ({ ambientIntensity, directionalIntensity, onAmbientChange, onDirectionalChange }) => (
+  <Html position={[-8, 4, 0]}>
+    <div style={{
+      background: 'rgba(0, 0, 0, 0.8)',
+      color: 'white',
+      padding: '15px',
+      borderRadius: '8px',
+      minWidth: '200px',
+      fontFamily: 'Inter, sans-serif'
+    }}>
+      <h3 style={{ margin: '0 0 10px 0', fontSize: '14px' }}>Lighting Controls</h3>
+      
+      <div style={{ marginBottom: '10px' }}>
+        <label style={{ fontSize: '12px', display: 'block', marginBottom: '5px' }}>
+          Ambient Light: {ambientIntensity.toFixed(1)}
+        </label>
+        <input
+          type="range"
+          min="0"
+          max="2"
+          step="0.1"
+          value={ambientIntensity}
+          onChange={(e) => onAmbientChange(parseFloat(e.target.value))}
+          style={{ width: '100%' }}
+        />
+      </div>
+      
+      <div style={{ marginBottom: '10px' }}>
+        <label style={{ fontSize: '12px', display: 'block', marginBottom: '5px' }}>
+          Directional Light: {directionalIntensity.toFixed(1)}
+        </label>
+        <input
+          type="range"
+          min="0"
+          max="3"
+          step="0.1"
+          value={directionalIntensity}
+          onChange={(e) => onDirectionalChange(parseFloat(e.target.value))}
+          style={{ width: '100%' }}
+        />
+      </div>
+    </div>
+  </Html>
+);
+
 // Simple Model Component
 const Model: React.FC<{
   modelPath: string;
@@ -84,13 +135,17 @@ const Model: React.FC<{
           const objectName = mesh.name.toLowerCase();
           allParts.push(objectName);
           
-          // Simple approach: color everything except obvious vehicle parts
+          // VERY specific: exclude ALL wheel and trailer parts
           const isVehiclePart = (
             /wheel|tire|tyre|rim|hub|axle|suspension|spoke|lug|valve|fender|mudflap|mudguard/.test(objectName) ||
             /chassis|trailer|truck|vehicle|carriage|undercarriage|running|gear|transmission|engine|motor/.test(objectName) ||
             /brake|drum|disc|caliper|spring|shock|strut|link|arm|bracket|mount|bushing|bearing/.test(objectName) ||
             /nut|bolt|fastener|hardware|screw|washer|pin|clip|clamp|wire|cable/.test(objectName) ||
-            /tread|sidewall|bead|valve|stem|cap|cover|hubcap|center|spinner/.test(objectName)
+            /tread|sidewall|bead|valve|stem|cap|cover|hubcap|center|spinner/.test(objectName) ||
+            /jockey|jack|stand|support|leg|foot|base/.test(objectName) ||
+            /drawbar|hitch|coupling|connection/.test(objectName) ||
+            /leaf|spring|suspension|shock|absorber/.test(objectName) ||
+            /frame|rail|beam|girder|crossmember/.test(objectName)
           );
           
           // Color if it's NOT a vehicle part
@@ -166,6 +221,9 @@ export const ModelViewerScene: React.FC<ModelViewerProps> = ({
   lighting = {},
   background3D = {}
 }) => {
+  const [ambientIntensity, setAmbientIntensity] = useState(0.4);
+  const [directionalIntensity, setDirectionalIntensity] = useState(1.0);
+
   return (
     <>
       {/* Basic Camera Controls */}
@@ -178,12 +236,20 @@ export const ModelViewerScene: React.FC<ModelViewerProps> = ({
         target={[0, 0.5, 0]}
       />
 
-      {/* Basic Lighting */}
-      <ambientLight intensity={0.4} />
+      {/* Adjustable Lighting */}
+      <ambientLight intensity={ambientIntensity} />
       <directionalLight
         position={[5, 5, 5]}
-        intensity={1}
+        intensity={directionalIntensity}
         castShadow
+      />
+
+      {/* Lighting Controls */}
+      <LightingControls
+        ambientIntensity={ambientIntensity}
+        directionalIntensity={directionalIntensity}
+        onAmbientChange={setAmbientIntensity}
+        onDirectionalChange={setDirectionalIntensity}
       />
 
       {/* Simple Environment */}

@@ -44,131 +44,6 @@ const ErrorDisplay: React.FC<{ error: string }> = ({ error }) => (
   </Html>
 );
 
-// Collapsible Lighting Controls Component
-const LightingControls: React.FC<{
-  ambientIntensity: number;
-  directionalIntensity: number;
-  sunPosition: { x: number; y: number; z: number };
-  onAmbientChange: (value: number) => void;
-  onDirectionalChange: (value: number) => void;
-  onSunPositionChange: (axis: 'x' | 'y' | 'z', value: number) => void;
-}> = ({ ambientIntensity, directionalIntensity, sunPosition, onAmbientChange, onDirectionalChange, onSunPositionChange }) => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
-
-  return (
-    <Html position={[-8, 4, 0]}>
-      <div style={{
-        background: 'rgba(0, 0, 0, 0.85)',
-        color: 'white',
-        borderRadius: '8px',
-        minWidth: isCollapsed ? '50px' : '250px',
-        fontFamily: 'Inter, sans-serif',
-        transition: 'all 0.3s ease',
-        overflow: 'hidden'
-      }}>
-        {/* Header with collapse button */}
-        <div style={{
-          padding: '12px 16px',
-          background: 'rgba(255, 255, 255, 0.1)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          cursor: 'pointer'
-        }} onClick={() => setIsCollapsed(!isCollapsed)}>
-          <span style={{ fontSize: '14px', fontWeight: '600' }}>
-            {isCollapsed ? '⚡' : 'Lighting Controls'}
-          </span>
-          <span style={{ fontSize: '12px' }}>
-            {isCollapsed ? '▶' : '▼'}
-          </span>
-        </div>
-
-        {/* Collapsible content */}
-        {!isCollapsed && (
-          <div style={{ padding: '16px' }}>
-            <div style={{ marginBottom: '16px' }}>
-              <label style={{ fontSize: '12px', display: 'block', marginBottom: '8px' }}>
-                Ambient Light: {ambientIntensity.toFixed(1)}
-              </label>
-              <input
-                type="range"
-                min="0"
-                max="1"
-                step="0.05"
-                value={ambientIntensity}
-                onChange={(e) => onAmbientChange(parseFloat(e.target.value))}
-                style={{ width: '100%' }}
-              />
-            </div>
-            
-            <div style={{ marginBottom: '16px' }}>
-              <label style={{ fontSize: '12px', display: 'block', marginBottom: '8px' }}>
-                Sun Intensity: {directionalIntensity.toFixed(1)}
-              </label>
-              <input
-                type="range"
-                min="0"
-                max="2"
-                step="0.1"
-                value={directionalIntensity}
-                onChange={(e) => onDirectionalChange(parseFloat(e.target.value))}
-                style={{ width: '100%' }}
-              />
-            </div>
-
-            <div style={{ marginBottom: '12px' }}>
-              <label style={{ fontSize: '12px', display: 'block', marginBottom: '8px' }}>
-                Sun Position
-              </label>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <div>
-                  <span style={{ fontSize: '10px', marginRight: '8px' }}>X:</span>
-                  <input
-                    type="range"
-                    min="-10"
-                    max="10"
-                    step="0.5"
-                    value={sunPosition.x}
-                    onChange={(e) => onSunPositionChange('x', parseFloat(e.target.value))}
-                    style={{ width: '80%' }}
-                  />
-                  <span style={{ fontSize: '10px', marginLeft: '4px' }}>{sunPosition.x}</span>
-                </div>
-                <div>
-                  <span style={{ fontSize: '10px', marginRight: '8px' }}>Y:</span>
-                  <input
-                    type="range"
-                    min="0"
-                    max="15"
-                    step="0.5"
-                    value={sunPosition.y}
-                    onChange={(e) => onSunPositionChange('y', parseFloat(e.target.value))}
-                    style={{ width: '80%' }}
-                  />
-                  <span style={{ fontSize: '10px', marginLeft: '4px' }}>{sunPosition.y}</span>
-                </div>
-                <div>
-                  <span style={{ fontSize: '10px', marginRight: '8px' }}>Z:</span>
-                  <input
-                    type="range"
-                    min="-10"
-                    max="10"
-                    step="0.5"
-                    value={sunPosition.z}
-                    onChange={(e) => onSunPositionChange('z', parseFloat(e.target.value))}
-                    style={{ width: '80%' }}
-                  />
-                  <span style={{ fontSize: '10px', marginLeft: '4px' }}>{sunPosition.z}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    </Html>
-  );
-};
-
 // Simple Model Component
 const Model: React.FC<{
   modelPath: string;
@@ -191,7 +66,7 @@ const Model: React.FC<{
     loadError = `Failed to load model: ${modelPath}`;
   }
 
-  // Apply color to shelter box only (very specific)
+  // Apply color to shelter ONLY (very specific)
   React.useEffect(() => {
     if (scene && color) {
       console.log('🎨 Starting color application for model:', modelPath);
@@ -209,7 +84,17 @@ const Model: React.FC<{
           const objectName = mesh.name.toLowerCase();
           allParts.push(objectName);
           
-          // VERY specific: exclude ALL wheel and trailer parts
+          // VERY specific: ONLY color the main shelter body
+          const isShelterBody = (
+            /shelter|body|main|container|box|unit|cabin|pod/.test(objectName) ||
+            /wall|panel|roof|floor|ceiling|side|end|front|back|top|bottom|surface|skin|hull|casing|enclosure|housing/.test(objectName) ||
+            /interior|inner|inside|room|space|area|zone|volume|chamber|compartment/.test(objectName) ||
+            /door|window|hatch|access|entry|exit|vent|port|opening/.test(objectName) ||
+            /shell|cover|outer|external|primary|core|base|main|central/.test(objectName) ||
+            /large|big|major|primary|main|central|body|structure/.test(objectName)
+          );
+
+          // Exclude ALL vehicle and mechanical parts
           const isVehiclePart = (
             /wheel|tire|tyre|rim|hub|axle|suspension|spoke|lug|valve|fender|mudflap|mudguard/.test(objectName) ||
             /chassis|trailer|truck|vehicle|carriage|undercarriage|running|gear|transmission|engine|motor/.test(objectName) ||
@@ -219,11 +104,12 @@ const Model: React.FC<{
             /jockey|jack|stand|support|leg|foot|base/.test(objectName) ||
             /drawbar|hitch|coupling|connection/.test(objectName) ||
             /leaf|spring|suspension|shock|absorber/.test(objectName) ||
-            /frame|rail|beam|girder|crossmember/.test(objectName)
+            /frame|rail|beam|girder|crossmember/.test(objectName) ||
+            /trailer|chassis|undercarriage|running|gear/.test(objectName)
           );
           
-          // Color if it's NOT a vehicle part
-          if (!isVehiclePart) {
+          // ONLY color if it's a shelter body AND NOT a vehicle part
+          if (isShelterBody && !isVehiclePart) {
             coloredParts.push(objectName);
             
             if (material) {
@@ -301,13 +187,10 @@ export const ModelViewerScene: React.FC<ModelViewerProps> = ({
   lighting = {},
   background3D = {}
 }) => {
-  const [ambientIntensity, setAmbientIntensity] = useState(0.3);
-  const [directionalIntensity, setDirectionalIntensity] = useState(1.2);
-  const [sunPosition, setSunPosition] = useState({ x: 5, y: 8, z: 5 });
-
-  const handleSunPositionChange = (axis: 'x' | 'y' | 'z', value: number) => {
-    setSunPosition(prev => ({ ...prev, [axis]: value }));
-  };
+  // Use lighting props or defaults
+  const ambientIntensity = lighting.ambientIntensity ?? 0.3;
+  const directionalIntensity = lighting.directionalIntensity ?? 1.2;
+  const sunPosition = lighting.sunPosition ?? { x: 5, y: 8, z: 5 };
 
   return (
     <>
@@ -344,16 +227,6 @@ export const ModelViewerScene: React.FC<ModelViewerProps> = ({
         position={[-sunPosition.x, sunPosition.y * 0.5, -sunPosition.z]}
         intensity={directionalIntensity * 0.3}
         color="#ffffff"
-      />
-
-      {/* Lighting Controls */}
-      <LightingControls
-        ambientIntensity={ambientIntensity}
-        directionalIntensity={directionalIntensity}
-        sunPosition={sunPosition}
-        onAmbientChange={setAmbientIntensity}
-        onDirectionalChange={setDirectionalIntensity}
-        onSunPositionChange={handleSunPositionChange}
       />
 
       {/* Realistic Environment */}

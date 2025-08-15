@@ -70,7 +70,14 @@ const ShelterConfigurator: React.FC = () => {
   };
 
   const getModelPath = () => {
-    const path = configState.isInteriorView ? "/models/trecc-open.glb" : (configState.isDeployed ? "/models/trecc-open.glb" : "/models/trecc.glb");
+    let path;
+    if (configState.isInteriorView) {
+      path = "/models/interiors/interior.glb";
+    } else if (configState.isDeployed) {
+      path = "/models/trecc-open.glb";
+    } else {
+      path = "/models/trecc.glb";
+    }
     console.log('📁 Model path requested:', path);
     console.log('📁 Is deployed:', configState.isDeployed);
     console.log('📁 Is interior view:', configState.isInteriorView);

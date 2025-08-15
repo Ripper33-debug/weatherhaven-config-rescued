@@ -1,41 +1,49 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
 
-// Dynamically import the ShelterConfigurator component with no SSR
-const ShelterConfigurator = dynamic(() => import('../../components/ShelterConfigurator'), {
-  ssr: false,
-  loading: () => (
-    <div style={{
-      minHeight: '100vh',
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center'
-    }}>
-      <div style={{ textAlign: 'center' }}>
-        <div style={{
-          width: '64px',
-          height: '64px',
-          border: '4px solid #10b981',
-          borderTop: '4px solid transparent',
-          borderRadius: '50%',
-          animation: 'spin 1s linear infinite',
-          margin: '0 auto 16px'
-        }}></div>
-        <p style={{ color: 'white', fontSize: '18px' }}>Loading Configurator...</p>
+// Dynamic import with loading fallback
+const ShelterConfigurator = dynamic(
+  () => import('../../components/ShelterConfigurator'),
+  {
+    loading: () => (
+      <div style={{
+        height: '100vh',
+        width: '100vw',
+        background: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: 'white',
+        fontSize: '1.5rem',
+        fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
+      }}>
+        Loading TRECC Configurator...
       </div>
-    </div>
-  ),
-});
+    ),
+    ssr: false // Disable server-side rendering for 3D components
+  }
+);
 
 export default function ConfiguratorPage() {
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-    }}>
+    <Suspense fallback={
+      <div style={{
+        height: '100vh',
+        width: '100vw',
+        background: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: 'white',
+        fontSize: '1.5rem',
+        fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
+      }}>
+        Loading TRECC Configurator...
+      </div>
+    }>
       <ShelterConfigurator />
-    </div>
+    </Suspense>
   );
 }

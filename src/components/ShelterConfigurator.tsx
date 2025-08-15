@@ -13,6 +13,8 @@ interface ConfigState {
 }
 
 const ShelterConfigurator: React.FC = () => {
+  console.log('🚀 ShelterConfigurator component rendering...');
+
   // Simplified state
   const [configState, setConfigState] = useState<ConfigState>({
     color: '#8B7355',
@@ -30,14 +32,17 @@ const ShelterConfigurator: React.FC = () => {
 
   // Simple handlers
   const handleColorChange = (newColor: string) => {
+    console.log('🎨 Color change:', newColor);
     setConfigState(prev => ({ ...prev, color: newColor }));
   };
 
   const handleDeployToggle = () => {
+    console.log('🚀 Deploy toggle');
     setConfigState(prev => ({ ...prev, isDeployed: !prev.isDeployed }));
   };
 
   const handleInteriorViewToggle = () => {
+    console.log('🏠 Interior view toggle');
     setConfigState(prev => ({ ...prev, isInteriorView: !prev.isInteriorView }));
   };
 
@@ -48,6 +53,9 @@ const ShelterConfigurator: React.FC = () => {
     }
     return configState.isDeployed ? "/models/trecc-open.glb" : "/models/trecc.glb";
   };
+
+  console.log('🎯 Current state:', configState);
+  console.log('📁 Model path:', getModelPath());
 
   return (
     <div className="configurator-container">

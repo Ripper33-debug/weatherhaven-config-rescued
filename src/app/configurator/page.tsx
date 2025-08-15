@@ -2,8 +2,8 @@
 
 import dynamic from 'next/dynamic';
 
-// Dynamically import the existing App component with no SSR
-const ConfiguratorApp = dynamic(() => import('../../App'), {
+// Dynamically import the ShelterConfigurator component with no SSR
+const ShelterConfigurator = dynamic(() => import('../../components/ShelterConfigurator'), {
   ssr: false,
   loading: () => (
     <div style={{
@@ -35,7 +35,7 @@ export default function ConfiguratorPage() {
       minHeight: '100vh',
       background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
     }}>
-      <ConfiguratorApp />
+      <ShelterConfigurator />
     </div>
   );
 }

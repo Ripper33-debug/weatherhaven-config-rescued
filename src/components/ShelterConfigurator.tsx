@@ -13,7 +13,7 @@ interface ConfigState {
 
 const ShelterConfigurator: React.FC = () => {
   const [configState, setConfigState] = useState<ConfigState>({
-    color: '#D2B48C',
+    color: '#2F4F2F',
     isDeployed: false,
     isInsideView: false,
     isInteriorView: false,
@@ -81,7 +81,7 @@ const ShelterConfigurator: React.FC = () => {
 
   const colorOptions = [
     { name: 'Matte Tan', value: '#D2B48C' },
-    { name: 'Matte Green', value: '#556B2F' },
+    { name: 'Matte Green', value: '#2F4F2F' },
     { name: 'Matte White', value: '#F5F5DC' },
   ];
 

@@ -62,34 +62,78 @@ const Model: React.FC<{
     setError(`Failed to load model: ${modelPath}`);
   }
 
-  // Apply color if available
+  // Apply color to shelter body parts only (exclude wheels/trailer)
   useEffect(() => {
     if (scene && color) {
-      const applyColor = (object: THREE.Object3D) => {
+      const coloredParts: string[] = [];
+      const skippedParts: string[] = [];
+
+      const applyColorToShelter = (object: THREE.Object3D) => {
         if (object.type === 'Mesh' && object instanceof THREE.Mesh) {
           const mesh = object as THREE.Mesh;
           const material = mesh.material as THREE.Material;
           
-          if (material) {
-            try {
-              const newMaterial = material.clone();
-              if (newMaterial instanceof THREE.MeshStandardMaterial || 
-                  newMaterial instanceof THREE.MeshPhongMaterial ||
-                  newMaterial instanceof THREE.MeshBasicMaterial) {
-                newMaterial.color.setHex(parseInt(color.replace('#', ''), 16));
-                newMaterial.needsUpdate = true;
+          const objectName = mesh.name.toLowerCase();
+          
+          // Check if it's a shelter body part
+          const isShelterBody = (
+            /shelter|body|main|container|box|unit|cabin|pod/.test(objectName) ||
+            /wall|panel|roof|floor|ceiling|side|end|front|back|top|bottom|surface|skin|hull|casing|enclosure|housing/.test(objectName) ||
+            /interior|inner|inside|room|space|area|zone|volume|chamber|compartment/.test(objectName) ||
+            /door|window|hatch|access|entry|exit|vent|port|opening/.test(objectName) ||
+            /shell|cover|outer|external|primary|core|base|main|central/.test(objectName) ||
+            /large|big|major|primary|main|central|body|structure/.test(objectName)
+          );
+          
+          // Check if it's a vehicle part (wheels, trailer, etc.)
+          const isVehiclePart = (
+            /wheel|tire|tyre|rim|hub|axle|suspension|spoke|lug|valve|fender|mudflap|mudguard/.test(objectName) ||
+            /chassis|trailer|truck|vehicle|carriage|undercarriage|running|gear|transmission|engine|motor/.test(objectName) ||
+            /brake|drum|disc|caliper|spring|shock|strut|link|arm|bracket|mount|bushing|bearing/.test(objectName) ||
+            /nut|bolt|fastener|hardware|screw|washer|pin|clip|clamp|wire|cable/.test(objectName) ||
+            /frame|support|strut|brace|girder|beam|post|pillar|column|stud|joist|rafter|truss/.test(objectName) ||
+            /joint|seam|edge|corner|angle|curve|bend|fold|crease|pleat|gusset/.test(objectName) ||
+            /reinforcement|stiffener|gusset|pleat|crease|fold|bracket|support|strut|brace/.test(objectName) ||
+            /part|piece|component|element|section|module|block|plate|sheet|board|slab/.test(objectName) ||
+            /tread|sidewall|bead|valve|stem|cap|cover|hubcap|center|spinner/.test(objectName)
+          );
+          
+          // Only color if it's a shelter body part AND not a vehicle part
+          if (isShelterBody && !isVehiclePart) {
+            coloredParts.push(objectName);
+            
+            if (material) {
+              try {
+                const newMaterial = material.clone();
+                if (newMaterial instanceof THREE.MeshStandardMaterial || 
+                    newMaterial instanceof THREE.MeshPhongMaterial ||
+                    newMaterial instanceof THREE.MeshBasicMaterial) {
+                  newMaterial.color.setHex(parseInt(color.replace('#', ''), 16));
+                  newMaterial.needsUpdate = true;
+                }
+                mesh.material = newMaterial;
+              } catch (err) {
+                console.error('Material error:', err);
               }
-              mesh.material = newMaterial;
-            } catch (err) {
-              console.error('Material error:', err);
+            }
+          } else {
+            skippedParts.push(objectName);
+            // Keep original material for vehicle parts
+            if (material) {
+              try {
+                mesh.material = material.clone();
+              } catch (err) {
+                console.error('Material error:', err);
+              }
             }
           }
         }
         
-        object.children.forEach(child => applyColor(child));
+        object.children.forEach(child => applyColorToShelter(child));
       };
       
-      applyColor(scene);
+      applyColorToShelter(scene);
+      console.log('🎨 Colored parts:', coloredParts.length, 'Skipped parts:', skippedParts.length);
     }
   }, [scene, color]);
 

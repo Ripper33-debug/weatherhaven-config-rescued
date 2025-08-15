@@ -133,16 +133,20 @@ const Model: React.FC<{
         
         const objectName = mesh.name.toLowerCase();
         
-        // VERY SPECIFIC: Only color parts that are definitely shelter body
+        // MORE AGGRESSIVE: Color parts that could be shelter body
         const isShelterBody = (
-          // Main shelter body keywords (very specific)
+          // Main shelter body keywords
           /shelter|body|main|container|box|unit|cabin|pod/.test(objectName) ||
-          // Shelter structure parts (very specific)
+          // Shelter structure parts
           /wall|panel|roof|floor|ceiling|side|end|front|back|top|bottom|surface|skin|hull|casing|enclosure|housing/.test(objectName) ||
           // Shelter interior parts
           /interior|inner|inside|room|space|area|zone|volume|chamber|compartment/.test(objectName) ||
           // Shelter access parts
-          /door|window|hatch|access|entry|exit|vent|port|opening/.test(objectName)
+          /door|window|hatch|access|entry|exit|vent|port|opening/.test(objectName) ||
+          // Additional shelter-like parts
+          /shell|cover|outer|external|primary|core|base|main|central/.test(objectName) ||
+          // Generic large parts that are likely shelter
+          /large|big|major|primary|main|central|body|structure/.test(objectName)
         );
         
         // VERY COMPREHENSIVE: Exclude all vehicle and mechanical parts
@@ -163,8 +167,8 @@ const Model: React.FC<{
         );
         
         // Color if it's likely shelter body AND not definitely a vehicle part
-        // OR if it's not a vehicle part and we haven't colored many parts yet (fallback)
-        if ((isShelterBody && !isVehiclePart) || (!isVehiclePart && coloredParts.length < 3)) {
+        // OR if it's not a vehicle part (more aggressive fallback)
+        if ((isShelterBody && !isVehiclePart) || (!isVehiclePart && coloredParts.length < 10)) {
           console.log(`🎨 Coloring shelter part: ${objectName} (${isShelterBody ? 'shelter' : 'fallback'})`);
           coloredParts.push(objectName);
           

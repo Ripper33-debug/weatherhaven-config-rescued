@@ -55,10 +55,12 @@ const ShelterConfigurator: React.FC = () => {
   const availableInteriors: any[] = [];
 
   const handleColorChange = (newColor: string) => {
+    console.log('🎨 Color change triggered:', newColor);
     setConfigState(prev => ({ ...prev, color: newColor }));
   };
 
   const handleDeployToggle = () => {
+    console.log('🚀 Deploy toggle triggered');
     setConfigState(prev => ({ ...prev, isDeployed: !prev.isDeployed }));
   };
 
@@ -106,18 +108,20 @@ const ShelterConfigurator: React.FC = () => {
         {/* Controls Panel */}
         <div className="controls-panel">
           {/* Deploy Controls - TOP PRIORITY */}
-          <div className="control-section deploy-section">
+          <div className="control-section deploy-section" style={{ zIndex: 1000, position: 'relative' }}>
             <h3>🚀 Deployment</h3>
             <div className="deploy-buttons">
               <button 
                 className={`deploy-btn ${configState.isDeployed ? 'active' : ''}`}
                 onClick={handleDeployToggle}
+                style={{ zIndex: 1001, position: 'relative' }}
               >
                 {configState.isDeployed ? '🔄 Undeploy' : '🚀 Deploy'}
               </button>
               <button 
                 className={`view-btn ${configState.isInsideView ? 'active' : ''}`}
                 onClick={handleViewToggle}
+                style={{ zIndex: 1001, position: 'relative' }}
               >
                 {configState.isInsideView ? '👁️ Outside View' : '🏠 Inside View'}
               </button>

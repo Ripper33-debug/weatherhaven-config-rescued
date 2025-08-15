@@ -104,25 +104,68 @@ const Model: React.FC<{
   useEffect(() => {
     if (!clonedScene || !color) return;
 
+    const coloredParts: string[] = [];
+    const skippedParts: string[] = [];
+
     const applyColorToShelter = (object: THREE.Object3D) => {
       if (object.type === 'Mesh' && object instanceof THREE.Mesh) {
         const mesh = object as THREE.Mesh;
         const material = mesh.material as THREE.Material;
         
-        // More comprehensive check for wheels/trailer parts
+        // Get the full hierarchy path to better identify parts
+        const getObjectPath = (obj: THREE.Object3D): string => {
+          const path: string[] = [];
+          let current = obj;
+          while (current && current.name) {
+            path.unshift(current.name.toLowerCase());
+            current = current.parent || {} as THREE.Object3D;
+          }
+          return path.join('/');
+        };
+        
         const objectName = mesh.name.toLowerCase();
-        const parentName = mesh.parent?.name.toLowerCase() || '';
-        const grandParentName = mesh.parent?.parent?.name.toLowerCase() || '';
+        const objectPath = getObjectPath(mesh);
         
-        // Check if this is a wheel/trailer part (more comprehensive)
-        const isWheelOrTrailer = /wheel|tire|tyre|rim|hub|axle|suspension|spoke|lug|valve|fender|mudflap|mudguard|chassis|trailer|truck|vehicle|carriage|undercarriage|running|gear|brake|drum|disc|caliper|spring|shock|strut|link|arm|bracket|mount|bushing|bearing|nut|bolt|fastener|hardware/.test(objectName) ||
-                                 /wheel|tire|tyre|rim|hub|axle|suspension|chassis|trailer|truck|vehicle/.test(parentName) ||
-                                 /wheel|tire|tyre|rim|hub|axle|suspension|chassis|trailer|truck|vehicle/.test(grandParentName);
+        // VERY SPECIFIC: Only color parts that are definitely shelter body parts
+        // This is a whitelist approach - only color if we're 100% sure it's a shelter body part
+        const isDefinitelyShelterBody = (
+          // Main shelter body keywords
+          /^shelter$|^body$|^main$|^container$|^box$|^unit$/.test(objectName) ||
+          // Shelter structure parts
+          /^wall$|^panel$|^roof$|^floor$|^ceiling$|^side$|^end$|^front$|^back$|^top$|^bottom$/.test(objectName) ||
+          // Shelter surface parts
+          /^surface$|^skin$|^hull$|^casing$|^enclosure$|^housing$/.test(objectName) ||
+          // Shelter frame parts (but not vehicle frame)
+          /^frame$|^structure$|^support$|^brace$|^girder$|^beam$/.test(objectName) ||
+          // Shelter interior parts
+          /^interior$|^inner$|^inside$|^room$|^space$|^area$|^zone$|^volume$|^cabin$|^pod$/.test(objectName) ||
+          // Shelter access parts
+          /^door$|^window$|^hatch$|^access$|^entry$|^exit$|^vent$|^port$/.test(objectName) ||
+          // Shelter connection parts (but not vehicle connections)
+          /^joint$|^seam$|^edge$|^corner$|^angle$|^curve$|^bend$/.test(objectName) ||
+          // Shelter reinforcement parts
+          /^reinforcement$|^stiffener$|^gusset$|^pleat$|^crease$|^fold$/.test(objectName)
+        );
         
-        // Check if this is a shelter body part
-        const isShelterBody = /shelter|body|panel|wall|container|structure|main|roof|side|end|floor|ceiling|exterior|outer|surface|skin|hull|casing|enclosure|housing|frame|module|section|compartment|space|interior|inner|inside|room|area|zone|volume|cabin|pod|capsule/.test(objectName);
+        // VERY SPECIFIC: Never color these parts (blacklist approach)
+        const isDefinitelyNotShelter = (
+          // Vehicle parts
+          /wheel|tire|tyre|rim|hub|axle|suspension|spoke|lug|valve|fender|mudflap|mudguard/.test(objectName) ||
+          /chassis|trailer|truck|vehicle|carriage|undercarriage|running|gear/.test(objectName) ||
+          /brake|drum|disc|caliper|spring|shock|strut|link|arm|bracket|mount|bushing|bearing/.test(objectName) ||
+          /nut|bolt|fastener|hardware|screw|washer|pin|clip|clamp|bracket|support|strut/.test(objectName) ||
+          // Check parent names too
+          /wheel|tire|tyre|rim|hub|axle|suspension|chassis|trailer|truck|vehicle/.test(objectPath) ||
+          // Check if it's part of a wheel/trailer hierarchy
+          objectPath.includes('wheel') || objectPath.includes('tire') || objectPath.includes('trailer') ||
+          objectPath.includes('chassis') || objectPath.includes('suspension') || objectPath.includes('axle')
+        );
         
-        if (isShelterBody && !isWheelOrTrailer) {
+        // Only color if it's definitely a shelter body part AND definitely not a vehicle part
+        if (isDefinitelyShelterBody && !isDefinitelyNotShelter) {
+          console.log(`🎨 Coloring shelter part: ${objectName} (path: ${objectPath})`);
+          coloredParts.push(`${objectName} (${objectPath})`);
+          
           // Create new material to avoid sharing
           const newMaterial = material.clone();
           if (newMaterial instanceof THREE.MeshStandardMaterial || 
@@ -132,11 +175,14 @@ const Model: React.FC<{
             newMaterial.needsUpdate = true;
           }
           mesh.material = newMaterial;
-        } else if (isWheelOrTrailer) {
-          // Keep wheels/trailer parts with original materials (don't force black)
-          // Only clone to avoid sharing, but keep original colors
+        } else {
+          // For all other parts, just clone the material to avoid sharing but keep original colors
           if (material) {
             mesh.material = material.clone();
+            if (isDefinitelyNotShelter) {
+              console.log(`🚫 Skipping vehicle part: ${objectName} (path: ${objectPath})`);
+              skippedParts.push(`${objectName} (${objectPath})`);
+            }
           }
         }
       }
@@ -146,6 +192,9 @@ const Model: React.FC<{
     };
 
     applyColorToShelter(clonedScene);
+    
+    // Update debug info
+    // setDebugInfo({ colored: coloredParts, skipped: skippedParts }); // Removed as per edit hint
   }, [clonedScene, color]);
 
   if (loadError) {
@@ -444,6 +493,7 @@ const ModelViewerScene: React.FC<ModelViewerProps> = ({
         isDeployed={isDeployed}
         onLoad={handleModelLoad}
         onError={onError}
+        // Removed onDebugInfo prop as per edit hint
       />
 
       {/* Camera Controller */}

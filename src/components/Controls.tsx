@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ConfiguratorState } from './ShelterConfigurator';
+import { ConfiguratorState } from '../App';
 import { Shelter, InteriorConfig } from '../App';
 import PricingPanel from './PricingPanel';
 

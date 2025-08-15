@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { ConfiguratorState } from './ShelterConfigurator';
+import { ConfiguratorState } from '../App';
 import { User } from '../App';
 
 interface CollaborationUser {

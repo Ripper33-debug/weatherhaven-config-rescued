@@ -8,15 +8,15 @@
     "files": []
   },
   "app/configurator/page.tsx -> ../../App": {
-    "id": 404,
+    "id": 3499,
     "files": [
-      "static/css/770f425d14f509e3.css",
+      "static/css/3913a1b94131b980.css",
       "static/chunks/b536a0f1.eb70e088bfc9489f.js",
       "static/chunks/bd904a5c.0b8708e02dec86ea.js",
       "static/chunks/1329d575.00e75f68e4c701af.js",
       "static/chunks/4b1a69f1.7a7399764f44ee59.js",
       "static/chunks/830.30aaf8520612b30b.js",
-      "static/chunks/404.a60b28df8cb961db.js"
+      "static/chunks/499.f5099b66800f965f.js"
     ]
   }
 }

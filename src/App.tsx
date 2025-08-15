@@ -14,6 +14,7 @@ export interface ConfiguratorState {
   isInsideView: boolean;
   color: string;
   isLoading: boolean;
+  selectedInterior?: InteriorConfig;
   // Version: 1.0.8 - Force Vercel to deploy latest commit with all fixes
 }
 
@@ -108,17 +109,9 @@ function AppContent() {
           <ProductDetailPage shelter={selectedShelter} />
         ) : <Navigate to="/command-center" replace />} />
         <Route path="/configurator" element={
-          selectedShelter ? (
-            <CollaborationProvider currentUser={user}>
-              <ShelterConfigurator
-                user={user}
-                shelter={selectedShelter}
-                selectedConfiguration={selectedConfiguration}
-                onBack={handleBackToCommandCenter}
-                onLogout={handleLogout}
-              />
-            </CollaborationProvider>
-          ) : <Navigate to="/command-center" replace />
+          <CollaborationProvider currentUser={user}>
+            <ShelterConfigurator />
+          </CollaborationProvider>
         } />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

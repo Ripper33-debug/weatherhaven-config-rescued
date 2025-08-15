@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { ConfiguratorState } from './ShelterConfigurator';
+import { ConfiguratorState } from '../App';
 import { Shelter } from '../App';
 
 interface PricingPanelProps {

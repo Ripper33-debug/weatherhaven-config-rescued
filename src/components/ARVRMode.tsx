@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { ConfiguratorState } from './ShelterConfigurator';
-import { Shelter } from '../App';
+import { Shelter, ConfiguratorState } from '../App';
 import ModelViewer, { ModelViewerScene } from './ModelViewer';
 
 interface ARVRModeProps {

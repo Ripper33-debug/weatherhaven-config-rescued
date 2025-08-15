@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { ConfiguratorState } from './ShelterConfigurator';
+import { ConfiguratorState } from '../App';
 import { Shelter } from '../App';
 import ModelViewer, { ModelViewerScene } from './ModelViewer';
 

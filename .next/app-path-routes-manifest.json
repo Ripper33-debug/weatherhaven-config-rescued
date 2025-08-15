@@ -2,14 +2,14 @@
   "/robots.txt/route": "/robots.txt",
   "/sitemap.xml/route": "/sitemap.xml",
   "/configurator/page": "/configurator",
-  "/contact/page": "/contact",
-  "/case-studies/page": "/case-studies",
   "/_not-found/page": "/_not-found",
-  "/solutions/military/page": "/solutions/military",
-  "/products/trecc/page": "/products/trecc",
   "/page": "/",
-  "/resources/page": "/resources",
+  "/case-studies/page": "/case-studies",
+  "/products/trecc/page": "/products/trecc",
+  "/solutions/military/page": "/solutions/military",
   "/solutions/page": "/solutions",
-  "/about/page": "/about",
-  "/products/page": "/products"
+  "/resources/page": "/resources",
+  "/contact/page": "/contact",
+  "/products/page": "/products",
+  "/about/page": "/about"
 }

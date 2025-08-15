@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { ConfiguratorState } from '../App';
 import { Shelter } from '../App';
-import ModelViewer, { ModelViewerScene } from './ModelViewer';
+import { ModelViewerScene } from './ModelViewer';
 
 interface DemoModeProps {
   configState: ConfiguratorState;
@@ -195,14 +195,15 @@ const DemoMode: React.FC<DemoModeProps> = ({
     >
       <ModelViewerScene
         modelPath={shelter.modelPath || '/models/trecc.glb'}
-        interiorPath={configState.selectedInterior?.modelPath}
-        onLoad={onModelLoaded}
         color={configState.color}
         isDeployed={configState.isDeployed}
-        autoRotate={isAutoRotating}
-        showAnnotations={false}
-        showMeasurements={true}
-        explodedView={false}
+        environment={environment === 'day' ? 'sunset' : environment}
+        weather="none"
+        lighting={{
+          lightIntensity: 1.2,
+          ambientIntensity: 0.6,
+          shadowQuality: 'high'
+        }}
       />
     </Canvas>
   );

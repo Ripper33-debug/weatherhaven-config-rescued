@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { Shelter, ConfiguratorState } from '../App';
-import ModelViewer, { ModelViewerScene } from './ModelViewer';
+import { ModelViewerScene } from './ModelViewer';
 
 interface ARVRModeProps {
   configState: ConfiguratorState;
@@ -138,14 +138,15 @@ const ARVRMode: React.FC<ARVRModeProps> = ({
     >
       <ModelViewerScene
         modelPath={shelter.modelPath || '/models/trecc.glb'}
-        interiorPath={configState.selectedInterior?.modelPath}
-        onLoad={onModelLoaded}
         color={configState.color}
         isDeployed={configState.isDeployed}
-        autoRotate={true}
-        showAnnotations={false}
-        showMeasurements={false}
-        explodedView={false}
+        environment="studio"
+        weather="none"
+        lighting={{
+          lightIntensity: 1.2,
+          ambientIntensity: 0.6,
+          shadowQuality: 'high'
+        }}
       />
     </Canvas>
   );

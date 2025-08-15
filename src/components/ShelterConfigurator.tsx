@@ -20,7 +20,7 @@ const ShelterConfigurator: React.FC = () => {
     isInteriorView: false,
   });
 
-  const [environment, setEnvironment] = useState<'day' | 'night' | 'desert' | 'arctic' | 'jungle'>('day');
+  const [environment, setEnvironment] = useState<'studio' | 'sunset' | 'dawn' | 'night' | 'warehouse' | 'forest' | 'apartment' | 'city' | 'park' | 'lobby' | 'desert' | 'arctic' | 'jungle'>('studio');
   const [weatherEffects, setWeatherEffects] = useState({
     type: 'none' as 'none' | 'rain' | 'snow' | 'dust' | 'storm' | 'fog',
     intensity: 0.5,

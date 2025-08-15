@@ -163,8 +163,9 @@ const Model: React.FC<{
         );
         
         // Color if it's likely shelter body AND not definitely a vehicle part
-        if (isShelterBody && !isVehiclePart) {
-          console.log(`🎨 Coloring shelter part: ${objectName}`);
+        // OR if it's not a vehicle part and we haven't colored many parts yet (fallback)
+        if ((isShelterBody && !isVehiclePart) || (!isVehiclePart && coloredParts.length < 3)) {
+          console.log(`🎨 Coloring shelter part: ${objectName} (${isShelterBody ? 'shelter' : 'fallback'})`);
           coloredParts.push(objectName);
           
           // Create new material to avoid sharing
@@ -475,37 +476,131 @@ const ModelViewerScene: React.FC<ModelViewerProps> = ({
       {/* Environment */}
       <Environment preset={getEnvironmentPreset()} />
       
-      {/* Lighting */}
-      <ambientLight intensity={ambientIntensity} />
-      <directionalLight
-        position={lightPosition}
-        intensity={lightIntensity}
-        castShadow
-        shadow-mapSize-width={2048}
-        shadow-mapSize-height={2048}
-        shadow-camera-far={50}
-        shadow-camera-left={-10}
-        shadow-camera-right={10}
-        shadow-camera-top={10}
-        shadow-camera-bottom={-10}
-      />
-
-      {/* Additional sun light for better illumination */}
+      {/* Enhanced Lighting System */}
+      <ambientLight intensity={ambientIntensity} color={lighting.ambientColor || "#87CEEB"} />
+      
+      {/* Main Sun Light with Shadows */}
       <directionalLight
         position={sunPosition}
-        intensity={0.3}
+        intensity={lightIntensity}
+        color={lighting.sunColor || "#ffffff"}
+        castShadow
+        shadow-mapSize-width={lighting.shadowQuality === 'high' ? 4096 : lighting.shadowQuality === 'medium' ? 2048 : 1024}
+        shadow-mapSize-height={lighting.shadowQuality === 'high' ? 4096 : lighting.shadowQuality === 'medium' ? 2048 : 1024}
+        shadow-camera-far={100}
+        shadow-camera-left={-20}
+        shadow-camera-right={20}
+        shadow-camera-top={20}
+        shadow-camera-bottom={-20}
+        shadow-bias={-0.0001}
+        shadow-normalBias={0.02}
+      />
+
+      {/* Fill Light for better illumination */}
+      <directionalLight
+        position={[lightPosition[0] * -0.5, lightPosition[1], lightPosition[2] * -0.5]}
+        intensity={lightIntensity * 0.3}
         color="#ffffff"
       />
 
-      {/* Ground Plane */}
+      {/* Enhanced 3D Environment */}
+      {/* Ground Plane with Texture */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]} receiveShadow>
-        <planeGeometry args={[20, 20]} />
+        <planeGeometry args={[50, 50]} />
         <meshStandardMaterial 
           color={environment === 'desert' ? '#d2b48c' : 
                  environment === 'arctic' ? '#ffffff' : 
-                 environment === 'jungle' ? '#228B22' : '#2a2a2a'} 
+                 environment === 'jungle' ? '#228B22' : 
+                 environment === 'night' ? '#1a1a1a' : '#2a2a2a'}
+          roughness={environment === 'desert' ? 0.8 : 
+                     environment === 'arctic' ? 0.3 : 
+                     environment === 'jungle' ? 0.6 : 0.7}
+          metalness={0.1}
         />
       </mesh>
+
+      {/* Environment-specific 3D Elements */}
+      {environment === 'desert' && (
+        <>
+          {/* Desert Dunes */}
+          {Array.from({ length: 8 }, (_, i) => (
+            <mesh key={`dune-${i}`} position={[Math.random() * 40 - 20, -0.3, Math.random() * 40 - 20]} receiveShadow>
+              <sphereGeometry args={[Math.random() * 3 + 2, 8, 6]} />
+              <meshStandardMaterial color="#d2b48c" roughness={0.9} />
+            </mesh>
+          ))}
+          {/* Desert Rocks */}
+          {Array.from({ length: 5 }, (_, i) => (
+            <mesh key={`rock-${i}`} position={[Math.random() * 30 - 15, -0.2, Math.random() * 30 - 15]} receiveShadow castShadow>
+              <boxGeometry args={[Math.random() * 2 + 0.5, Math.random() * 1 + 0.3, Math.random() * 2 + 0.5]} />
+              <meshStandardMaterial color="#8B7355" roughness={0.8} />
+            </mesh>
+          ))}
+        </>
+      )}
+
+      {environment === 'arctic' && (
+        <>
+          {/* Snow Drifts */}
+          {Array.from({ length: 6 }, (_, i) => (
+            <mesh key={`snow-${i}`} position={[Math.random() * 30 - 15, -0.2, Math.random() * 30 - 15]} receiveShadow>
+              <sphereGeometry args={[Math.random() * 2 + 1, 8, 6]} />
+              <meshStandardMaterial color="#ffffff" roughness={0.2} />
+            </mesh>
+          ))}
+          {/* Ice Crystals */}
+          {Array.from({ length: 10 }, (_, i) => (
+            <mesh key={`ice-${i}`} position={[Math.random() * 40 - 20, Math.random() * 3, Math.random() * 40 - 20]} receiveShadow>
+              <boxGeometry args={[0.1, Math.random() * 2 + 1, 0.1]} />
+              <meshStandardMaterial color="#E0FFFF" transparent opacity={0.7} />
+            </mesh>
+          ))}
+        </>
+      )}
+
+      {environment === 'jungle' && (
+        <>
+          {/* Jungle Trees */}
+          {Array.from({ length: 12 }, (_, i) => (
+            <group key={`tree-${i}`} position={[Math.random() * 40 - 20, 0, Math.random() * 40 - 20]}>
+              {/* Tree Trunk */}
+              <mesh receiveShadow castShadow>
+                <cylinderGeometry args={[0.3, 0.5, 4, 8]} />
+                <meshStandardMaterial color="#8B4513" roughness={0.8} />
+              </mesh>
+              {/* Tree Foliage */}
+              <mesh position={[0, 3, 0]} receiveShadow castShadow>
+                <sphereGeometry args={[2, 8, 6]} />
+                <meshStandardMaterial color="#228B22" roughness={0.6} />
+              </mesh>
+            </group>
+          ))}
+          {/* Jungle Ground Cover */}
+          {Array.from({ length: 20 }, (_, i) => (
+            <mesh key={`bush-${i}`} position={[Math.random() * 40 - 20, -0.1, Math.random() * 40 - 20]} receiveShadow>
+              <sphereGeometry args={[Math.random() * 0.5 + 0.3, 6, 4]} />
+              <meshStandardMaterial color="#32CD32" roughness={0.7} />
+            </mesh>
+          ))}
+        </>
+      )}
+
+      {environment === 'night' && (
+        <>
+          {/* Night Sky Elements */}
+          {Array.from({ length: 50 }, (_, i) => (
+            <mesh key={`star-${i}`} position={[Math.random() * 100 - 50, Math.random() * 20 + 10, Math.random() * 100 - 50]}>
+              <sphereGeometry args={[0.05, 4, 4]} />
+              <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.5} />
+            </mesh>
+          ))}
+          {/* Moon */}
+          <mesh position={[15, 15, 15]} receiveShadow>
+            <sphereGeometry args={[2, 16, 16]} />
+            <meshStandardMaterial color="#F0F8FF" emissive="#F0F8FF" emissiveIntensity={0.2} />
+          </mesh>
+        </>
+      )}
 
       {/* Model */}
       <Model

@@ -227,16 +227,41 @@ const ShelterConfigurator: React.FC = () => {
                 />
               </label>
               <label>
-                Exposure:
+                Sun Position X:
                 <input
                   type="range"
-                  min="0.1"
-                  max="3.0"
-                  step="0.1"
-                  value={lightingControls.exposure}
+                  min="-50"
+                  max="50"
+                  value={lightingControls.sunPosition[0]}
                   onChange={(e) => setLightingControls(prev => ({
                     ...prev,
-                    exposure: parseFloat(e.target.value)
+                    sunPosition: [parseFloat(e.target.value), prev.sunPosition[1], prev.sunPosition[2]]
+                  }))}
+                />
+              </label>
+              <label>
+                Sun Position Y:
+                <input
+                  type="range"
+                  min="5"
+                  max="50"
+                  value={lightingControls.sunPosition[1]}
+                  onChange={(e) => setLightingControls(prev => ({
+                    ...prev,
+                    sunPosition: [prev.sunPosition[0], parseFloat(e.target.value), prev.sunPosition[2]]
+                  }))}
+                />
+              </label>
+              <label>
+                Sun Position Z:
+                <input
+                  type="range"
+                  min="-50"
+                  max="50"
+                  value={lightingControls.sunPosition[2]}
+                  onChange={(e) => setLightingControls(prev => ({
+                    ...prev,
+                    sunPosition: [prev.sunPosition[0], prev.sunPosition[1], parseFloat(e.target.value)]
                   }))}
                 />
               </label>

@@ -1,13 +1,13 @@
 {
-  "/robots.txt/route": "/robots.txt",
   "/sitemap.xml/route": "/sitemap.xml",
+  "/robots.txt/route": "/robots.txt",
   "/configurator/page": "/configurator",
-  "/contact/page": "/contact",
-  "/solutions/page": "/solutions",
-  "/page": "/",
-  "/resources/page": "/resources",
-  "/case-studies/page": "/case-studies",
-  "/about/page": "/about",
   "/_not-found/page": "/_not-found",
+  "/contact/page": "/contact",
+  "/case-studies/page": "/case-studies",
+  "/page": "/",
+  "/solutions/page": "/solutions",
+  "/resources/page": "/resources",
+  "/about/page": "/about",
   "/products/page": "/products"
 }

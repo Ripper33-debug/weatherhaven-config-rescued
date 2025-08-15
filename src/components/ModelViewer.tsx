@@ -129,16 +129,35 @@ const Model: React.FC<{
         
         const objectName = mesh.name.toLowerCase();
         
-        // SIMPLE APPROACH: Color everything except wheels and trailer parts
+        // VERY PRECISE: Only color parts that are definitely shelter body
+        const isShelterBody = (
+          // Main shelter body keywords (very specific)
+          /shelter|body|main|container|box|unit|cabin|pod/.test(objectName) ||
+          // Shelter structure parts (very specific)
+          /wall|panel|roof|floor|ceiling|side|end|front|back|top|bottom|surface|skin|hull|casing|enclosure|housing/.test(objectName) ||
+          // Shelter interior parts
+          /interior|inner|inside|room|space|area|zone|volume|chamber|compartment/.test(objectName) ||
+          // Shelter access parts
+          /door|window|hatch|access|entry|exit|vent|port|opening/.test(objectName)
+        );
+        
+        // VERY BROAD: Never color these parts (comprehensive blacklist)
         const isVehiclePart = (
+          // All vehicle parts
           /wheel|tire|tyre|rim|hub|axle|suspension|spoke|lug|valve|fender|mudflap|mudguard/.test(objectName) ||
           /chassis|trailer|truck|vehicle|carriage|undercarriage|running|gear|transmission|engine|motor/.test(objectName) ||
           /brake|drum|disc|caliper|spring|shock|strut|link|arm|bracket|mount|bushing|bearing/.test(objectName) ||
-          /nut|bolt|fastener|hardware|screw|washer|pin|clip|clamp|wire|cable/.test(objectName)
+          /nut|bolt|fastener|hardware|screw|washer|pin|clip|clamp|wire|cable/.test(objectName) ||
+          /frame|support|strut|brace|girder|beam|post|pillar|column|stud|joist|rafter|truss/.test(objectName) ||
+          /joint|seam|edge|corner|angle|curve|bend|fold|crease|pleat|gusset/.test(objectName) ||
+          /reinforcement|stiffener|gusset|pleat|crease|fold|bracket|support|strut|brace/.test(objectName) ||
+          // Generic parts that could be vehicle
+          /part|piece|component|element|section|module|block|plate|sheet|board|slab/.test(objectName)
         );
         
-        if (!isVehiclePart) {
-          console.log(`🎨 Coloring part: ${objectName}`);
+        // Only color if it's definitely shelter body AND definitely not a vehicle part
+        if (isShelterBody && !isVehiclePart) {
+          console.log(`🎨 Coloring shelter part: ${objectName}`);
           coloredParts.push(objectName);
           
           // Create new material to avoid sharing
@@ -151,7 +170,7 @@ const Model: React.FC<{
           }
           mesh.material = newMaterial;
         } else {
-          console.log(`🚫 Skipping vehicle part: ${objectName}`);
+          console.log(`🚫 Skipping part: ${objectName} (${isShelterBody ? 'shelter' : 'not shelter'}, ${isVehiclePart ? 'vehicle' : 'not vehicle'})`);
           skippedParts.push(objectName);
           // Clone material to avoid sharing but keep original colors
           if (material) {
@@ -169,7 +188,7 @@ const Model: React.FC<{
     // Log summary
     console.log(`🎨 Color application complete:`);
     console.log(`   - Colored parts: ${coloredParts.length}`);
-    console.log(`   - Skipped vehicle parts: ${skippedParts.length}`);
+    console.log(`   - Skipped parts: ${skippedParts.length}`);
     if (coloredParts.length === 0) {
       console.log(`⚠️  No parts were colored! Check if the model has the expected part names.`);
       console.log(`🔍 Try changing colors to see if any parts respond.`);

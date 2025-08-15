@@ -105,11 +105,11 @@ const ShelterConfigurator: React.FC = () => {
       }}>
         {/* Left Side - Lighting Controls */}
         <div className="left-controls" style={{
-          width: '280px',
+          width: '260px',
           background: 'rgba(255, 255, 255, 0.95)',
           backdropFilter: 'blur(20px)',
           borderRight: '1px solid rgba(255, 255, 255, 0.2)',
-          padding: '20px',
+          padding: '24px',
           display: 'flex',
           flexDirection: 'column',
           gap: '20px',
@@ -123,8 +123,8 @@ const ShelterConfigurator: React.FC = () => {
             marginBottom: '8px'
           }}>
             <h2 style={{
-              fontSize: '18px',
-              fontWeight: '700',
+              fontSize: '16px',
+              fontWeight: '600',
               color: '#1a1a2e',
               margin: '0 0 4px 0',
               letterSpacing: '-0.5px'
@@ -132,24 +132,24 @@ const ShelterConfigurator: React.FC = () => {
               Lighting
             </h2>
             <p style={{
-              fontSize: '12px',
+              fontSize: '11px',
               color: '#666',
               margin: '0',
               fontWeight: '500'
             }}>
-              Simple Controls
+              Adjust scene lighting
             </p>
           </div>
 
           {/* Sun Intensity Control */}
           <div style={{
-            background: 'rgba(26, 26, 46, 0.05)',
-            borderRadius: '8px',
+            background: 'rgba(26, 26, 46, 0.03)',
+            borderRadius: '12px',
             padding: '16px',
-            border: '1px solid rgba(26, 26, 46, 0.1)'
+            border: '1px solid rgba(26, 26, 46, 0.08)'
           }}>
             <label style={{ 
-              fontSize: '13px', 
+              fontSize: '12px', 
               display: 'block', 
               marginBottom: '8px', 
               color: '#1a1a2e',
@@ -167,15 +167,15 @@ const ShelterConfigurator: React.FC = () => {
               onChange={(e) => handleLightingChange('directionalIntensity', parseFloat(e.target.value))}
               style={{ 
                 width: '100%',
-                height: '8px',
-                borderRadius: '4px',
+                height: '6px',
+                borderRadius: '3px',
                 background: 'linear-gradient(90deg, #f093fb 0%, #f5576c 100%)',
                 outline: 'none',
                 cursor: 'pointer'
               }}
             />
             <div style={{ 
-              fontSize: '11px', 
+              fontSize: '10px', 
               color: '#666', 
               marginTop: '4px',
               textAlign: 'center'
@@ -186,13 +186,13 @@ const ShelterConfigurator: React.FC = () => {
 
           {/* Sun Position Controls - Simplified */}
           <div style={{
-            background: 'rgba(26, 26, 46, 0.05)',
-            borderRadius: '8px',
+            background: 'rgba(26, 26, 46, 0.03)',
+            borderRadius: '12px',
             padding: '16px',
-            border: '1px solid rgba(26, 26, 46, 0.1)'
+            border: '1px solid rgba(26, 26, 46, 0.08)'
           }}>
             <label style={{ 
-              fontSize: '13px', 
+              fontSize: '12px', 
               display: 'block', 
               marginBottom: '12px', 
               color: '#1a1a2e',
@@ -203,7 +203,7 @@ const ShelterConfigurator: React.FC = () => {
             </label>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ fontSize: '11px', minWidth: '20px', fontWeight: '600' }}>←→:</span>
+                <span style={{ fontSize: '10px', minWidth: '20px', fontWeight: '600' }}>←→:</span>
                 <input
                   type="range"
                   min="-10"
@@ -213,17 +213,17 @@ const ShelterConfigurator: React.FC = () => {
                   onChange={(e) => handleSunPositionChange('x', parseFloat(e.target.value))}
                   style={{ 
                     flex: 1,
-                    height: '8px',
-                    borderRadius: '4px',
+                    height: '6px',
+                    borderRadius: '3px',
                     background: 'linear-gradient(90deg, #4facfe 0%, #00f2fe 100%)',
                     outline: 'none',
                     cursor: 'pointer'
                   }}
                 />
-                <span style={{ fontSize: '11px', minWidth: '25px', fontWeight: '600' }}>{lightingState.sunPosition.x}</span>
+                <span style={{ fontSize: '10px', minWidth: '25px', fontWeight: '600' }}>{lightingState.sunPosition.x}</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ fontSize: '11px', minWidth: '20px', fontWeight: '600' }}>↑↓:</span>
+                <span style={{ fontSize: '10px', minWidth: '20px', fontWeight: '600' }}>↑↓:</span>
                 <input
                   type="range"
                   min="0"
@@ -233,18 +233,18 @@ const ShelterConfigurator: React.FC = () => {
                   onChange={(e) => handleSunPositionChange('y', parseFloat(e.target.value))}
                   style={{ 
                     flex: 1,
-                    height: '8px',
-                    borderRadius: '4px',
+                    height: '6px',
+                    borderRadius: '3px',
                     background: 'linear-gradient(90deg, #43e97b 0%, #38f9d7 100%)',
                     outline: 'none',
                     cursor: 'pointer'
                   }}
                 />
-                <span style={{ fontSize: '11px', minWidth: '25px', fontWeight: '600' }}>{lightingState.sunPosition.y}</span>
+                <span style={{ fontSize: '10px', minWidth: '25px', fontWeight: '600' }}>{lightingState.sunPosition.y}</span>
               </div>
             </div>
             <div style={{ 
-              fontSize: '11px', 
+              fontSize: '10px', 
               color: '#666', 
               marginTop: '8px',
               textAlign: 'center'
@@ -267,8 +267,8 @@ const ShelterConfigurator: React.FC = () => {
               color: 'white',
               border: 'none',
               borderRadius: '8px',
-              padding: '12px 16px',
-              fontSize: '13px',
+              padding: '10px 16px',
+              fontSize: '12px',
               fontWeight: '600',
               cursor: 'pointer',
               transition: 'all 0.3s ease',
@@ -324,14 +324,14 @@ const ShelterConfigurator: React.FC = () => {
 
         {/* Professional Controls Panel */}
         <div className="controls-panel" style={{
-          width: '320px',
+          width: '300px',
           background: 'rgba(255, 255, 255, 0.95)',
           backdropFilter: 'blur(20px)',
           borderLeft: '1px solid rgba(255, 255, 255, 0.2)',
           padding: '24px',
           display: 'flex',
           flexDirection: 'column',
-          gap: '24px',
+          gap: '20px',
           boxShadow: '0 0 40px rgba(0, 0, 0, 0.3)',
           overflowY: 'auto'
         }}>
@@ -341,7 +341,7 @@ const ShelterConfigurator: React.FC = () => {
             marginBottom: '8px'
           }}>
             <h1 style={{
-              fontSize: '24px',
+              fontSize: '20px',
               fontWeight: '700',
               color: '#1a1a2e',
               margin: '0 0 4px 0',
@@ -350,24 +350,24 @@ const ShelterConfigurator: React.FC = () => {
               TRECC Configurator
             </h1>
             <p style={{
-              fontSize: '14px',
+              fontSize: '12px',
               color: '#666',
               margin: '0',
               fontWeight: '500'
             }}>
-              Customize Your Shelter
+              Customize your shelter
             </p>
           </div>
 
           {/* Deploy/Interior Controls */}
           <div style={{
-            background: 'rgba(26, 26, 46, 0.05)',
+            background: 'rgba(26, 26, 46, 0.03)',
             borderRadius: '12px',
             padding: '20px',
-            border: '1px solid rgba(26, 26, 46, 0.1)'
+            border: '1px solid rgba(26, 26, 46, 0.08)'
           }}>
             <h3 style={{
-              fontSize: '16px',
+              fontSize: '14px',
               fontWeight: '600',
               color: '#1a1a2e',
               margin: '0 0 16px 0'
@@ -386,7 +386,7 @@ const ShelterConfigurator: React.FC = () => {
                   border: 'none',
                   borderRadius: '8px',
                   padding: '12px 16px',
-                  fontSize: '14px',
+                  fontSize: '13px',
                   fontWeight: '600',
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',
@@ -416,7 +416,7 @@ const ShelterConfigurator: React.FC = () => {
                   border: 'none',
                   borderRadius: '8px',
                   padding: '12px 16px',
-                  fontSize: '14px',
+                  fontSize: '13px',
                   fontWeight: '600',
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',
@@ -440,13 +440,13 @@ const ShelterConfigurator: React.FC = () => {
 
           {/* Color Selection */}
           <div style={{
-            background: 'rgba(26, 26, 46, 0.05)',
+            background: 'rgba(26, 26, 46, 0.03)',
             borderRadius: '12px',
             padding: '20px',
-            border: '1px solid rgba(26, 26, 46, 0.1)'
+            border: '1px solid rgba(26, 26, 46, 0.08)'
           }}>
             <h3 style={{
-              fontSize: '16px',
+              fontSize: '14px',
               fontWeight: '600',
               color: '#1a1a2e',
               margin: '0 0 16px 0'
@@ -469,7 +469,7 @@ const ShelterConfigurator: React.FC = () => {
                       : `2px solid ${option.value}`,
                     borderRadius: '8px',
                     padding: '12px 16px',
-                    fontSize: '14px',
+                    fontSize: '13px',
                     fontWeight: '600',
                     cursor: 'pointer',
                     transition: 'all 0.3s ease',
@@ -508,13 +508,13 @@ const ShelterConfigurator: React.FC = () => {
 
           {/* Action Buttons */}
           <div style={{
-            background: 'rgba(26, 26, 46, 0.05)',
+            background: 'rgba(26, 26, 46, 0.03)',
             borderRadius: '12px',
             padding: '20px',
-            border: '1px solid rgba(26, 26, 46, 0.1)'
+            border: '1px solid rgba(26, 26, 46, 0.08)'
           }}>
             <h3 style={{
-              fontSize: '16px',
+              fontSize: '14px',
               fontWeight: '600',
               color: '#1a1a2e',
               margin: '0 0 16px 0'
@@ -531,7 +531,7 @@ const ShelterConfigurator: React.FC = () => {
                   border: 'none',
                   borderRadius: '8px',
                   padding: '12px 16px',
-                  fontSize: '14px',
+                  fontSize: '13px',
                   fontWeight: '600',
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',
@@ -559,7 +559,7 @@ const ShelterConfigurator: React.FC = () => {
                   border: 'none',
                   borderRadius: '8px',
                   padding: '12px 16px',
-                  fontSize: '14px',
+                  fontSize: '13px',
                   fontWeight: '600',
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',

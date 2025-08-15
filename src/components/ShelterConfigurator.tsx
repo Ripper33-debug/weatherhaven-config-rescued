@@ -26,9 +26,14 @@ const ShelterConfigurator: React.FC = () => {
   });
 
   const [lightingControls, setLightingControls] = useState({
-    sunPosition: [1, 1, 1] as [number, number, number],
-    ambientIntensity: 0.4,
-    directionalIntensity: 0.8,
+    lightPosition: [10, 10, 5] as [number, number, number],
+    lightIntensity: 1.2,
+    ambientIntensity: 0.6,
+    sunPosition: [100, 20, 100] as [number, number, number],
+    skyTurbidity: 6,
+    skyRayleigh: 1.5,
+    skyMieCoefficient: 0.005,
+    skyMieDirectionalG: 0.8,
     sunColor: '#ffffff',
     ambientColor: '#87CEEB',
     shadowQuality: 'high' as 'low' | 'medium' | 'high',
@@ -196,15 +201,15 @@ const ShelterConfigurator: React.FC = () => {
             <h3>☀️ Lighting</h3>
             <div className="lighting-controls">
               <label>
-                Sun Position:
+                Light Intensity:
                 <input
                   type="range"
                   min="0"
-                  max="100"
-                  value={lightingControls.directionalIntensity * 100}
+                  max="200"
+                  value={lightingControls.lightIntensity * 100}
                   onChange={(e) => setLightingControls(prev => ({
                     ...prev,
-                    directionalIntensity: parseFloat(e.target.value) / 100
+                    lightIntensity: parseFloat(e.target.value) / 100
                   }))}
                 />
               </label>

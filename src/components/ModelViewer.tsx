@@ -91,9 +91,11 @@ const Model: React.FC<{
   onError?: (error: string) => void;
 }> = ({ modelPath, color, isDeployed, onLoad, onError }) => {
   const meshRef = useRef<THREE.Group>(null);
-  const { scene } = useGLTF(modelPath);
   const [isModelLoaded, setIsModelLoaded] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
+  
+  // Add error handling for model loading
+  const { scene } = useGLTF(modelPath);
 
   // Clone the scene to avoid sharing materials
   const clonedScene = useMemo(() => {

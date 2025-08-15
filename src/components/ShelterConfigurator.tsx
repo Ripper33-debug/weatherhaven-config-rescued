@@ -102,7 +102,7 @@ const ShelterConfigurator: React.FC = () => {
               <ModelViewerScene
                 modelPath={
                   configState.isInteriorView 
-                    ? "/models/interior.glb" // Interior-only model (you'll create this)
+                    ? "/models/trecc-open.glb" // Fallback to open model until interior.glb is ready
                     : configState.isDeployed 
                       ? "/models/trecc-open.glb" 
                       : "/models/trecc.glb"

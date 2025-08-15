@@ -3,11 +3,11 @@
   "/sitemap.xml/route": "/sitemap.xml",
   "/configurator/page": "/configurator",
   "/case-studies/page": "/case-studies",
-  "/page": "/",
-  "/resources/page": "/resources",
-  "/_not-found/page": "/_not-found",
   "/contact/page": "/contact",
+  "/_not-found/page": "/_not-found",
+  "/resources/page": "/resources",
   "/solutions/page": "/solutions",
+  "/page": "/",
   "/about/page": "/about",
   "/products/page": "/products"
 }

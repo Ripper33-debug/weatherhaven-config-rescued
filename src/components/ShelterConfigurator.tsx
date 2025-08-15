@@ -102,6 +102,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
 
   const handleColorChange = (color: string) => {
     setConfigState(prev => ({ ...prev, color }));
+    setShowColorPicker(false);
   };
 
   const handleInteriorChange = (interior: InteriorConfig) => {
@@ -109,9 +110,11 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   };
 
   const handleConfigurationChange = (configuration: ShelterConfiguration) => {
-    // Update the selected configuration
-    // This would typically update the model or interior
-    // Configuration change logic will be implemented when interior models are available
+    // Apply configuration settings
+    setConfigState(prev => ({
+      ...prev,
+      // Configuration change logic will be implemented when interior models are available
+    }));
   };
 
   const handleModelLoaded = () => {
@@ -217,6 +220,29 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
         </div>
       )}
 
+      {/* View Control Buttons */}
+      <div className="view-controls">
+        <div className="view-control-group">
+          <button
+            className={`view-btn ${configState.isDeployed ? 'active' : ''}`}
+            onClick={handleToggleDeploy}
+            title="Toggle Deployed/Undeployed View"
+          >
+            <span className="btn-icon">🚀</span>
+            <span className="btn-text">{configState.isDeployed ? 'Deployed' : 'Undeployed'}</span>
+          </button>
+          
+          <button
+            className={`view-btn ${configState.isInsideView ? 'active' : ''}`}
+            onClick={handleToggleView}
+            title="View Inside/Outside"
+          >
+            <span className="btn-icon">👁️</span>
+            <span className="btn-text">{configState.isInsideView ? 'Outside View' : 'Inside View'}</span>
+          </button>
+        </div>
+      </div>
+
       {/* Full Screen 3D Canvas */}
       <div className="fullscreen-canvas">
         <Canvas
@@ -227,13 +253,15 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
         >
           <Suspense fallback={null}>
             <ModelViewer
-              configState={configState}
-              onModelLoaded={handleModelLoaded}
-              shelter={shelter}
-              showScale={showScale}
-              environment={environment}
-              lightingControls={lightingControls}
-              weatherEffects={weatherEffects}
+              modelPath={shelter.modelPath || '/models/trecc.glb'}
+              interiorPath={configState.selectedInterior?.modelPath}
+              onLoad={handleModelLoaded}
+              color={configState.color}
+              isDeployed={configState.isDeployed}
+              autoRotate={false}
+              showAnnotations={true}
+              showMeasurements={true}
+              explodedView={false}
             />
           </Suspense>
         </Canvas>
@@ -625,9 +653,42 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
 
       {/* Footer */}
       <footer className="configurator-footer">
-        <div>
-          <p>Drag to rotate • Scroll to zoom • Click to interact</p>
-          <p>CLASSIFIED MILITARY SYSTEM • WEATHERHAVEN TECHNOLOGIES • {shelter.name}</p>
+        <div className="footer-content">
+          <div className="footer-left">
+            <p>Drag to rotate • Scroll to zoom • Click to interact</p>
+            <p>CLASSIFIED MILITARY SYSTEM • WEATHERHAVEN TECHNOLOGIES • {shelter.name}</p>
+          </div>
+          
+          <div className="footer-right">
+            <div className="footer-buttons">
+              <button 
+                className="footer-btn performance-btn"
+                onClick={() => setShowLeadTimeCalculator(true)}
+                title="Performance Metrics"
+              >
+                <span className="btn-icon">📊</span>
+                <span className="btn-text">Performance</span>
+              </button>
+              
+              <button 
+                className="footer-btn crm-btn"
+                onClick={() => {/* CRM Integration */}}
+                title="CRM Integration"
+              >
+                <span className="btn-icon">📋</span>
+                <span className="btn-text">CRM</span>
+              </button>
+              
+              <button 
+                className="footer-btn assistant-btn"
+                onClick={() => {/* Smart Assistant */}}
+                title="AI Assistant"
+              >
+                <span className="btn-icon">🤖</span>
+                <span className="btn-text">Assistant</span>
+              </button>
+            </div>
+          </div>
         </div>
       </footer>
 

@@ -138,9 +138,15 @@ const ARVRMode: React.FC<ARVRModeProps> = ({
       shadows
     >
       <ModelViewer
-        configState={configState}
-        onModelLoaded={onModelLoaded}
-        shelter={shelter}
+        modelPath={shelter.modelPath || '/models/trecc.glb'}
+        interiorPath={configState.selectedInterior?.modelPath}
+        onLoad={onModelLoaded}
+        color={configState.color}
+        isDeployed={configState.isDeployed}
+        autoRotate={true}
+        showAnnotations={false}
+        showMeasurements={false}
+        explodedView={false}
       />
     </Canvas>
   );

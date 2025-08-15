@@ -194,13 +194,15 @@ const DemoMode: React.FC<DemoModeProps> = ({
       shadows
     >
       <ModelViewer
-        configState={configState}
-        onModelLoaded={onModelLoaded}
-        shelter={shelter}
-        isAutoRotating={isAutoRotating}
-        environment={environment}
-        showScale={showScale}
-        showParticles={showParticles}
+        modelPath={shelter.modelPath || '/models/trecc.glb'}
+        interiorPath={configState.selectedInterior?.modelPath}
+        onLoad={onModelLoaded}
+        color={configState.color}
+        isDeployed={configState.isDeployed}
+        autoRotate={isAutoRotating}
+        showAnnotations={false}
+        showMeasurements={true}
+        explodedView={false}
       />
     </Canvas>
   );

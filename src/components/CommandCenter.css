@@ -4121,18 +4121,18 @@
   transition: left 0.5s ease;
 }
 
-.deploy-btn:hover::before, .view-btn:hover::before {
+.deploy-btn:hover::before, .view-btn:hover::before, .interior-btn:hover::before {
   left: 100%;
 }
 
-.deploy-btn:hover, .view-btn:hover {
+.deploy-btn:hover, .view-btn:hover, .interior-btn:hover {
   background: rgba(255, 255, 255, 0.25);
   transform: translateY(-3px);
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
   border-color: rgba(255, 255, 255, 0.4);
 }
 
-.deploy-btn.active, .view-btn.active {
+.deploy-btn.active, .view-btn.active, .interior-btn.active {
   background: rgba(255, 255, 255, 0.3);
   border-color: rgba(255, 255, 255, 0.6);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);

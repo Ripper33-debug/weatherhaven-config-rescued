@@ -7,6 +7,7 @@ interface ConfigState {
   color: string;
   isDeployed: boolean;
   isInsideView: boolean;
+  isInteriorView: boolean;
   selectedInterior?: any;
 }
 
@@ -15,6 +16,7 @@ const ShelterConfigurator: React.FC = () => {
     color: '#D2B48C',
     isDeployed: false,
     isInsideView: false,
+    isInteriorView: false,
   });
 
   const [environment, setEnvironment] = useState<'day' | 'night' | 'desert' | 'arctic' | 'jungle'>('day');
@@ -68,6 +70,11 @@ const ShelterConfigurator: React.FC = () => {
     setConfigState(prev => ({ ...prev, isInsideView: !prev.isInsideView }));
   };
 
+  const handleInteriorViewToggle = () => {
+    console.log('🏠 Interior view toggle triggered');
+    setConfigState(prev => ({ ...prev, isInteriorView: !prev.isInteriorView }));
+  };
+
   const handleInteriorChange = (interior: any) => {
     setConfigState(prev => ({ ...prev, selectedInterior: interior }));
   };
@@ -93,7 +100,13 @@ const ShelterConfigurator: React.FC = () => {
           <Canvas camera={{ position: [0, 0.2, 6], fov: 50 }} gl={{ antialias: true, alpha: false }} dpr={[1, 2]} shadows>
             <Suspense fallback={null}>
               <ModelViewerScene
-                modelPath={configState.isDeployed ? "/models/trecc-open.glb" : "/models/trecc.glb"}
+                modelPath={
+                  configState.isInteriorView 
+                    ? "/models/interior.glb" // Interior-only model (you'll create this)
+                    : configState.isDeployed 
+                      ? "/models/trecc-open.glb" 
+                      : "/models/trecc.glb"
+                }
                 color={configState.color}
                 isDeployed={configState.isDeployed}
                 environment={environment}
@@ -104,7 +117,14 @@ const ShelterConfigurator: React.FC = () => {
               {/* Debug info */}
               <div style={{ position: 'absolute', top: 10, left: 10, background: 'rgba(0,0,0,0.8)', color: 'white', padding: 10, borderRadius: 5, fontSize: 12 }}>
                 <div>Deployed: {configState.isDeployed ? 'Yes' : 'No'}</div>
-                <div>Model: {configState.isDeployed ? 'trecc-open.glb' : 'trecc.glb'}</div>
+                <div>Interior View: {configState.isInteriorView ? 'Yes' : 'No'}</div>
+                <div>Model: {
+                  configState.isInteriorView 
+                    ? 'interior.glb' 
+                    : configState.isDeployed 
+                      ? 'trecc-open.glb' 
+                      : 'trecc.glb'
+                }</div>
                 <div>Color: {configState.color}</div>
                 <div>Environment: {environment}</div>
               </div>
@@ -131,6 +151,13 @@ const ShelterConfigurator: React.FC = () => {
                 style={{ zIndex: 1001, position: 'relative' }}
               >
                 {configState.isInsideView ? '👁️ Outside View' : '🏠 Inside View'}
+              </button>
+              <button 
+                className={`interior-btn ${configState.isInteriorView ? 'active' : ''}`}
+                onClick={handleInteriorViewToggle}
+                style={{ zIndex: 1001, position: 'relative' }}
+              >
+                {configState.isInteriorView ? '🏠 Exit Interior' : '🏠 Interior Only'}
               </button>
             </div>
           </div>

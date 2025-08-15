@@ -52,13 +52,18 @@ const Model: React.FC<{
 }> = ({ modelPath, color, isDeployed }) => {
   const meshRef = useRef<THREE.Group>(null);
 
-  // Load model
+  // Load model with better error handling
   let scene: THREE.Group | null = null;
+  let loadError: string | null = null;
+  
   try {
+    console.log('📁 Attempting to load model:', modelPath);
     const result = useGLTF(modelPath);
     scene = result.scene;
+    console.log('✅ Model loaded successfully:', modelPath);
   } catch (err) {
-    return <ErrorDisplay error={`Failed to load model: ${modelPath}`} />;
+    console.error('❌ Failed to load model:', modelPath, err);
+    loadError = `Failed to load model: ${modelPath}`;
   }
 
   // Apply color to shelter box only (very specific)
@@ -132,6 +137,10 @@ const Model: React.FC<{
       console.log('🎯 Color being applied:', color);
     }
   }, [scene, color, modelPath]);
+
+  if (loadError) {
+    return <ErrorDisplay error={loadError} />;
+  }
 
   if (!scene) {
     return <LoadingSpinner />;

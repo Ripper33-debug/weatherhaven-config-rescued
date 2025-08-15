@@ -82,6 +82,30 @@
       "namedRegex": "^/contact(?:/)?$"
     },
     {
+      "page": "/cookies",
+      "regex": "^/cookies(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/cookies(?:/)?$"
+    },
+    {
+      "page": "/docs",
+      "regex": "^/docs(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/docs(?:/)?$"
+    },
+    {
+      "page": "/news",
+      "regex": "^/news(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/news(?:/)?$"
+    },
+    {
+      "page": "/privacy",
+      "regex": "^/privacy(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/privacy(?:/)?$"
+    },
+    {
       "page": "/products",
       "regex": "^/products(?:/)?$",
       "routeKeys": {},
@@ -92,6 +116,18 @@
       "regex": "^/products/accessories(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/products/accessories(?:/)?$"
+    },
+    {
+      "page": "/products/custom",
+      "regex": "^/products/custom(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/products/custom(?:/)?$"
+    },
+    {
+      "page": "/products/interiors",
+      "regex": "^/products/interiors(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/products/interiors(?:/)?$"
     },
     {
       "page": "/products/trecc",
@@ -146,6 +182,24 @@
       "regex": "^/solutions/research(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/solutions/research(?:/)?$"
+    },
+    {
+      "page": "/support",
+      "regex": "^/support(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/support(?:/)?$"
+    },
+    {
+      "page": "/terms",
+      "regex": "^/terms(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/terms(?:/)?$"
+    },
+    {
+      "page": "/training",
+      "regex": "^/training(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/training(?:/)?$"
     }
   ],
   "dataRoutes": [],

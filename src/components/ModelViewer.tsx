@@ -126,25 +126,24 @@ const Model: React.FC<{
         const objectName = mesh.name.toLowerCase();
         const objectPath = getObjectPath(mesh);
         
-        // VERY SPECIFIC: Only color parts that are definitely shelter body parts
-        // This is a whitelist approach - only color if we're 100% sure it's a shelter body part
-        const isDefinitelyShelterBody = (
-          // Main shelter body keywords
-          /^shelter$|^body$|^main$|^container$|^box$|^unit$/.test(objectName) ||
-          // Shelter structure parts
-          /^wall$|^panel$|^roof$|^floor$|^ceiling$|^side$|^end$|^front$|^back$|^top$|^bottom$/.test(objectName) ||
-          // Shelter surface parts
-          /^surface$|^skin$|^hull$|^casing$|^enclosure$|^housing$/.test(objectName) ||
-          // Shelter frame parts (but not vehicle frame)
-          /^frame$|^structure$|^support$|^brace$|^girder$|^beam$/.test(objectName) ||
+        // More flexible shelter detection - look for any part that could be shelter body
+        const isLikelyShelterBody = (
+          // Main shelter body keywords (more flexible)
+          /shelter|body|main|container|box|unit|cabin|pod/.test(objectName) ||
+          // Shelter structure parts (more flexible)
+          /wall|panel|roof|floor|ceiling|side|end|front|back|top|bottom|surface|skin|hull|casing|enclosure|housing/.test(objectName) ||
+          // Shelter frame parts (but be careful with vehicle frame)
+          /frame|structure|support|brace|girder|beam/.test(objectName) ||
           // Shelter interior parts
-          /^interior$|^inner$|^inside$|^room$|^space$|^area$|^zone$|^volume$|^cabin$|^pod$/.test(objectName) ||
+          /interior|inner|inside|room|space|area|zone|volume/.test(objectName) ||
           // Shelter access parts
-          /^door$|^window$|^hatch$|^access$|^entry$|^exit$|^vent$|^port$/.test(objectName) ||
-          // Shelter connection parts (but not vehicle connections)
-          /^joint$|^seam$|^edge$|^corner$|^angle$|^curve$|^bend$/.test(objectName) ||
+          /door|window|hatch|access|entry|exit|vent|port/.test(objectName) ||
+          // Shelter connection parts
+          /joint|seam|edge|corner|angle|curve|bend/.test(objectName) ||
           // Shelter reinforcement parts
-          /^reinforcement$|^stiffener$|^gusset$|^pleat$|^crease$|^fold$/.test(objectName)
+          /reinforcement|stiffener|gusset|pleat|crease|fold/.test(objectName) ||
+          // Generic parts that are likely shelter (but not vehicle)
+          /part|piece|component|element|section|module/.test(objectName)
         );
         
         // VERY SPECIFIC: Never color these parts (blacklist approach)
@@ -161,10 +160,24 @@ const Model: React.FC<{
           objectPath.includes('chassis') || objectPath.includes('suspension') || objectPath.includes('axle')
         );
         
-        // Only color if it's definitely a shelter body part AND definitely not a vehicle part
-        if (isDefinitelyShelterBody && !isDefinitelyNotShelter) {
+        // Color if it's likely a shelter body part AND definitely not a vehicle part
+        if (isLikelyShelterBody && !isDefinitelyNotShelter) {
           console.log(`🎨 Coloring shelter part: ${objectName} (path: ${objectPath})`);
           coloredParts.push(`${objectName} (${objectPath})`);
+          
+          // Create new material to avoid sharing
+          const newMaterial = material.clone();
+          if (newMaterial instanceof THREE.MeshStandardMaterial || 
+              newMaterial instanceof THREE.MeshPhongMaterial ||
+              newMaterial instanceof THREE.MeshBasicMaterial) {
+            newMaterial.color.setHex(parseInt(color.replace('#', ''), 16));
+            newMaterial.needsUpdate = true;
+          }
+          mesh.material = newMaterial;
+        } else if (!isDefinitelyNotShelter) {
+          // FALLBACK: If it's not definitely a vehicle part, color it (in case shelter parts have unusual names)
+          console.log(`🎨 Coloring fallback part: ${objectName} (path: ${objectPath})`);
+          coloredParts.push(`${objectName} (${objectPath}) - FALLBACK`);
           
           // Create new material to avoid sharing
           const newMaterial = material.clone();
@@ -182,6 +195,8 @@ const Model: React.FC<{
             if (isDefinitelyNotShelter) {
               console.log(`🚫 Skipping vehicle part: ${objectName} (path: ${objectPath})`);
               skippedParts.push(`${objectName} (${objectPath})`);
+            } else {
+              console.log(`❓ Unclassified part: ${objectName} (path: ${objectPath})`);
             }
           }
         }
@@ -193,8 +208,13 @@ const Model: React.FC<{
 
     applyColorToShelter(clonedScene);
     
-    // Update debug info
-    // setDebugInfo({ colored: coloredParts, skipped: skippedParts }); // Removed as per edit hint
+    // Log summary
+    console.log(`🎨 Color application complete:`);
+    console.log(`   - Colored parts: ${coloredParts.length}`);
+    console.log(`   - Skipped vehicle parts: ${skippedParts.length}`);
+    if (coloredParts.length === 0) {
+      console.log(`⚠️  No parts were colored! Check if the model has the expected part names.`);
+    }
   }, [clonedScene, color]);
 
   if (loadError) {

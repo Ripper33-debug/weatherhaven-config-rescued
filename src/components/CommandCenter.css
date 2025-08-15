@@ -2948,18 +2948,19 @@
 /* ===== VIEW CONTROLS ===== */
 .view-controls {
   position: absolute;
-  top: 120px;
+  top: 140px;
   left: 20px;
-  z-index: var(--z-sticky);
+  z-index: 1000;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
   background: var(--bg-glass);
   backdrop-filter: blur(10px);
-  border: 1px solid var(--border-primary);
+  border: 2px solid var(--border-primary);
   border-radius: var(--radius-lg);
-  padding: var(--spacing-sm);
+  padding: var(--spacing-md);
   box-shadow: var(--shadow-glass);
+  min-width: 160px;
 }
 
 .view-control-group {
@@ -2973,7 +2974,7 @@
   align-items: center;
   gap: var(--spacing-xs);
   padding: var(--spacing-sm) var(--spacing-md);
-  background: var(--bg-glass);
+  background: var(--bg-glass-medium);
   backdrop-filter: blur(10px);
   border: 2px solid var(--border-primary);
   border-radius: var(--radius-md);
@@ -2990,7 +2991,7 @@
 }
 
 .view-btn:hover {
-  background: var(--bg-glass-medium);
+  background: var(--bg-glass-light);
   border-color: var(--accent-primary);
   transform: translateY(-1px);
   box-shadow: var(--shadow-primary);

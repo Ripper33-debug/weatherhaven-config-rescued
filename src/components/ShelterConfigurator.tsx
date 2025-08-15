@@ -70,15 +70,17 @@ const ShelterConfigurator: React.FC = () => {
   };
 
   const getModelPath = () => {
-    if (configState.isInteriorView) {
-      return "/models/trecc-open.glb";
-    }
-    return configState.isDeployed ? "/models/trecc-open.glb" : "/models/trecc.glb";
+    const path = configState.isInteriorView ? "/models/trecc-open.glb" : (configState.isDeployed ? "/models/trecc-open.glb" : "/models/trecc.glb");
+    console.log('📁 Model path requested:', path);
+    console.log('📁 Is deployed:', configState.isDeployed);
+    console.log('📁 Is interior view:', configState.isInteriorView);
+    return path;
   };
 
   console.log('🎯 Current state:', configState);
   console.log('📁 Model path:', getModelPath());
   console.log('🎨 Color being passed to ModelViewerScene:', configState.color);
+  console.log('🚀 Is deployed state:', configState.isDeployed);
 
   return (
     <div className="configurator-container" style={{

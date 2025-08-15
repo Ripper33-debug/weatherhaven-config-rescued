@@ -14,8 +14,8 @@ interface ModelViewerProps {
   showMeasurements?: boolean;
   explodedView?: boolean;
   autoRotate?: boolean;
-  color?: string; // Add color prop
-  isDeployed?: boolean; // Add deployment state
+  color?: string;
+  isDeployed?: boolean;
 }
 
 interface MeasurementPoint {
@@ -30,565 +30,377 @@ interface Annotation {
   position: [number, number, number];
   title: string;
   description: string;
-  category: 'feature' | 'specification' | 'warning' | 'info';
+  type: 'info' | 'warning' | 'error';
 }
 
-// Regex patterns to identify different parts
-const WHEEL_TRAILER_RX = /(wheel|tyre|tire|rim|hub|axle|suspension|spoke|lug|valve|fender|mudflap|mudguard|chassis|trailer|truck|vehicle|carriage|undercarriage|running|gear|brake|drum|disc|caliper|spring|shock|strut|link|arm|bracket|mount|bushing|bearing|nut|bolt|fastener|hardware)/i;
+// Loading Component with Animation
+const LoadingSpinner: React.FC = () => (
+  <Html center>
+    <div className="model-loading-container">
+      <div className="loading-spinner">
+        <div className="spinner-ring"></div>
+        <div className="spinner-ring"></div>
+        <div className="spinner-ring"></div>
+      </div>
+      <div className="loading-text">
+        <span className="loading-title">Loading TRECC Model</span>
+        <span className="loading-subtitle">Initializing 3D environment...</span>
+      </div>
+      <div className="loading-progress">
+        <div className="progress-bar">
+          <div className="progress-fill"></div>
+        </div>
+      </div>
+    </div>
+  </Html>
+);
 
-const SHELTER_BODY_RX = /(body|main|shell|wall|panel|shelter|container|box|unit|roof|side|end|floor|ceiling|exterior|outer|surface|skin|hull|casing|enclosure|housing|frame|structure|module|section|compartment|space|interior|inner|inside|room|area|zone|volume|cabin|pod|capsule|cylinder|tube|pipe|duct|channel|passage|opening|door|window|hatch|access|entry|exit|vent|port|connection|joint|seam|edge|corner|angle|curve|bend|fold|crease|pleat|gusset|reinforcement|stiffener|support|brace|girder|beam|column|post|pillar|stud|joist|rafter|truss|arch|dome|vault|canopy|awning|cover|lid|cap|top|bottom|base|foundation|platform|deck|stage|level|tier|layer|sheet|plate|board|panel|slab|block|brick|tile|shingle|cladding|siding|facade|face|front|back|left|right|north|south|east|west|upper|lower|middle|center|central|core|heart|nucleus|kernel|essence|main|primary|principal|chief|head|lead|key|essential|vital|crucial|important|significant|major)/i;
+// Zoom to Fit Controls
+const ZoomToFitControls: React.FC<{ 
+  onZoomToFit: () => void;
+  onResetView: () => void;
+  isLoading: boolean;
+}> = ({ onZoomToFit, onResetView, isLoading }) => (
+  <div className="zoom-controls">
+    <button 
+      className="zoom-btn zoom-fit-btn"
+      onClick={onZoomToFit}
+      disabled={isLoading}
+      title="Zoom to Fit Model"
+    >
+      <span className="btn-icon">🔍</span>
+      <span className="btn-text">Fit</span>
+    </button>
+    <button 
+      className="zoom-btn zoom-reset-btn"
+      onClick={onResetView}
+      disabled={isLoading}
+      title="Reset View"
+    >
+      <span className="btn-icon">🔄</span>
+      <span className="btn-text">Reset</span>
+    </button>
+  </div>
+);
 
-function isWheelOrTrailerPart(node: THREE.Object3D): boolean {
-  const name = (node.name || '').toLowerCase();
-  const parentName = (node.parent?.name || '').toLowerCase();
-  const grandParentName = (node.parent?.parent?.name || '').toLowerCase();
-  
-  return WHEEL_TRAILER_RX.test(name) || WHEEL_TRAILER_RX.test(parentName) || WHEEL_TRAILER_RX.test(grandParentName);
-}
+// Enhanced Model Component with Zoom to Fit
+const Model: React.FC<{
+  modelPath: string;
+  color?: string;
+  isDeployed?: boolean;
+  onLoad?: () => void;
+  onError?: (error: string) => void;
+}> = ({ modelPath, color, isDeployed, onLoad, onError }) => {
+  const meshRef = useRef<THREE.Group>(null);
+  const { scene } = useGLTF(modelPath);
+  const [isModelLoaded, setIsModelLoaded] = useState(false);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
-function isShelterBodyPart(node: THREE.Object3D): boolean {
-  const name = (node.name || '').toLowerCase();
-  const parentName = (node.parent?.name || '').toLowerCase();
-  
-  // First check if it's a wheel/trailer part - if so, definitely don't color it
-  if (isWheelOrTrailerPart(node)) {
-    return false;
+  // Clone the scene to avoid sharing materials
+  const clonedScene = useMemo(() => {
+    if (!scene) return null;
+    const clone = scene.clone();
+    return clone;
+  }, [scene]);
+
+  useEffect(() => {
+    if (clonedScene) {
+      setIsModelLoaded(true);
+      onLoad?.();
+    }
+  }, [clonedScene, onLoad]);
+
+  useEffect(() => {
+    if (loadError) {
+      onError?.(loadError);
+    }
+  }, [loadError, onError]);
+
+  // Apply color to shelter body parts (exclude wheels/trailer)
+  useEffect(() => {
+    if (!clonedScene || !color) return;
+
+    const applyColorToShelter = (object: THREE.Object3D) => {
+      if (object.type === 'Mesh' && object instanceof THREE.Mesh) {
+        const mesh = object as THREE.Mesh;
+        const material = mesh.material as THREE.Material;
+        
+        // Check if this is a shelter body part (exclude wheels, trailer, etc.)
+        const objectName = mesh.name.toLowerCase();
+        const isWheelOrTrailer = /wheel|tire|axle|suspension|chassis|trailer|truck|vehicle/.test(objectName);
+        const isShelterBody = /shelter|body|panel|wall|container|structure|main/.test(objectName);
+        
+        if (isShelterBody && !isWheelOrTrailer) {
+          // Create new material to avoid sharing
+          const newMaterial = material.clone();
+          if (newMaterial instanceof THREE.MeshStandardMaterial || 
+              newMaterial instanceof THREE.MeshPhongMaterial ||
+              newMaterial instanceof THREE.MeshBasicMaterial) {
+            newMaterial.color.setHex(parseInt(color.replace('#', ''), 16));
+            newMaterial.needsUpdate = true;
+          }
+          mesh.material = newMaterial;
+        } else if (isWheelOrTrailer) {
+          // Keep wheels/trailer black
+          const newMaterial = material.clone();
+          if (newMaterial instanceof THREE.MeshStandardMaterial || 
+              newMaterial instanceof THREE.MeshPhongMaterial ||
+              newMaterial instanceof THREE.MeshBasicMaterial) {
+            newMaterial.color.setHex(0x000000); // Black
+            newMaterial.needsUpdate = true;
+          }
+          mesh.material = newMaterial;
+        }
+      }
+      
+      // Recursively apply to children
+      object.children.forEach(child => applyColorToShelter(child));
+    };
+
+    applyColorToShelter(clonedScene);
+  }, [clonedScene, color]);
+
+  if (loadError) {
+    return (
+      <Html center>
+        <div className="model-error">
+          <div className="error-icon">⚠️</div>
+          <div className="error-text">Failed to load model</div>
+          <div className="error-details">{loadError}</div>
+        </div>
+      </Html>
+    );
   }
-  
-  // For everything else, be more permissive - color it unless it's clearly not a body part
-  const isDefinitelyNotBody = WHEEL_TRAILER_RX.test(name);
-  
-  return !isDefinitelyNotBody;
-}
 
+  if (!clonedScene) {
+    return <LoadingSpinner />;
+  }
+
+  return (
+    <primitive 
+      ref={meshRef}
+      object={clonedScene} 
+      position={[0, 0, 0]}
+      scale={isDeployed ? 1 : 0.8}
+    />
+  );
+};
+
+// Camera Controller with Zoom to Fit
+const CameraController: React.FC<{
+  onZoomToFit: (fn: () => void) => void;
+  onResetView: (fn: () => void) => void;
+}> = ({ onZoomToFit, onResetView }) => {
+  const { camera, scene } = useThree();
+  const controlsRef = useRef<any>(null);
+
+  const zoomToFit = () => {
+    if (!scene || !camera) return;
+
+    // Calculate bounding box of the scene
+    const box = new THREE.Box3().setFromObject(scene);
+    const size = box.getSize(new THREE.Vector3());
+    const center = box.getCenter(new THREE.Vector3());
+
+    // Calculate optimal camera distance
+    const maxDim = Math.max(size.x, size.y, size.z);
+    const fov = (camera as THREE.PerspectiveCamera).fov * (Math.PI / 180);
+    const cameraDistance = Math.abs(maxDim / 2 / Math.tan(fov / 2)) * 1.5;
+
+    // Set camera position
+    camera.position.set(
+      center.x + cameraDistance * 0.5,
+      center.y + cameraDistance * 0.3,
+      center.z + cameraDistance * 0.5
+    );
+
+    // Look at center
+    camera.lookAt(center);
+
+    // Update controls target
+    if (controlsRef.current) {
+      controlsRef.current.target.copy(center);
+      controlsRef.current.update();
+    }
+
+    // Trigger smooth animation
+    if (controlsRef.current) {
+      controlsRef.current.enableDamping = true;
+      controlsRef.current.dampingFactor = 0.05;
+    }
+  };
+
+  const resetView = () => {
+    if (!camera) return;
+
+    // Reset to default position
+    camera.position.set(0, 0.2, 6);
+    camera.lookAt(0, 0, 0);
+
+    if (controlsRef.current) {
+      controlsRef.current.target.set(0, 0, 0);
+      controlsRef.current.update();
+    }
+  };
+
+  // Expose functions to parent
+  useEffect(() => {
+    onZoomToFit = zoomToFit;
+    onResetView = resetView;
+  }, [onZoomToFit, onResetView]);
+
+  return (
+    <OrbitControls
+      ref={controlsRef}
+      enableDamping={true}
+      dampingFactor={0.05}
+      enableZoom={true}
+      enablePan={true}
+      enableRotate={true}
+      maxDistance={20}
+      minDistance={1}
+      maxPolarAngle={Math.PI / 2}
+      minPolarAngle={0}
+    />
+  );
+};
+
+// Main ModelViewer Component
 const ModelViewer: React.FC<ModelViewerProps> = ({
   modelPath,
   interiorPath,
   onLoad,
   onError,
-  showAnnotations = true,
-  showMeasurements = true,
+  showAnnotations = false,
+  showMeasurements = false,
   explodedView = false,
   autoRotate = false,
   color = '#d2b48c',
   isDeployed = true
 }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [measurements, setMeasurements] = useState<MeasurementPoint[]>([]);
-  const [annotations, setAnnotations] = useState<Annotation[]>([]);
-  const [selectedAnnotation, setSelectedAnnotation] = useState<string | null>(null);
-  const [explodedViewProgress, setExplodedViewProgress] = useState(0);
+  const [loadProgress, setLoadProgress] = useState(0);
+  const [zoomToFitFn, setZoomToFitFn] = useState<(() => void) | null>(null);
+  const [resetViewFn, setResetViewFn] = useState<(() => void) | null>(null);
 
-  // Generate sample measurements and annotations
+  // Simulate loading progress
   useEffect(() => {
-    const sampleMeasurements: MeasurementPoint[] = [
-      { id: 'length', position: [7.15, 0, 0], label: 'Length: 14.3 ft' },
-      { id: 'width', position: [0, 3.55, 0], label: 'Width: 7.1 ft' },
-      { id: 'height', position: [0, 0, 3.95], label: 'Height: 7.9 ft' }
-    ];
+    const timer = setInterval(() => {
+      setLoadProgress(prev => {
+        if (prev >= 100) {
+          clearInterval(timer);
+          setIsLoading(false);
+          return 100;
+        }
+        return prev + Math.random() * 15;
+      });
+    }, 200);
 
-    const sampleAnnotations: Annotation[] = [
-      {
-        id: 'entrance',
-        position: [0, 0, 0],
-        title: 'Main Entrance',
-        description: 'Primary access point with reinforced door and security features',
-        category: 'feature'
-      },
-      {
-        id: 'hvac',
-        position: [2, 2, 2],
-        title: 'HVAC System',
-        description: 'Integrated heating, ventilation, and air conditioning system',
-        category: 'specification'
-      },
-      {
-        id: 'power',
-        position: [-2, 1, 1],
-        title: 'Power Distribution',
-        description: 'Electrical power distribution and backup systems',
-        category: 'info'
-      }
-    ];
-
-    setMeasurements(sampleMeasurements);
-    setAnnotations(sampleAnnotations);
+    return () => clearInterval(timer);
   }, []);
 
-  // Exploded view animation
-  useEffect(() => {
-    if (explodedView) {
-      const interval = setInterval(() => {
-        setExplodedViewProgress(prev => {
-          if (prev >= 1) return 1;
-          return prev + 0.02;
-        });
-      }, 50);
-      return () => clearInterval(interval);
-    } else {
-      const interval = setInterval(() => {
-        setExplodedViewProgress(prev => {
-          if (prev <= 0) return 0;
-          return prev - 0.02;
-        });
-      }, 50);
-      return () => clearInterval(interval);
+  const handleModelLoad = () => {
+    setIsLoading(false);
+    setLoadProgress(100);
+    onLoad?.();
+  };
+
+  const handleZoomToFit = () => {
+    if (zoomToFitFn) {
+      zoomToFitFn();
     }
-  }, [explodedView]);
+  };
 
-  return (
-    <div className="model-viewer-container">
-      <Canvas
-        camera={{ position: [10, 10, 10], fov: 50 }}
-        style={{ background: 'var(--bg-primary)' }}
-      >
-        <ambientLight intensity={0.4} />
-        <directionalLight position={[10, 10, 5]} intensity={1} castShadow />
-        <pointLight position={[-10, -10, -10]} intensity={0.5} />
-
-        <Environment preset="warehouse" />
-
-        <Model
-          modelPath={modelPath}
-          interiorPath={interiorPath}
-          explodedViewProgress={explodedViewProgress}
-          color={color}
-          isDeployed={isDeployed}
-          onLoad={() => {
-            setIsLoading(false);
-            onLoad?.();
-          }}
-          onError={(error) => {
-            setError(error);
-            onError?.(error);
-          }}
-        />
-
-        {showMeasurements && measurements.map((measurement) => (
-          <MeasurementPoint
-            key={measurement.id}
-            measurement={measurement}
-            explodedViewProgress={explodedViewProgress}
-          />
-        ))}
-
-        {showAnnotations && annotations.map((annotation) => (
-          <AnnotationMarker
-            key={annotation.id}
-            annotation={annotation}
-            isSelected={selectedAnnotation === annotation.id}
-            onSelect={() => setSelectedAnnotation(annotation.id)}
-            explodedViewProgress={explodedViewProgress}
-          />
-        ))}
-
-        <OrbitControls
-          enablePan={true}
-          enableZoom={true}
-          enableRotate={true}
-          autoRotate={autoRotate}
-          autoRotateSpeed={0.5}
-          dampingFactor={0.05}
-          enableDamping={true}
-          maxDistance={50}
-          minDistance={2}
-        />
-
-        <Grid />
-        <Axes />
-      </Canvas>
-
-      {/* Model Controls */}
-      <div className="model-controls">
-        <button
-          className="control-button"
-          onClick={() => {
-            // Zoom to fit functionality
-            const canvas = document.querySelector('canvas');
-            if (canvas) {
-              // Implementation for zoom to fit
-              console.log('Zoom to fit clicked');
-            }
-          }}
-          title="Zoom to Fit"
-        >
-          🔍
-        </button>
-        <button
-          className="control-button"
-          onClick={() => {
-            // Reset camera position
-            const canvas = document.querySelector('canvas');
-            if (canvas) {
-              console.log('Reset view clicked');
-            }
-          }}
-          title="Reset View"
-        >
-          🏠
-        </button>
-        <button
-          className="control-button"
-          onClick={() => {
-            // Toggle exploded view
-            // This would be handled by parent component
-          }}
-          title="Exploded View"
-        >
-          💥
-        </button>
-        <button
-          className="control-button"
-          onClick={() => {
-            // Toggle measurements
-          }}
-          title="Toggle Measurements"
-        >
-          📏
-        </button>
-        <button
-          className="control-button"
-          onClick={() => {
-            // Toggle annotations
-          }}
-          title="Toggle Annotations"
-        >
-          📝
-        </button>
-      </div>
-
-      {/* Loading Overlay */}
-      {isLoading && (
-        <div className="loading-overlay">
-          <div className="loading-spinner">
-            <div className="spinner"></div>
-            <div className="loading-text">
-              <h3>Loading Model</h3>
-              <p>Initializing 3D environment...</p>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Error Display */}
-      {error && (
-        <div className="error-overlay">
-          <div className="error-message">
-            <h3>Error Loading Model</h3>
-            <p>{error}</p>
-          </div>
-        </div>
-      )}
-
-      {/* Annotation Details Panel */}
-      {selectedAnnotation && (
-        <AnnotationPanel
-          annotation={annotations.find(a => a.id === selectedAnnotation)!}
-          onClose={() => setSelectedAnnotation(null)}
-        />
-      )}
-    </div>
-  );
-};
-
-// Model Component with proper color handling
-const Model: React.FC<{
-  modelPath: string;
-  interiorPath?: string;
-  explodedViewProgress: number;
-  color: string;
-  isDeployed: boolean;
-  onLoad: () => void;
-  onError: (error: string) => void;
-}> = ({ modelPath, interiorPath, explodedViewProgress, color, isDeployed, onLoad, onError }) => {
-  const groupRef = useRef<THREE.Group>(null);
-  const [processedScene, setProcessedScene] = useState<THREE.Object3D | null>(null);
-  
-  try {
-    const { scene } = useGLTF(modelPath);
-    
-    // Process the scene and apply materials
-    useEffect(() => {
-      if (scene) {
-        const cloned = scene.clone(true);
-        
-        // Create rubber material for wheels/trailer parts
-        const rubberMaterial = new THREE.MeshPhysicalMaterial({
-          color: '#111111', // black rubber
-          roughness: 0.9,
-          metalness: 0.0,
-          reflectivity: 0.05,
-          clearcoat: 0,
-        });
-
-        let coloredCount = 0;
-        let skippedCount = 0;
-
-        cloned.traverse((child: any) => {
-          if (!child.isMesh || !child.material) return;
-
-          // Always break material sharing
-          if (child.material) {
-            if (Array.isArray(child.material)) {
-              child.material = child.material.map((m: any) => m.clone());
-            } else {
-              child.material = child.material.clone();
-            }
-          }
-
-          // Tag parts for debugging
-          if (isWheelOrTrailerPart(child)) {
-            child.userData.isWheel = true;
-            console.log(`🔧 Marked as wheel/trailer: ${child.name}`);
-            
-            // Apply rubber material to wheels/trailer parts
-            if (Array.isArray(child.material)) {
-              child.material = child.material.map(() => rubberMaterial.clone());
-            } else {
-              child.material = rubberMaterial.clone();
-            }
-            skippedCount++;
-          } else if (isShelterBodyPart(child)) {
-            child.userData.isBody = true;
-            console.log(`🏠 Marked as shelter body: ${child.name}`);
-            coloredCount++;
-          } else {
-            console.log(`❓ Unclassified: ${child.name} (parent: ${child.parent?.name || 'none'})`);
-            skippedCount++;
-          }
-
-          // Enhanced shadow settings
-          child.castShadow = true;
-          child.receiveShadow = true;
-        });
-
-        setProcessedScene(cloned);
-        onLoad();
-        
-        console.log(`Color application complete: ${coloredCount} body parts tagged, ${skippedCount} parts skipped`);
-      }
-    }, [scene, onLoad]);
-
-    // Apply color changes
-    useEffect(() => {
-      if (!processedScene) return;
-
-      let coloredCount = 0;
-      let skippedCount = 0;
-
-      processedScene.traverse((child: any) => {
-        if (!child.isMesh || !child.material) return;
-        
-        // Only color body parts, skip wheels/trailer parts
-        if (!child.userData.isBody || child.userData.isWheel) {
-          skippedCount++;
-          return;
-        }
-
-        coloredCount++;
-        console.log(`✅ Coloring body part: ${child.name}`);
-
-        const applyFinish = (mat: any) => {
-          const m = mat.clone();
-          m.color.set(color);
-
-          // Apply different finishes based on color
-          if (color === '#2F4F2F') {        // Dark Military Green - Matte
-            m.metalness = 0.1; 
-            m.roughness = 0.9;
-          } else if (color === '#D2B48C') { // Matte Tan
-            m.metalness = 0.1; 
-            m.roughness = 0.9;
-          } else if (color === '#FFFFFF') { // Matte White
-            m.metalness = 0.1; 
-            m.roughness = 0.8;
-          } else {                          // Custom - Premium
-            m.metalness = 0.2; 
-            m.roughness = 0.6;
-          }
-          m.needsUpdate = true;
-          return m;
-        };
-
-        if (Array.isArray(child.material)) {
-          child.material = child.material.map((mm: any) =>
-            (mm.isMeshStandardMaterial || mm.isMeshPhysicalMaterial)
-              ? applyFinish(mm)
-              : new THREE.MeshStandardMaterial({ color, metalness: 0.2, roughness: 0.6 })
-          );
-        } else {
-          const mm = child.material;
-          child.material =
-            (mm.isMeshStandardMaterial || mm.isMeshPhysicalMaterial)
-              ? applyFinish(mm)
-              : new THREE.MeshStandardMaterial({ color, metalness: 0.2, roughness: 0.6 });
-          child.material.needsUpdate = true;
-        }
-      });
-      
-      console.log(`Color application complete: ${coloredCount} body parts colored, ${skippedCount} parts skipped`);
-    }, [color, processedScene]);
-
-    useFrame(() => {
-      if (groupRef.current) {
-        // Apply exploded view transformation
-        const children = groupRef.current.children;
-        children.forEach((child, index) => {
-          const direction = new THREE.Vector3(
-            Math.sin(index * 0.5) * 2,
-            Math.cos(index * 0.5) * 2,
-            Math.sin(index * 0.3) * 2
-          );
-          child.position.lerp(direction.multiplyScalar(explodedViewProgress), 0.1);
-        });
-      }
-    });
-
-    return (
-      <group ref={groupRef}>
-        {processedScene ? (
-          <primitive object={processedScene} />
-        ) : (
-          // Fallback box while loading
-          <mesh position={[0, 2, 0]} castShadow receiveShadow>
-            <boxGeometry args={[4, 4, 2]} />
-            <meshStandardMaterial color={color} metalness={0.2} roughness={0.6} />
-          </mesh>
-        )}
-        {interiorPath && <InteriorModel path={interiorPath} />}
-      </group>
-    );
-  } catch (error) {
-    onError('Failed to load model');
-    return null;
-  }
-};
-
-// Interior Model Component
-const InteriorModel: React.FC<{ path: string }> = ({ path }) => {
-  try {
-    const { scene } = useGLTF(path);
-    return <primitive object={scene} />;
-  } catch {
-    return null;
-  }
-};
-
-// Measurement Point Component
-const MeasurementPoint: React.FC<{
-  measurement: MeasurementPoint;
-  explodedViewProgress: number;
-}> = ({ measurement, explodedViewProgress }) => {
-  const [hovered, setHovered] = useState(false);
-
-  return (
-    <group position={measurement.position}>
-      <Sphere args={[0.1, 16, 16]}>
-        <meshStandardMaterial
-          color={hovered ? 'var(--accent-cyan)' : 'var(--accent-orange)'}
-          emissive={hovered ? 'var(--accent-cyan)' : 'black'}
-          emissiveIntensity={hovered ? 0.5 : 0}
-        />
-      </Sphere>
-      
-      <Html position={[0, 0.5, 0]} center>
-        <div className="measurement-tool">
-          {measurement.label}
-        </div>
-      </Html>
-
-      <mesh
-        onPointerOver={() => setHovered(true)}
-        onPointerOut={() => setHovered(false)}
-      >
-        <sphereGeometry args={[0.2, 16, 16]} />
-        <meshBasicMaterial transparent opacity={0} />
-      </mesh>
-    </group>
-  );
-};
-
-// Annotation Marker Component
-const AnnotationMarker: React.FC<{
-  annotation: Annotation;
-  isSelected: boolean;
-  onSelect: () => void;
-  explodedViewProgress: number;
-}> = ({ annotation, isSelected, onSelect, explodedViewProgress }) => {
-  const [hovered, setHovered] = useState(false);
-
-  const getCategoryColor = (category: string) => {
-    switch (category) {
-      case 'feature': return 'var(--accent-cyan)';
-      case 'specification': return 'var(--accent-green)';
-      case 'warning': return 'var(--accent-red)';
-      case 'info': return 'var(--accent-purple)';
-      default: return 'var(--accent-orange)';
+  const handleResetView = () => {
+    if (resetViewFn) {
+      resetViewFn();
     }
   };
 
   return (
-    <group position={annotation.position}>
-      <Sphere args={[0.15, 16, 16]}>
-        <meshStandardMaterial
-          color={getCategoryColor(annotation.category)}
-          emissive={getCategoryColor(annotation.category)}
-          emissiveIntensity={isSelected || hovered ? 0.8 : 0.3}
-        />
-      </Sphere>
-
-      <Html position={[0, 0.3, 0]} center>
-        <div className="annotation-marker">
-          {annotation.category === 'feature' && '⚡'}
-          {annotation.category === 'specification' && '📋'}
-          {annotation.category === 'warning' && '⚠️'}
-          {annotation.category === 'info' && 'ℹ️'}
-        </div>
-      </Html>
-
-      <mesh
-        onPointerOver={() => setHovered(true)}
-        onPointerOut={() => setHovered(false)}
-        onClick={onSelect}
+    <div className="model-viewer-container">
+      <Canvas
+        camera={{ position: [0, 0.2, 6], fov: 50 }}
+        gl={{ antialias: true, alpha: false }}
+        dpr={[1, 2]}
+        shadows
       >
-        <sphereGeometry args={[0.3, 16, 16]} />
-        <meshBasicMaterial transparent opacity={0} />
-      </mesh>
-    </group>
-  );
-};
+        {/* Environment */}
+        <Environment preset="sunset" />
+        
+        {/* Lighting */}
+        <ambientLight intensity={0.6} />
+        <directionalLight
+          position={[10, 10, 5]}
+          intensity={1.2}
+          castShadow
+          shadow-mapSize-width={2048}
+          shadow-mapSize-height={2048}
+          shadow-camera-far={50}
+          shadow-camera-left={-10}
+          shadow-camera-right={10}
+          shadow-camera-top={10}
+          shadow-camera-bottom={-10}
+        />
 
-// Annotation Panel Component
-const AnnotationPanel: React.FC<{
-  annotation: Annotation;
-  onClose: () => void;
-}> = ({ annotation, onClose }) => {
-  return (
-    <div className="annotation-panel glass-panel">
-      <div className="annotation-header">
-        <h3>{annotation.title}</h3>
-        <button onClick={onClose} className="close-button">×</button>
-      </div>
-      <p>{annotation.description}</p>
-      <div className="annotation-category">
-        Category: {annotation.category}
-      </div>
+        {/* Ground Plane */}
+        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]} receiveShadow>
+          <planeGeometry args={[20, 20]} />
+          <meshStandardMaterial color="#2a2a2a" />
+        </mesh>
+
+        {/* Model */}
+        <Model
+          modelPath={modelPath}
+          color={color}
+          isDeployed={isDeployed}
+          onLoad={handleModelLoad}
+          onError={onError}
+        />
+
+        {/* Camera Controller */}
+        <CameraController
+          onZoomToFit={(fn) => setZoomToFitFn(() => fn)}
+          onResetView={(fn) => setResetViewFn(() => fn)}
+        />
+
+        {/* Loading Overlay */}
+        {isLoading && <LoadingSpinner />}
+      </Canvas>
+
+      {/* Zoom Controls */}
+      <ZoomToFitControls
+        onZoomToFit={handleZoomToFit}
+        onResetView={handleResetView}
+        isLoading={isLoading}
+      />
+
+      {/* Loading Progress Bar */}
+      {isLoading && (
+        <div className="loading-overlay">
+          <div className="loading-content">
+            <div className="loading-spinner-large">
+              <div className="spinner-ring-large"></div>
+              <div className="spinner-ring-large"></div>
+              <div className="spinner-ring-large"></div>
+            </div>
+            <div className="loading-text-large">
+              <span className="loading-title-large">Loading TRECC Configuration</span>
+              <span className="loading-subtitle-large">Preparing 3D environment...</span>
+            </div>
+            <div className="loading-progress-large">
+              <div className="progress-bar-large">
+                <div 
+                  className="progress-fill-large"
+                  style={{ width: `${loadProgress}%` }}
+                ></div>
+              </div>
+              <span className="progress-text">{Math.round(loadProgress)}%</span>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
-  );
-};
-
-// Grid Component
-const Grid: React.FC = () => {
-  return (
-    <gridHelper args={[20, 20, 'var(--accent-cyan)', 'rgba(255,255,255,0.1)']} />
-  );
-};
-
-// Axes Component
-const Axes: React.FC = () => {
-  return (
-    <axesHelper args={[5]} />
   );
 };
 

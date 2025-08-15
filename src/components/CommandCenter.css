@@ -4427,3 +4427,63 @@
 .controls-panel::-webkit-scrollbar-thumb:hover {
   background: var(--config-accent);
 }
+
+/* ===== LEAD TIMES BUTTON ===== */
+.lead-times-button {
+  position: absolute;
+  bottom: var(--space-6);
+  left: var(--space-6);
+  z-index: var(--z-fixed);
+}
+
+.lead-times-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-6);
+  background: var(--config-gradient);
+  border: 2px solid var(--config-accent);
+  border-radius: var(--radius-xl);
+  color: var(--config-text);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: var(--config-shadow);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.lead-times-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.lead-times-btn:hover::before {
+  left: 100%;
+}
+
+.lead-times-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--config-shadow-lg);
+  border-color: var(--config-accent-hover);
+}
+
+.lead-times-btn .btn-icon {
+  font-size: 1.25rem;
+}
+
+.lead-times-btn .btn-text {
+  font-weight: 700;
+}
+
+/* ===== SCROLLBAR STYLING ===== */

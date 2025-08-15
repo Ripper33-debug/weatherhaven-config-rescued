@@ -349,6 +349,20 @@ const ShelterConfigurator: React.FC = () => {
             </div>
           </div>
         </div>
+
+        {/* Lead Times Button - Bottom Left */}
+        <div className="lead-times-button">
+          <button 
+            className="lead-times-btn"
+            onClick={() => {
+              // TODO: Implement lead times functionality
+              console.log('Lead times clicked');
+            }}
+          >
+            <span className="btn-icon">⏱️</span>
+            <span className="btn-text">Lead Times</span>
+          </button>
+        </div>
       </div>
     </div>
   );

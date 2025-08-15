@@ -368,6 +368,19 @@ const ShelterConfigurator: React.FC = () => {
             <span className="btn-text">Lead Times</span>
           </button>
         </div>
+
+        {/* Back to Home Button - Bottom Right */}
+        <div className="back-home-button">
+          <button 
+            className="back-home-btn"
+            onClick={() => {
+              window.location.href = '/';
+            }}
+          >
+            <span className="btn-icon">🏠</span>
+            <span className="btn-text">Back to Home</span>
+          </button>
+        </div>
       </div>
     </div>
   );

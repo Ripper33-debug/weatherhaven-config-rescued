@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import ProductDetailPage from './components/ProductDetailPage';
-import SiteHeader from './components/SiteHeader';
 import StaticPage from './components/StaticPage';
 import CommandCenter from './components/CommandCenter';
 import ShelterConfigurator from './components/ShelterConfigurator';
@@ -89,7 +88,6 @@ function AppContent() {
 
   return (
     <div className="app-container">
-      <SiteHeader onLogoutClick={handleLogout} />
       <Routes>
         <Route path="/" element={<HomePage />} />
         {/* Static pages driven by siteContent config */}

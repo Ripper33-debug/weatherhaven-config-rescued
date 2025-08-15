@@ -62,44 +62,32 @@ const Model: React.FC<{
     setError(`Failed to load model: ${modelPath}`);
   }
 
-  // Apply color to shelter body parts only (exclude wheels/trailer)
+  // Apply color to all parts (simplified approach)
   useEffect(() => {
     if (scene && color) {
+      const allParts: string[] = [];
       const coloredParts: string[] = [];
       const skippedParts: string[] = [];
 
-      const applyColorToShelter = (object: THREE.Object3D) => {
+      const applyColorToModel = (object: THREE.Object3D) => {
         if (object.type === 'Mesh' && object instanceof THREE.Mesh) {
           const mesh = object as THREE.Mesh;
           const material = mesh.material as THREE.Material;
           
           const objectName = mesh.name.toLowerCase();
+          allParts.push(objectName);
           
-          // Check if it's a shelter body part
-          const isShelterBody = (
-            /shelter|body|main|container|box|unit|cabin|pod/.test(objectName) ||
-            /wall|panel|roof|floor|ceiling|side|end|front|back|top|bottom|surface|skin|hull|casing|enclosure|housing/.test(objectName) ||
-            /interior|inner|inside|room|space|area|zone|volume|chamber|compartment/.test(objectName) ||
-            /door|window|hatch|access|entry|exit|vent|port|opening/.test(objectName) ||
-            /shell|cover|outer|external|primary|core|base|main|central/.test(objectName) ||
-            /large|big|major|primary|main|central|body|structure/.test(objectName)
-          );
-          
-          // Check if it's a vehicle part (wheels, trailer, etc.)
+          // Simple approach: color everything except obvious vehicle parts
           const isVehiclePart = (
             /wheel|tire|tyre|rim|hub|axle|suspension|spoke|lug|valve|fender|mudflap|mudguard/.test(objectName) ||
             /chassis|trailer|truck|vehicle|carriage|undercarriage|running|gear|transmission|engine|motor/.test(objectName) ||
             /brake|drum|disc|caliper|spring|shock|strut|link|arm|bracket|mount|bushing|bearing/.test(objectName) ||
             /nut|bolt|fastener|hardware|screw|washer|pin|clip|clamp|wire|cable/.test(objectName) ||
-            /frame|support|strut|brace|girder|beam|post|pillar|column|stud|joist|rafter|truss/.test(objectName) ||
-            /joint|seam|edge|corner|angle|curve|bend|fold|crease|pleat|gusset/.test(objectName) ||
-            /reinforcement|stiffener|gusset|pleat|crease|fold|bracket|support|strut|brace/.test(objectName) ||
-            /part|piece|component|element|section|module|block|plate|sheet|board|slab/.test(objectName) ||
             /tread|sidewall|bead|valve|stem|cap|cover|hubcap|center|spinner/.test(objectName)
           );
           
-          // Only color if it's a shelter body part AND not a vehicle part
-          if (isShelterBody && !isVehiclePart) {
+          // Color if it's NOT a vehicle part
+          if (!isVehiclePart) {
             coloredParts.push(objectName);
             
             if (material) {
@@ -129,11 +117,15 @@ const Model: React.FC<{
           }
         }
         
-        object.children.forEach(child => applyColorToShelter(child));
+        object.children.forEach(child => applyColorToModel(child));
       };
       
-      applyColorToShelter(scene);
-      console.log('🎨 Colored parts:', coloredParts.length, 'Skipped parts:', skippedParts.length);
+      applyColorToModel(scene);
+      
+      console.log('🔍 All parts in model:', allParts);
+      console.log('🎨 Colored parts:', coloredParts);
+      console.log('🚫 Skipped parts:', skippedParts);
+      console.log('📊 Summary - Colored:', coloredParts.length, 'Skipped:', skippedParts.length, 'Total:', allParts.length);
     }
   }, [scene, color]);
 

@@ -2,14 +2,14 @@
   "/robots.txt/route": "app/robots.txt/route.js",
   "/sitemap.xml/route": "app/sitemap.xml/route.js",
   "/configurator/page": "app/configurator/page.js",
-  "/products/trecc/page": "app/products/trecc/page.js",
+  "/contact/page": "app/contact/page.js",
   "/case-studies/page": "app/case-studies/page.js",
-  "/solutions/military/page": "app/solutions/military/page.js",
-  "/solutions/page": "app/solutions/page.js",
   "/_not-found/page": "app/_not-found/page.js",
+  "/solutions/military/page": "app/solutions/military/page.js",
+  "/products/trecc/page": "app/products/trecc/page.js",
   "/page": "app/page.js",
   "/resources/page": "app/resources/page.js",
-  "/contact/page": "app/contact/page.js",
-  "/products/page": "app/products/page.js",
-  "/about/page": "app/about/page.js"
+  "/solutions/page": "app/solutions/page.js",
+  "/about/page": "app/about/page.js",
+  "/products/page": "app/products/page.js"
 }

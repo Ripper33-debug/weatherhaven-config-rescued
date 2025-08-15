@@ -120,7 +120,7 @@ const ShelterConfigurator: React.FC = () => {
                 <div>Interior View: {configState.isInteriorView ? 'Yes' : 'No'}</div>
                 <div>Model: {
                   configState.isInteriorView 
-                    ? 'interior.glb' 
+                    ? 'trecc-open.glb' 
                     : configState.isDeployed 
                       ? 'trecc-open.glb' 
                       : 'trecc.glb'

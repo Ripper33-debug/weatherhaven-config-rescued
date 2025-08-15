@@ -90,12 +90,21 @@ const Model: React.FC<{
   onLoad?: () => void;
   onError?: (error: string) => void;
 }> = ({ modelPath, color, isDeployed, onLoad, onError }) => {
+  console.log('🎯 Model component loading:', modelPath);
   const meshRef = useRef<THREE.Group>(null);
   const [isModelLoaded, setIsModelLoaded] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
   
   // Add error handling for model loading
-  const { scene } = useGLTF(modelPath);
+  let scene: THREE.Group | undefined;
+  try {
+    const result = useGLTF(modelPath);
+    scene = result.scene;
+  } catch (error) {
+    console.error('Model loading error:', error);
+    setLoadError(`Failed to load model: ${modelPath}`);
+    onError?.(`Failed to load model: ${modelPath}`);
+  }
 
   // Clone the scene to avoid sharing materials
   const clonedScene = useMemo(() => {
@@ -225,10 +234,17 @@ const Model: React.FC<{
   if (loadError) {
     return (
       <Html center>
-        <div className="model-error">
-          <div className="error-icon">⚠️</div>
-          <div className="error-text">Failed to load model</div>
-          <div className="error-details">{loadError}</div>
+        <div style={{ 
+          background: 'rgba(255, 0, 0, 0.8)', 
+          color: 'white', 
+          padding: '20px', 
+          borderRadius: '8px',
+          textAlign: 'center',
+          minWidth: '200px'
+        }}>
+          <div style={{ fontSize: '24px', marginBottom: '10px' }}>⚠️</div>
+          <div style={{ fontWeight: 'bold', marginBottom: '5px' }}>Failed to load model</div>
+          <div style={{ fontSize: '12px' }}>{loadError}</div>
         </div>
       </Html>
     );

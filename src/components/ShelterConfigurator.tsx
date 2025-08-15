@@ -52,12 +52,7 @@ const ShelterConfigurator: React.FC = () => {
   const colorOptions = [
     { name: 'Tan', value: '#8B4513' },
     { name: 'Green', value: '#228B22' },
-    { name: 'Blue', value: '#4169E1' },
-    { name: 'Red', value: '#DC143C' },
-    { name: 'Gray', value: '#696969' },
     { name: 'White', value: '#FFFFFF' },
-    { name: 'Black', value: '#000000' },
-    { name: 'Yellow', value: '#FFD700' },
   ];
 
   return (
@@ -75,7 +70,7 @@ const ShelterConfigurator: React.FC = () => {
           <Canvas camera={{ position: [0, 0.2, 6], fov: 50 }} gl={{ antialias: true, alpha: false }} dpr={[1, 2]} shadows>
             <Suspense fallback={null}>
               <ModelViewerScene
-                modelPath="/models/trecc.glb"
+                modelPath={configState.isDeployed ? "/models/trecc-open.glb" : "/models/trecc.glb"}
                 color={configState.color}
                 isDeployed={configState.isDeployed}
                 environment={environment}

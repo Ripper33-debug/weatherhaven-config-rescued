@@ -14,9 +14,9 @@ const ShelterConfigurator: React.FC = () => {
   console.log('🚀 ShelterConfigurator component rendering...');
 
   const colorOptions = [
-    { name: 'Desert Tan', value: '#D2B48C' },
-    { name: 'OD Green', value: '#556B2F' },
-    { name: 'Coyote Brown', value: '#8B4513' },
+    { name: 'Desert Tan', value: '#8B7355' }, // Darker desert tan
+    { name: 'OD Green', value: '#4A5D23' },
+    { name: 'Arctic White', value: '#F5F5F5' } // Arctic white instead of coyote brown
   ];
 
   const [configState, setConfigState] = useState<ConfigState>({

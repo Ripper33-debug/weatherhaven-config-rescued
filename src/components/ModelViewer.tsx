@@ -246,20 +246,24 @@ export const ModelViewerScene: React.FC<ModelViewerProps> = ({
       {/* Camera with different positions for interior vs exterior */}
       <PerspectiveCamera
         makeDefault
-        position={isInteriorView ? [0, 1.7, 2] : [5, 3, 5]}
-        fov={75}
+        position={isInteriorView ? [0, 1.7, 0] : [5, 3, 5]} // Center of interior space for first-person feel
+        fov={isInteriorView ? 60 : 75} // Narrower FOV for more realistic first-person view
         near={0.1}
         far={1000}
       />
 
       {/* Basic Camera Controls */}
       <OrbitControls 
-        enablePan={true}
+        enablePan={isInteriorView ? false : true} // Disable pan in interior for more first-person feel
         enableZoom={true}
         enableRotate={true}
-        minDistance={isInteriorView ? 0.5 : 2}
-        maxDistance={isInteriorView ? 8 : 20}
-        target={isInteriorView ? [0, 1.7, 0] : [0, 0.5, 0]} // Eye level for interior, ground level for exterior
+        minDistance={isInteriorView ? 0.1 : 2}
+        maxDistance={isInteriorView ? 5 : 20}
+        target={isInteriorView ? [0, 1.7, 1] : [0, 0.5, 0]} // Look slightly forward in interior for first-person feel
+        enableDamping={true}
+        dampingFactor={0.05}
+        rotateSpeed={isInteriorView ? 0.5 : 1} // Slower rotation for interior
+        zoomSpeed={isInteriorView ? 0.5 : 1} // Slower zoom for interior
       />
 
       {/* Realistic Lighting Setup */}

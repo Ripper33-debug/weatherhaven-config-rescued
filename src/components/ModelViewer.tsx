@@ -133,27 +133,33 @@ const Model: React.FC<{
         
         const objectName = mesh.name.toLowerCase();
         
-        // MORE AGGRESSIVE: Color anything that could be shelter body
+        // VERY SPECIFIC: Only color parts that are definitely shelter body
         const isShelterBody = (
-          // Main shelter body keywords
+          // Main shelter body keywords (very specific)
           /shelter|body|main|container|box|unit|cabin|pod/.test(objectName) ||
-          // Shelter structure parts
+          // Shelter structure parts (very specific)
           /wall|panel|roof|floor|ceiling|side|end|front|back|top|bottom|surface|skin|hull|casing|enclosure|housing/.test(objectName) ||
           // Shelter interior parts
           /interior|inner|inside|room|space|area|zone|volume|chamber|compartment/.test(objectName) ||
           // Shelter access parts
-          /door|window|hatch|access|entry|exit|vent|port|opening/.test(objectName) ||
-          // Additional shelter-like parts
-          /shell|cover|outer|external|main|primary|core|base/.test(objectName)
+          /door|window|hatch|access|entry|exit|vent|port|opening/.test(objectName)
         );
         
-        // VERY SPECIFIC: Only exclude definitely vehicle parts
+        // VERY COMPREHENSIVE: Exclude all vehicle and mechanical parts
         const isVehiclePart = (
-          // Specific vehicle parts only
+          // All vehicle parts
           /wheel|tire|tyre|rim|hub|axle|suspension|spoke|lug|valve|fender|mudflap|mudguard/.test(objectName) ||
           /chassis|trailer|truck|vehicle|carriage|undercarriage|running|gear|transmission|engine|motor/.test(objectName) ||
           /brake|drum|disc|caliper|spring|shock|strut|link|arm|bracket|mount|bushing|bearing/.test(objectName) ||
-          /nut|bolt|fastener|hardware|screw|washer|pin|clip|clamp|wire|cable/.test(objectName)
+          /nut|bolt|fastener|hardware|screw|washer|pin|clip|clamp|wire|cable/.test(objectName) ||
+          // Additional vehicle/mechanical parts
+          /frame|support|strut|brace|girder|beam|post|pillar|column|stud|joist|rafter|truss/.test(objectName) ||
+          /joint|seam|edge|corner|angle|curve|bend|fold|crease|pleat|gusset/.test(objectName) ||
+          /reinforcement|stiffener|gusset|pleat|crease|fold|bracket|support|strut|brace/.test(objectName) ||
+          // Generic parts that could be vehicle
+          /part|piece|component|element|section|module|block|plate|sheet|board|slab/.test(objectName) ||
+          // Additional wheel/tire related terms
+          /tread|sidewall|bead|valve|stem|cap|cover|hubcap|center|spinner/.test(objectName)
         );
         
         // Color if it's likely shelter body AND not definitely a vehicle part

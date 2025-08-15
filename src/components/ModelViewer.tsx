@@ -52,19 +52,19 @@ const Model: React.FC<{
 }> = ({ modelPath, color, isDeployed }) => {
   const meshRef = useRef<THREE.Group>(null);
   const [currentModelPath, setCurrentModelPath] = useState<string>('');
-
-  // Load model with better error handling
-  let scene: THREE.Group | null = null;
-  let loadError: string | null = null;
+  const [loadError, setLoadError] = useState<string | null>(null);
   
+  console.log('🎯 Model component rendering with path:', modelPath);
+  
+  // Load the model with error handling
+  let scene: THREE.Group | null = null;
   try {
-    console.log('📁 Attempting to load model:', modelPath);
-    const result = useGLTF(modelPath);
-    scene = result.scene;
+    scene = useGLTF(modelPath).scene;
     console.log('✅ Model loaded successfully:', modelPath);
-  } catch (err) {
-    console.error('❌ Failed to load model:', modelPath, err);
-    loadError = `Failed to load model: ${modelPath}`;
+    console.log('📦 Scene object:', scene);
+  } catch (error) {
+    console.error('❌ Error loading model:', modelPath, error);
+    setLoadError(`Failed to load model: ${modelPath}`);
   }
 
   // Track when model path changes
@@ -206,11 +206,46 @@ const Model: React.FC<{
   }, [scene, color, modelPath, isDeployed]); // Added isDeployed to dependencies
 
   if (loadError) {
-    return <ErrorDisplay error={loadError} />;
+    return (
+      <div style={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        background: 'rgba(255, 255, 255, 0.9)',
+        padding: '20px',
+        borderRadius: '10px',
+        textAlign: 'center',
+        zIndex: 1000
+      }}>
+        <h3 style={{ color: '#e74c3c', margin: '0 0 10px 0' }}>⚠️ Model Loading Error</h3>
+        <p style={{ color: '#333', margin: '0 0 10px 0' }}>{loadError}</p>
+        <p style={{ color: '#666', fontSize: '12px', margin: '0' }}>
+          Path: {modelPath}
+        </p>
+      </div>
+    );
   }
 
   if (!scene) {
-    return <LoadingSpinner />;
+    return (
+      <div style={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        background: 'rgba(255, 255, 255, 0.9)',
+        padding: '20px',
+        borderRadius: '10px',
+        textAlign: 'center',
+        zIndex: 1000
+      }}>
+        <h3 style={{ color: '#3498db', margin: '0 0 10px 0' }}>🔄 Loading Model...</h3>
+        <p style={{ color: '#666', margin: '0' }}>
+          Loading: {modelPath}
+        </p>
+      </div>
+    );
   }
 
   return (

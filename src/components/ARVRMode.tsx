@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { ConfiguratorState } from './ShelterConfigurator';
 import { Shelter } from '../App';
-import ModelViewer from './ModelViewer';
+import ModelViewer, { ModelViewerScene } from './ModelViewer';
 
 interface ARVRModeProps {
   configState: ConfiguratorState;
@@ -137,7 +137,7 @@ const ARVRMode: React.FC<ARVRModeProps> = ({
       }}
       shadows
     >
-      <ModelViewer
+      <ModelViewerScene
         modelPath={shelter.modelPath || '/models/trecc.glb'}
         interiorPath={configState.selectedInterior?.modelPath}
         onLoad={onModelLoaded}

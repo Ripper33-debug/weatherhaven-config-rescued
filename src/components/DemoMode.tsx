@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { ConfiguratorState } from './ShelterConfigurator';
 import { Shelter } from '../App';
-import ModelViewer from './ModelViewer';
+import ModelViewer, { ModelViewerScene } from './ModelViewer';
 
 interface DemoModeProps {
   configState: ConfiguratorState;
@@ -193,7 +193,7 @@ const DemoMode: React.FC<DemoModeProps> = ({
       }}
       shadows
     >
-      <ModelViewer
+      <ModelViewerScene
         modelPath={shelter.modelPath || '/models/trecc.glb'}
         interiorPath={configState.selectedInterior?.modelPath}
         onLoad={onModelLoaded}

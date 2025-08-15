@@ -55,34 +55,6 @@ const LoadingSpinner: React.FC = () => (
   </Html>
 );
 
-// Zoom to Fit Controls
-const ZoomToFitControls: React.FC<{ 
-  onZoomToFit: () => void;
-  onResetView: () => void;
-  isLoading: boolean;
-}> = ({ onZoomToFit, onResetView, isLoading }) => (
-  <div className="zoom-controls">
-    <button 
-      className="zoom-btn zoom-fit-btn"
-      onClick={onZoomToFit}
-      disabled={isLoading}
-      title="Zoom to Fit Model"
-    >
-      <span className="btn-icon">🔍</span>
-      <span className="btn-text">Fit</span>
-    </button>
-    <button 
-      className="zoom-btn zoom-reset-btn"
-      onClick={onResetView}
-      disabled={isLoading}
-      title="Reset View"
-    >
-      <span className="btn-icon">🔄</span>
-      <span className="btn-text">Reset</span>
-    </button>
-  </div>
-);
-
 // Enhanced Model Component with Zoom to Fit
 const Model: React.FC<{
   modelPath: string;
@@ -190,7 +162,8 @@ const Model: React.FC<{
 const CameraController: React.FC<{
   onZoomToFit: (fn: () => void) => void;
   onResetView: (fn: () => void) => void;
-}> = ({ onZoomToFit, onResetView }) => {
+  autoRotate?: boolean;
+}> = ({ onZoomToFit, onResetView, autoRotate = false }) => {
   const { camera, scene } = useThree();
   const controlsRef = useRef<any>(null);
 
@@ -245,8 +218,8 @@ const CameraController: React.FC<{
 
   // Expose functions to parent
   useEffect(() => {
-    onZoomToFit = zoomToFit;
-    onResetView = resetView;
+    onZoomToFit(() => zoomToFit);
+    onResetView(() => resetView);
   }, [onZoomToFit, onResetView]);
 
   return (
@@ -257,6 +230,8 @@ const CameraController: React.FC<{
       enableZoom={true}
       enablePan={true}
       enableRotate={true}
+      autoRotate={autoRotate}
+      autoRotateSpeed={0.5}
       maxDistance={20}
       minDistance={1}
       maxPolarAngle={Math.PI / 2}
@@ -265,8 +240,8 @@ const CameraController: React.FC<{
   );
 };
 
-// Main ModelViewer Component
-const ModelViewer: React.FC<ModelViewerProps> = ({
+// Main ModelViewer Scene Component (no Canvas)
+const ModelViewerScene: React.FC<ModelViewerProps> = ({
   modelPath,
   interiorPath,
   onLoad,
@@ -278,6 +253,60 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
   color = '#d2b48c',
   isDeployed = true
 }) => {
+  const [zoomToFitFn, setZoomToFitFn] = useState<(() => void) | null>(null);
+  const [resetViewFn, setResetViewFn] = useState<(() => void) | null>(null);
+
+  const handleModelLoad = () => {
+    onLoad?.();
+  };
+
+  return (
+    <>
+      {/* Environment */}
+      <Environment preset="sunset" />
+      
+      {/* Lighting */}
+      <ambientLight intensity={0.6} />
+      <directionalLight
+        position={[10, 10, 5]}
+        intensity={1.2}
+        castShadow
+        shadow-mapSize-width={2048}
+        shadow-mapSize-height={2048}
+        shadow-camera-far={50}
+        shadow-camera-left={-10}
+        shadow-camera-right={10}
+        shadow-camera-top={10}
+        shadow-camera-bottom={-10}
+      />
+
+      {/* Ground Plane */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]} receiveShadow>
+        <planeGeometry args={[20, 20]} />
+        <meshStandardMaterial color="#2a2a2a" />
+      </mesh>
+
+      {/* Model */}
+      <Model
+        modelPath={modelPath}
+        color={color}
+        isDeployed={isDeployed}
+        onLoad={handleModelLoad}
+        onError={onError}
+      />
+
+      {/* Camera Controller */}
+      <CameraController
+        onZoomToFit={(fn) => setZoomToFitFn(() => fn)}
+        onResetView={(fn) => setResetViewFn(() => fn)}
+        autoRotate={autoRotate}
+      />
+    </>
+  );
+};
+
+// Wrapper component that provides Canvas if needed
+const ModelViewer: React.FC<ModelViewerProps> = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadProgress, setLoadProgress] = useState(0);
   const [zoomToFitFn, setZoomToFitFn] = useState<(() => void) | null>(null);
@@ -302,7 +331,7 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
   const handleModelLoad = () => {
     setIsLoading(false);
     setLoadProgress(100);
-    onLoad?.();
+    props.onLoad?.();
   };
 
   const handleZoomToFit = () => {
@@ -325,55 +354,33 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
         dpr={[1, 2]}
         shadows
       >
-        {/* Environment */}
-        <Environment preset="sunset" />
-        
-        {/* Lighting */}
-        <ambientLight intensity={0.6} />
-        <directionalLight
-          position={[10, 10, 5]}
-          intensity={1.2}
-          castShadow
-          shadow-mapSize-width={2048}
-          shadow-mapSize-height={2048}
-          shadow-camera-far={50}
-          shadow-camera-left={-10}
-          shadow-camera-right={10}
-          shadow-camera-top={10}
-          shadow-camera-bottom={-10}
-        />
-
-        {/* Ground Plane */}
-        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]} receiveShadow>
-          <planeGeometry args={[20, 20]} />
-          <meshStandardMaterial color="#2a2a2a" />
-        </mesh>
-
-        {/* Model */}
-        <Model
-          modelPath={modelPath}
-          color={color}
-          isDeployed={isDeployed}
+        <ModelViewerScene
+          {...props}
           onLoad={handleModelLoad}
-          onError={onError}
         />
-
-        {/* Camera Controller */}
-        <CameraController
-          onZoomToFit={(fn) => setZoomToFitFn(() => fn)}
-          onResetView={(fn) => setResetViewFn(() => fn)}
-        />
-
-        {/* Loading Overlay */}
-        {isLoading && <LoadingSpinner />}
       </Canvas>
 
       {/* Zoom Controls */}
-      <ZoomToFitControls
-        onZoomToFit={handleZoomToFit}
-        onResetView={handleResetView}
-        isLoading={isLoading}
-      />
+      <div className="zoom-controls">
+        <button 
+          className="zoom-btn zoom-fit-btn"
+          onClick={handleZoomToFit}
+          disabled={isLoading}
+          title="Zoom to Fit Model"
+        >
+          <span className="btn-icon">🔍</span>
+          <span className="btn-text">Fit</span>
+        </button>
+        <button 
+          className="zoom-btn zoom-reset-btn"
+          onClick={handleResetView}
+          disabled={isLoading}
+          title="Reset View"
+        >
+          <span className="btn-icon">🔄</span>
+          <span className="btn-text">Reset</span>
+        </button>
+      </div>
 
       {/* Loading Progress Bar */}
       {isLoading && (
@@ -405,3 +412,4 @@ const ModelViewer: React.FC<ModelViewerProps> = ({
 };
 
 export default ModelViewer;
+export { ModelViewerScene };

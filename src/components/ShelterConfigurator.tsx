@@ -3,7 +3,7 @@ import { Canvas } from '@react-three/fiber';
 import { Suspense } from 'react';
 import { User, Shelter, InteriorConfig, ShelterConfiguration } from '../App';
 import { getInteriorsForShelter } from '../config/interiors';
-import ModelViewer from './ModelViewer';
+import ModelViewer, { ModelViewerScene } from './ModelViewer';
 import Controls from './Controls';
 import LoadingSpinner from './LoadingSpinner';
 import ARVRMode from './ARVRMode';
@@ -253,7 +253,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
           shadows
         >
           <Suspense fallback={null}>
-            <ModelViewer
+            <ModelViewerScene
               modelPath={shelter.modelPath || '/models/trecc.glb'}
               interiorPath={configState.selectedInterior?.modelPath}
               onLoad={handleModelLoaded}

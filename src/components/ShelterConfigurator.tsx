@@ -12,6 +12,7 @@ import { useCollaboration } from './CollaborationProvider';
 import BreadcrumbNav from './BreadcrumbNav';
 import LeadTimeCalculator from './LeadTimeCalculator';
 import SmartAssistant from './SmartAssistant';
+import CustomAI from './CustomAI';
 import CRMIntegration from './CRMIntegration';
 import PerformanceOptimizer from './PerformanceOptimizer';
 import './CommandCenter.css';
@@ -700,6 +701,14 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
         }}
         availableShelters={[shelter]}
         availableInteriors={availableInteriors}
+      />
+
+      {/* Custom AI Assistant */}
+      <CustomAI
+        onConfigurationSuggested={(config) => {
+          console.log('Custom AI suggested configuration:', config);
+          // Apply the suggested configuration
+        }}
       />
 
       {/* CRM Integration */}

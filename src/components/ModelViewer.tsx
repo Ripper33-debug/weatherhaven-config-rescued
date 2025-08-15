@@ -84,7 +84,7 @@ const Model: React.FC<{
           const objectName = mesh.name.toLowerCase();
           allParts.push(objectName);
           
-          // VERY specific: ONLY color the main shelter body
+          // VERY specific: ONLY color the main shelter body - be more restrictive
           const isShelterBody = (
             /shelter|body|main|container|box|unit|cabin|pod/.test(objectName) ||
             /wall|panel|roof|floor|ceiling|side|end|front|back|top|bottom|surface|skin|hull|casing|enclosure|housing/.test(objectName) ||
@@ -94,7 +94,7 @@ const Model: React.FC<{
             /large|big|major|primary|main|central|body|structure/.test(objectName)
           );
 
-          // Exclude ALL vehicle and mechanical parts
+          // Exclude ALL vehicle, trailer, and mechanical parts - be more comprehensive
           const isVehiclePart = (
             /wheel|tire|tyre|rim|hub|axle|suspension|spoke|lug|valve|fender|mudflap|mudguard/.test(objectName) ||
             /chassis|trailer|truck|vehicle|carriage|undercarriage|running|gear|transmission|engine|motor/.test(objectName) ||
@@ -105,33 +105,46 @@ const Model: React.FC<{
             /drawbar|hitch|coupling|connection/.test(objectName) ||
             /leaf|spring|suspension|shock|absorber/.test(objectName) ||
             /frame|rail|beam|girder|crossmember/.test(objectName) ||
-            /trailer|chassis|undercarriage|running|gear/.test(objectName)
+            /trailer|chassis|undercarriage|running|gear/.test(objectName) ||
+            /trailer|chassis|frame|rail|beam|girder|crossmember|support|leg|foot|base|stand|jack/.test(objectName) ||
+            /trailer|chassis|undercarriage|running|gear|transmission|engine|motor|brake|drum|disc|caliper/.test(objectName) ||
+            /trailer|chassis|suspension|spring|shock|strut|link|arm|bracket|mount|bushing|bearing/.test(objectName) ||
+            /trailer|chassis|wheel|tire|tyre|rim|hub|axle|spoke|lug|valve|fender|mudflap|mudguard/.test(objectName) ||
+            /trailer|chassis|drawbar|hitch|coupling|connection|jockey|jack|stand|support|leg|foot|base/.test(objectName)
           );
           
-          // ONLY color if it's a shelter body AND NOT a vehicle part
+          // ONLY color if it's a shelter body AND NOT a vehicle part - be very strict
           if (isShelterBody && !isVehiclePart) {
-            coloredParts.push(objectName);
+            // Additional check: make sure it's not a trailer part
+            const isTrailerPart = /trailer|chassis|frame|rail|beam|girder|crossmember|support|leg|foot|base|stand|jack|wheel|tire|axle|suspension|spring|shock|strut|link|arm|bracket|mount|bushing|bearing|drawbar|hitch|coupling|connection|jockey|undercarriage|running|gear/.test(objectName);
             
-            if (material) {
-              try {
-                const newMaterial = material.clone();
-                if (newMaterial instanceof THREE.MeshStandardMaterial || 
-                    newMaterial instanceof THREE.MeshPhongMaterial ||
-                    newMaterial instanceof THREE.MeshBasicMaterial) {
-                  newMaterial.color.setHex(parseInt(color.replace('#', ''), 16));
-                  // More realistic material properties
-                  if (newMaterial instanceof THREE.MeshStandardMaterial) {
-                    newMaterial.roughness = 0.7; // Slightly rough for realistic paint
-                    newMaterial.metalness = 0.0; // No metalness for paint
-                    newMaterial.envMapIntensity = 0.3; // Subtle environment reflection
+            if (!isTrailerPart) {
+              coloredParts.push(objectName);
+              
+              if (material) {
+                try {
+                  const newMaterial = material.clone();
+                  if (newMaterial instanceof THREE.MeshStandardMaterial || 
+                      newMaterial instanceof THREE.MeshPhongMaterial ||
+                      newMaterial instanceof THREE.MeshBasicMaterial) {
+                    newMaterial.color.setHex(parseInt(color.replace('#', ''), 16));
+                    // More realistic material properties
+                    if (newMaterial instanceof THREE.MeshStandardMaterial) {
+                      newMaterial.roughness = 0.7; // Slightly rough for realistic paint
+                      newMaterial.metalness = 0.0; // No metalness for paint
+                      newMaterial.envMapIntensity = 0.3; // Subtle environment reflection
+                    }
+                    newMaterial.needsUpdate = true;
+                    console.log(`🎨 Applied realistic color ${color} to: ${objectName}`);
                   }
-                  newMaterial.needsUpdate = true;
-                  console.log(`🎨 Applied realistic color ${color} to: ${objectName}`);
+                  mesh.material = newMaterial;
+                } catch (err) {
+                  console.error('Material error:', err);
                 }
-                mesh.material = newMaterial;
-              } catch (err) {
-                console.error('Material error:', err);
               }
+            } else {
+              skippedParts.push(objectName);
+              console.log(`🚫 Skipped trailer part: ${objectName}`);
             }
           } else {
             skippedParts.push(objectName);

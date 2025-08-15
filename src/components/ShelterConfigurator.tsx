@@ -101,6 +101,253 @@ const ShelterConfigurator: React.FC = () => {
         height: '100%',
         position: 'relative'
       }}>
+        {/* Left Side - Lighting Controls */}
+        <div className="left-controls" style={{
+          width: '280px',
+          background: 'rgba(255, 255, 255, 0.95)',
+          backdropFilter: 'blur(20px)',
+          borderRight: '1px solid rgba(255, 255, 255, 0.2)',
+          padding: '20px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '20px',
+          boxShadow: '0 0 40px rgba(0, 0, 0, 0.3)',
+          overflowY: 'auto',
+          zIndex: 10
+        }}>
+          {/* Lighting Controls Header */}
+          <div style={{
+            textAlign: 'center',
+            marginBottom: '8px'
+          }}>
+            <h2 style={{
+              fontSize: '18px',
+              fontWeight: '700',
+              color: '#1a1a2e',
+              margin: '0 0 4px 0',
+              letterSpacing: '-0.5px'
+            }}>
+              Lighting Controls
+            </h2>
+            <p style={{
+              fontSize: '12px',
+              color: '#666',
+              margin: '0',
+              fontWeight: '500'
+            }}>
+              Adjust Scene Lighting
+            </p>
+          </div>
+
+          {/* Ambient Light Control */}
+          <div style={{
+            background: 'rgba(26, 26, 46, 0.05)',
+            borderRadius: '8px',
+            padding: '16px',
+            border: '1px solid rgba(26, 26, 46, 0.1)'
+          }}>
+            <label style={{ 
+              fontSize: '13px', 
+              display: 'block', 
+              marginBottom: '8px', 
+              color: '#1a1a2e',
+              fontWeight: '600'
+            }}>
+              Ambient Light: {lightingState.ambientIntensity.toFixed(1)}
+            </label>
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.05"
+              value={lightingState.ambientIntensity}
+              onChange={(e) => handleLightingChange('ambientIntensity', parseFloat(e.target.value))}
+              style={{ 
+                width: '100%',
+                height: '6px',
+                borderRadius: '3px',
+                background: 'linear-gradient(90deg, #667eea 0%, #764ba2 100%)',
+                outline: 'none',
+                cursor: 'pointer'
+              }}
+            />
+            <div style={{ 
+              fontSize: '11px', 
+              color: '#666', 
+              marginTop: '4px',
+              textAlign: 'center'
+            }}>
+              Overall scene brightness
+            </div>
+          </div>
+          
+          {/* Sun Intensity Control */}
+          <div style={{
+            background: 'rgba(26, 26, 46, 0.05)',
+            borderRadius: '8px',
+            padding: '16px',
+            border: '1px solid rgba(26, 26, 46, 0.1)'
+          }}>
+            <label style={{ 
+              fontSize: '13px', 
+              display: 'block', 
+              marginBottom: '8px', 
+              color: '#1a1a2e',
+              fontWeight: '600'
+            }}>
+              Sun Intensity: {lightingState.directionalIntensity.toFixed(1)}
+            </label>
+            <input
+              type="range"
+              min="0"
+              max="2"
+              step="0.1"
+              value={lightingState.directionalIntensity}
+              onChange={(e) => handleLightingChange('directionalIntensity', parseFloat(e.target.value))}
+              style={{ 
+                width: '100%',
+                height: '6px',
+                borderRadius: '3px',
+                background: 'linear-gradient(90deg, #f093fb 0%, #f5576c 100%)',
+                outline: 'none',
+                cursor: 'pointer'
+              }}
+            />
+            <div style={{ 
+              fontSize: '11px', 
+              color: '#666', 
+              marginTop: '4px',
+              textAlign: 'center'
+            }}>
+              Main light strength
+            </div>
+          </div>
+
+          {/* Sun Position Controls */}
+          <div style={{
+            background: 'rgba(26, 26, 46, 0.05)',
+            borderRadius: '8px',
+            padding: '16px',
+            border: '1px solid rgba(26, 26, 46, 0.1)'
+          }}>
+            <label style={{ 
+              fontSize: '13px', 
+              display: 'block', 
+              marginBottom: '12px', 
+              color: '#1a1a2e',
+              fontWeight: '600',
+              textAlign: 'center'
+            }}>
+              Sun Position
+            </label>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ fontSize: '11px', minWidth: '20px', fontWeight: '600' }}>X:</span>
+                <input
+                  type="range"
+                  min="-10"
+                  max="10"
+                  step="0.5"
+                  value={lightingState.sunPosition.x}
+                  onChange={(e) => handleSunPositionChange('x', parseFloat(e.target.value))}
+                  style={{ 
+                    flex: 1,
+                    height: '6px',
+                    borderRadius: '3px',
+                    background: 'linear-gradient(90deg, #4facfe 0%, #00f2fe 100%)',
+                    outline: 'none',
+                    cursor: 'pointer'
+                  }}
+                />
+                <span style={{ fontSize: '11px', minWidth: '25px', fontWeight: '600' }}>{lightingState.sunPosition.x}</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ fontSize: '11px', minWidth: '20px', fontWeight: '600' }}>Y:</span>
+                <input
+                  type="range"
+                  min="0"
+                  max="15"
+                  step="0.5"
+                  value={lightingState.sunPosition.y}
+                  onChange={(e) => handleSunPositionChange('y', parseFloat(e.target.value))}
+                  style={{ 
+                    flex: 1,
+                    height: '6px',
+                    borderRadius: '3px',
+                    background: 'linear-gradient(90deg, #43e97b 0%, #38f9d7 100%)',
+                    outline: 'none',
+                    cursor: 'pointer'
+                  }}
+                />
+                <span style={{ fontSize: '11px', minWidth: '25px', fontWeight: '600' }}>{lightingState.sunPosition.y}</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ fontSize: '11px', minWidth: '20px', fontWeight: '600' }}>Z:</span>
+                <input
+                  type="range"
+                  min="-10"
+                  max="10"
+                  step="0.5"
+                  value={lightingState.sunPosition.z}
+                  onChange={(e) => handleSunPositionChange('z', parseFloat(e.target.value))}
+                  style={{ 
+                    flex: 1,
+                    height: '6px',
+                    borderRadius: '3px',
+                    background: 'linear-gradient(90deg, #fa709a 0%, #fee140 100%)',
+                    outline: 'none',
+                    cursor: 'pointer'
+                  }}
+                />
+                <span style={{ fontSize: '11px', minWidth: '25px', fontWeight: '600' }}>{lightingState.sunPosition.z}</span>
+              </div>
+            </div>
+            <div style={{ 
+              fontSize: '11px', 
+              color: '#666', 
+              marginTop: '8px',
+              textAlign: 'center'
+            }}>
+              Move sun position
+            </div>
+          </div>
+
+          {/* Reset Button */}
+          <button
+            onClick={() => {
+              setLightingState({
+                ambientIntensity: 0.3,
+                directionalIntensity: 1.2,
+                sunPosition: { x: 5, y: 8, z: 5 }
+              });
+            }}
+            style={{
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              color: 'white',
+              border: 'none',
+              borderRadius: '8px',
+              padding: '12px 16px',
+              fontSize: '13px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.3)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)';
+            }}
+          >
+            Reset Lighting
+          </button>
+        </div>
+
         {/* 3D Viewer Section */}
         <div className="viewer-section" style={{
           flex: 1,
@@ -169,102 +416,6 @@ const ShelterConfigurator: React.FC = () => {
             }}>
               Customize Your Shelter
             </p>
-          </div>
-
-          {/* Lighting Controls */}
-          <div style={{
-            background: 'rgba(26, 26, 46, 0.05)',
-            borderRadius: '12px',
-            padding: '20px',
-            border: '1px solid rgba(26, 26, 46, 0.1)'
-          }}>
-            <h3 style={{
-              fontSize: '16px',
-              fontWeight: '600',
-              color: '#1a1a2e',
-              margin: '0 0 16px 0'
-            }}>
-              Lighting
-            </h3>
-            
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <div>
-                <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px', color: '#666' }}>
-                  Ambient Light: {lightingState.ambientIntensity.toFixed(1)}
-                </label>
-                <input
-                  type="range"
-                  min="0"
-                  max="1"
-                  step="0.05"
-                  value={lightingState.ambientIntensity}
-                  onChange={(e) => handleLightingChange('ambientIntensity', parseFloat(e.target.value))}
-                  style={{ width: '100%' }}
-                />
-              </div>
-              
-              <div>
-                <label style={{ fontSize: '12px', display: 'block', marginBottom: '4px', color: '#666' }}>
-                  Sun Intensity: {lightingState.directionalIntensity.toFixed(1)}
-                </label>
-                <input
-                  type="range"
-                  min="0"
-                  max="2"
-                  step="0.1"
-                  value={lightingState.directionalIntensity}
-                  onChange={(e) => handleLightingChange('directionalIntensity', parseFloat(e.target.value))}
-                  style={{ width: '100%' }}
-                />
-              </div>
-
-              <div>
-                <label style={{ fontSize: '12px', display: 'block', marginBottom: '8px', color: '#666' }}>
-                  Sun Position
-                </label>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ fontSize: '10px', minWidth: '20px' }}>X:</span>
-                    <input
-                      type="range"
-                      min="-10"
-                      max="10"
-                      step="0.5"
-                      value={lightingState.sunPosition.x}
-                      onChange={(e) => handleSunPositionChange('x', parseFloat(e.target.value))}
-                      style={{ flex: 1 }}
-                    />
-                    <span style={{ fontSize: '10px', minWidth: '25px' }}>{lightingState.sunPosition.x}</span>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ fontSize: '10px', minWidth: '20px' }}>Y:</span>
-                    <input
-                      type="range"
-                      min="0"
-                      max="15"
-                      step="0.5"
-                      value={lightingState.sunPosition.y}
-                      onChange={(e) => handleSunPositionChange('y', parseFloat(e.target.value))}
-                      style={{ flex: 1 }}
-                    />
-                    <span style={{ fontSize: '10px', minWidth: '25px' }}>{lightingState.sunPosition.y}</span>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ fontSize: '10px', minWidth: '20px' }}>Z:</span>
-                    <input
-                      type="range"
-                      min="-10"
-                      max="10"
-                      step="0.5"
-                      value={lightingState.sunPosition.z}
-                      onChange={(e) => handleSunPositionChange('z', parseFloat(e.target.value))}
-                      style={{ flex: 1 }}
-                    />
-                    <span style={{ fontSize: '10px', minWidth: '25px' }}>{lightingState.sunPosition.z}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
 
           {/* Deploy/Interior Controls */}

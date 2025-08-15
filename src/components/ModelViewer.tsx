@@ -127,75 +127,19 @@ const Model: React.FC<{
         const mesh = object as THREE.Mesh;
         const material = mesh.material as THREE.Material;
         
-        // Get the full hierarchy path to better identify parts
-        const getObjectPath = (obj: THREE.Object3D): string => {
-          const path: string[] = [];
-          let current = obj;
-          while (current && current.name) {
-            path.unshift(current.name.toLowerCase());
-            current = current.parent || {} as THREE.Object3D;
-          }
-          return path.join('/');
-        };
-        
         const objectName = mesh.name.toLowerCase();
-        const objectPath = getObjectPath(mesh);
         
-        // VERY AGGRESSIVE shelter detection - color almost everything except wheels/trailer
-        const isLikelyShelterBody = (
-          // Main shelter body keywords (very broad)
-          /shelter|body|main|container|box|unit|cabin|pod|module|section|part|piece|component|element/.test(objectName) ||
-          // Shelter structure parts (very broad)
-          /wall|panel|roof|floor|ceiling|side|end|front|back|top|bottom|surface|skin|hull|casing|enclosure|housing|cover|lid|cap/.test(objectName) ||
-          // Shelter frame parts (but be careful with vehicle frame)
-          /frame|structure|support|brace|girder|beam|post|pillar|column|stud|joist|rafter|truss/.test(objectName) ||
-          // Shelter interior parts
-          /interior|inner|inside|room|space|area|zone|volume|chamber|compartment|section|bay/.test(objectName) ||
-          // Shelter access parts
-          /door|window|hatch|access|entry|exit|vent|port|opening|aperture|hole|gap/.test(objectName) ||
-          // Shelter connection parts
-          /joint|seam|edge|corner|angle|curve|bend|fold|crease|pleat|gusset/.test(objectName) ||
-          // Shelter reinforcement parts
-          /reinforcement|stiffener|gusset|pleat|crease|fold|bracket|support|strut|brace/.test(objectName) ||
-          // Generic parts that are likely shelter (very broad)
-          /part|piece|component|element|section|module|block|plate|sheet|board|slab/.test(objectName) ||
-          // Material-based detection (if it's not metal/vehicle parts)
-          /plastic|fiber|composite|fabric|cloth|canvas|vinyl|rubber|foam|insulation/.test(objectName)
-        );
-        
-        // VERY SPECIFIC: Never color these parts (blacklist approach)
-        const isDefinitelyNotShelter = (
-          // Vehicle parts (very specific)
+        // SIMPLE APPROACH: Color everything except wheels and trailer parts
+        const isVehiclePart = (
           /wheel|tire|tyre|rim|hub|axle|suspension|spoke|lug|valve|fender|mudflap|mudguard/.test(objectName) ||
           /chassis|trailer|truck|vehicle|carriage|undercarriage|running|gear|transmission|engine|motor/.test(objectName) ||
           /brake|drum|disc|caliper|spring|shock|strut|link|arm|bracket|mount|bushing|bearing/.test(objectName) ||
-          /nut|bolt|fastener|hardware|screw|washer|pin|clip|clamp|bracket|support|strut|wire|cable/.test(objectName) ||
-          // Check parent names too
-          /wheel|tire|tyre|rim|hub|axle|suspension|chassis|trailer|truck|vehicle|engine|motor/.test(objectPath) ||
-          // Check if it's part of a wheel/trailer hierarchy
-          objectPath.includes('wheel') || objectPath.includes('tire') || objectPath.includes('trailer') ||
-          objectPath.includes('chassis') || objectPath.includes('suspension') || objectPath.includes('axle') ||
-          objectPath.includes('engine') || objectPath.includes('motor') || objectPath.includes('transmission')
+          /nut|bolt|fastener|hardware|screw|washer|pin|clip|clamp|wire|cable/.test(objectName)
         );
         
-        // Color if it's likely a shelter body part AND definitely not a vehicle part
-        if (isLikelyShelterBody && !isDefinitelyNotShelter) {
-          console.log(`🎨 Coloring shelter part: ${objectName} (path: ${objectPath})`);
-          coloredParts.push(`${objectName} (${objectPath})`);
-          
-          // Create new material to avoid sharing
-          const newMaterial = material.clone();
-          if (newMaterial instanceof THREE.MeshStandardMaterial || 
-              newMaterial instanceof THREE.MeshPhongMaterial ||
-              newMaterial instanceof THREE.MeshBasicMaterial) {
-            newMaterial.color.setHex(parseInt(color.replace('#', ''), 16));
-            newMaterial.needsUpdate = true;
-          }
-          mesh.material = newMaterial;
-        } else if (!isDefinitelyNotShelter) {
-          // FALLBACK: If it's not definitely a vehicle part, color it (in case shelter parts have unusual names)
-          console.log(`🎨 Coloring fallback part: ${objectName} (path: ${objectPath})`);
-          coloredParts.push(`${objectName} (${objectPath}) - FALLBACK`);
+        if (!isVehiclePart) {
+          console.log(`🎨 Coloring part: ${objectName}`);
+          coloredParts.push(objectName);
           
           // Create new material to avoid sharing
           const newMaterial = material.clone();
@@ -207,15 +151,11 @@ const Model: React.FC<{
           }
           mesh.material = newMaterial;
         } else {
-          // For all other parts, just clone the material to avoid sharing but keep original colors
+          console.log(`🚫 Skipping vehicle part: ${objectName}`);
+          skippedParts.push(objectName);
+          // Clone material to avoid sharing but keep original colors
           if (material) {
             mesh.material = material.clone();
-            if (isDefinitelyNotShelter) {
-              console.log(`🚫 Skipping vehicle part: ${objectName} (path: ${objectPath})`);
-              skippedParts.push(`${objectName} (${objectPath})`);
-            } else {
-              console.log(`❓ Unclassified part: ${objectName} (path: ${objectPath})`);
-            }
           }
         }
       }

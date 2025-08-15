@@ -101,6 +101,13 @@ const ShelterConfigurator: React.FC = () => {
                 lighting={lightingControls}
                 background3D={background3D}
               />
+              {/* Debug info */}
+              <div style={{ position: 'absolute', top: 10, left: 10, background: 'rgba(0,0,0,0.8)', color: 'white', padding: 10, borderRadius: 5, fontSize: 12 }}>
+                <div>Deployed: {configState.isDeployed ? 'Yes' : 'No'}</div>
+                <div>Model: {configState.isDeployed ? 'trecc-open.glb' : 'trecc.glb'}</div>
+                <div>Color: {configState.color}</div>
+                <div>Environment: {environment}</div>
+              </div>
             </Suspense>
           </Canvas>
         </div>

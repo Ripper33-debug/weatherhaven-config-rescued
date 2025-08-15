@@ -527,77 +527,121 @@ const ModelViewerScene: React.FC<ModelViewerProps> = ({
       {environment === 'desert' && (
         <>
           {/* Desert Dunes */}
-          {Array.from({ length: 8 }, (_, i) => (
-            <mesh key={`dune-${i}`} position={[Math.random() * 40 - 20, -0.3, Math.random() * 40 - 20]} receiveShadow>
-              <sphereGeometry args={[Math.random() * 3 + 2, 8, 6]} />
-              <meshStandardMaterial color="#d2b48c" roughness={0.9} />
-            </mesh>
-          ))}
+          {Array.from({ length: 8 }, (_, i) => {
+            const seed = i * 123.456; // Stable seed for consistent positioning
+            const x = (Math.sin(seed) * 20) % 40 - 20;
+            const z = (Math.cos(seed) * 20) % 40 - 20;
+            const size = (Math.sin(seed * 2) + 1) * 1.5 + 2;
+            return (
+              <mesh key={`dune-${i}`} position={[x, -0.3, z]} receiveShadow>
+                <sphereGeometry args={[size, 8, 6]} />
+                <meshStandardMaterial color="#d2b48c" roughness={0.9} />
+              </mesh>
+            );
+          })}
           {/* Desert Rocks */}
-          {Array.from({ length: 5 }, (_, i) => (
-            <mesh key={`rock-${i}`} position={[Math.random() * 30 - 15, -0.2, Math.random() * 30 - 15]} receiveShadow castShadow>
-              <boxGeometry args={[Math.random() * 2 + 0.5, Math.random() * 1 + 0.3, Math.random() * 2 + 0.5]} />
-              <meshStandardMaterial color="#8B7355" roughness={0.8} />
-            </mesh>
-          ))}
+          {Array.from({ length: 5 }, (_, i) => {
+            const seed = i * 789.012; // Stable seed for consistent positioning
+            const x = (Math.sin(seed) * 15) % 30 - 15;
+            const z = (Math.cos(seed) * 15) % 30 - 15;
+            const sizeX = (Math.sin(seed * 2) + 1) * 1 + 0.5;
+            const sizeY = (Math.cos(seed * 3) + 1) * 0.5 + 0.3;
+            const sizeZ = (Math.sin(seed * 4) + 1) * 1 + 0.5;
+            return (
+              <mesh key={`rock-${i}`} position={[x, -0.2, z]} receiveShadow castShadow>
+                <boxGeometry args={[sizeX, sizeY, sizeZ]} />
+                <meshStandardMaterial color="#8B7355" roughness={0.8} />
+              </mesh>
+            );
+          })}
         </>
       )}
 
       {environment === 'arctic' && (
         <>
           {/* Snow Drifts */}
-          {Array.from({ length: 6 }, (_, i) => (
-            <mesh key={`snow-${i}`} position={[Math.random() * 30 - 15, -0.2, Math.random() * 30 - 15]} receiveShadow>
-              <sphereGeometry args={[Math.random() * 2 + 1, 8, 6]} />
-              <meshStandardMaterial color="#ffffff" roughness={0.2} />
-            </mesh>
-          ))}
+          {Array.from({ length: 6 }, (_, i) => {
+            const seed = i * 456.789; // Stable seed for consistent positioning
+            const x = (Math.sin(seed) * 15) % 30 - 15;
+            const z = (Math.cos(seed) * 15) % 30 - 15;
+            const size = (Math.sin(seed * 2) + 1) * 1 + 1;
+            return (
+              <mesh key={`snow-${i}`} position={[x, -0.2, z]} receiveShadow>
+                <sphereGeometry args={[size, 8, 6]} />
+                <meshStandardMaterial color="#ffffff" roughness={0.2} />
+              </mesh>
+            );
+          })}
           {/* Ice Crystals */}
-          {Array.from({ length: 10 }, (_, i) => (
-            <mesh key={`ice-${i}`} position={[Math.random() * 40 - 20, Math.random() * 3, Math.random() * 40 - 20]} receiveShadow>
-              <boxGeometry args={[0.1, Math.random() * 2 + 1, 0.1]} />
-              <meshStandardMaterial color="#E0FFFF" transparent opacity={0.7} />
-            </mesh>
-          ))}
+          {Array.from({ length: 10 }, (_, i) => {
+            const seed = i * 321.654; // Stable seed for consistent positioning
+            const x = (Math.sin(seed) * 20) % 40 - 20;
+            const y = (Math.cos(seed * 2) + 1) * 1.5 + 0.5;
+            const z = (Math.cos(seed) * 20) % 40 - 20;
+            const height = (Math.sin(seed * 3) + 1) * 1 + 1;
+            return (
+              <mesh key={`ice-${i}`} position={[x, y, z]} receiveShadow>
+                <boxGeometry args={[0.1, height, 0.1]} />
+                <meshStandardMaterial color="#E0FFFF" transparent opacity={0.7} />
+              </mesh>
+            );
+          })}
         </>
       )}
 
       {environment === 'jungle' && (
         <>
           {/* Jungle Trees */}
-          {Array.from({ length: 12 }, (_, i) => (
-            <group key={`tree-${i}`} position={[Math.random() * 40 - 20, 0, Math.random() * 40 - 20]}>
-              {/* Tree Trunk */}
-              <mesh receiveShadow castShadow>
-                <cylinderGeometry args={[0.3, 0.5, 4, 8]} />
-                <meshStandardMaterial color="#8B4513" roughness={0.8} />
-              </mesh>
-              {/* Tree Foliage */}
-              <mesh position={[0, 3, 0]} receiveShadow castShadow>
-                <sphereGeometry args={[2, 8, 6]} />
-                <meshStandardMaterial color="#228B22" roughness={0.6} />
-              </mesh>
-            </group>
-          ))}
+          {Array.from({ length: 12 }, (_, i) => {
+            const seed = i * 654.321; // Stable seed for consistent positioning
+            const x = (Math.sin(seed) * 20) % 40 - 20;
+            const z = (Math.cos(seed) * 20) % 40 - 20;
+            return (
+              <group key={`tree-${i}`} position={[x, 0, z]}>
+                {/* Tree Trunk */}
+                <mesh receiveShadow castShadow>
+                  <cylinderGeometry args={[0.3, 0.5, 4, 8]} />
+                  <meshStandardMaterial color="#8B4513" roughness={0.8} />
+                </mesh>
+                {/* Tree Foliage */}
+                <mesh position={[0, 3, 0]} receiveShadow castShadow>
+                  <sphereGeometry args={[2, 8, 6]} />
+                  <meshStandardMaterial color="#228B22" roughness={0.6} />
+                </mesh>
+              </group>
+            );
+          })}
           {/* Jungle Ground Cover */}
-          {Array.from({ length: 20 }, (_, i) => (
-            <mesh key={`bush-${i}`} position={[Math.random() * 40 - 20, -0.1, Math.random() * 40 - 20]} receiveShadow>
-              <sphereGeometry args={[Math.random() * 0.5 + 0.3, 6, 4]} />
-              <meshStandardMaterial color="#32CD32" roughness={0.7} />
-            </mesh>
-          ))}
+          {Array.from({ length: 20 }, (_, i) => {
+            const seed = i * 987.654; // Stable seed for consistent positioning
+            const x = (Math.sin(seed) * 20) % 40 - 20;
+            const z = (Math.cos(seed) * 20) % 40 - 20;
+            const size = (Math.sin(seed * 2) + 1) * 0.25 + 0.3;
+            return (
+              <mesh key={`bush-${i}`} position={[x, -0.1, z]} receiveShadow>
+                <sphereGeometry args={[size, 6, 4]} />
+                <meshStandardMaterial color="#32CD32" roughness={0.7} />
+              </mesh>
+            );
+          })}
         </>
       )}
 
       {environment === 'night' && (
         <>
           {/* Night Sky Elements */}
-          {Array.from({ length: 50 }, (_, i) => (
-            <mesh key={`star-${i}`} position={[Math.random() * 100 - 50, Math.random() * 20 + 10, Math.random() * 100 - 50]}>
-              <sphereGeometry args={[0.05, 4, 4]} />
-              <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.5} />
-            </mesh>
-          ))}
+          {Array.from({ length: 50 }, (_, i) => {
+            const seed = i * 147.258; // Stable seed for consistent positioning
+            const x = (Math.sin(seed) * 50) % 100 - 50;
+            const y = (Math.cos(seed * 2) + 1) * 10 + 10;
+            const z = (Math.cos(seed) * 50) % 100 - 50;
+            return (
+              <mesh key={`star-${i}`} position={[x, y, z]}>
+                <sphereGeometry args={[0.05, 4, 4]} />
+                <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.5} />
+              </mesh>
+            );
+          })}
           {/* Moon */}
           <mesh position={[15, 15, 15]} receiveShadow>
             <sphereGeometry args={[2, 16, 16]} />

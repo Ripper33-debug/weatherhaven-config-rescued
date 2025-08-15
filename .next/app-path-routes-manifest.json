@@ -2,11 +2,11 @@
   "/robots.txt/route": "/robots.txt",
   "/sitemap.xml/route": "/sitemap.xml",
   "/_not-found/page": "/_not-found",
-  "/contact/page": "/contact",
   "/case-studies/page": "/case-studies",
   "/configurator/page": "/configurator",
-  "/solutions/page": "/solutions",
+  "/contact/page": "/contact",
   "/page": "/",
+  "/solutions/page": "/solutions",
   "/resources/page": "/resources",
   "/products/page": "/products",
   "/about/page": "/about"

@@ -1,13 +1,13 @@
 {
   "/robots.txt/route": "/robots.txt",
   "/sitemap.xml/route": "/sitemap.xml",
-  "/case-studies/page": "/case-studies",
-  "/contact/page": "/contact",
   "/configurator/page": "/configurator",
   "/_not-found/page": "/_not-found",
   "/page": "/",
-  "/solutions/page": "/solutions",
   "/resources/page": "/resources",
+  "/contact/page": "/contact",
+  "/solutions/page": "/solutions",
   "/about/page": "/about",
+  "/case-studies/page": "/case-studies",
   "/products/page": "/products"
 }

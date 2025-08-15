@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState, useEffect, Suspense } from 'react';
+import React, { useRef, useState, Suspense } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import { useGLTF, Html, OrbitControls, Environment } from '@react-three/drei';
 import * as THREE from 'three';
@@ -51,7 +51,6 @@ const Model: React.FC<{
   isDeployed?: boolean;
 }> = ({ modelPath, color, isDeployed }) => {
   const meshRef = useRef<THREE.Group>(null);
-  const [error, setError] = useState<string | null>(null);
 
   // Load model
   let scene: THREE.Group | null = null;
@@ -59,11 +58,11 @@ const Model: React.FC<{
     const result = useGLTF(modelPath);
     scene = result.scene;
   } catch (err) {
-    setError(`Failed to load model: ${modelPath}`);
+    return <ErrorDisplay error={`Failed to load model: ${modelPath}`} />;
   }
 
   // Apply color to shelter box only (very specific)
-  useEffect(() => {
+  React.useEffect(() => {
     if (scene && color) {
       console.log('🎨 Starting color application for model:', modelPath);
       console.log('🎨 Color to apply:', color);
@@ -132,11 +131,7 @@ const Model: React.FC<{
       console.log('📊 Summary - Colored:', coloredParts.length, 'Skipped:', skippedParts.length, 'Total:', allParts.length);
       console.log('🎯 Color being applied:', color);
     }
-  }, [scene, color, modelPath]); // Added modelPath to dependencies
-
-  if (error) {
-    return <ErrorDisplay error={error} />;
-  }
+  }, [scene, color, modelPath]);
 
   if (!scene) {
     return <LoadingSpinner />;
@@ -155,7 +150,7 @@ const Model: React.FC<{
 // Main Scene Component
 export const ModelViewerScene: React.FC<ModelViewerProps> = ({
   modelPath,
-  color = '#8B7355',
+  color = '#D2B48C',
   isDeployed = false,
   environment = 'studio',
   weather = 'none',

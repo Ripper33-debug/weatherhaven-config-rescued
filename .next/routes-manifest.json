@@ -58,6 +58,12 @@
       "namedRegex": "^/about(?:/)?$"
     },
     {
+      "page": "/careers",
+      "regex": "^/careers(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/careers(?:/)?$"
+    },
+    {
       "page": "/case-studies",
       "regex": "^/case\\-studies(?:/)?$",
       "routeKeys": {},
@@ -80,6 +86,12 @@
       "regex": "^/products(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/products(?:/)?$"
+    },
+    {
+      "page": "/products/accessories",
+      "regex": "^/products/accessories(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/products/accessories(?:/)?$"
     },
     {
       "page": "/products/trecc",
@@ -112,10 +124,28 @@
       "namedRegex": "^/solutions(?:/)?$"
     },
     {
+      "page": "/solutions/disaster",
+      "regex": "^/solutions/disaster(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/solutions/disaster(?:/)?$"
+    },
+    {
+      "page": "/solutions/industrial",
+      "regex": "^/solutions/industrial(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/solutions/industrial(?:/)?$"
+    },
+    {
       "page": "/solutions/military",
       "regex": "^/solutions/military(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/solutions/military(?:/)?$"
+    },
+    {
+      "page": "/solutions/research",
+      "regex": "^/solutions/research(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/solutions/research(?:/)?$"
     }
   ],
   "dataRoutes": [],

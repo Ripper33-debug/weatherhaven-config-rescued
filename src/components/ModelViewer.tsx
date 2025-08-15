@@ -84,8 +84,8 @@ const Model: React.FC<{
           const objectName = mesh.name.toLowerCase();
           allParts.push(objectName);
           
-          // VERY specific: ONLY color the main shelter body - be more restrictive
-          const isShelterBody = (
+          // ULTRA specific: ONLY color the shelter box - be extremely restrictive
+          const isShelterBox = (
             /shelter|body|main|container|box|unit|cabin|pod/.test(objectName) ||
             /wall|panel|roof|floor|ceiling|side|end|front|back|top|bottom|surface|skin|hull|casing|enclosure|housing/.test(objectName) ||
             /interior|inner|inside|room|space|area|zone|volume|chamber|compartment/.test(objectName) ||
@@ -94,7 +94,7 @@ const Model: React.FC<{
             /large|big|major|primary|main|central|body|structure/.test(objectName)
           );
 
-          // Exclude ALL vehicle, trailer, and mechanical parts - be more comprehensive
+          // Exclude ALL vehicle, trailer, and mechanical parts - be extremely comprehensive
           const isVehiclePart = (
             /wheel|tire|tyre|rim|hub|axle|suspension|spoke|lug|valve|fender|mudflap|mudguard/.test(objectName) ||
             /chassis|trailer|truck|vehicle|carriage|undercarriage|running|gear|transmission|engine|motor/.test(objectName) ||
@@ -110,15 +110,16 @@ const Model: React.FC<{
             /trailer|chassis|undercarriage|running|gear|transmission|engine|motor|brake|drum|disc|caliper/.test(objectName) ||
             /trailer|chassis|suspension|spring|shock|strut|link|arm|bracket|mount|bushing|bearing/.test(objectName) ||
             /trailer|chassis|wheel|tire|tyre|rim|hub|axle|spoke|lug|valve|fender|mudflap|mudguard/.test(objectName) ||
-            /trailer|chassis|drawbar|hitch|coupling|connection|jockey|jack|stand|support|leg|foot|base/.test(objectName)
+            /trailer|chassis|drawbar|hitch|coupling|connection|jockey|jack|stand|support|leg|foot|base/.test(objectName) ||
+            /trailer|chassis|frame|rail|beam|girder|crossmember|support|leg|foot|base|stand|jack|wheel|tire|axle|suspension|spring|shock|strut|link|arm|bracket|mount|bushing|bearing|drawbar|hitch|coupling|connection|jockey|undercarriage|running|gear|vehicle|carriage|transmission|engine|motor|brake|drum|disc|caliper|fender|mudflap|mudguard|rim|hub|spoke|lug|valve|tread|sidewall|bead|stem|cap|cover|hubcap|center|spinner|nut|bolt|fastener|hardware|screw|washer|pin|clip|clamp|wire|cable/.test(objectName)
           );
           
-          // ONLY color if it's a shelter body AND NOT a vehicle part - be very strict
-          if (isShelterBody && !isVehiclePart) {
-            // Additional check: make sure it's not a trailer part
-            const isTrailerPart = /trailer|chassis|frame|rail|beam|girder|crossmember|support|leg|foot|base|stand|jack|wheel|tire|axle|suspension|spring|shock|strut|link|arm|bracket|mount|bushing|bearing|drawbar|hitch|coupling|connection|jockey|undercarriage|running|gear/.test(objectName);
+          // ONLY color if it's a shelter box AND NOT a vehicle part - be extremely strict
+          if (isShelterBox && !isVehiclePart) {
+            // Additional check: make sure it's not ANY kind of trailer or vehicle part
+            const isAnyTrailerPart = /trailer|chassis|frame|rail|beam|girder|crossmember|support|leg|foot|base|stand|jack|wheel|tire|axle|suspension|spring|shock|strut|link|arm|bracket|mount|bushing|bearing|drawbar|hitch|coupling|connection|jockey|undercarriage|running|gear|vehicle|carriage|transmission|engine|motor|brake|drum|disc|caliper|fender|mudflap|mudguard|rim|hub|spoke|lug|valve|tread|sidewall|bead|stem|cap|cover|hubcap|center|spinner|nut|bolt|fastener|hardware|screw|washer|pin|clip|clamp|wire|cable/.test(objectName);
             
-            if (!isTrailerPart) {
+            if (!isAnyTrailerPart) {
               coloredParts.push(objectName);
               
               if (material) {
@@ -144,7 +145,7 @@ const Model: React.FC<{
               }
             } else {
               skippedParts.push(objectName);
-              console.log(`🚫 Skipped trailer part: ${objectName}`);
+              console.log(`🚫 Skipped trailer/vehicle part: ${objectName}`);
             }
           } else {
             skippedParts.push(objectName);

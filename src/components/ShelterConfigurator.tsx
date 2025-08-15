@@ -263,6 +263,9 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               showAnnotations={true}
               showMeasurements={true}
               explodedView={false}
+              environment={environment}
+              weather={weatherEffects.type}
+              lighting={lightingControls}
             />
           </Suspense>
         </Canvas>

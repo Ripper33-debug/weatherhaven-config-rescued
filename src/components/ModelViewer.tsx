@@ -16,6 +16,18 @@ interface ModelViewerProps {
   autoRotate?: boolean;
   color?: string;
   isDeployed?: boolean;
+  environment?: 'day' | 'night' | 'desert' | 'arctic' | 'jungle';
+  weather?: 'none' | 'rain' | 'snow' | 'dust' | 'storm' | 'fog';
+  lighting?: {
+    lightPosition?: [number, number, number];
+    lightIntensity?: number;
+    ambientIntensity?: number;
+    sunPosition?: [number, number, number];
+    skyTurbidity?: number;
+    skyRayleigh?: number;
+    skyMieCoefficient?: number;
+    skyMieDirectionalG?: number;
+  };
 }
 
 interface MeasurementPoint {
@@ -97,10 +109,18 @@ const Model: React.FC<{
         const mesh = object as THREE.Mesh;
         const material = mesh.material as THREE.Material;
         
-        // Check if this is a shelter body part (exclude wheels, trailer, etc.)
+        // More comprehensive check for wheels/trailer parts
         const objectName = mesh.name.toLowerCase();
-        const isWheelOrTrailer = /wheel|tire|axle|suspension|chassis|trailer|truck|vehicle/.test(objectName);
-        const isShelterBody = /shelter|body|panel|wall|container|structure|main/.test(objectName);
+        const parentName = mesh.parent?.name.toLowerCase() || '';
+        const grandParentName = mesh.parent?.parent?.name.toLowerCase() || '';
+        
+        // Check if this is a wheel/trailer part (more comprehensive)
+        const isWheelOrTrailer = /wheel|tire|tyre|rim|hub|axle|suspension|spoke|lug|valve|fender|mudflap|mudguard|chassis|trailer|truck|vehicle|carriage|undercarriage|running|gear|brake|drum|disc|caliper|spring|shock|strut|link|arm|bracket|mount|bushing|bearing|nut|bolt|fastener|hardware/.test(objectName) ||
+                                 /wheel|tire|tyre|rim|hub|axle|suspension|chassis|trailer|truck|vehicle/.test(parentName) ||
+                                 /wheel|tire|tyre|rim|hub|axle|suspension|chassis|trailer|truck|vehicle/.test(grandParentName);
+        
+        // Check if this is a shelter body part
+        const isShelterBody = /shelter|body|panel|wall|container|structure|main|roof|side|end|floor|ceiling|exterior|outer|surface|skin|hull|casing|enclosure|housing|frame|module|section|compartment|space|interior|inner|inside|room|area|zone|volume|cabin|pod|capsule/.test(objectName);
         
         if (isShelterBody && !isWheelOrTrailer) {
           // Create new material to avoid sharing
@@ -113,15 +133,11 @@ const Model: React.FC<{
           }
           mesh.material = newMaterial;
         } else if (isWheelOrTrailer) {
-          // Keep wheels/trailer black
-          const newMaterial = material.clone();
-          if (newMaterial instanceof THREE.MeshStandardMaterial || 
-              newMaterial instanceof THREE.MeshPhongMaterial ||
-              newMaterial instanceof THREE.MeshBasicMaterial) {
-            newMaterial.color.setHex(0x000000); // Black
-            newMaterial.needsUpdate = true;
+          // Keep wheels/trailer parts with original materials (don't force black)
+          // Only clone to avoid sharing, but keep original colors
+          if (material) {
+            mesh.material = material.clone();
           }
-          mesh.material = newMaterial;
         }
       }
       
@@ -155,6 +171,104 @@ const Model: React.FC<{
       position={[0, 0, 0]}
       scale={isDeployed ? 1 : 0.8}
     />
+  );
+};
+
+// Weather Effects Component
+const WeatherEffects: React.FC<{
+  type: 'rain' | 'snow' | 'dust' | 'storm' | 'fog';
+  intensity: number;
+  windSpeed: number;
+  windDirection: [number, number, number];
+}> = ({ type, intensity, windSpeed, windDirection }) => {
+  const particlesRef = useRef<THREE.Points>(null);
+  const [particles, setParticles] = useState<THREE.Vector3[]>([]);
+
+  // Generate particles based on weather type
+  useEffect(() => {
+    const particleCount = Math.floor(intensity * 1000);
+    const newParticles: THREE.Vector3[] = [];
+    
+    for (let i = 0; i < particleCount; i++) {
+      newParticles.push(
+        new THREE.Vector3(
+          (Math.random() - 0.5) * 20,
+          Math.random() * 10 + 5,
+          (Math.random() - 0.5) * 20
+        )
+      );
+    }
+    
+    setParticles(newParticles);
+  }, [intensity]);
+
+  // Animate particles
+  useFrame((state) => {
+    if (particlesRef.current) {
+      const positions = particlesRef.current.geometry.attributes.position.array as Float32Array;
+      
+      for (let i = 0; i < particles.length; i++) {
+        const i3 = i * 3;
+        
+        // Move particles down
+        positions[i3 + 1] -= windSpeed * 0.1;
+        
+        // Add wind effect
+        positions[i3] += windDirection[0] * windSpeed * 0.05;
+        positions[i3 + 2] += windDirection[2] * windSpeed * 0.05;
+        
+        // Reset particles that fall below ground
+        if (positions[i3 + 1] < -0.5) {
+          positions[i3 + 1] = Math.random() * 10 + 5;
+          positions[i3] = (Math.random() - 0.5) * 20;
+          positions[i3 + 2] = (Math.random() - 0.5) * 20;
+        }
+      }
+      
+      particlesRef.current.geometry.attributes.position.needsUpdate = true;
+    }
+  });
+
+  if (particles.length === 0) return null;
+
+  const getParticleColor = () => {
+    switch (type) {
+      case 'rain': return '#87CEEB';
+      case 'snow': return '#FFFFFF';
+      case 'dust': return '#D2B48C';
+      case 'storm': return '#4A4A4A';
+      case 'fog': return '#CCCCCC';
+      default: return '#FFFFFF';
+    }
+  };
+
+  const getParticleSize = () => {
+    switch (type) {
+      case 'rain': return 0.05;
+      case 'snow': return 0.1;
+      case 'dust': return 0.02;
+      case 'storm': return 0.08;
+      case 'fog': return 0.15;
+      default: return 0.05;
+    }
+  };
+
+  return (
+    <points ref={particlesRef}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          args={[new Float32Array(particles.flatMap(p => [p.x, p.y, p.z])), 3]}
+        />
+      </bufferGeometry>
+      <pointsMaterial
+        size={getParticleSize()}
+        color={getParticleColor()}
+        transparent
+        opacity={0.6}
+        sizeAttenuation
+      />
+    </points>
   );
 };
 
@@ -251,7 +365,10 @@ const ModelViewerScene: React.FC<ModelViewerProps> = ({
   explodedView = false,
   autoRotate = false,
   color = '#d2b48c',
-  isDeployed = true
+  isDeployed = true,
+  environment = 'day',
+  weather = 'none',
+  lighting = {}
 }) => {
   const [zoomToFitFn, setZoomToFitFn] = useState<(() => void) | null>(null);
   const [resetViewFn, setResetViewFn] = useState<(() => void) | null>(null);
@@ -260,16 +377,39 @@ const ModelViewerScene: React.FC<ModelViewerProps> = ({
     onLoad?.();
   };
 
+  // Get environment preset based on environment prop
+  const getEnvironmentPreset = () => {
+    switch (environment) {
+      case 'night': return 'night';
+      case 'desert': return 'sunset';
+      case 'arctic': return 'dawn';
+      case 'jungle': return 'forest';
+      default: return 'sunset';
+    }
+  };
+
+  // Get lighting settings
+  const {
+    lightPosition = [10, 10, 5],
+    lightIntensity = 1.2,
+    ambientIntensity = 0.6,
+    sunPosition = [100, 20, 100],
+    skyTurbidity = 6,
+    skyRayleigh = 1.5,
+    skyMieCoefficient = 0.005,
+    skyMieDirectionalG = 0.8
+  } = lighting;
+
   return (
     <>
       {/* Environment */}
-      <Environment preset="sunset" />
+      <Environment preset={getEnvironmentPreset()} />
       
       {/* Lighting */}
-      <ambientLight intensity={0.6} />
+      <ambientLight intensity={ambientIntensity} />
       <directionalLight
-        position={[10, 10, 5]}
-        intensity={1.2}
+        position={lightPosition}
+        intensity={lightIntensity}
         castShadow
         shadow-mapSize-width={2048}
         shadow-mapSize-height={2048}
@@ -280,10 +420,21 @@ const ModelViewerScene: React.FC<ModelViewerProps> = ({
         shadow-camera-bottom={-10}
       />
 
+      {/* Additional sun light for better illumination */}
+      <directionalLight
+        position={sunPosition}
+        intensity={0.3}
+        color="#ffffff"
+      />
+
       {/* Ground Plane */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]} receiveShadow>
         <planeGeometry args={[20, 20]} />
-        <meshStandardMaterial color="#2a2a2a" />
+        <meshStandardMaterial 
+          color={environment === 'desert' ? '#d2b48c' : 
+                 environment === 'arctic' ? '#ffffff' : 
+                 environment === 'jungle' ? '#228B22' : '#2a2a2a'} 
+        />
       </mesh>
 
       {/* Model */}
@@ -301,6 +452,16 @@ const ModelViewerScene: React.FC<ModelViewerProps> = ({
         onResetView={(fn) => setResetViewFn(() => fn)}
         autoRotate={autoRotate}
       />
+
+      {/* Weather Effects */}
+      {weather !== 'none' && (
+        <WeatherEffects 
+          type={weather} 
+          intensity={0.5}
+          windSpeed={1.0}
+          windDirection={[0, 0, 1]}
+        />
+      )}
     </>
   );
 };

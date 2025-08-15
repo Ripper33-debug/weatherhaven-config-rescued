@@ -44,56 +44,130 @@ const ErrorDisplay: React.FC<{ error: string }> = ({ error }) => (
   </Html>
 );
 
-// Lighting Controls Component
+// Collapsible Lighting Controls Component
 const LightingControls: React.FC<{
   ambientIntensity: number;
   directionalIntensity: number;
+  sunPosition: { x: number; y: number; z: number };
   onAmbientChange: (value: number) => void;
   onDirectionalChange: (value: number) => void;
-}> = ({ ambientIntensity, directionalIntensity, onAmbientChange, onDirectionalChange }) => (
-  <Html position={[-8, 4, 0]}>
-    <div style={{
-      background: 'rgba(0, 0, 0, 0.8)',
-      color: 'white',
-      padding: '15px',
-      borderRadius: '8px',
-      minWidth: '200px',
-      fontFamily: 'Inter, sans-serif'
-    }}>
-      <h3 style={{ margin: '0 0 10px 0', fontSize: '14px' }}>Lighting Controls</h3>
-      
-      <div style={{ marginBottom: '10px' }}>
-        <label style={{ fontSize: '12px', display: 'block', marginBottom: '5px' }}>
-          Ambient Light: {ambientIntensity.toFixed(1)}
-        </label>
-        <input
-          type="range"
-          min="0"
-          max="2"
-          step="0.1"
-          value={ambientIntensity}
-          onChange={(e) => onAmbientChange(parseFloat(e.target.value))}
-          style={{ width: '100%' }}
-        />
+  onSunPositionChange: (axis: 'x' | 'y' | 'z', value: number) => void;
+}> = ({ ambientIntensity, directionalIntensity, sunPosition, onAmbientChange, onDirectionalChange, onSunPositionChange }) => {
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
+  return (
+    <Html position={[-8, 4, 0]}>
+      <div style={{
+        background: 'rgba(0, 0, 0, 0.85)',
+        color: 'white',
+        borderRadius: '8px',
+        minWidth: isCollapsed ? '50px' : '250px',
+        fontFamily: 'Inter, sans-serif',
+        transition: 'all 0.3s ease',
+        overflow: 'hidden'
+      }}>
+        {/* Header with collapse button */}
+        <div style={{
+          padding: '12px 16px',
+          background: 'rgba(255, 255, 255, 0.1)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          cursor: 'pointer'
+        }} onClick={() => setIsCollapsed(!isCollapsed)}>
+          <span style={{ fontSize: '14px', fontWeight: '600' }}>
+            {isCollapsed ? '⚡' : 'Lighting Controls'}
+          </span>
+          <span style={{ fontSize: '12px' }}>
+            {isCollapsed ? '▶' : '▼'}
+          </span>
+        </div>
+
+        {/* Collapsible content */}
+        {!isCollapsed && (
+          <div style={{ padding: '16px' }}>
+            <div style={{ marginBottom: '16px' }}>
+              <label style={{ fontSize: '12px', display: 'block', marginBottom: '8px' }}>
+                Ambient Light: {ambientIntensity.toFixed(1)}
+              </label>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.05"
+                value={ambientIntensity}
+                onChange={(e) => onAmbientChange(parseFloat(e.target.value))}
+                style={{ width: '100%' }}
+              />
+            </div>
+            
+            <div style={{ marginBottom: '16px' }}>
+              <label style={{ fontSize: '12px', display: 'block', marginBottom: '8px' }}>
+                Sun Intensity: {directionalIntensity.toFixed(1)}
+              </label>
+              <input
+                type="range"
+                min="0"
+                max="2"
+                step="0.1"
+                value={directionalIntensity}
+                onChange={(e) => onDirectionalChange(parseFloat(e.target.value))}
+                style={{ width: '100%' }}
+              />
+            </div>
+
+            <div style={{ marginBottom: '12px' }}>
+              <label style={{ fontSize: '12px', display: 'block', marginBottom: '8px' }}>
+                Sun Position
+              </label>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <div>
+                  <span style={{ fontSize: '10px', marginRight: '8px' }}>X:</span>
+                  <input
+                    type="range"
+                    min="-10"
+                    max="10"
+                    step="0.5"
+                    value={sunPosition.x}
+                    onChange={(e) => onSunPositionChange('x', parseFloat(e.target.value))}
+                    style={{ width: '80%' }}
+                  />
+                  <span style={{ fontSize: '10px', marginLeft: '4px' }}>{sunPosition.x}</span>
+                </div>
+                <div>
+                  <span style={{ fontSize: '10px', marginRight: '8px' }}>Y:</span>
+                  <input
+                    type="range"
+                    min="0"
+                    max="15"
+                    step="0.5"
+                    value={sunPosition.y}
+                    onChange={(e) => onSunPositionChange('y', parseFloat(e.target.value))}
+                    style={{ width: '80%' }}
+                  />
+                  <span style={{ fontSize: '10px', marginLeft: '4px' }}>{sunPosition.y}</span>
+                </div>
+                <div>
+                  <span style={{ fontSize: '10px', marginRight: '8px' }}>Z:</span>
+                  <input
+                    type="range"
+                    min="-10"
+                    max="10"
+                    step="0.5"
+                    value={sunPosition.z}
+                    onChange={(e) => onSunPositionChange('z', parseFloat(e.target.value))}
+                    style={{ width: '80%' }}
+                  />
+                  <span style={{ fontSize: '10px', marginLeft: '4px' }}>{sunPosition.z}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-      
-      <div style={{ marginBottom: '10px' }}>
-        <label style={{ fontSize: '12px', display: 'block', marginBottom: '5px' }}>
-          Directional Light: {directionalIntensity.toFixed(1)}
-        </label>
-        <input
-          type="range"
-          min="0"
-          max="3"
-          step="0.1"
-          value={directionalIntensity}
-          onChange={(e) => onDirectionalChange(parseFloat(e.target.value))}
-          style={{ width: '100%' }}
-        />
-      </div>
-    </div>
-  </Html>
-);
+    </Html>
+  );
+};
 
 // Simple Model Component
 const Model: React.FC<{
@@ -159,13 +233,14 @@ const Model: React.FC<{
                     newMaterial instanceof THREE.MeshPhongMaterial ||
                     newMaterial instanceof THREE.MeshBasicMaterial) {
                   newMaterial.color.setHex(parseInt(color.replace('#', ''), 16));
-                  // Make it matte
+                  // More realistic material properties
                   if (newMaterial instanceof THREE.MeshStandardMaterial) {
-                    newMaterial.roughness = 0.9; // Very rough for matte finish
-                    newMaterial.metalness = 0.0; // No metalness for matte look
+                    newMaterial.roughness = 0.7; // Slightly rough for realistic paint
+                    newMaterial.metalness = 0.0; // No metalness for paint
+                    newMaterial.envMapIntensity = 0.3; // Subtle environment reflection
                   }
                   newMaterial.needsUpdate = true;
-                  console.log(`🎨 Applied matte color ${color} to: ${objectName}`);
+                  console.log(`🎨 Applied realistic color ${color} to: ${objectName}`);
                 }
                 mesh.material = newMaterial;
               } catch (err) {
@@ -226,8 +301,13 @@ export const ModelViewerScene: React.FC<ModelViewerProps> = ({
   lighting = {},
   background3D = {}
 }) => {
-  const [ambientIntensity, setAmbientIntensity] = useState(0.4);
-  const [directionalIntensity, setDirectionalIntensity] = useState(1.0);
+  const [ambientIntensity, setAmbientIntensity] = useState(0.3);
+  const [directionalIntensity, setDirectionalIntensity] = useState(1.2);
+  const [sunPosition, setSunPosition] = useState({ x: 5, y: 8, z: 5 });
+
+  const handleSunPositionChange = (axis: 'x' | 'y' | 'z', value: number) => {
+    setSunPosition(prev => ({ ...prev, [axis]: value }));
+  };
 
   return (
     <>
@@ -241,29 +321,52 @@ export const ModelViewerScene: React.FC<ModelViewerProps> = ({
         target={[0, 0.5, 0]}
       />
 
-      {/* Adjustable Lighting */}
-      <ambientLight intensity={ambientIntensity} />
+      {/* Realistic Lighting Setup */}
+      <ambientLight intensity={ambientIntensity} color="#ffffff" />
+      
+      {/* Main directional light (sun) */}
       <directionalLight
-        position={[5, 5, 5]}
+        position={[sunPosition.x, sunPosition.y, sunPosition.z]}
         intensity={directionalIntensity}
         castShadow
+        shadow-mapSize-width={2048}
+        shadow-mapSize-height={2048}
+        shadow-camera-far={50}
+        shadow-camera-left={-10}
+        shadow-camera-right={10}
+        shadow-camera-top={10}
+        shadow-camera-bottom={-10}
+        color="#ffffff"
+      />
+
+      {/* Fill light for better shadows */}
+      <directionalLight
+        position={[-sunPosition.x, sunPosition.y * 0.5, -sunPosition.z]}
+        intensity={directionalIntensity * 0.3}
+        color="#ffffff"
       />
 
       {/* Lighting Controls */}
       <LightingControls
         ambientIntensity={ambientIntensity}
         directionalIntensity={directionalIntensity}
+        sunPosition={sunPosition}
         onAmbientChange={setAmbientIntensity}
         onDirectionalChange={setDirectionalIntensity}
+        onSunPositionChange={handleSunPositionChange}
       />
 
-      {/* Simple Environment */}
-      <Environment preset="studio" />
+      {/* Realistic Environment */}
+      <Environment preset="sunset" />
 
-      {/* Ground Plane */}
+      {/* Ground Plane with better material */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
         <planeGeometry args={[50, 50]} />
-        <meshStandardMaterial color="#404040" />
+        <meshStandardMaterial 
+          color="#2a2a2a" 
+          roughness={0.8}
+          metalness={0.0}
+        />
       </mesh>
 
       {/* Main Model */}

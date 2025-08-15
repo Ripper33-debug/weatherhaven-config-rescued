@@ -1,21 +1,24 @@
 import React, { useState } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { Suspense } from 'react';
-import * as THREE from 'three';
 import { ModelViewerScene } from './ModelViewer';
+import * as THREE from 'three';
 
 interface ConfigState {
   color: string;
   isDeployed: boolean;
   isInteriorView: boolean;
   isInsideView: boolean;
-  selectedInterior?: any;
 }
 
 const ShelterConfigurator: React.FC = () => {
   console.log('🚀 ShelterConfigurator component rendering...');
 
-  // Simplified state
+  const colorOptions = [
+    { name: 'Desert Tan', value: '#D2B48C' },
+    { name: 'OD Green', value: '#556B2F' },
+    { name: 'Coyote Brown', value: '#8B4513' },
+  ];
+
   const [configState, setConfigState] = useState<ConfigState>({
     color: '#D2B48C',
     isDeployed: false,
@@ -23,14 +26,6 @@ const ShelterConfigurator: React.FC = () => {
     isInsideView: false,
   });
 
-  // Military-style color options
-  const colorOptions = [
-    { name: 'Desert Tan', value: '#D2B48C' },
-    { name: 'OD Green', value: '#556B2F' },
-    { name: 'Coyote Brown', value: '#8B4513' },
-  ];
-
-  // Simple handlers
   const handleColorChange = (newColor: string) => {
     console.log('🎨 Color change requested:', newColor);
     console.log('🎨 Previous color was:', configState.color);
@@ -50,7 +45,6 @@ const ShelterConfigurator: React.FC = () => {
     setConfigState(prev => ({ ...prev, isInteriorView: !prev.isInteriorView }));
   };
 
-  // Determine model path
   const getModelPath = () => {
     if (configState.isInteriorView) {
       return "/models/trecc-open.glb";
@@ -66,32 +60,35 @@ const ShelterConfigurator: React.FC = () => {
     <div className="configurator-container" style={{
       height: '100vh',
       width: '100vw',
-      background: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
+      background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
       display: 'flex',
       flexDirection: 'column',
       fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
       position: 'fixed',
       top: 0,
       left: 0,
-      zIndex: 1000
+      zIndex: 1000,
+      overflow: 'hidden'
     }}>
       {/* Main Layout */}
       <div className="configurator-main" style={{
         flex: 1,
         display: 'flex',
-        height: '100%'
+        height: '100%',
+        position: 'relative'
       }}>
         {/* 3D Viewer Section */}
         <div className="viewer-section" style={{
           flex: 1,
           position: 'relative',
-          height: '100%'
+          height: '100%',
+          background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)'
         }}>
           <Canvas
             camera={{ position: [5, 3, 5], fov: 50 }}
             shadows
-            gl={{ 
-              antialias: true, 
+            gl={{
+              antialias: true,
               alpha: true,
               powerPreference: 'high-performance',
               failIfMajorPerformanceCaveat: false
@@ -101,207 +98,275 @@ const ShelterConfigurator: React.FC = () => {
               gl.shadowMap.type = THREE.PCFSoftShadowMap;
             }}
           >
-                         <ModelViewerScene
-               modelPath={configState.isDeployed ? "/models/trecc-open.glb" : "/models/trecc.glb"}
-               color={configState.color}
-               isDeployed={configState.isDeployed}
-               environment="studio"
-               weather="none"
-               lighting={{}}
-               background3D={{}}
-             />
+            <ModelViewerScene
+              modelPath={getModelPath()}
+              color={configState.color}
+              isDeployed={configState.isDeployed}
+              environment="studio"
+              weather="none"
+              lighting={{}}
+              background3D={{}}
+            />
           </Canvas>
         </div>
 
-        {/* Controls Panel */}
+        {/* Professional Controls Panel */}
         <div className="controls-panel" style={{
-          width: '350px',
-          background: 'rgba(255, 255, 255, 0.1)',
-          backdropFilter: 'blur(10px)',
+          width: '320px',
+          background: 'rgba(255, 255, 255, 0.95)',
+          backdropFilter: 'blur(20px)',
           borderLeft: '1px solid rgba(255, 255, 255, 0.2)',
-          padding: '2rem',
+          padding: '24px',
           display: 'flex',
           flexDirection: 'column',
-          gap: '1.5rem',
+          gap: '24px',
+          boxShadow: '0 0 40px rgba(0, 0, 0, 0.3)',
           overflowY: 'auto'
         }}>
-          {/* Deploy/Interior Controls */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            <button
-              className={`deploy-btn ${configState.isDeployed ? 'active' : ''}`}
-              onClick={handleDeployToggle}
-              style={{
-                padding: '1rem 1.5rem',
-                background: configState.isDeployed
-                  ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-                  : 'rgba(255, 255, 255, 0.1)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                borderRadius: '8px',
-                color: 'white',
-                fontSize: '1rem',
-                fontWeight: '600',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                textAlign: 'center'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.3)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = 'none';
-              }}
-            >
-              {configState.isDeployed ? '🔄 Undeploy' : '🚀 Deploy'}
-            </button>
+          {/* Header */}
+          <div style={{
+            textAlign: 'center',
+            marginBottom: '8px'
+          }}>
+            <h1 style={{
+              fontSize: '24px',
+              fontWeight: '700',
+              color: '#1a1a2e',
+              margin: '0 0 4px 0',
+              letterSpacing: '-0.5px'
+            }}>
+              TRECC Configurator
+            </h1>
+            <p style={{
+              fontSize: '14px',
+              color: '#666',
+              margin: '0',
+              fontWeight: '500'
+            }}>
+              Customize Your Shelter
+            </p>
+          </div>
 
-                         <button
-               className="interior-btn"
-               onClick={handleInteriorViewToggle}
-              style={{
-                padding: '1rem 1.5rem',
-                background: configState.isInteriorView
-                  ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-                  : 'rgba(255, 255, 255, 0.1)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                borderRadius: '8px',
-                color: 'white',
-                fontSize: '1rem',
-                fontWeight: '600',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                textAlign: 'center'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.3)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = 'none';
-              }}
-            >
-              {configState.isInteriorView ? '🏠 Exterior View' : '🏠 Interior View'}
-            </button>
+          {/* Deploy/Interior Controls */}
+          <div style={{
+            background: 'rgba(26, 26, 46, 0.05)',
+            borderRadius: '12px',
+            padding: '20px',
+            border: '1px solid rgba(26, 26, 46, 0.1)'
+          }}>
+            <h3 style={{
+              fontSize: '16px',
+              fontWeight: '600',
+              color: '#1a1a2e',
+              margin: '0 0 16px 0'
+            }}>
+              View Options
+            </h3>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <button
+                onClick={handleDeployToggle}
+                style={{
+                  background: configState.isDeployed 
+                    ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                    : 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  padding: '12px 16px',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.3)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)';
+                }}
+              >
+                {configState.isDeployed ? 'Undeploy' : 'Deploy'}
+              </button>
+
+              <button
+                onClick={handleInteriorViewToggle}
+                style={{
+                  background: configState.isInteriorView 
+                    ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                    : 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  padding: '12px 16px',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.3)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)';
+                }}
+              >
+                {configState.isInteriorView ? 'Exterior View' : 'Interior View'}
+              </button>
+            </div>
           </div>
 
           {/* Color Selection */}
-          <div>
+          <div style={{
+            background: 'rgba(26, 26, 46, 0.05)',
+            borderRadius: '12px',
+            padding: '20px',
+            border: '1px solid rgba(26, 26, 46, 0.1)'
+          }}>
             <h3 style={{
-              color: 'white',
-              fontSize: '1.2rem',
+              fontSize: '16px',
               fontWeight: '600',
-              marginBottom: '1rem',
-              textAlign: 'center'
+              color: '#1a1a2e',
+              margin: '0 0 16px 0'
             }}>
-              Shelter Color
+              Color Options
             </h3>
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: '0.75rem'
-            }}>
-              {colorOptions.map((colorOption) => (
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {colorOptions.map((option) => (
                 <button
-                  key={colorOption.value}
-                                     className={`color-btn ${configState.color === colorOption.value ? 'active' : ''}`}
-                   onClick={() => handleColorChange(colorOption.value)}
+                  key={option.value}
+                  onClick={() => handleColorChange(option.value)}
                   style={{
-                    padding: '1rem',
-                    background: configState.color === colorOption.value
+                    background: configState.color === option.value 
                       ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-                      : 'rgba(255, 255, 255, 0.1)',
-                    border: `2px solid ${configState.color === colorOption.value ? 'rgba(255, 255, 255, 0.5)' : 'rgba(255, 255, 255, 0.2)'}`,
+                      : 'rgba(255, 255, 255, 0.8)',
+                    color: configState.color === option.value ? 'white' : '#1a1a2e',
+                    border: configState.color === option.value 
+                      ? 'none' 
+                      : `2px solid ${option.value}`,
                     borderRadius: '8px',
-                    color: 'white',
-                    fontSize: '0.9rem',
-                    fontWeight: '500',
+                    padding: '12px 16px',
+                    fontSize: '14px',
+                    fontWeight: '600',
                     cursor: 'pointer',
                     transition: 'all 0.3s ease',
-                    textAlign: 'center',
+                    boxShadow: configState.color === option.value 
+                      ? '0 4px 15px rgba(0, 0, 0, 0.2)' 
+                      : '0 2px 8px rgba(0, 0, 0, 0.1)',
                     display: 'flex',
-                    flexDirection: 'column',
                     alignItems: 'center',
-                    gap: '0.5rem'
+                    gap: '12px'
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                    e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.3)';
+                    if (configState.color !== option.value) {
+                      e.currentTarget.style.transform = 'translateY(-1px)';
+                      e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+                    }
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = 'none';
+                    if (configState.color !== option.value) {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
+                    }
                   }}
                 >
                   <div style={{
-                    width: '30px',
-                    height: '30px',
-                    backgroundColor: colorOption.value,
-                    borderRadius: '50%',
-                    border: '2px solid rgba(255, 255, 255, 0.3)'
+                    width: '20px',
+                    height: '20px',
+                    borderRadius: '4px',
+                    backgroundColor: option.value,
+                    border: '1px solid rgba(0, 0, 0, 0.1)'
                   }} />
-                  {colorOption.name}
+                  {option.name}
                 </button>
               ))}
             </div>
           </div>
 
-          {/* Bottom Buttons */}
-          <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            <button
-              className="lead-times-btn"
-              onClick={() => window.open('/contact', '_blank')}
-              style={{
-                padding: '1rem 1.5rem',
-                background: 'rgba(255, 255, 255, 0.1)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                borderRadius: '8px',
-                color: 'white',
-                fontSize: '1rem',
-                fontWeight: '600',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                textAlign: 'center'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.3)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = 'none';
-              }}
-            >
-              📞 Lead Times
-            </button>
+          {/* Action Buttons */}
+          <div style={{
+            background: 'rgba(26, 26, 46, 0.05)',
+            borderRadius: '12px',
+            padding: '20px',
+            border: '1px solid rgba(26, 26, 46, 0.1)'
+          }}>
+            <h3 style={{
+              fontSize: '16px',
+              fontWeight: '600',
+              color: '#1a1a2e',
+              margin: '0 0 16px 0'
+            }}>
+              Actions
+            </h3>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <button
+                onClick={() => window.location.href = '/'}
+                style={{
+                  background: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)',
+                  color: '#1a1a2e',
+                  border: 'none',
+                  borderRadius: '8px',
+                  padding: '12px 16px',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.3)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)';
+                }}
+              >
+                Back to Home
+              </button>
 
-            <button
-              className="back-home-btn"
-              onClick={() => window.location.href = '/'}
-              style={{
-                padding: '1rem 1.5rem',
-                background: 'rgba(255, 255, 255, 0.1)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                borderRadius: '8px',
-                color: 'white',
-                fontSize: '1rem',
-                fontWeight: '600',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                textAlign: 'center'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.3)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = 'none';
-              }}
-            >
-              🏠 Back to Home
-            </button>
+              <button
+                onClick={() => window.open('/contact', '_blank')}
+                style={{
+                  background: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
+                  color: '#1a1a2e',
+                  border: 'none',
+                  borderRadius: '8px',
+                  padding: '12px 16px',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.3)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)';
+                }}
+              >
+                Lead Times
+              </button>
+            </div>
           </div>
         </div>
       </div>

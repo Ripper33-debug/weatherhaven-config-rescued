@@ -159,8 +159,13 @@ const Model: React.FC<{
                     newMaterial instanceof THREE.MeshPhongMaterial ||
                     newMaterial instanceof THREE.MeshBasicMaterial) {
                   newMaterial.color.setHex(parseInt(color.replace('#', ''), 16));
+                  // Make it matte
+                  if (newMaterial instanceof THREE.MeshStandardMaterial) {
+                    newMaterial.roughness = 0.9; // Very rough for matte finish
+                    newMaterial.metalness = 0.0; // No metalness for matte look
+                  }
                   newMaterial.needsUpdate = true;
-                  console.log(`🎨 Applied color ${color} to: ${objectName}`);
+                  console.log(`🎨 Applied matte color ${color} to: ${objectName}`);
                 }
                 mesh.material = newMaterial;
               } catch (err) {

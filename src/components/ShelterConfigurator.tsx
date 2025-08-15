@@ -221,29 +221,6 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
         </div>
       )}
 
-      {/* View Control Buttons */}
-      <div className="view-controls">
-        <div className="view-control-group">
-          <button
-            className={`view-btn ${configState.isDeployed ? 'active' : ''}`}
-            onClick={handleToggleDeploy}
-            title="Toggle Deployed/Undeployed View"
-          >
-            <span className="btn-icon">🚀</span>
-            <span className="btn-text">{configState.isDeployed ? 'Deployed' : 'Undeployed'}</span>
-          </button>
-          
-          <button
-            className={`view-btn ${configState.isInsideView ? 'active' : ''}`}
-            onClick={handleToggleView}
-            title="View Inside/Outside"
-          >
-            <span className="btn-icon">👁️</span>
-            <span className="btn-text">{configState.isInsideView ? 'Outside View' : 'Inside View'}</span>
-          </button>
-        </div>
-      </div>
-
       {/* Full Screen 3D Canvas */}
       <div className="fullscreen-canvas">
         <Canvas
@@ -278,21 +255,93 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
         </div>
       )}
 
-      {/* Compact Controls Panel */}
-      <div className="compact-controls">
-        <Controls
-          configState={configState}
-          shelter={shelter}
-          availableInteriors={availableInteriors}
-          onToggleDeploy={handleToggleDeploy}
-          onToggleView={handleToggleView}
-          onColorChange={handleColorChange}
-          onInteriorChange={handleInteriorChange}
-          user={user}
-        />
+      {/* Right Side - Main Controls Panel */}
+      <div className="right-controls">
+        {/* Deploy/View Controls - Prominently placed at top */}
+        <div className="main-control-section">
+          <h3 className="section-title">🚀 Deployment & View</h3>
+          <div className="deploy-controls">
+            <button
+              className={`deploy-btn ${configState.isDeployed ? 'active' : ''}`}
+              onClick={handleToggleDeploy}
+              title="Toggle Deployed/Undeployed View"
+            >
+              <span className="btn-icon">🚀</span>
+              <span className="btn-text">{configState.isDeployed ? 'Deployed' : 'Undeployed'}</span>
+            </button>
+            
+            <button
+              className={`view-btn ${configState.isInsideView ? 'active' : ''}`}
+              onClick={handleToggleView}
+              title="View Inside/Outside"
+            >
+              <span className="btn-icon">👁️</span>
+              <span className="btn-text">{configState.isInsideView ? 'Outside View' : 'Inside View'}</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Color Selection */}
+        <div className="main-control-section">
+          <h3 className="section-title">🎨 Color Selection</h3>
+          <div className="color-controls">
+            <div className="color-options">
+              <button
+                className={`color-btn ${configState.color === '#2F4F2F' ? 'active' : ''}`}
+                onClick={() => handleColorChange('#2F4F2F')}
+                style={{ backgroundColor: '#2F4F2F' }}
+                title="Dark Military Green"
+              >
+                Military Green
+              </button>
+              <button
+                className={`color-btn ${configState.color === '#D2B48C' ? 'active' : ''}`}
+                onClick={() => handleColorChange('#D2B48C')}
+                style={{ backgroundColor: '#D2B48C' }}
+                title="Matte Tan"
+              >
+                Matte Tan
+              </button>
+              <button
+                className={`color-btn ${configState.color === '#FFFFFF' ? 'active' : ''}`}
+                onClick={() => handleColorChange('#FFFFFF')}
+                style={{ backgroundColor: '#FFFFFF', color: '#000' }}
+                title="Matte White"
+              >
+                Matte White
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Interior Selection */}
+        {availableInteriors.length > 0 && (
+          <div className="main-control-section">
+            <h3 className="section-title">🏠 Interior Configuration</h3>
+            <div className="interior-controls">
+              <select
+                className="interior-select"
+                value={configState.selectedInterior?.id || ''}
+                onChange={(e) => {
+                  const selectedInterior = availableInteriors.find(interior => interior.id === e.target.value);
+                  if (selectedInterior) {
+                    handleInteriorChange(selectedInterior);
+                  }
+                }}
+              >
+                <option value="">Select Interior</option>
+                {availableInteriors.map(interior => (
+                  <option key={interior.id} value={interior.id}>
+                    {interior.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* Left Side - Collapsible Environment Controls */}
+      {/* Left Side - Environment Controls */}
       <div className="left-controls">
         
         {/* Environment Presets */}
@@ -571,7 +620,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
         </div>
       </div>
 
-      {/* Right Side - Color Options */}
+      {/* Left Side - Color Options */}
       <div className="right-color-panel">
         <h3 className="color-panel-title">🎨 Exterior Colors</h3>
         

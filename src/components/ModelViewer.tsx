@@ -131,7 +131,10 @@ const Model: React.FC<{
               // Additional check: make sure it's not ANY kind of trailer or vehicle part
               const isAnyTrailerPart = /trailer|chassis|frame|rail|beam|girder|crossmember|support|leg|foot|base|stand|jack|wheel|tire|axle|suspension|spring|shock|strut|link|arm|bracket|mount|bushing|bearing|drawbar|hitch|coupling|connection|jockey|undercarriage|running|gear|vehicle|carriage|transmission|engine|motor|brake|drum|disc|caliper|fender|mudflap|mudguard|rim|hub|spoke|lug|valve|tread|sidewall|bead|stem|cap|cover|hubcap|center|spinner|nut|bolt|fastener|hardware|screw|washer|pin|clip|clamp|wire|cable/.test(objectName);
               
-              if (!isAnyTrailerPart) {
+              // EXTRA check: make sure it's not ANY wheel-related part
+              const isAnyWheelPart = /wheel|tire|tyre|rim|hub|axle|spoke|lug|valve|tread|sidewall|bead|stem|cap|cover|hubcap|center|spinner/.test(objectName);
+              
+              if (!isAnyTrailerPart && !isAnyWheelPart) {
                 coloredParts.push(objectName);
                 
                 if (material) {
@@ -157,7 +160,7 @@ const Model: React.FC<{
                 }
               } else {
                 skippedParts.push(objectName);
-                console.log(`🚫 Skipped trailer/vehicle part: ${objectName}`);
+                console.log(`🚫 Skipped trailer/wheel part: ${objectName}`);
               }
             } else {
               skippedParts.push(objectName);

@@ -105,34 +105,34 @@ const ShelterConfigurator: React.FC = () => {
       }}>
         {/* Left Side - Lighting Controls */}
         <div className="left-controls" style={{
-          width: '280px',
-          background: 'rgba(255, 255, 255, 0.98)',
+          width: '300px',
+          background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)',
           backdropFilter: 'blur(20px)',
-          borderRight: '1px solid rgba(0, 0, 0, 0.1)',
-          padding: '28px',
+          borderRight: '1px solid rgba(0, 0, 0, 0.08)',
+          padding: '32px',
           display: 'flex',
           flexDirection: 'column',
-          gap: '24px',
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+          gap: '28px',
+          boxShadow: '0 12px 40px rgba(0, 0, 0, 0.08)',
           overflowY: 'auto',
           zIndex: 10
         }}>
           {/* Lighting Controls Header */}
           <div style={{
             textAlign: 'center',
-            marginBottom: '8px'
+            marginBottom: '12px'
           }}>
             <h2 style={{
-              fontSize: '18px',
-              fontWeight: '700',
+              fontSize: '20px',
+              fontWeight: '800',
               color: '#1a1a2e',
-              margin: '0 0 6px 0',
+              margin: '0 0 8px 0',
               letterSpacing: '-0.5px'
             }}>
               Lighting Controls
             </h2>
             <p style={{
-              fontSize: '12px',
+              fontSize: '13px',
               color: '#666',
               margin: '0',
               fontWeight: '500'
@@ -143,18 +143,18 @@ const ShelterConfigurator: React.FC = () => {
 
           {/* Sun Intensity Control */}
           <div style={{
-            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.9) 100%)',
-            borderRadius: '16px',
-            padding: '20px',
-            border: '1px solid rgba(0, 0, 0, 0.08)',
-            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)'
+            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)',
+            borderRadius: '20px',
+            padding: '24px',
+            border: '1px solid rgba(0, 0, 0, 0.06)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.04)'
           }}>
             <label style={{ 
-              fontSize: '14px', 
+              fontSize: '15px', 
               display: 'block', 
-              marginBottom: '12px', 
+              marginBottom: '16px', 
               color: '#1a1a2e',
-              fontWeight: '700',
+              fontWeight: '800',
               textAlign: 'center'
             }}>
               Sun Intensity: {lightingState.directionalIntensity.toFixed(1)}
@@ -168,20 +168,20 @@ const ShelterConfigurator: React.FC = () => {
               onChange={(e) => handleLightingChange('directionalIntensity', parseFloat(e.target.value))}
               style={{ 
                 width: '100%',
-                height: '8px',
-                borderRadius: '4px',
+                height: '10px',
+                borderRadius: '5px',
                 background: 'linear-gradient(90deg, #f093fb 0%, #f5576c 100%)',
                 outline: 'none',
                 cursor: 'pointer',
-                boxShadow: 'inset 0 2px 4px rgba(0, 0, 0, 0.1)'
+                boxShadow: 'inset 0 3px 6px rgba(0, 0, 0, 0.1)'
               }}
             />
             <div style={{ 
-              fontSize: '11px', 
+              fontSize: '12px', 
               color: '#666', 
-              marginTop: '8px',
+              marginTop: '12px',
               textAlign: 'center',
-              fontWeight: '500'
+              fontWeight: '600'
             }}>
               More Sun ← → Less Sun
             </div>
@@ -189,25 +189,25 @@ const ShelterConfigurator: React.FC = () => {
 
           {/* Sun Position Controls - Simplified */}
           <div style={{
-            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.9) 100%)',
-            borderRadius: '16px',
-            padding: '20px',
-            border: '1px solid rgba(0, 0, 0, 0.08)',
-            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)'
+            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)',
+            borderRadius: '20px',
+            padding: '24px',
+            border: '1px solid rgba(0, 0, 0, 0.06)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.04)'
           }}>
             <label style={{ 
-              fontSize: '14px', 
+              fontSize: '15px', 
               display: 'block', 
-              marginBottom: '16px', 
+              marginBottom: '20px', 
               color: '#1a1a2e',
-              fontWeight: '700',
+              fontWeight: '800',
               textAlign: 'center'
             }}>
               Sun Position
             </label>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <span style={{ fontSize: '12px', minWidth: '24px', fontWeight: '700', color: '#1a1a2e' }}>←→:</span>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <span style={{ fontSize: '14px', minWidth: '28px', fontWeight: '800', color: '#1a1a2e' }}>←→:</span>
                 <input
                   type="range"
                   min="-10"
@@ -217,18 +217,18 @@ const ShelterConfigurator: React.FC = () => {
                   onChange={(e) => handleSunPositionChange('x', parseFloat(e.target.value))}
                   style={{ 
                     flex: 1,
-                    height: '8px',
-                    borderRadius: '4px',
+                    height: '10px',
+                    borderRadius: '5px',
                     background: 'linear-gradient(90deg, #4facfe 0%, #00f2fe 100%)',
                     outline: 'none',
                     cursor: 'pointer',
-                    boxShadow: 'inset 0 2px 4px rgba(0, 0, 0, 0.1)'
+                    boxShadow: 'inset 0 3px 6px rgba(0, 0, 0, 0.1)'
                   }}
                 />
-                <span style={{ fontSize: '12px', minWidth: '30px', fontWeight: '700', color: '#1a1a2e' }}>{lightingState.sunPosition.x}</span>
+                <span style={{ fontSize: '14px', minWidth: '35px', fontWeight: '800', color: '#1a1a2e' }}>{lightingState.sunPosition.x}</span>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <span style={{ fontSize: '12px', minWidth: '24px', fontWeight: '700', color: '#1a1a2e' }}>↑↓:</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <span style={{ fontSize: '14px', minWidth: '28px', fontWeight: '800', color: '#1a1a2e' }}>↑↓:</span>
                 <input
                   type="range"
                   min="0"
@@ -238,23 +238,23 @@ const ShelterConfigurator: React.FC = () => {
                   onChange={(e) => handleSunPositionChange('y', parseFloat(e.target.value))}
                   style={{ 
                     flex: 1,
-                    height: '8px',
-                    borderRadius: '4px',
+                    height: '10px',
+                    borderRadius: '5px',
                     background: 'linear-gradient(90deg, #43e97b 0%, #38f9d7 100%)',
                     outline: 'none',
                     cursor: 'pointer',
-                    boxShadow: 'inset 0 2px 4px rgba(0, 0, 0, 0.1)'
+                    boxShadow: 'inset 0 3px 6px rgba(0, 0, 0, 0.1)'
                   }}
                 />
-                <span style={{ fontSize: '12px', minWidth: '30px', fontWeight: '700', color: '#1a1a2e' }}>{lightingState.sunPosition.y}</span>
+                <span style={{ fontSize: '14px', minWidth: '35px', fontWeight: '800', color: '#1a1a2e' }}>{lightingState.sunPosition.y}</span>
               </div>
             </div>
             <div style={{ 
-              fontSize: '11px', 
+              fontSize: '12px', 
               color: '#666', 
-              marginTop: '12px',
+              marginTop: '16px',
               textAlign: 'center',
-              fontWeight: '500'
+              fontWeight: '600'
             }}>
               Left/Right ←→ Up/Down ↑↓
             </div>
@@ -273,23 +273,23 @@ const ShelterConfigurator: React.FC = () => {
               background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
               color: 'white',
               border: 'none',
-              borderRadius: '12px',
-              padding: '14px 20px',
-              fontSize: '13px',
-              fontWeight: '700',
+              borderRadius: '16px',
+              padding: '18px 24px',
+              fontSize: '14px',
+              fontWeight: '800',
               cursor: 'pointer',
               transition: 'all 0.3s ease',
-              boxShadow: '0 6px 20px rgba(102, 126, 234, 0.4)',
+              boxShadow: '0 8px 25px rgba(102, 126, 234, 0.4)',
               textTransform: 'uppercase',
               letterSpacing: '0.5px'
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-2px)';
-              e.currentTarget.style.boxShadow = '0 8px 25px rgba(102, 126, 234, 0.5)';
+              e.currentTarget.style.transform = 'translateY(-3px)';
+              e.currentTarget.style.boxShadow = '0 12px 35px rgba(102, 126, 234, 0.5)';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 6px 20px rgba(102, 126, 234, 0.4)';
+              e.currentTarget.style.boxShadow = '0 8px 25px rgba(102, 126, 234, 0.4)';
             }}
           >
             Reset Lighting
@@ -331,33 +331,33 @@ const ShelterConfigurator: React.FC = () => {
 
         {/* Professional Controls Panel */}
         <div className="controls-panel" style={{
-          width: '320px',
-          background: 'rgba(255, 255, 255, 0.98)',
+          width: '340px',
+          background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)',
           backdropFilter: 'blur(20px)',
-          borderLeft: '1px solid rgba(0, 0, 0, 0.1)',
-          padding: '28px',
+          borderLeft: '1px solid rgba(0, 0, 0, 0.08)',
+          padding: '32px',
           display: 'flex',
           flexDirection: 'column',
-          gap: '24px',
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+          gap: '28px',
+          boxShadow: '0 12px 40px rgba(0, 0, 0, 0.08)',
           overflowY: 'auto'
         }}>
           {/* Header */}
           <div style={{
             textAlign: 'center',
-            marginBottom: '8px'
+            marginBottom: '12px'
           }}>
             <h1 style={{
-              fontSize: '22px',
-              fontWeight: '700',
+              fontSize: '24px',
+              fontWeight: '800',
               color: '#1a1a2e',
-              margin: '0 0 6px 0',
+              margin: '0 0 8px 0',
               letterSpacing: '-0.5px'
             }}>
               TRECC Configurator
             </h1>
             <p style={{
-              fontSize: '13px',
+              fontSize: '14px',
               color: '#666',
               margin: '0',
               fontWeight: '500'
@@ -368,22 +368,22 @@ const ShelterConfigurator: React.FC = () => {
 
           {/* Deploy/Interior Controls */}
           <div style={{
-            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.9) 100%)',
-            borderRadius: '16px',
-            padding: '24px',
-            border: '1px solid rgba(0, 0, 0, 0.08)',
-            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)'
+            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)',
+            borderRadius: '20px',
+            padding: '28px',
+            border: '1px solid rgba(0, 0, 0, 0.06)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.04)'
           }}>
             <h3 style={{
-              fontSize: '16px',
-              fontWeight: '700',
+              fontSize: '18px',
+              fontWeight: '800',
               color: '#1a1a2e',
-              margin: '0 0 20px 0'
+              margin: '0 0 24px 0'
             }}>
               View Options
             </h3>
             
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               <button
                 onClick={handleDeployToggle}
                 style={{
@@ -392,23 +392,23 @@ const ShelterConfigurator: React.FC = () => {
                     : 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
                   color: 'white',
                   border: 'none',
-                  borderRadius: '12px',
-                  padding: '16px 20px',
-                  fontSize: '14px',
-                  fontWeight: '700',
+                  borderRadius: '16px',
+                  padding: '20px 24px',
+                  fontSize: '15px',
+                  fontWeight: '800',
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',
-                  boxShadow: '0 6px 20px rgba(0, 0, 0, 0.15)',
+                  boxShadow: '0 8px 25px rgba(0, 0, 0, 0.15)',
                   textTransform: 'uppercase',
                   letterSpacing: '0.5px'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.25)';
+                  e.currentTarget.style.transform = 'translateY(-3px)';
+                  e.currentTarget.style.boxShadow = '0 12px 35px rgba(0, 0, 0, 0.25)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.15)';
+                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15)';
                 }}
               >
                 {configState.isDeployed ? 'Undeploy' : 'Deploy'}
@@ -422,23 +422,23 @@ const ShelterConfigurator: React.FC = () => {
                     : 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
                   color: 'white',
                   border: 'none',
-                  borderRadius: '12px',
-                  padding: '16px 20px',
-                  fontSize: '14px',
-                  fontWeight: '700',
+                  borderRadius: '16px',
+                  padding: '20px 24px',
+                  fontSize: '15px',
+                  fontWeight: '800',
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',
-                  boxShadow: '0 6px 20px rgba(0, 0, 0, 0.15)',
+                  boxShadow: '0 8px 25px rgba(0, 0, 0, 0.15)',
                   textTransform: 'uppercase',
                   letterSpacing: '0.5px'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.25)';
+                  e.currentTarget.style.transform = 'translateY(-3px)';
+                  e.currentTarget.style.boxShadow = '0 12px 35px rgba(0, 0, 0, 0.25)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.15)';
+                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15)';
                 }}
               >
                 {configState.isInteriorView ? 'Exterior View' : 'Interior View'}
@@ -448,22 +448,22 @@ const ShelterConfigurator: React.FC = () => {
 
           {/* Color Selection */}
           <div style={{
-            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.9) 100%)',
-            borderRadius: '16px',
-            padding: '24px',
-            border: '1px solid rgba(0, 0, 0, 0.08)',
-            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)'
+            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)',
+            borderRadius: '20px',
+            padding: '28px',
+            border: '1px solid rgba(0, 0, 0, 0.06)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.04)'
           }}>
             <h3 style={{
-              fontSize: '16px',
-              fontWeight: '700',
+              fontSize: '18px',
+              fontWeight: '800',
               color: '#1a1a2e',
-              margin: '0 0 20px 0'
+              margin: '0 0 24px 0'
             }}>
               Color Options
             </h3>
             
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               {colorOptions.map((option) => (
                 <button
                   key={option.value}
@@ -471,44 +471,44 @@ const ShelterConfigurator: React.FC = () => {
                   style={{
                     background: configState.color === option.value 
                       ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-                      : 'rgba(255, 255, 255, 0.9)',
+                      : 'rgba(255, 255, 255, 0.95)',
                     color: configState.color === option.value ? 'white' : '#1a1a2e',
                     border: configState.color === option.value 
                       ? 'none' 
-                      : `2px solid ${option.value}`,
-                    borderRadius: '12px',
-                    padding: '16px 20px',
-                    fontSize: '14px',
-                    fontWeight: '700',
+                      : `3px solid ${option.value}`,
+                    borderRadius: '16px',
+                    padding: '20px 24px',
+                    fontSize: '15px',
+                    fontWeight: '800',
                     cursor: 'pointer',
                     transition: 'all 0.3s ease',
                     boxShadow: configState.color === option.value 
-                      ? '0 6px 20px rgba(102, 126, 234, 0.4)' 
-                      : '0 4px 15px rgba(0, 0, 0, 0.08)',
+                      ? '0 8px 25px rgba(102, 126, 234, 0.4)' 
+                      : '0 6px 20px rgba(0, 0, 0, 0.08)',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '16px'
+                    gap: '20px'
                   }}
                   onMouseEnter={(e) => {
                     if (configState.color !== option.value) {
-                      e.currentTarget.style.transform = 'translateY(-2px)';
-                      e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.15)';
+                      e.currentTarget.style.transform = 'translateY(-3px)';
+                      e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15)';
                     }
                   }}
                   onMouseLeave={(e) => {
                     if (configState.color !== option.value) {
                       e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.08)';
+                      e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.08)';
                     }
                   }}
                 >
                   <div style={{
-                    width: '24px',
-                    height: '24px',
-                    borderRadius: '6px',
+                    width: '28px',
+                    height: '28px',
+                    borderRadius: '8px',
                     backgroundColor: option.value,
-                    border: '2px solid rgba(0, 0, 0, 0.1)',
-                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
+                    border: '3px solid rgba(0, 0, 0, 0.1)',
+                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
                   }} />
                   {option.name}
                 </button>
@@ -518,45 +518,45 @@ const ShelterConfigurator: React.FC = () => {
 
           {/* Action Buttons */}
           <div style={{
-            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.9) 100%)',
-            borderRadius: '16px',
-            padding: '24px',
-            border: '1px solid rgba(0, 0, 0, 0.08)',
-            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)'
+            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)',
+            borderRadius: '20px',
+            padding: '28px',
+            border: '1px solid rgba(0, 0, 0, 0.06)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.04)'
           }}>
             <h3 style={{
-              fontSize: '16px',
-              fontWeight: '700',
+              fontSize: '18px',
+              fontWeight: '800',
               color: '#1a1a2e',
-              margin: '0 0 20px 0'
+              margin: '0 0 24px 0'
             }}>
               Actions
             </h3>
             
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               <button
                 onClick={() => window.location.href = '/'}
                 style={{
                   background: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)',
                   color: '#1a1a2e',
                   border: 'none',
-                  borderRadius: '12px',
-                  padding: '16px 20px',
-                  fontSize: '14px',
-                  fontWeight: '700',
+                  borderRadius: '16px',
+                  padding: '20px 24px',
+                  fontSize: '15px',
+                  fontWeight: '800',
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',
-                  boxShadow: '0 6px 20px rgba(255, 154, 158, 0.4)',
+                  boxShadow: '0 8px 25px rgba(255, 154, 158, 0.4)',
                   textTransform: 'uppercase',
                   letterSpacing: '0.5px'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(255, 154, 158, 0.5)';
+                  e.currentTarget.style.transform = 'translateY(-3px)';
+                  e.currentTarget.style.boxShadow = '0 12px 35px rgba(255, 154, 158, 0.5)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(255, 154, 158, 0.4)';
+                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(255, 154, 158, 0.4)';
                 }}
               >
                 Back to Home
@@ -568,23 +568,23 @@ const ShelterConfigurator: React.FC = () => {
                   background: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
                   color: '#1a1a2e',
                   border: 'none',
-                  borderRadius: '12px',
-                  padding: '16px 20px',
-                  fontSize: '14px',
-                  fontWeight: '700',
+                  borderRadius: '16px',
+                  padding: '20px 24px',
+                  fontSize: '15px',
+                  fontWeight: '800',
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',
-                  boxShadow: '0 6px 20px rgba(168, 237, 234, 0.4)',
+                  boxShadow: '0 8px 25px rgba(168, 237, 234, 0.4)',
                   textTransform: 'uppercase',
                   letterSpacing: '0.5px'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(168, 237, 234, 0.5)';
+                  e.currentTarget.style.transform = 'translateY(-3px)';
+                  e.currentTarget.style.boxShadow = '0 12px 35px rgba(168, 237, 234, 0.5)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(168, 237, 234, 0.4)';
+                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(168, 237, 234, 0.4)';
                 }}
               >
                 Lead Times

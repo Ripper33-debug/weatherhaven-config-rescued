@@ -126,38 +126,41 @@ const Model: React.FC<{
         const objectName = mesh.name.toLowerCase();
         const objectPath = getObjectPath(mesh);
         
-        // More flexible shelter detection - look for any part that could be shelter body
+        // VERY AGGRESSIVE shelter detection - color almost everything except wheels/trailer
         const isLikelyShelterBody = (
-          // Main shelter body keywords (more flexible)
-          /shelter|body|main|container|box|unit|cabin|pod/.test(objectName) ||
-          // Shelter structure parts (more flexible)
-          /wall|panel|roof|floor|ceiling|side|end|front|back|top|bottom|surface|skin|hull|casing|enclosure|housing/.test(objectName) ||
+          // Main shelter body keywords (very broad)
+          /shelter|body|main|container|box|unit|cabin|pod|module|section|part|piece|component|element/.test(objectName) ||
+          // Shelter structure parts (very broad)
+          /wall|panel|roof|floor|ceiling|side|end|front|back|top|bottom|surface|skin|hull|casing|enclosure|housing|cover|lid|cap/.test(objectName) ||
           // Shelter frame parts (but be careful with vehicle frame)
-          /frame|structure|support|brace|girder|beam/.test(objectName) ||
+          /frame|structure|support|brace|girder|beam|post|pillar|column|stud|joist|rafter|truss/.test(objectName) ||
           // Shelter interior parts
-          /interior|inner|inside|room|space|area|zone|volume/.test(objectName) ||
+          /interior|inner|inside|room|space|area|zone|volume|chamber|compartment|section|bay/.test(objectName) ||
           // Shelter access parts
-          /door|window|hatch|access|entry|exit|vent|port/.test(objectName) ||
+          /door|window|hatch|access|entry|exit|vent|port|opening|aperture|hole|gap/.test(objectName) ||
           // Shelter connection parts
-          /joint|seam|edge|corner|angle|curve|bend/.test(objectName) ||
+          /joint|seam|edge|corner|angle|curve|bend|fold|crease|pleat|gusset/.test(objectName) ||
           // Shelter reinforcement parts
-          /reinforcement|stiffener|gusset|pleat|crease|fold/.test(objectName) ||
-          // Generic parts that are likely shelter (but not vehicle)
-          /part|piece|component|element|section|module/.test(objectName)
+          /reinforcement|stiffener|gusset|pleat|crease|fold|bracket|support|strut|brace/.test(objectName) ||
+          // Generic parts that are likely shelter (very broad)
+          /part|piece|component|element|section|module|block|plate|sheet|board|slab/.test(objectName) ||
+          // Material-based detection (if it's not metal/vehicle parts)
+          /plastic|fiber|composite|fabric|cloth|canvas|vinyl|rubber|foam|insulation/.test(objectName)
         );
         
         // VERY SPECIFIC: Never color these parts (blacklist approach)
         const isDefinitelyNotShelter = (
-          // Vehicle parts
+          // Vehicle parts (very specific)
           /wheel|tire|tyre|rim|hub|axle|suspension|spoke|lug|valve|fender|mudflap|mudguard/.test(objectName) ||
-          /chassis|trailer|truck|vehicle|carriage|undercarriage|running|gear/.test(objectName) ||
+          /chassis|trailer|truck|vehicle|carriage|undercarriage|running|gear|transmission|engine|motor/.test(objectName) ||
           /brake|drum|disc|caliper|spring|shock|strut|link|arm|bracket|mount|bushing|bearing/.test(objectName) ||
-          /nut|bolt|fastener|hardware|screw|washer|pin|clip|clamp|bracket|support|strut/.test(objectName) ||
+          /nut|bolt|fastener|hardware|screw|washer|pin|clip|clamp|bracket|support|strut|wire|cable/.test(objectName) ||
           // Check parent names too
-          /wheel|tire|tyre|rim|hub|axle|suspension|chassis|trailer|truck|vehicle/.test(objectPath) ||
+          /wheel|tire|tyre|rim|hub|axle|suspension|chassis|trailer|truck|vehicle|engine|motor/.test(objectPath) ||
           // Check if it's part of a wheel/trailer hierarchy
           objectPath.includes('wheel') || objectPath.includes('tire') || objectPath.includes('trailer') ||
-          objectPath.includes('chassis') || objectPath.includes('suspension') || objectPath.includes('axle')
+          objectPath.includes('chassis') || objectPath.includes('suspension') || objectPath.includes('axle') ||
+          objectPath.includes('engine') || objectPath.includes('motor') || objectPath.includes('transmission')
         );
         
         // Color if it's likely a shelter body part AND definitely not a vehicle part
@@ -214,6 +217,9 @@ const Model: React.FC<{
     console.log(`   - Skipped vehicle parts: ${skippedParts.length}`);
     if (coloredParts.length === 0) {
       console.log(`⚠️  No parts were colored! Check if the model has the expected part names.`);
+      console.log(`🔍 Try changing colors to see if any parts respond.`);
+    } else {
+      console.log(`✅ Successfully colored ${coloredParts.length} parts`);
     }
   }, [clonedScene, color]);
 

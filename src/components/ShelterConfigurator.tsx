@@ -339,6 +339,39 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             </div>
           </div>
         )}
+
+        {/* Debug Panel */}
+        <div className="main-control-section">
+          <h3 className="section-title">🔧 Debug Info</h3>
+          <div className="debug-info">
+            <div className="debug-item">
+              <span className="debug-label">Current Color:</span>
+              <span className="debug-value" style={{ color: configState.color }}>
+                {configState.color}
+              </span>
+            </div>
+            <div className="debug-item">
+              <span className="debug-label">Deployment:</span>
+              <span className="debug-value">
+                {configState.isDeployed ? 'Deployed' : 'Undeployed'}
+              </span>
+            </div>
+            <div className="debug-item">
+              <span className="debug-label">View Mode:</span>
+              <span className="debug-value">
+                {configState.isInsideView ? 'Inside' : 'Outside'}
+              </span>
+            </div>
+            <div className="debug-item">
+              <span className="debug-label">Environment:</span>
+              <span className="debug-value">{environment}</span>
+            </div>
+            <div className="debug-item">
+              <span className="debug-label">Weather:</span>
+              <span className="debug-value">{weatherEffects.type}</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Left Side - Environment Controls */}

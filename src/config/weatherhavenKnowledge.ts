@@ -5,9 +5,11 @@ export interface WeatherhavenKnowledge {
   company: CompanyInfo;
   products: ProductInfo[];
   trecc: TRECCInfo;
+  shelters: ShelterInfo[];
   applications: ApplicationInfo[];
   technical: TechnicalInfo;
   support: SupportInfo;
+  useCases: UseCaseInfo[];
 }
 
 export interface CompanyInfo {
@@ -45,6 +47,28 @@ export interface TRECCInfo {
   certifications: string[];
 }
 
+export interface ShelterInfo {
+  id: string;
+  name: string;
+  category: string;
+  description: string;
+  keyFeatures: string[];
+  specifications: Record<string, any>;
+  deploymentTime: string;
+  capacity: string;
+  environments: string[];
+  configurations: string[];
+  advantages: string[];
+  disadvantages: string[];
+  bestUseCases: string[];
+  worstUseCases: string[];
+  costRange: string;
+  maintenanceLevel: string;
+  certifications: string[];
+  competitors: string[];
+  uniqueSellingPoints: string[];
+}
+
 export interface ApplicationInfo {
   sector: string;
   description: string;
@@ -67,6 +91,18 @@ export interface SupportInfo {
   training: string[];
   documentation: string[];
   contact: string[];
+}
+
+export interface UseCaseInfo {
+  scenario: string;
+  description: string;
+  requirements: string[];
+  recommendedShelters: string[];
+  alternativeShelters: string[];
+  keyConsiderations: string[];
+  estimatedCost: string;
+  deploymentTime: string;
+  maintenanceNeeds: string[];
 }
 
 export const weatherhavenKnowledge: WeatherhavenKnowledge = {
@@ -243,6 +279,458 @@ export const weatherhavenKnowledge: WeatherhavenKnowledge = {
       "Global logistics certifications"
     ]
   },
+
+  shelters: [
+    {
+      id: "trecc",
+      name: "TRECC (Tactical Redeployable Expandable Container Capability)",
+      category: "Military & Tactical",
+      description: "Advanced modular shelter system for rapid deployment in tactical military operations and emergency response scenarios.",
+      keyFeatures: [
+        "Rapid deployment under 30 minutes",
+        "Modular expandable design (20ft to 40ft)",
+        "Extreme environment protection (-40°C to +60°C)",
+        "Integrated power, HVAC, and communications",
+        "Multi-purpose interior configurations",
+        "Global logistics and support network"
+      ],
+      specifications: {
+        baseDimensions: "20ft ISO container footprint",
+        expandedDimensions: "Up to 40ft expanded length",
+        deploymentTime: "Under 30 minutes with 4-person crew",
+        capacity: "Up to 50 personnel",
+        powerOutput: "Up to 20kW integrated power",
+        climateControl: "Full HVAC system with filtration",
+        communications: "Integrated secure communications",
+        weight: "Configurable 5,000-15,000 kg",
+        transport: "Standard military transport compatible"
+      },
+      deploymentTime: "Under 30 minutes",
+      capacity: "Up to 50 personnel",
+      environments: [
+        "Desert (up to +60°C)",
+        "Arctic (down to -40°C)",
+        "Tropical (high humidity)",
+        "Mountain (high altitude)",
+        "Coastal (salt spray)",
+        "Urban (confined spaces)"
+      ],
+      configurations: [
+        "Command and Control Center",
+        "Medical Treatment Facility",
+        "Tactical Operations Center",
+        "Communications Hub",
+        "Logistics Support Center",
+        "Emergency Response Headquarters"
+      ],
+      advantages: [
+        "Rapid deployment capability",
+        "Extreme environment durability",
+        "Modular and scalable design",
+        "Integrated infrastructure",
+        "Global logistics support",
+        "Proven military reliability",
+        "Cost-effective total ownership",
+        "Flexible mission adaptation"
+      ],
+      disadvantages: [
+        "Higher initial cost compared to basic shelters",
+        "Requires trained personnel for deployment",
+        "Complex maintenance requirements",
+        "Limited customization after deployment"
+      ],
+      bestUseCases: [
+        "Military command and control operations",
+        "Emergency response and disaster relief",
+        "Tactical military operations",
+        "Field hospitals and medical facilities",
+        "Remote research stations",
+        "High-security communications centers"
+      ],
+      worstUseCases: [
+        "Permanent installations",
+        "Low-budget operations",
+        "Simple storage facilities",
+        "Urban office environments",
+        "Short-term events"
+      ],
+      costRange: "$500,000 - $2,000,000+",
+      maintenanceLevel: "High - requires trained technicians",
+      certifications: [
+        "Military specifications compliance",
+        "NATO interoperability standards",
+        "International safety standards",
+        "Environmental protection compliance"
+      ],
+      competitors: [
+        "HESCO Bastion",
+        "Alaska Structures",
+        "Rubb Buildings",
+        "Shelter Systems"
+      ],
+      uniqueSellingPoints: [
+        "Fastest deployment time in industry",
+        "Most extreme environment capability",
+        "Integrated infrastructure systems",
+        "Proven military track record"
+      ]
+    },
+    {
+      id: "field-hospital",
+      name: "Field Hospital System",
+      category: "Medical & Healthcare",
+      description: "Complete medical facility solution for emergency response and routine care in remote locations with full medical infrastructure.",
+      keyFeatures: [
+        "Complete medical infrastructure",
+        "Operating room capabilities",
+        "Patient care areas",
+        "Medical equipment integration",
+        "Sterile environment maintenance",
+        "Emergency power systems"
+      ],
+      specifications: {
+        capacity: "20-100 patients",
+        setupTime: "2-4 hours",
+        medicalLevel: "Level 1-3 trauma care",
+        power: "Redundant power systems",
+        climate: "Controlled medical environment",
+        sterilization: "Medical-grade sterilization systems",
+        imaging: "X-ray and ultrasound capabilities",
+        lab: "Basic laboratory facilities"
+      },
+      deploymentTime: "2-4 hours",
+      capacity: "20-100 patients",
+      environments: [
+        "Temperate climates",
+        "Desert environments",
+        "Tropical regions",
+        "Arctic conditions",
+        "High altitude locations"
+      ],
+      configurations: [
+        "Emergency Trauma Center",
+        "General Medical Facility",
+        "Surgical Suite",
+        "Intensive Care Unit",
+        "Outpatient Clinic",
+        "Medical Supply Center"
+      ],
+      advantages: [
+        "Complete medical infrastructure",
+        "Rapid medical facility deployment",
+        "Flexible capacity scaling",
+        "Global medical standards compliance",
+        "Integrated medical equipment",
+        "Emergency power redundancy"
+      ],
+      disadvantages: [
+        "High cost and complexity",
+        "Requires medical staff training",
+        "Limited to medical applications",
+        "Regular medical equipment maintenance"
+      ],
+      bestUseCases: [
+        "Disaster response medical care",
+        "Military field hospitals",
+        "Remote community healthcare",
+        "Emergency medical response",
+        "Humanitarian aid operations",
+        "Medical training facilities"
+      ],
+      worstUseCases: [
+        "Non-medical operations",
+        "Simple storage needs",
+        "Temporary office space",
+        "Low-budget operations"
+      ],
+      costRange: "$1,000,000 - $5,000,000+",
+      maintenanceLevel: "Very High - requires medical technicians",
+      certifications: [
+        "Medical device regulations",
+        "Hospital accreditation standards",
+        "Emergency medical protocols",
+        "International health standards"
+      ],
+      competitors: [
+        "Medecins Sans Frontieres",
+        "International Medical Corps",
+        "Red Cross facilities",
+        "Military medical units"
+      ],
+      uniqueSellingPoints: [
+        "Complete medical infrastructure",
+        "Rapid deployment capability",
+        "Medical-grade sterilization",
+        "Integrated imaging systems"
+      ]
+    },
+    {
+      id: "command-center",
+      name: "Command & Control Center",
+      category: "Military & Tactical",
+      description: "Advanced command and control facility designed for military operations, emergency management, and tactical decision-making.",
+      keyFeatures: [
+        "Secure communications infrastructure",
+        "Multi-screen command displays",
+        "Tactical planning areas",
+        "Secure data processing",
+        "Redundant power systems",
+        "Environmental monitoring"
+      ],
+      specifications: {
+        capacity: "10-30 command staff",
+        setupTime: "1-2 hours",
+        communications: "Multi-band secure communications",
+        displays: "Large format tactical displays",
+        power: "Redundant power with UPS",
+        security: "EMI/RFI shielding",
+        climate: "Controlled environment"
+      },
+      deploymentTime: "1-2 hours",
+      capacity: "10-30 command staff",
+      environments: [
+        "Military bases",
+        "Emergency operations centers",
+        "Tactical forward positions",
+        "Disaster response headquarters",
+        "Security operations centers"
+      ],
+      configurations: [
+        "Tactical Operations Center",
+        "Emergency Management Center",
+        "Intelligence Analysis Hub",
+        "Communications Command Post",
+        "Logistics Coordination Center",
+        "Security Operations Center"
+      ],
+      advantages: [
+        "Rapid command facility deployment",
+        "Secure communications infrastructure",
+        "Integrated tactical displays",
+        "Redundant power systems",
+        "EMI/RFI protection",
+        "Scalable command structure"
+      ],
+      disadvantages: [
+        "High technology requirements",
+        "Complex setup procedures",
+        "Requires trained operators",
+        "High power consumption"
+      ],
+      bestUseCases: [
+        "Military tactical operations",
+        "Emergency response coordination",
+        "Disaster management",
+        "Security operations",
+        "Intelligence analysis",
+        "Logistics coordination"
+      ],
+      worstUseCases: [
+        "Simple storage needs",
+        "Basic office space",
+        "Low-tech operations",
+        "Temporary events"
+      ],
+      costRange: "$300,000 - $1,500,000",
+      maintenanceLevel: "High - requires IT technicians",
+      certifications: [
+        "Military communications standards",
+        "Emergency management protocols",
+        "Security clearance requirements",
+        "Data protection standards"
+      ],
+      competitors: [
+        "Lockheed Martin",
+        "Raytheon",
+        "Northrop Grumman",
+        "BAE Systems"
+      ],
+      uniqueSellingPoints: [
+        "Rapid deployment capability",
+        "Integrated tactical systems",
+        "Secure communications",
+        "Proven military reliability"
+      ]
+    },
+    {
+      id: "research-station",
+      name: "Research Station",
+      category: "Scientific & Research",
+      description: "Specialized shelter system designed for scientific research, environmental monitoring, and field studies in extreme environments.",
+      keyFeatures: [
+        "Laboratory facilities",
+        "Environmental monitoring systems",
+        "Data collection infrastructure",
+        "Long-term durability",
+        "Scientific equipment integration",
+        "Remote communications"
+      ],
+      specifications: {
+        capacity: "5-20 researchers",
+        setupTime: "4-8 hours",
+        laboratory: "Basic to advanced lab facilities",
+        monitoring: "Environmental sensors",
+        communications: "Satellite and radio systems",
+        power: "Solar and generator hybrid",
+        climate: "Controlled research environment"
+      },
+      deploymentTime: "4-8 hours",
+      capacity: "5-20 researchers",
+      environments: [
+        "Polar regions",
+        "Desert environments",
+        "Tropical rainforests",
+        "High altitude locations",
+        "Coastal areas",
+        "Remote wilderness"
+      ],
+      configurations: [
+        "Environmental Research Station",
+        "Climate Monitoring Facility",
+        "Wildlife Research Center",
+        "Archaeological Field Station",
+        "Geological Survey Base",
+        "Biological Research Lab"
+      ],
+      advantages: [
+        "Specialized research facilities",
+        "Long-term durability",
+        "Environmental monitoring capability",
+        "Remote communications",
+        "Scientific equipment integration",
+        "Sustainable power systems"
+      ],
+      disadvantages: [
+        "Limited to research applications",
+        "Complex setup requirements",
+        "High initial cost",
+        "Requires scientific expertise"
+      ],
+      bestUseCases: [
+        "Environmental research",
+        "Climate change studies",
+        "Wildlife monitoring",
+        "Archaeological excavations",
+        "Geological surveys",
+        "Biological research"
+      ],
+      worstUseCases: [
+        "Military operations",
+        "Emergency response",
+        "Commercial storage",
+        "Temporary events"
+      ],
+      costRange: "$200,000 - $800,000",
+      maintenanceLevel: "Medium - requires technical expertise",
+      certifications: [
+        "Scientific research standards",
+        "Environmental protection",
+        "Data collection protocols",
+        "Safety standards"
+      ],
+      competitors: [
+        "National Science Foundation",
+        "Research institutions",
+        "Environmental organizations",
+        "Academic field stations"
+      ],
+      uniqueSellingPoints: [
+        "Specialized research facilities",
+        "Long-term environmental durability",
+        "Integrated monitoring systems",
+        "Remote operation capability"
+      ]
+    },
+    {
+      id: "remote-camp",
+      name: "Remote Camp System",
+      category: "Industrial & Commercial",
+      description: "Comprehensive camp solution for remote industrial operations, mining, oil and gas, and construction projects.",
+      keyFeatures: [
+        "Modular accommodation units",
+        "Dining and recreation facilities",
+        "Medical and safety facilities",
+        "Power and utility systems",
+        "Waste management",
+        "Communications infrastructure"
+      ],
+      specifications: {
+        capacity: "50-500 personnel",
+        setupTime: "1-3 days",
+        accommodation: "Individual and shared units",
+        dining: "Full-service kitchen facilities",
+        medical: "Basic medical clinic",
+        power: "Centralized power generation",
+        utilities: "Water, sewage, communications"
+      },
+      deploymentTime: "1-3 days",
+      capacity: "50-500 personnel",
+      environments: [
+        "Mining operations",
+        "Oil and gas fields",
+        "Construction sites",
+        "Forestry operations",
+        "Remote industrial facilities",
+        "Infrastructure projects"
+      ],
+      configurations: [
+        "Mining Camp",
+        "Oil Field Camp",
+        "Construction Camp",
+        "Forestry Camp",
+        "Industrial Camp",
+        "Infrastructure Camp"
+      ],
+      advantages: [
+        "Complete camp infrastructure",
+        "Scalable capacity",
+        "Long-term durability",
+        "Integrated utilities",
+        "Cost-effective operations",
+        "Comfortable living conditions"
+      ],
+      disadvantages: [
+        "Longer setup time",
+        "Large footprint",
+        "Complex logistics",
+        "Environmental impact"
+      ],
+      bestUseCases: [
+        "Remote mining operations",
+        "Oil and gas exploration",
+        "Large construction projects",
+        "Forestry operations",
+        "Industrial development",
+        "Infrastructure projects"
+      ],
+      worstUseCases: [
+        "Emergency response",
+        "Tactical military operations",
+        "Short-term events",
+        "Urban environments"
+      ],
+      costRange: "$500,000 - $5,000,000+",
+      maintenanceLevel: "Medium - requires camp management",
+      certifications: [
+        "Industrial safety standards",
+        "Environmental compliance",
+        "Health and safety regulations",
+        "Quality management systems"
+      ],
+      competitors: [
+        "Alaska Structures",
+        "Rubb Buildings",
+        "Shelter Systems",
+        "Local camp providers"
+      ],
+      uniqueSellingPoints: [
+        "Complete camp solutions",
+        "Integrated infrastructure",
+        "Long-term durability",
+        "Cost-effective operations"
+      ]
+    }
+  ],
 
   applications: [
     {
@@ -436,27 +924,214 @@ export const weatherhavenKnowledge: WeatherhavenKnowledge = {
       "Emergency response contacts",
       "Sales and consultation services"
     ]
-  }
+  },
+
+  useCases: [
+    {
+      scenario: "Military Tactical Operations",
+      description: "Rapid deployment command and control center for military operations in hostile environments",
+      requirements: [
+        "Rapid deployment under 30 minutes",
+        "Secure communications infrastructure",
+        "Extreme environment protection",
+        "Tactical planning capabilities",
+        "EMI/RFI shielding",
+        "Redundant power systems"
+      ],
+      recommendedShelters: ["TRECC", "Command & Control Center"],
+      alternativeShelters: ["Field Hospital System"],
+      keyConsiderations: [
+        "Deployment speed critical",
+        "Security requirements high",
+        "Communications essential",
+        "Environmental protection needed"
+      ],
+      estimatedCost: "$500,000 - $1,500,000",
+      deploymentTime: "Under 30 minutes",
+      maintenanceNeeds: ["Regular security updates", "Communications maintenance", "Power system checks"]
+    },
+    {
+      scenario: "Emergency Medical Response",
+      description: "Field hospital for disaster response and emergency medical care",
+      requirements: [
+        "Complete medical infrastructure",
+        "Operating room capabilities",
+        "Patient care areas",
+        "Sterile environment",
+        "Medical equipment integration",
+        "Emergency power systems"
+      ],
+      recommendedShelters: ["Field Hospital System"],
+      alternativeShelters: ["TRECC (medical configuration)"],
+      keyConsiderations: [
+        "Medical standards compliance",
+        "Sterilization requirements",
+        "Patient capacity needs",
+        "Medical staff training"
+      ],
+      estimatedCost: "$1,000,000 - $5,000,000",
+      deploymentTime: "2-4 hours",
+      maintenanceNeeds: ["Medical equipment maintenance", "Sterilization system checks", "Medical supply management"]
+    },
+    {
+      scenario: "Arctic Research Station",
+      description: "Long-term research facility for scientific studies in extreme cold environments",
+      requirements: [
+        "Extreme cold protection (-40°C)",
+        "Laboratory facilities",
+        "Long-term durability",
+        "Environmental monitoring",
+        "Remote communications",
+        "Sustainable power systems"
+      ],
+      recommendedShelters: ["Research Station"],
+      alternativeShelters: ["TRECC (research configuration)"],
+      keyConsiderations: [
+        "Extreme environment durability",
+        "Scientific equipment needs",
+        "Long-term sustainability",
+        "Remote logistics"
+      ],
+      estimatedCost: "$200,000 - $800,000",
+      deploymentTime: "4-8 hours",
+      maintenanceNeeds: ["Environmental system maintenance", "Scientific equipment calibration", "Power system monitoring"]
+    },
+    {
+      scenario: "Remote Mining Camp",
+      description: "Complete camp solution for remote mining operations with accommodation and support facilities",
+      requirements: [
+        "Large capacity (100+ personnel)",
+        "Long-term durability",
+        "Complete infrastructure",
+        "Comfortable living conditions",
+        "Power and utilities",
+        "Medical facilities"
+      ],
+      recommendedShelters: ["Remote Camp System"],
+      alternativeShelters: ["Multiple TRECC units"],
+      keyConsiderations: [
+        "Camp size requirements",
+        "Infrastructure needs",
+        "Long-term operations",
+        "Environmental impact"
+      ],
+      estimatedCost: "$2,000,000 - $10,000,000",
+      deploymentTime: "1-3 days",
+      maintenanceNeeds: ["Camp management", "Utility system maintenance", "Facility upkeep"]
+    },
+    {
+      scenario: "Disaster Response Headquarters",
+      description: "Emergency operations center for coordinating disaster response and relief efforts",
+      requirements: [
+        "Rapid deployment capability",
+        "Communications infrastructure",
+        "Command and control facilities",
+        "Emergency power",
+        "All-weather protection",
+        "Scalable capacity"
+      ],
+      recommendedShelters: ["TRECC", "Command & Control Center"],
+      alternativeShelters: ["Field Hospital System"],
+      keyConsiderations: [
+        "Deployment speed critical",
+        "Communications essential",
+        "Coordination capabilities",
+        "Emergency response protocols"
+      ],
+      estimatedCost: "$300,000 - $1,500,000",
+      deploymentTime: "Under 30 minutes",
+      maintenanceNeeds: ["Communications maintenance", "Power system checks", "Emergency protocols"]
+    },
+    {
+      scenario: "Desert Military Base",
+      description: "Forward operating base for military operations in extreme desert conditions",
+      requirements: [
+        "Extreme heat protection (+60°C)",
+        "Dust and sand protection",
+        "Military specifications",
+        "Rapid deployment",
+        "Secure communications",
+        "Logistics support"
+      ],
+      recommendedShelters: ["TRECC"],
+      alternativeShelters: ["Command & Control Center"],
+      keyConsiderations: [
+        "Heat protection critical",
+        "Dust filtration essential",
+        "Military standards required",
+        "Deployment speed important"
+      ],
+      estimatedCost: "$500,000 - $2,000,000",
+      deploymentTime: "Under 30 minutes",
+      maintenanceNeeds: ["Dust filter maintenance", "Cooling system checks", "Military equipment upkeep"]
+    },
+    {
+      scenario: "Tropical Research Facility",
+      description: "Environmental research station for studies in high humidity and tropical conditions",
+      requirements: [
+        "High humidity protection",
+        "Laboratory facilities",
+        "Environmental monitoring",
+        "Sustainable power",
+        "Remote communications",
+        "Long-term durability"
+      ],
+      recommendedShelters: ["Research Station"],
+      alternativeShelters: ["TRECC (research configuration)"],
+      keyConsiderations: [
+        "Humidity control critical",
+        "Environmental monitoring needs",
+        "Sustainable operations",
+        "Remote logistics"
+      ],
+      estimatedCost: "$200,000 - $800,000",
+      deploymentTime: "4-8 hours",
+      maintenanceNeeds: ["Humidity control maintenance", "Environmental monitoring", "Power system checks"]
+    },
+    {
+      scenario: "Oil Field Operations Camp",
+      description: "Industrial camp for oil and gas operations in remote locations",
+      requirements: [
+        "Large capacity (200+ personnel)",
+        "Industrial safety standards",
+        "Complete infrastructure",
+        "Long-term durability",
+        "Environmental compliance",
+        "Medical facilities"
+      ],
+      recommendedShelters: ["Remote Camp System"],
+      alternativeShelters: ["Multiple TRECC units"],
+      keyConsiderations: [
+        "Industrial safety requirements",
+        "Environmental compliance",
+        "Large capacity needs",
+        "Long-term operations"
+      ],
+      estimatedCost: "$3,000,000 - $15,000,000",
+      deploymentTime: "1-3 days",
+      maintenanceNeeds: ["Industrial safety compliance", "Environmental monitoring", "Camp management"]
+    }
+  ]
 };
 
 // AI Assistant Response Templates
 export const aiResponseTemplates = {
   greetings: [
-    "Welcome to Weatherhaven! I'm your AI assistant, ready to help you configure the perfect TRECC system for your needs.",
-    "Hello! I'm here to help you explore Weatherhaven's TRECC tactical shelter solutions. What can I assist you with today?",
-    "Greetings! I'm your Weatherhaven AI assistant, specializing in TRECC configurations and tactical shelter solutions."
+    "Welcome to Weatherhaven! I'm your AI assistant, ready to help you configure the perfect shelter system for your needs.",
+    "Hello! I'm here to help you explore Weatherhaven's comprehensive shelter solutions. What can I assist you with today?",
+    "Greetings! I'm your Weatherhaven AI assistant, specializing in shelter configurations and tactical solutions."
   ],
   
   capabilities: [
-    "I can help you configure TRECC systems for military, emergency response, remote industry, or research applications.",
-    "I specialize in TRECC deployment scenarios, technical specifications, and optimal configurations for your specific needs.",
-    "I can provide detailed information about TRECC capabilities, deployment times, capacity options, and environmental protection."
+    "I can help you configure shelter systems for military, emergency response, remote industry, research, or any other application.",
+    "I specialize in shelter deployment scenarios, technical specifications, and optimal configurations for your specific needs.",
+    "I can provide detailed information about all shelter capabilities, deployment times, capacity options, and environmental protection."
   ],
   
   recommendations: [
-    "Based on your requirements, I recommend a TRECC configuration optimized for {environment} with {capacity} capacity.",
-    "For your {application} needs, I suggest a TRECC system with {features} for optimal performance.",
-    "Given your {sector} requirements, the ideal TRECC setup would include {specifications} for maximum effectiveness."
+    "Based on your requirements, I recommend a {shelter} configuration optimized for {environment} with {capacity} capacity.",
+    "For your {application} needs, I suggest a {shelter} system with {features} for optimal performance.",
+    "Given your {sector} requirements, the ideal {shelter} setup would include {specifications} for maximum effectiveness."
   ],
   
   technical: [
@@ -472,12 +1147,12 @@ export const getQuickResponse = (query: string): string => {
   
   // Company information
   if (queryLower.includes('company') || queryLower.includes('weatherhaven')) {
-    return `Weatherhaven, founded in 1983, is the world's leading provider of deployable shelter systems. We specialize in rapid deployment solutions for military, disaster response, remote industry, and research applications. Our mission is to provide innovative, reliable, and sustainable shelter solutions that enable human achievement in the world's most challenging environments.`;
+    return `Weatherhaven, founded in 1983, is the world's leading provider of deployable shelter systems. We specialize in rapid deployment solutions for military, disaster response, remote industry, and research applications. Our mission is to provide innovative, reliable, and sustainable shelter solutions that enable human achievement in the world's most challenging environments. We've been deployed in over 50 countries worldwide and are trusted by military forces globally.`;
   }
   
   // TRECC information
   if (queryLower.includes('trecc') || queryLower.includes('tactical')) {
-    return `TRECC (Tactical Redeployable Expandable Container Capability) is our flagship tactical shelter system. It deploys in under 30 minutes, operates in temperatures from -40°C to +60°C, and can accommodate up to 50 personnel. The modular design expands from 20ft to 40ft with integrated power, HVAC, and communications systems.`;
+    return `TRECC (Tactical Redeployable Expandable Container Capability) is Weatherhaven's flagship tactical shelter system. It deploys in under 30 minutes, operates in temperatures from -40°C to +60°C, and can accommodate up to 50 personnel. The modular design expands from 20ft to 40ft with integrated power, HVAC, and communications systems. TRECC is designed for rapid deployment in military and emergency response operations, providing a complete infrastructure solution in a compact, transportable package.`;
   }
   
   // Deployment time
@@ -500,5 +1175,54 @@ export const getQuickResponse = (query: string): string => {
     return `TRECC systems are used for military command and control, field hospitals, emergency response, remote industry camps, and research stations. Each configuration is optimized for specific operational requirements and environmental conditions.`;
   }
   
-  return "I'm here to help you with TRECC configuration and Weatherhaven solutions. Could you please provide more specific details about your requirements?";
+  return "I'm here to help you with shelter configuration and Weatherhaven solutions. Could you please provide more specific details about your requirements?";
+};
+
+// Advanced Shelter Recommendation Function
+export const getShelterRecommendation = (requirements: string[]): any => {
+  const shelterScores: Record<string, number> = {};
+  
+  weatherhavenKnowledge.shelters.forEach(shelter => {
+    let score = 0;
+    
+    requirements.forEach(req => {
+      const reqLower = req.toLowerCase();
+      
+      // Check if shelter matches requirements
+      if (shelter.bestUseCases.some(useCase => useCase.toLowerCase().includes(reqLower))) {
+        score += 10;
+      }
+      
+      if (shelter.keyFeatures.some(feature => feature.toLowerCase().includes(reqLower))) {
+        score += 5;
+      }
+      
+      if (shelter.environments.some(env => env.toLowerCase().includes(reqLower))) {
+        score += 5;
+      }
+      
+      if (shelter.configurations.some(config => config.toLowerCase().includes(reqLower))) {
+        score += 5;
+      }
+    });
+    
+    shelterScores[shelter.id] = score;
+  });
+  
+  // Find best match
+  const bestShelterId = Object.keys(shelterScores).reduce((a, b) => 
+    shelterScores[a] > shelterScores[b] ? a : b
+  );
+  
+  return weatherhavenKnowledge.shelters.find(s => s.id === bestShelterId);
+};
+
+// Use Case Analysis Function
+export const analyzeUseCase = (scenario: string): any => {
+  const scenarioLower = scenario.toLowerCase();
+  
+  return weatherhavenKnowledge.useCases.find(useCase => 
+    useCase.scenario.toLowerCase().includes(scenarioLower) ||
+    useCase.description.toLowerCase().includes(scenarioLower)
+  );
 };

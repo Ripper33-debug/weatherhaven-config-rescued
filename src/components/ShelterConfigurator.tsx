@@ -29,6 +29,22 @@ const ShelterConfigurator: React.FC = () => {
     sunPosition: [1, 1, 1] as [number, number, number],
     ambientIntensity: 0.4,
     directionalIntensity: 0.8,
+    sunColor: '#ffffff',
+    ambientColor: '#87CEEB',
+    shadowQuality: 'high' as 'low' | 'medium' | 'high',
+    exposure: 1.0,
+    gamma: 2.2,
+  });
+
+  const [background3D, setBackground3D] = useState({
+    type: 'studio' as 'studio' | 'outdoor' | 'military' | 'desert' | 'arctic' | 'urban',
+    groundTexture: 'concrete' as 'concrete' | 'grass' | 'sand' | 'snow' | 'asphalt',
+    skybox: 'day' as 'day' | 'night' | 'sunset' | 'storm' | 'clear',
+    fog: {
+      enabled: false,
+      density: 0.01,
+      color: '#87CEEB',
+    },
   });
 
   const availableInteriors: any[] = [];
@@ -76,6 +92,7 @@ const ShelterConfigurator: React.FC = () => {
                 environment={environment}
                 weather={weatherEffects.type}
                 lighting={lightingControls}
+                background3D={background3D}
               />
             </Suspense>
           </Canvas>
@@ -204,6 +221,119 @@ const ShelterConfigurator: React.FC = () => {
                   }))}
                 />
               </label>
+              <label>
+                Exposure:
+                <input
+                  type="range"
+                  min="0.1"
+                  max="3.0"
+                  step="0.1"
+                  value={lightingControls.exposure}
+                  onChange={(e) => setLightingControls(prev => ({
+                    ...prev,
+                    exposure: parseFloat(e.target.value)
+                  }))}
+                />
+              </label>
+              <label>
+                Shadow Quality:
+                <select
+                  value={lightingControls.shadowQuality}
+                  onChange={(e) => setLightingControls(prev => ({
+                    ...prev,
+                    shadowQuality: e.target.value as 'low' | 'medium' | 'high'
+                  }))}
+                >
+                  <option value="low">Low</option>
+                  <option value="medium">Medium</option>
+                  <option value="high">High</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          {/* 3D Background Controls */}
+          <div className="control-section">
+            <h3>🌍 3D Background</h3>
+            <div className="background-controls">
+              <label>
+                Scene Type:
+                <select
+                  value={background3D.type}
+                  onChange={(e) => setBackground3D(prev => ({
+                    ...prev,
+                    type: e.target.value as any
+                  }))}
+                >
+                  <option value="studio">Studio</option>
+                  <option value="outdoor">Outdoor</option>
+                  <option value="military">Military Base</option>
+                  <option value="desert">Desert</option>
+                  <option value="arctic">Arctic</option>
+                  <option value="urban">Urban</option>
+                </select>
+              </label>
+              <label>
+                Ground Texture:
+                <select
+                  value={background3D.groundTexture}
+                  onChange={(e) => setBackground3D(prev => ({
+                    ...prev,
+                    groundTexture: e.target.value as any
+                  }))}
+                >
+                  <option value="concrete">Concrete</option>
+                  <option value="grass">Grass</option>
+                  <option value="sand">Sand</option>
+                  <option value="snow">Snow</option>
+                  <option value="asphalt">Asphalt</option>
+                </select>
+              </label>
+              <label>
+                Skybox:
+                <select
+                  value={background3D.skybox}
+                  onChange={(e) => setBackground3D(prev => ({
+                    ...prev,
+                    skybox: e.target.value as any
+                  }))}
+                >
+                  <option value="day">Day</option>
+                  <option value="night">Night</option>
+                  <option value="sunset">Sunset</option>
+                  <option value="storm">Storm</option>
+                  <option value="clear">Clear</option>
+                </select>
+              </label>
+              <div className="fog-controls">
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={background3D.fog.enabled}
+                    onChange={(e) => setBackground3D(prev => ({
+                      ...prev,
+                      fog: { ...prev.fog, enabled: e.target.checked }
+                    }))}
+                  />
+                  Enable Fog
+                </label>
+                {background3D.fog.enabled && (
+                  <label>
+                    Fog Density:
+                    <input
+                      type="range"
+                      min="0.001"
+                      max="0.1"
+                      step="0.001"
+                      value={background3D.fog.density}
+                      onChange={(e) => setBackground3D(prev => ({
+                        ...prev,
+                        fog: { ...prev.fog, density: parseFloat(e.target.value) }
+                      }))}
+                    />
+                  </label>
+                )}
+              </div>
             </div>
           </div>
 

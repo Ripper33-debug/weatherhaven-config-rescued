@@ -27,6 +27,21 @@ interface ModelViewerProps {
     skyRayleigh?: number;
     skyMieCoefficient?: number;
     skyMieDirectionalG?: number;
+    sunColor?: string;
+    ambientColor?: string;
+    shadowQuality?: 'low' | 'medium' | 'high';
+    exposure?: number;
+    gamma?: number;
+  };
+  background3D?: {
+    type?: 'studio' | 'outdoor' | 'military' | 'desert' | 'arctic' | 'urban';
+    groundTexture?: 'concrete' | 'grass' | 'sand' | 'snow' | 'asphalt';
+    skybox?: 'day' | 'night' | 'sunset' | 'storm' | 'clear';
+    fog?: {
+      enabled?: boolean;
+      density?: number;
+      color?: string;
+    };
   };
 }
 

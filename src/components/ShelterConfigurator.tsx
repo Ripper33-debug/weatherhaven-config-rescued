@@ -17,17 +17,17 @@ const ShelterConfigurator: React.FC = () => {
 
   // Simplified state
   const [configState, setConfigState] = useState<ConfigState>({
-    color: '#8B7355',
+    color: '#D2B48C',
     isDeployed: false,
     isInteriorView: false,
     isInsideView: false,
   });
 
-  // Simple color options
+  // Military-style color options
   const colorOptions = [
-    { name: 'Military Tan', value: '#8B7355' },
-    { name: 'OD Green', value: '#2F4F2F' },
-    { name: 'Field Gray', value: '#696969' },
+    { name: 'Desert Tan', value: '#D2B48C' },
+    { name: 'OD Green', value: '#556B2F' },
+    { name: 'Coyote Brown', value: '#8B4513' },
   ];
 
   // Simple handlers

@@ -62,7 +62,7 @@ const Model: React.FC<{
     setError(`Failed to load model: ${modelPath}`);
   }
 
-  // Apply color to shelter body parts only (exclude wheels/trailer)
+  // Apply color to shelter box only (very specific)
   useEffect(() => {
     if (scene && color) {
       const allParts: string[] = [];
@@ -77,8 +77,8 @@ const Model: React.FC<{
           const objectName = mesh.name.toLowerCase();
           allParts.push(objectName);
           
-          // Check if it's a shelter body part (more specific)
-          const isShelterBody = (
+          // Very specific: only color the main shelter box
+          const isShelterBox = (
             /shelter|body|main|container|box|unit|cabin|pod/.test(objectName) ||
             /wall|panel|roof|floor|ceiling|side|end|front|back|top|bottom|surface|skin|hull|casing|enclosure|housing/.test(objectName) ||
             /interior|inner|inside|room|space|area|zone|volume|chamber|compartment/.test(objectName) ||
@@ -87,7 +87,7 @@ const Model: React.FC<{
             /large|big|major|primary|main|central|body|structure/.test(objectName)
           );
           
-          // Check if it's a vehicle part (wheels, trailer, etc.)
+          // Exclude ALL vehicle and mechanical parts
           const isVehiclePart = (
             /wheel|tire|tyre|rim|hub|axle|suspension|spoke|lug|valve|fender|mudflap|mudguard/.test(objectName) ||
             /chassis|trailer|truck|vehicle|carriage|undercarriage|running|gear|transmission|engine|motor/.test(objectName) ||
@@ -97,11 +97,14 @@ const Model: React.FC<{
             /joint|seam|edge|corner|angle|curve|bend|fold|crease|pleat|gusset/.test(objectName) ||
             /reinforcement|stiffener|gusset|pleat|crease|fold|bracket|support|strut|brace/.test(objectName) ||
             /part|piece|component|element|section|module|block|plate|sheet|board|slab/.test(objectName) ||
-            /tread|sidewall|bead|valve|stem|cap|cover|hubcap|center|spinner/.test(objectName)
+            /tread|sidewall|bead|valve|stem|cap|cover|hubcap|center|spinner/.test(objectName) ||
+            /leg|foot|base|stand|support|jack|stabilizer|leveler/.test(objectName) ||
+            /handle|grip|knob|lever|switch|control|button/.test(objectName) ||
+            /lock|latch|hinge|pivot|swivel|rotation/.test(objectName)
           );
           
-          // Only color if it's a shelter body part AND not a vehicle part
-          if (isShelterBody && !isVehiclePart) {
+          // Only color if it's a shelter box AND not a vehicle part
+          if (isShelterBox && !isVehiclePart) {
             coloredParts.push(objectName);
             
             if (material) {
@@ -180,7 +183,7 @@ export const ModelViewerScene: React.FC<ModelViewerProps> = ({
         enableRotate={true}
         minDistance={2}
         maxDistance={20}
-        target={[0, 1, 0]}
+        target={[0, 0.5, 0]}
       />
 
       {/* Basic Lighting */}
@@ -195,7 +198,7 @@ export const ModelViewerScene: React.FC<ModelViewerProps> = ({
       <Environment preset="studio" />
 
       {/* Ground Plane */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]} receiveShadow>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
         <planeGeometry args={[50, 50]} />
         <meshStandardMaterial color="#404040" />
       </mesh>

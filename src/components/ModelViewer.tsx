@@ -77,34 +77,17 @@ const Model: React.FC<{
           const objectName = mesh.name.toLowerCase();
           allParts.push(objectName);
           
-          // Very specific: only color the main shelter box
-          const isShelterBox = (
-            /shelter|body|main|container|box|unit|cabin|pod/.test(objectName) ||
-            /wall|panel|roof|floor|ceiling|side|end|front|back|top|bottom|surface|skin|hull|casing|enclosure|housing/.test(objectName) ||
-            /interior|inner|inside|room|space|area|zone|volume|chamber|compartment/.test(objectName) ||
-            /door|window|hatch|access|entry|exit|vent|port|opening/.test(objectName) ||
-            /shell|cover|outer|external|primary|core|base|main|central/.test(objectName) ||
-            /large|big|major|primary|main|central|body|structure/.test(objectName)
-          );
-          
-          // Exclude ALL vehicle and mechanical parts
+          // Simple approach: color everything except obvious vehicle parts
           const isVehiclePart = (
             /wheel|tire|tyre|rim|hub|axle|suspension|spoke|lug|valve|fender|mudflap|mudguard/.test(objectName) ||
             /chassis|trailer|truck|vehicle|carriage|undercarriage|running|gear|transmission|engine|motor/.test(objectName) ||
             /brake|drum|disc|caliper|spring|shock|strut|link|arm|bracket|mount|bushing|bearing/.test(objectName) ||
             /nut|bolt|fastener|hardware|screw|washer|pin|clip|clamp|wire|cable/.test(objectName) ||
-            /frame|support|strut|brace|girder|beam|post|pillar|column|stud|joist|rafter|truss/.test(objectName) ||
-            /joint|seam|edge|corner|angle|curve|bend|fold|crease|pleat|gusset/.test(objectName) ||
-            /reinforcement|stiffener|gusset|pleat|crease|fold|bracket|support|strut|brace/.test(objectName) ||
-            /part|piece|component|element|section|module|block|plate|sheet|board|slab/.test(objectName) ||
-            /tread|sidewall|bead|valve|stem|cap|cover|hubcap|center|spinner/.test(objectName) ||
-            /leg|foot|base|stand|support|jack|stabilizer|leveler/.test(objectName) ||
-            /handle|grip|knob|lever|switch|control|button/.test(objectName) ||
-            /lock|latch|hinge|pivot|swivel|rotation/.test(objectName)
+            /tread|sidewall|bead|valve|stem|cap|cover|hubcap|center|spinner/.test(objectName)
           );
           
-          // Only color if it's a shelter box AND not a vehicle part
-          if (isShelterBox && !isVehiclePart) {
+          // Color if it's NOT a vehicle part
+          if (!isVehiclePart) {
             coloredParts.push(objectName);
             
             if (material) {
@@ -115,6 +98,7 @@ const Model: React.FC<{
                     newMaterial instanceof THREE.MeshBasicMaterial) {
                   newMaterial.color.setHex(parseInt(color.replace('#', ''), 16));
                   newMaterial.needsUpdate = true;
+                  console.log(`🎨 Applied color ${color} to: ${objectName}`);
                 }
                 mesh.material = newMaterial;
               } catch (err) {
@@ -143,6 +127,7 @@ const Model: React.FC<{
       console.log('🎨 Colored parts:', coloredParts);
       console.log('🚫 Skipped parts:', skippedParts);
       console.log('📊 Summary - Colored:', coloredParts.length, 'Skipped:', skippedParts.length, 'Total:', allParts.length);
+      console.log('🎯 Color being applied:', color);
     }
   }, [scene, color]);
 

@@ -32,8 +32,12 @@ const ShelterConfigurator: React.FC = () => {
 
   // Simple handlers
   const handleColorChange = (newColor: string) => {
-    console.log('🎨 Color change:', newColor);
-    setConfigState(prev => ({ ...prev, color: newColor }));
+    console.log('🎨 Color change requested:', newColor);
+    console.log('🎨 Previous color was:', configState.color);
+    setConfigState(prev => {
+      console.log('🎨 Setting new color:', newColor);
+      return { ...prev, color: newColor };
+    });
   };
 
   const handleDeployToggle = () => {
@@ -56,6 +60,7 @@ const ShelterConfigurator: React.FC = () => {
 
   console.log('🎯 Current state:', configState);
   console.log('📁 Model path:', getModelPath());
+  console.log('🎨 Color being passed to ModelViewerScene:', configState.color);
 
   return (
     <div className="configurator-container" style={{

@@ -117,7 +117,11 @@ const Model: React.FC<{
 
   // Apply color to shelter body parts (exclude wheels/trailer)
   useEffect(() => {
-    if (!clonedScene || !color) return;
+    console.log('🎨 Color effect triggered:', { color, hasScene: !!clonedScene });
+    if (!clonedScene || !color) {
+      console.log('❌ No scene or color, skipping color application');
+      return;
+    }
 
     const coloredParts: string[] = [];
     const skippedParts: string[] = [];
@@ -152,8 +156,8 @@ const Model: React.FC<{
           /nut|bolt|fastener|hardware|screw|washer|pin|clip|clamp|wire|cable/.test(objectName)
         );
         
-        // Color if it's likely shelter body OR if it's not definitely a vehicle part
-        if (isShelterBody || !isVehiclePart) {
+        // Color if it's likely shelter body AND not definitely a vehicle part
+        if (isShelterBody && !isVehiclePart) {
           console.log(`🎨 Coloring shelter part: ${objectName}`);
           coloredParts.push(objectName);
           
@@ -180,6 +184,17 @@ const Model: React.FC<{
       object.children.forEach(child => applyColorToShelter(child));
     };
 
+    // First, let's see what parts are in the model
+    const allParts: string[] = [];
+    const traverseModel = (object: THREE.Object3D) => {
+      if (object.type === 'Mesh' && object instanceof THREE.Mesh) {
+        allParts.push(object.name);
+      }
+      object.children.forEach(child => traverseModel(child));
+    };
+    traverseModel(clonedScene);
+    console.log('🔍 All parts in model:', allParts);
+    
     applyColorToShelter(clonedScene);
     
     // Log summary
@@ -227,6 +242,7 @@ const WeatherEffects: React.FC<{
   windSpeed: number;
   windDirection: [number, number, number];
 }> = ({ type, intensity, windSpeed, windDirection }) => {
+  console.log('🌧️ WeatherEffects props:', { type, intensity, windSpeed, windDirection });
   const particlesRef = useRef<THREE.Points>(null);
   const [particles, setParticles] = useState<THREE.Vector3[]>([]);
 
@@ -416,6 +432,7 @@ const ModelViewerScene: React.FC<ModelViewerProps> = ({
   weather = 'none',
   lighting = {}
 }) => {
+  console.log('🌍 ModelViewerScene props:', { color, environment, weather, lighting, modelPath, isDeployed });
   const [zoomToFitFn, setZoomToFitFn] = useState<(() => void) | null>(null);
   const [resetViewFn, setResetViewFn] = useState<(() => void) | null>(null);
 

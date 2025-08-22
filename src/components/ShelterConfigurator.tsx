@@ -91,10 +91,12 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
 
   const getModelPath = () => {
     // If we have a specific shelter ID, use the appropriate model logic
-    if (shelterId === 'interior') {
+    if (shelterId === 'trecc-interior') {
       return "/models/interiors/interior.glb";
     } else if (shelterId === 'trecc-open') {
       return "/models/trecc-open.glb";
+    } else if (shelterId === 'trecc-closed') {
+      return "/models/trecc.glb";
     } else {
       // Default TRECC shelter logic
       if (configState.isInteriorView) {
@@ -414,7 +416,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             </h3>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              {shelterId === 'trecc' && (
+              {shelterId === 'trecc-closed' && (
                 <button
                   onClick={handleDeployToggle}
                   style={{
@@ -446,7 +448,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                 </button>
               )}
 
-              {(shelterId === 'trecc' || shelterId === 'trecc-open') && (
+              {(shelterId === 'trecc-closed' || shelterId === 'trecc-open') && (
                 <button
                   onClick={handleInteriorViewToggle}
                   style={{
@@ -478,7 +480,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                 </button>
               )}
 
-              {shelterId === 'interior' && (
+              {shelterId === 'trecc-interior' && (
                 <div style={{
                   padding: '20px',
                   background: 'rgba(0, 102, 204, 0.1)',
@@ -493,6 +495,25 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                     fontWeight: '600'
                   }}>
                     Interior View Active
+                  </p>
+                </div>
+              )}
+
+              {shelterId === 'herconn' && (
+                <div style={{
+                  padding: '20px',
+                  background: 'rgba(255, 102, 0, 0.1)',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(255, 102, 0, 0.2)',
+                  textAlign: 'center'
+                }}>
+                  <p style={{
+                    fontSize: '14px',
+                    color: '#1a1a2e',
+                    margin: '0',
+                    fontWeight: '600'
+                  }}>
+                    HERCONN System Active
                   </p>
                 </div>
               )}

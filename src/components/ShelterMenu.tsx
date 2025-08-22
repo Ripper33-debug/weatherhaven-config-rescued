@@ -1,5 +1,4 @@
 'use client';
-
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -17,34 +16,44 @@ interface Shelter {
 
 const shelters: Shelter[] = [
   {
-    id: 'trecc',
-    name: 'TRECC Shelter',
-    description: 'Advanced deployable shelter system for tactical operations and emergency response.',
-    category: 'Tactical',
+    id: 'trecc-closed',
+    name: 'TRECC (Closed)',
+    description: 'TRECC deployable shelter system in packed/closed configuration.',
+    category: 'TRECC',
     image: '/models/trecc-preview.jpg',
-    features: ['Rapid deployment', 'Modular design', 'Extreme weather protection', 'Command center ready'],
+    features: ['Packed configuration', 'Rapid deployment', 'Modular design', 'Extreme weather protection'],
     modelPath: '/models/trecc.glb',
     specs: ['Deployment time: <2 hours', 'Capacity: 20-50 personnel', 'Weather rating: Extreme']
   },
   {
     id: 'trecc-open',
-    name: 'TRECC Deployed',
-    description: 'Fully deployed TRECC shelter showing interior layout and operational configuration.',
-    category: 'Tactical',
+    name: 'TRECC (Open)',
+    description: 'TRECC deployable shelter system in fully deployed/open configuration.',
+    category: 'TRECC',
     image: '/models/trecc-open-preview.jpg',
     features: ['Fully deployed', 'Interior layout', 'Operational ready', 'Multi-purpose'],
     modelPath: '/models/trecc-open.glb',
     specs: ['Floor space: 200-500 sq ft', 'Height: 8-12 ft', 'Multiple configurations']
   },
   {
-    id: 'interior',
-    name: 'Interior View',
-    description: 'Detailed interior view of TRECC shelter showing internal layout and equipment placement.',
-    category: 'Interior',
+    id: 'trecc-interior',
+    name: 'TRECC (Interior)',
+    description: 'Detailed interior view of TRECC shelter showing internal layout and equipment.',
+    category: 'TRECC',
     image: '/models/interior-preview.jpg',
     features: ['Interior layout', 'Equipment placement', 'Space utilization', 'Comfort features'],
     modelPath: '/models/interiors/interior.glb',
     specs: ['Modular interior', 'Equipment racks', 'Climate control', 'Lighting systems']
+  },
+  {
+    id: 'herconn',
+    name: 'HERCONN',
+    description: 'HERCONN deployable shelter system for tactical and emergency operations.',
+    category: 'HERCONN',
+    image: '/models/herconn-preview.jpg',
+    features: ['Rapid deployment', 'Tactical operations', 'Emergency response', 'Modular design'],
+    modelPath: '/models/trecc.glb',
+    specs: ['Deployment time: <1 hour', 'Capacity: 15-30 personnel', 'Weather rating: Extreme']
   },
   {
     id: 'command-center',

@@ -29,20 +29,25 @@ const ShelterConfigurator = dynamic(
 );
 
 const shelterData = {
-  'trecc': {
-    name: 'TRECC Shelter',
-    description: 'Advanced deployable shelter system',
+  'trecc-closed': {
+    name: 'TRECC (Closed)',
+    description: 'TRECC deployable shelter system in packed configuration',
     defaultModel: '/models/trecc.glb'
   },
   'trecc-open': {
-    name: 'TRECC Deployed',
-    description: 'Fully deployed TRECC shelter',
+    name: 'TRECC (Open)',
+    description: 'TRECC deployable shelter system in deployed configuration',
     defaultModel: '/models/trecc-open.glb'
   },
-  'interior': {
-    name: 'Interior View',
+  'trecc-interior': {
+    name: 'TRECC (Interior)',
     description: 'Detailed interior view of TRECC shelter',
     defaultModel: '/models/interiors/interior.glb'
+  },
+  'herconn': {
+    name: 'HERCONN',
+    description: 'HERCONN deployable shelter system',
+    defaultModel: '/models/trecc.glb'
   },
   'command-center': {
     name: 'Command Center',

@@ -95,8 +95,6 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
       return "/models/interiors/interior.glb";
     } else if (shelterId === 'trecc-open') {
       return "/models/trecc-open.glb";
-    } else if (shelterId === 'titanium') {
-      return "/models/titanium.glb";
     } else {
       // Default TRECC shelter logic
       if (configState.isInteriorView) {
@@ -499,24 +497,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                 </div>
               )}
 
-              {shelterId === 'titanium' && (
-                <div style={{
-                  padding: '20px',
-                  background: 'rgba(255, 102, 0, 0.1)',
-                  borderRadius: '12px',
-                  border: '1px solid rgba(255, 102, 0, 0.2)',
-                  textAlign: 'center'
-                }}>
-                  <p style={{
-                    fontSize: '14px',
-                    color: '#1a1a2e',
-                    margin: '0',
-                    fontWeight: '600'
-                  }}>
-                    Titanium Construction
-                  </p>
-                </div>
-              )}
+
             </div>
           </div>
 

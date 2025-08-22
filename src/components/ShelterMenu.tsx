@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
@@ -12,6 +12,7 @@ interface Shelter {
   image: string;
   features: string[];
   modelPath: string;
+  specs?: string[];
 }
 
 const shelters: Shelter[] = [
@@ -22,7 +23,8 @@ const shelters: Shelter[] = [
     category: 'Tactical',
     image: '/models/trecc-preview.jpg',
     features: ['Rapid deployment', 'Modular design', 'Extreme weather protection', 'Command center ready'],
-    modelPath: '/models/trecc.glb'
+    modelPath: '/models/trecc.glb',
+    specs: ['Deployment time: <2 hours', 'Capacity: 20-50 personnel', 'Weather rating: Extreme']
   },
   {
     id: 'trecc-open',
@@ -31,7 +33,8 @@ const shelters: Shelter[] = [
     category: 'Tactical',
     image: '/models/trecc-open-preview.jpg',
     features: ['Fully deployed', 'Interior layout', 'Operational ready', 'Multi-purpose'],
-    modelPath: '/models/trecc-open.glb'
+    modelPath: '/models/trecc-open.glb',
+    specs: ['Floor space: 200-500 sq ft', 'Height: 8-12 ft', 'Multiple configurations']
   },
   {
     id: 'interior',
@@ -40,28 +43,78 @@ const shelters: Shelter[] = [
     category: 'Interior',
     image: '/models/interior-preview.jpg',
     features: ['Interior layout', 'Equipment placement', 'Space utilization', 'Comfort features'],
-    modelPath: '/models/interiors/interior.glb'
+    modelPath: '/models/interiors/interior.glb',
+    specs: ['Modular interior', 'Equipment racks', 'Climate control', 'Lighting systems']
   },
   {
-    id: 'titanium',
-    name: 'Titanium Variant',
-    description: 'Premium titanium construction variant offering enhanced durability and performance.',
-    category: 'Premium',
-    image: '/models/titanium-preview.jpg',
-    features: ['Titanium construction', 'Enhanced durability', 'Premium finish', 'Extended lifespan'],
-    modelPath: '/models/titanium.glb'
+    id: 'command-center',
+    name: 'Command Center',
+    description: 'Specialized command and control facility for military and emergency operations.',
+    category: 'Military',
+    image: '/models/command-preview.jpg',
+    features: ['Command operations', 'Communications hub', 'Security features', 'Redundant systems'],
+    modelPath: '/models/trecc.glb',
+    specs: ['Comm systems: Integrated', 'Security: Level 3', 'Power: Redundant', 'Capacity: 15-30 operators']
+  },
+  {
+    id: 'field-hospital',
+    name: 'Field Hospital',
+    description: 'Complete medical facility for emergency and routine care in remote locations.',
+    category: 'Medical',
+    image: '/models/hospital-preview.jpg',
+    features: ['Medical equipment', 'Sterile environment', 'Patient care', 'Emergency response'],
+    modelPath: '/models/trecc-open.glb',
+    specs: ['Beds: 10-20', 'OR capacity: 2-4', 'Sterilization: Full', 'Power: Medical grade']
+  },
+  {
+    id: 'disaster-relief',
+    name: 'Disaster Relief',
+    description: 'Emergency shelter system for disaster response and humanitarian aid.',
+    category: 'Emergency',
+    image: '/models/relief-preview.jpg',
+    features: ['Rapid deployment', 'High capacity', 'Basic amenities', 'Durable construction'],
+    modelPath: '/models/trecc.glb',
+    specs: ['Capacity: 50-100 people', 'Deployment: <1 hour', 'Weather: All conditions', 'Durability: Extended']
   }
 ];
 
 export default function ShelterMenu() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [hoveredShelter, setHoveredShelter] = useState<string | null>(null);
+  const [isClient, setIsClient] = useState(false);
+
+  // Prevent hydration mismatch
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const categories = ['all', ...Array.from(new Set(shelters.map(s => s.category)))];
   
   const filteredShelters = selectedCategory === 'all' 
     ? shelters 
     : shelters.filter(shelter => shelter.category === selectedCategory);
+
+  // Don't render until client-side
+  if (!isClient) {
+    return (
+      <div style={{
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
+      }}>
+        <div style={{
+          color: 'var(--text-primary)',
+          fontSize: '1.5rem',
+          textAlign: 'center'
+        }}>
+          Loading Weatherhaven Configurator...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={{
@@ -90,16 +143,16 @@ export default function ShelterMenu() {
           WebkitTextFillColor: 'transparent',
           backgroundClip: 'text'
         }}>
-          TRECC Shelter Configurator
+          Weatherhaven Configurator
         </h1>
         <p style={{
           fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
           color: 'var(--text-secondary)',
-          maxWidth: '600px',
+          maxWidth: '700px',
           margin: '0 auto',
           lineHeight: '1.6'
         }}>
-          Select a shelter type to customize and configure your deployable shelter system
+          Explore and customize Weatherhaven's complete range of deployable shelter solutions for military, emergency response, and remote operations
         </p>
       </motion.div>
 
@@ -159,9 +212,9 @@ export default function ShelterMenu() {
         transition={{ duration: 0.8, delay: 0.4 }}
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))',
           gap: '30px',
-          maxWidth: '1400px',
+          maxWidth: '1600px',
           margin: '0 auto'
         }}
       >
@@ -264,7 +317,7 @@ export default function ShelterMenu() {
                 display: 'flex',
                 flexWrap: 'wrap',
                 gap: '8px',
-                marginBottom: '25px'
+                marginBottom: '20px'
               }}>
                 {shelter.features.map((feature, idx) => (
                   <span
@@ -283,6 +336,51 @@ export default function ShelterMenu() {
                   </span>
                 ))}
               </div>
+
+              {/* Specifications */}
+              {shelter.specs && (
+                <div style={{
+                  marginBottom: '25px',
+                  padding: '15px',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(255, 255, 255, 0.1)'
+                }}>
+                  <h4 style={{
+                    fontSize: '0.9rem',
+                    fontWeight: '600',
+                    color: 'var(--text-accent)',
+                    marginBottom: '10px',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px'
+                  }}>
+                    Key Specifications
+                  </h4>
+                  <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '5px'
+                  }}>
+                    {shelter.specs.map((spec, idx) => (
+                      <div key={idx} style={{
+                        fontSize: '0.8rem',
+                        color: 'var(--text-secondary)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px'
+                      }}>
+                        <span style={{
+                          width: '4px',
+                          height: '4px',
+                          background: 'var(--text-accent)',
+                          borderRadius: '50%'
+                        }} />
+                        {spec}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Configure Button */}
               <Link href={`/configurator/${shelter.id}`}>
@@ -327,7 +425,7 @@ export default function ShelterMenu() {
           color: 'var(--text-muted)',
           fontSize: '0.9rem'
         }}>
-          TRECC Shelter Systems - Advanced Deployable Solutions
+          Weatherhaven - Global Leader in Deployable Shelter Solutions
         </p>
       </motion.div>
     </div>

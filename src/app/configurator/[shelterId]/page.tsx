@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { Suspense } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 
@@ -44,17 +44,57 @@ const shelterData = {
     description: 'Detailed interior view of TRECC shelter',
     defaultModel: '/models/interiors/interior.glb'
   },
-  'titanium': {
-    name: 'Titanium Variant',
-    description: 'Premium titanium construction variant',
-    defaultModel: '/models/titanium.glb'
+  'command-center': {
+    name: 'Command Center',
+    description: 'Specialized command and control facility',
+    defaultModel: '/models/trecc.glb'
+  },
+  'field-hospital': {
+    name: 'Field Hospital',
+    description: 'Complete medical facility for emergency care',
+    defaultModel: '/models/trecc-open.glb'
+  },
+  'disaster-relief': {
+    name: 'Disaster Relief',
+    description: 'Emergency shelter system for disaster response',
+    defaultModel: '/models/trecc.glb'
   }
 };
 
 export default function ConfiguratorPage() {
   const params = useParams();
-  const shelterId = params.shelterId as string;
-  const shelter = shelterData[shelterId as keyof typeof shelterData];
+  const [isClient, setIsClient] = useState(false);
+  const [shelterId, setShelterId] = useState<string>('');
+  const [shelter, setShelter] = useState<any>(null);
+
+  // Prevent hydration mismatch
+  useEffect(() => {
+    setIsClient(true);
+    if (params.shelterId) {
+      const id = params.shelterId as string;
+      setShelterId(id);
+      setShelter(shelterData[id as keyof typeof shelterData]);
+    }
+  }, [params.shelterId]);
+
+  // Don't render until client-side
+  if (!isClient) {
+    return (
+      <div style={{
+        height: '100vh',
+        width: '100vw',
+        background: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: 'white',
+        fontSize: '1.5rem',
+        fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
+      }}>
+        Loading TRECC Configurator...
+      </div>
+    );
+  }
 
   if (!shelter) {
     return (

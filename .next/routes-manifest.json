@@ -37,7 +37,16 @@
     "afterFiles": [],
     "fallback": []
   },
-  "dynamicRoutes": [],
+  "dynamicRoutes": [
+    {
+      "page": "/configurator/[shelterId]",
+      "regex": "^/configurator/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPshelterId": "nxtPshelterId"
+      },
+      "namedRegex": "^/configurator/(?<nxtPshelterId>[^/]+?)(?:/)?$"
+    }
+  ],
   "staticRoutes": [
     {
       "page": "/",
@@ -50,156 +59,6 @@
       "regex": "^/_not\\-found(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/_not\\-found(?:/)?$"
-    },
-    {
-      "page": "/about",
-      "regex": "^/about(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/about(?:/)?$"
-    },
-    {
-      "page": "/careers",
-      "regex": "^/careers(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/careers(?:/)?$"
-    },
-    {
-      "page": "/case-studies",
-      "regex": "^/case\\-studies(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/case\\-studies(?:/)?$"
-    },
-    {
-      "page": "/configurator",
-      "regex": "^/configurator(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/configurator(?:/)?$"
-    },
-    {
-      "page": "/contact",
-      "regex": "^/contact(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/contact(?:/)?$"
-    },
-    {
-      "page": "/cookies",
-      "regex": "^/cookies(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/cookies(?:/)?$"
-    },
-    {
-      "page": "/docs",
-      "regex": "^/docs(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/docs(?:/)?$"
-    },
-    {
-      "page": "/news",
-      "regex": "^/news(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/news(?:/)?$"
-    },
-    {
-      "page": "/privacy",
-      "regex": "^/privacy(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/privacy(?:/)?$"
-    },
-    {
-      "page": "/products",
-      "regex": "^/products(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/products(?:/)?$"
-    },
-    {
-      "page": "/products/accessories",
-      "regex": "^/products/accessories(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/products/accessories(?:/)?$"
-    },
-    {
-      "page": "/products/custom",
-      "regex": "^/products/custom(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/products/custom(?:/)?$"
-    },
-    {
-      "page": "/products/interiors",
-      "regex": "^/products/interiors(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/products/interiors(?:/)?$"
-    },
-    {
-      "page": "/products/trecc",
-      "regex": "^/products/trecc(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/products/trecc(?:/)?$"
-    },
-    {
-      "page": "/resources",
-      "regex": "^/resources(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/resources(?:/)?$"
-    },
-    {
-      "page": "/robots.txt",
-      "regex": "^/robots\\.txt(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/robots\\.txt(?:/)?$"
-    },
-    {
-      "page": "/sitemap.xml",
-      "regex": "^/sitemap\\.xml(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/sitemap\\.xml(?:/)?$"
-    },
-    {
-      "page": "/solutions",
-      "regex": "^/solutions(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/solutions(?:/)?$"
-    },
-    {
-      "page": "/solutions/disaster",
-      "regex": "^/solutions/disaster(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/solutions/disaster(?:/)?$"
-    },
-    {
-      "page": "/solutions/industrial",
-      "regex": "^/solutions/industrial(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/solutions/industrial(?:/)?$"
-    },
-    {
-      "page": "/solutions/military",
-      "regex": "^/solutions/military(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/solutions/military(?:/)?$"
-    },
-    {
-      "page": "/solutions/research",
-      "regex": "^/solutions/research(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/solutions/research(?:/)?$"
-    },
-    {
-      "page": "/support",
-      "regex": "^/support(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/support(?:/)?$"
-    },
-    {
-      "page": "/terms",
-      "regex": "^/terms(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/terms(?:/)?$"
-    },
-    {
-      "page": "/training",
-      "regex": "^/training(?:/)?$",
-      "routeKeys": {},
-      "namedRegex": "^/training(?:/)?$"
     }
   ],
   "dataRoutes": [],

@@ -10,8 +10,21 @@ interface ConfigState {
   isInsideView: boolean;
 }
 
-const ShelterConfigurator: React.FC = () => {
+interface ShelterConfiguratorProps {
+  shelterId?: string;
+  defaultModel?: string;
+  shelterName?: string;
+}
+
+const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({ 
+  shelterId = 'trecc', 
+  defaultModel = '/models/trecc.glb',
+  shelterName = 'TRECC Shelter'
+}) => {
   console.log('🚀 ShelterConfigurator component rendering...');
+  console.log('🏠 Shelter ID:', shelterId);
+  console.log('📁 Default Model:', defaultModel);
+  console.log('🏷️ Shelter Name:', shelterName);
 
   const colorOptions = [
     { name: 'Desert Tan', value: '#8B7355' }, // Darker desert tan
@@ -77,21 +90,23 @@ const ShelterConfigurator: React.FC = () => {
   };
 
   const getModelPath = () => {
-    let path;
-    if (configState.isInteriorView) {
-      path = "/models/interiors/interior.glb";
-      console.log('🏠 INTERIOR VIEW - Using path:', path);
-    } else if (configState.isDeployed) {
-      path = "/models/trecc-open.glb";
-      console.log('🚀 DEPLOYED VIEW - Using path:', path);
+    // If we have a specific shelter ID, use the appropriate model logic
+    if (shelterId === 'interior') {
+      return "/models/interiors/interior.glb";
+    } else if (shelterId === 'trecc-open') {
+      return "/models/trecc-open.glb";
+    } else if (shelterId === 'titanium') {
+      return "/models/titanium.glb";
     } else {
-      path = "/models/trecc.glb";
-      console.log('🏠 EXTERIOR VIEW - Using path:', path);
+      // Default TRECC shelter logic
+      if (configState.isInteriorView) {
+        return "/models/interiors/interior.glb";
+      } else if (configState.isDeployed) {
+        return "/models/trecc-open.glb";
+      } else {
+        return defaultModel;
+      }
     }
-    console.log('📁 Model path requested:', path);
-    console.log('📁 Is deployed:', configState.isDeployed);
-    console.log('📁 Is interior view:', configState.isInteriorView);
-    return path;
   };
 
   console.log('🎯 Current state:', configState);
@@ -371,7 +386,7 @@ const ShelterConfigurator: React.FC = () => {
               margin: '0 0 8px 0',
               letterSpacing: '-0.5px'
             }}>
-              TRECC Configurator
+              {shelterName}
             </h1>
             <p style={{
               fontSize: '14px',
@@ -379,11 +394,11 @@ const ShelterConfigurator: React.FC = () => {
               margin: '0',
               fontWeight: '500'
             }}>
-              Customize your shelter
+              Customize your shelter configuration
             </p>
           </div>
 
-          {/* Deploy/Interior Controls */}
+          {/* View Options */}
           <div style={{
             background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)',
             borderRadius: '20px',
@@ -401,65 +416,107 @@ const ShelterConfigurator: React.FC = () => {
             </h3>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              <button
-                onClick={handleDeployToggle}
-                style={{
-                  background: configState.isDeployed 
-                    ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-                    : 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '16px',
-                  padding: '20px 24px',
-                  fontSize: '15px',
-                  fontWeight: '800',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                  boxShadow: '0 8px 25px rgba(0, 0, 0, 0.15)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.5px'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-3px)';
-                  e.currentTarget.style.boxShadow = '0 12px 35px rgba(0, 0, 0, 0.25)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15)';
-                }}
-              >
-                {configState.isDeployed ? 'Undeploy' : 'Deploy'}
-              </button>
+              {shelterId === 'trecc' && (
+                <button
+                  onClick={handleDeployToggle}
+                  style={{
+                    background: configState.isDeployed 
+                      ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                      : 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '16px',
+                    padding: '20px 24px',
+                    fontSize: '15px',
+                    fontWeight: '800',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    boxShadow: '0 8px 25px rgba(0, 0, 0, 0.15)',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-3px)';
+                    e.currentTarget.style.boxShadow = '0 12px 35px rgba(0, 0, 0, 0.25)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15)';
+                  }}
+                >
+                  {configState.isDeployed ? 'Pack Shelter' : 'Deploy Shelter'}
+                </button>
+              )}
 
-              <button
-                onClick={handleInteriorViewToggle}
-                style={{
-                  background: configState.isInteriorView 
-                    ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-                    : 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '16px',
-                  padding: '20px 24px',
-                  fontSize: '15px',
-                  fontWeight: '800',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                  boxShadow: '0 8px 25px rgba(0, 0, 0, 0.15)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.5px'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-3px)';
-                  e.currentTarget.style.boxShadow = '0 12px 35px rgba(0, 0, 0, 0.25)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15)';
-                }}
-              >
-                {configState.isInteriorView ? 'Exterior View' : 'Interior View'}
-              </button>
+              {(shelterId === 'trecc' || shelterId === 'trecc-open') && (
+                <button
+                  onClick={handleInteriorViewToggle}
+                  style={{
+                    background: configState.isInteriorView 
+                      ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                      : 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '16px',
+                    padding: '20px 24px',
+                    fontSize: '15px',
+                    fontWeight: '800',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    boxShadow: '0 8px 25px rgba(0, 0, 0, 0.15)',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-3px)';
+                    e.currentTarget.style.boxShadow = '0 12px 35px rgba(0, 0, 0, 0.25)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15)';
+                  }}
+                >
+                  {configState.isInteriorView ? 'Exterior View' : 'Interior View'}
+                </button>
+              )}
+
+              {shelterId === 'interior' && (
+                <div style={{
+                  padding: '20px',
+                  background: 'rgba(0, 102, 204, 0.1)',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(0, 102, 204, 0.2)',
+                  textAlign: 'center'
+                }}>
+                  <p style={{
+                    fontSize: '14px',
+                    color: '#1a1a2e',
+                    margin: '0',
+                    fontWeight: '600'
+                  }}>
+                    Interior View Active
+                  </p>
+                </div>
+              )}
+
+              {shelterId === 'titanium' && (
+                <div style={{
+                  padding: '20px',
+                  background: 'rgba(255, 102, 0, 0.1)',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(255, 102, 0, 0.2)',
+                  textAlign: 'center'
+                }}>
+                  <p style={{
+                    fontSize: '14px',
+                    color: '#1a1a2e',
+                    margin: '0',
+                    fontWeight: '600'
+                  }}>
+                    Titanium Construction
+                  </p>
+                </div>
+              )}
             </div>
           </div>
 
@@ -580,7 +637,7 @@ const ShelterConfigurator: React.FC = () => {
               </button>
 
               <button
-                onClick={() => window.open('/contact', '_blank')}
+                onClick={() => window.location.href = '/'}
                 style={{
                   background: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
                   color: '#1a1a2e',
@@ -604,7 +661,7 @@ const ShelterConfigurator: React.FC = () => {
                   e.currentTarget.style.boxShadow = '0 8px 25px rgba(168, 237, 234, 0.4)';
                 }}
               >
-                Lead Times
+                Back to Menu
               </button>
             </div>
           </div>

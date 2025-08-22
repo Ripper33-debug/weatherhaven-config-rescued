@@ -1,7 +1,0 @@
-User-Agent: *
-Allow: /
-Disallow: /api/
-Disallow: /admin/
-Disallow: /private/
-
-Sitemap: https://weatherhaven-config.vercel.app/sitemap.xml

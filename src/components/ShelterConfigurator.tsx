@@ -46,6 +46,25 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
     sunPosition: { x: 5, y: 8, z: 5 }
   });
 
+  // Video walkthrough state
+  const [showVideo, setShowVideo] = useState(false);
+  const [currentVideo, setCurrentVideo] = useState<string>('');
+
+  const getWalkthroughVideo = () => {
+    if (shelterId === 'trecc') {
+      if (configState.isInteriorView) {
+        return '/videos/trecc-interior-walkthrough.mp4';
+      } else if (configState.isDeployed) {
+        return '/videos/trecc-open-walkthrough.mp4';
+      } else {
+        return '/videos/trecc-closed-walkthrough.mp4';
+      }
+    } else if (shelterId === 'command-posting') {
+      return '/videos/command-posting-walkthrough.mp4';
+    }
+    return '';
+  };
+
   const handleColorChange = (newColor: string) => {
     console.log('🎨 Color change requested:', newColor);
     console.log('🎨 Previous color was:', configState.color);
@@ -89,18 +108,38 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
     }));
   };
 
+  const handleWalkthroughVideo = () => {
+    const videoPath = getWalkthroughVideo();
+    if (videoPath) {
+      setCurrentVideo(videoPath);
+      setShowVideo(true);
+    }
+  };
+
+  // Update video when configuration changes
+  React.useEffect(() => {
+    if (showVideo) {
+      const videoPath = getWalkthroughVideo();
+      if (videoPath && videoPath !== currentVideo) {
+        setCurrentVideo(videoPath);
+      }
+    }
+  }, [configState.isDeployed, configState.isInteriorView, shelterId]);
+
   const getModelPath = () => {
     // If we have a specific shelter ID, use the appropriate model logic
     if (shelterId === 'command-posting') {
       return "/models/interiors/CommandPosting.glb";
     } else if (shelterId === 'trecc') {
-      // TRECC shelter logic with multiple configurations
+      // TRECC shelter logic with multiple configurations and colors
+      const colorSuffix = getColorSuffix(configState.color);
+      
       if (configState.isInteriorView) {
-        return "/models/interiors/interior.glb";
+        return `/models/interiors/interior${colorSuffix}.glb`;
       } else if (configState.isDeployed) {
-        return "/models/trecc-open.glb";
+        return `/models/trecc-open${colorSuffix}.glb`;
       } else {
-        return "/models/trecc.glb";
+        return `/models/trecc${colorSuffix}.glb`;
       }
     } else {
       // Default logic for other shelters
@@ -111,6 +150,20 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
       } else {
         return defaultModel;
       }
+    }
+  };
+
+  // Helper function to get color suffix for model files
+  const getColorSuffix = (color: string) => {
+    switch (color) {
+      case '#8B7355': // Desert Tan
+        return '-desert';
+      case '#4A5D23': // OD Green
+        return '-green';
+      case '#F5F5F5': // Arctic White
+        return '-white';
+      default:
+        return ''; // Default model (no suffix)
     }
   };
 
@@ -510,6 +563,34 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                   >
                     Command Posting
                   </button>
+
+                  <button
+                    onClick={handleWalkthroughVideo}
+                    style={{
+                      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '16px',
+                      padding: '20px 24px',
+                      fontSize: '15px',
+                      fontWeight: '800',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease',
+                      boxShadow: '0 8px 25px rgba(0, 0, 0, 0.15)',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.5px'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-3px)';
+                      e.currentTarget.style.boxShadow = '0 12px 35px rgba(0, 0, 0, 0.25)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15)';
+                    }}
+                  >
+                    🎥 Walkthrough Video
+                  </button>
                 </>
               )}
 
@@ -702,6 +783,92 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Walkthrough Video Modal */}
+      {showVideo && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0, 0, 0, 0.9)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000,
+          padding: '20px'
+        }}>
+          <div style={{
+            position: 'relative',
+            maxWidth: '90vw',
+            maxHeight: '90vh',
+            background: '#1a1a2e',
+            borderRadius: '20px',
+            overflow: 'hidden',
+            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5)'
+          }}>
+            {/* Close Button */}
+            <button
+              onClick={() => setShowVideo(false)}
+              style={{
+                position: 'absolute',
+                top: '15px',
+                right: '15px',
+                background: 'rgba(255, 255, 255, 0.2)',
+                border: 'none',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                color: 'white',
+                fontSize: '20px',
+                cursor: 'pointer',
+                zIndex: 1001,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backdropFilter: 'blur(10px)'
+              }}
+            >
+              ✕
+            </button>
+
+            {/* Video Title */}
+            <div style={{
+              position: 'absolute',
+              top: '15px',
+              left: '15px',
+              background: 'rgba(0, 0, 0, 0.7)',
+              color: 'white',
+              padding: '8px 16px',
+              borderRadius: '20px',
+              fontSize: '14px',
+              fontWeight: '600',
+              zIndex: 1001,
+              backdropFilter: 'blur(10px)'
+            }}>
+              {configState.isInteriorView ? 'Interior Walkthrough' : 
+               configState.isDeployed ? 'Open Configuration Walkthrough' : 
+               'Closed Configuration Walkthrough'}
+            </div>
+
+            {/* Video Player */}
+            <video
+              src={currentVideo}
+              controls
+              autoPlay
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain'
+              }}
+              onEnded={() => setShowVideo(false)}
+            >
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

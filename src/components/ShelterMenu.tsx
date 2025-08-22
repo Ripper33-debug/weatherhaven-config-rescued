@@ -16,34 +16,14 @@ interface Shelter {
 
 const shelters: Shelter[] = [
   {
-    id: 'trecc-closed',
-    name: 'TRECC (Closed)',
-    description: 'TRECC deployable shelter system in packed/closed configuration.',
+    id: 'trecc',
+    name: 'TRECC',
+    description: 'TRECC deployable shelter system with multiple configuration options.',
     category: 'TRECC',
     image: '/models/trecc-preview.jpg',
-    features: ['Packed configuration', 'Rapid deployment', 'Modular design', 'Extreme weather protection'],
+    features: ['Multiple configurations', 'Rapid deployment', 'Modular design', 'Extreme weather protection'],
     modelPath: '/models/trecc.glb',
-    specs: ['Deployment time: <2 hours', 'Capacity: 20-50 personnel', 'Weather rating: Extreme']
-  },
-  {
-    id: 'trecc-open',
-    name: 'TRECC (Open)',
-    description: 'TRECC deployable shelter system in fully deployed/open configuration.',
-    category: 'TRECC',
-    image: '/models/trecc-open-preview.jpg',
-    features: ['Fully deployed', 'Interior layout', 'Operational ready', 'Multi-purpose'],
-    modelPath: '/models/trecc-open.glb',
-    specs: ['Floor space: 200-500 sq ft', 'Height: 8-12 ft', 'Multiple configurations']
-  },
-  {
-    id: 'trecc-interior',
-    name: 'TRECC (Interior)',
-    description: 'Detailed interior view of TRECC shelter showing internal layout and equipment.',
-    category: 'TRECC',
-    image: '/models/interior-preview.jpg',
-    features: ['Interior layout', 'Equipment placement', 'Space utilization', 'Comfort features'],
-    modelPath: '/models/interiors/interior.glb',
-    specs: ['Modular interior', 'Equipment racks', 'Climate control', 'Lighting systems']
+    specs: ['Deployment time: <2 hours', 'Capacity: 20-50 personnel', 'Weather rating: Extreme', 'Configurations: Open/Closed/Interior']
   },
   {
     id: 'command-posting',

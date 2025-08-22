@@ -44,6 +44,11 @@ const shelterData = {
     description: 'Detailed interior view of TRECC shelter',
     defaultModel: '/models/interiors/interior.glb'
   },
+  'command-posting': {
+    name: 'Command Posting',
+    description: 'Specialized command posting interior',
+    defaultModel: '/models/interiors/CommandPosting.glb'
+  },
   'herconn': {
     name: 'HERCONN',
     description: 'HERCONN deployable shelter system',

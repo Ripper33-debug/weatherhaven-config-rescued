@@ -46,6 +46,16 @@ const shelters: Shelter[] = [
     specs: ['Modular interior', 'Equipment racks', 'Climate control', 'Lighting systems']
   },
   {
+    id: 'command-posting',
+    name: 'Command Posting',
+    description: 'Specialized command posting interior with communications and control systems.',
+    category: 'Military',
+    image: '/models/command-posting-preview.jpg',
+    features: ['Command operations', 'Communications hub', 'Control systems', 'Tactical layout'],
+    modelPath: '/models/interiors/CommandPosting.glb',
+    specs: ['Comm systems: Integrated', 'Control stations: Multiple', 'Security: Level 2', 'Capacity: 8-15 operators']
+  },
+  {
     id: 'herconn',
     name: 'HERCONN',
     description: 'HERCONN deployable shelter system for tactical and emergency operations.',

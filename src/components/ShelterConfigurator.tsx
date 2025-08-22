@@ -93,6 +93,8 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
     // If we have a specific shelter ID, use the appropriate model logic
     if (shelterId === 'trecc-interior') {
       return "/models/interiors/interior.glb";
+    } else if (shelterId === 'command-posting') {
+      return "/models/interiors/CommandPosting.glb";
     } else if (shelterId === 'trecc-open') {
       return "/models/trecc-open.glb";
     } else if (shelterId === 'trecc-closed') {
@@ -480,6 +482,36 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                 </button>
               )}
 
+              {(shelterId === 'trecc-closed' || shelterId === 'trecc-open' || shelterId === 'trecc-interior') && (
+                <button
+                  onClick={() => window.location.href = '/configurator/command-posting'}
+                  style={{
+                    background: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '16px',
+                    padding: '20px 24px',
+                    fontSize: '15px',
+                    fontWeight: '800',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    boxShadow: '0 8px 25px rgba(0, 0, 0, 0.15)',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-3px)';
+                    e.currentTarget.style.boxShadow = '0 12px 35px rgba(0, 0, 0, 0.25)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15)';
+                  }}
+                >
+                  Command Posting
+                </button>
+              )}
+
               {shelterId === 'trecc-interior' && (
                 <div style={{
                   padding: '20px',
@@ -514,6 +546,25 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                     fontWeight: '600'
                   }}>
                     HERCONN System Active
+                  </p>
+                </div>
+              )}
+
+              {shelterId === 'command-posting' && (
+                <div style={{
+                  padding: '20px',
+                  background: 'rgba(0, 102, 204, 0.1)',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(0, 102, 204, 0.2)',
+                  textAlign: 'center'
+                }}>
+                  <p style={{
+                    fontSize: '14px',
+                    color: '#1a1a2e',
+                    margin: '0',
+                    fontWeight: '600'
+                  }}>
+                    Command Posting Interior Active
                   </p>
                 </div>
               )}

@@ -1,7 +1,7 @@
 {
   "pages": {
     "/layout": [
-      "static/chunks/webpack-18ae8f0d2d488f86.js",
+      "static/chunks/webpack-badd7fc53ed41671.js",
       "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
       "static/chunks/964-4e887a628d1bd073.js",
       "static/chunks/main-app-d437682993d304b4.js",
@@ -9,7 +9,7 @@
       "static/chunks/app/layout-132c2e9d2263c210.js"
     ],
     "/not-found": [
-      "static/chunks/webpack-18ae8f0d2d488f86.js",
+      "static/chunks/webpack-badd7fc53ed41671.js",
       "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
       "static/chunks/964-4e887a628d1bd073.js",
       "static/chunks/main-app-d437682993d304b4.js",
@@ -18,28 +18,28 @@
       "static/chunks/app/not-found-2f90308df428b447.js"
     ],
     "/page": [
-      "static/chunks/webpack-18ae8f0d2d488f86.js",
+      "static/chunks/webpack-badd7fc53ed41671.js",
       "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
       "static/chunks/964-4e887a628d1bd073.js",
       "static/chunks/main-app-d437682993d304b4.js",
       "static/chunks/874-7f20180e6b46f0cc.js",
       "static/chunks/493-78ef9f9e59a62401.js",
-      "static/chunks/app/page-31c0f9f1950aed0f.js"
+      "static/chunks/app/page-9ee0fc9241fd1b8f.js"
     ],
     "/_not-found/page": [
-      "static/chunks/webpack-18ae8f0d2d488f86.js",
+      "static/chunks/webpack-badd7fc53ed41671.js",
       "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
       "static/chunks/964-4e887a628d1bd073.js",
       "static/chunks/main-app-d437682993d304b4.js",
       "static/chunks/app/_not-found/page-dd8115defa1af443.js"
     ],
     "/configurator/[shelterId]/page": [
-      "static/chunks/webpack-18ae8f0d2d488f86.js",
+      "static/chunks/webpack-badd7fc53ed41671.js",
       "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
       "static/chunks/964-4e887a628d1bd073.js",
       "static/chunks/main-app-d437682993d304b4.js",
       "static/chunks/874-7f20180e6b46f0cc.js",
-      "static/chunks/app/configurator/[shelterId]/page-2a2335abd35e5568.js"
+      "static/chunks/app/configurator/[shelterId]/page-492f6d9761bf622f.js"
     ]
   }
 }

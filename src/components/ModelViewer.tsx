@@ -276,6 +276,27 @@ export const ModelViewerScene: React.FC<ModelViewerProps> = ({
   // Check if this is interior view
   const isInteriorView = modelPath.includes('interior');
 
+  // Handle WebGL context loss
+  const { gl } = useThree();
+  
+  React.useEffect(() => {
+    const handleContextLost = () => {
+      console.warn('WebGL context lost - attempting to restore...');
+    };
+
+    const handleContextRestored = () => {
+      console.log('WebGL context restored successfully');
+    };
+
+    gl.domElement.addEventListener('webglcontextlost', handleContextLost);
+    gl.domElement.addEventListener('webglcontextrestored', handleContextRestored);
+
+    return () => {
+      gl.domElement.removeEventListener('webglcontextlost', handleContextLost);
+      gl.domElement.removeEventListener('webglcontextrestored', handleContextRestored);
+    };
+  }, [gl]);
+
   return (
     <>
       {/* Camera with different positions for interior vs exterior */}

@@ -80,11 +80,11 @@ const shelters: Shelter[] = [
 export default function ShelterMenu() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [hoveredShelter, setHoveredShelter] = useState<string | null>(null);
-  const [isClient, setIsClient] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   // Prevent hydration mismatch
   useEffect(() => {
-    setIsClient(true);
+    setMounted(true);
   }, []);
 
   const categories = ['all', ...Array.from(new Set(shelters.map(s => s.category)))];
@@ -93,26 +93,9 @@ export default function ShelterMenu() {
     ? shelters 
     : shelters.filter(shelter => shelter.category === selectedCategory);
 
-  // Don't render until client-side
-  if (!isClient) {
-    return (
-      <div style={{
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
-      }}>
-        <div style={{
-          color: 'var(--text-primary)',
-          fontSize: '1.5rem',
-          textAlign: 'center'
-        }}>
-          Loading Weatherhaven Configurator...
-        </div>
-      </div>
-    );
+  // Don't render until client-side to prevent hydration mismatch
+  if (!mounted) {
+    return null;
   }
 
   return (

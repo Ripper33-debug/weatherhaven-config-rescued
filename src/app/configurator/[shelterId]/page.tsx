@@ -63,13 +63,13 @@ const shelterData = {
 
 export default function ConfiguratorPage() {
   const params = useParams();
-  const [isClient, setIsClient] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const [shelterId, setShelterId] = useState<string>('');
   const [shelter, setShelter] = useState<any>(null);
 
   // Prevent hydration mismatch
   useEffect(() => {
-    setIsClient(true);
+    setMounted(true);
     if (params.shelterId) {
       const id = params.shelterId as string;
       setShelterId(id);
@@ -77,23 +77,9 @@ export default function ConfiguratorPage() {
     }
   }, [params.shelterId]);
 
-  // Don't render until client-side
-  if (!isClient) {
-    return (
-      <div style={{
-        height: '100vh',
-        width: '100vw',
-        background: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: 'white',
-        fontSize: '1.5rem',
-        fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
-      }}>
-        Loading TRECC Configurator...
-      </div>
-    );
+  // Don't render until client-side to prevent hydration mismatch
+  if (!mounted) {
+    return null;
   }
 
   if (!shelter) {

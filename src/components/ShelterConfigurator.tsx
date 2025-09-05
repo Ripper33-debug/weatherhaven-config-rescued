@@ -29,7 +29,12 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   const colorOptions = [
     { name: 'Desert Tan', value: '#8B7355' }, // Darker desert tan
     { name: 'OD Green', value: '#4A5D23' },
-    { name: 'Arctic White', value: '#F5F5F5' } // Arctic white instead of coyote brown
+    { name: 'Arctic White', value: '#F5F5F5' }, // Arctic white instead of coyote brown
+    { name: 'Forest Green', value: '#2D5016' },
+    { name: 'Sand Beige', value: '#D2B48C' },
+    { name: 'Charcoal Grey', value: '#36454F' },
+    { name: 'Navy Blue', value: '#1B2951' },
+    { name: 'Olive Drab', value: '#6B7C32' }
   ];
 
   const [configState, setConfigState] = useState<ConfigState>({
@@ -162,6 +167,16 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
         return '-green';
       case '#F5F5F5': // Arctic White
         return '-white';
+      case '#2D5016': // Forest Green
+        return '-forest';
+      case '#D2B48C': // Sand Beige
+        return '-sand';
+      case '#36454F': // Charcoal Grey
+        return '-charcoal';
+      case '#1B2951': // Navy Blue
+        return '-navy';
+      case '#6B7C32': // Olive Drab
+        return '-olive';
       default:
         return ''; // Default model (no suffix)
     }
@@ -193,7 +208,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
         height: '100%',
         position: 'relative'
       }}>
-        {/* Left Side - Lighting Controls */}
+        {/* Left Side - Lighting Controls (Hidden by default, shows on hover) */}
         <div className="left-controls" style={{
           width: '300px',
           background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)',
@@ -205,7 +220,19 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
           gap: '28px',
           boxShadow: '0 12px 40px rgba(0, 0, 0, 0.08)',
           overflowY: 'auto',
-          zIndex: 10
+          zIndex: 10,
+          position: 'absolute',
+          left: '-300px',
+          top: 0,
+          height: '100%',
+          transition: 'left 0.3s ease',
+          cursor: 'pointer'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.left = '0px';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.left = '-300px';
         }}>
           {/* Lighting Controls Header */}
           <div style={{
@@ -386,6 +413,69 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
           </button>
         </div>
 
+        {/* Hover indicators */}
+        <div style={{
+          position: 'absolute',
+          left: '0px',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          width: '20px',
+          height: '100px',
+          background: 'rgba(255, 255, 255, 0.1)',
+          borderTopRightRadius: '10px',
+          borderBottomRightRadius: '10px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: 'white',
+          fontSize: '12px',
+          fontWeight: '600',
+          zIndex: 5,
+          cursor: 'pointer',
+          transition: 'all 0.3s ease'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
+          e.currentTarget.style.width = '30px';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+          e.currentTarget.style.width = '20px';
+        }}>
+          ⚙️
+        </div>
+
+        <div style={{
+          position: 'absolute',
+          right: '0px',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          width: '20px',
+          height: '100px',
+          background: 'rgba(255, 255, 255, 0.1)',
+          borderTopLeftRadius: '10px',
+          borderBottomLeftRadius: '10px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: 'white',
+          fontSize: '12px',
+          fontWeight: '600',
+          zIndex: 5,
+          cursor: 'pointer',
+          transition: 'all 0.3s ease'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
+          e.currentTarget.style.width = '30px';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+          e.currentTarget.style.width = '20px';
+        }}>
+          🎨
+        </div>
+
         {/* 3D Viewer Section */}
         <div className="viewer-section" style={{
           flex: 1,
@@ -419,7 +509,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
           </Canvas>
         </div>
 
-        {/* Professional Controls Panel */}
+        {/* Professional Controls Panel (Hidden by default, shows on hover) */}
         <div className="controls-panel" style={{
           width: '340px',
           background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)',
@@ -430,7 +520,19 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
           flexDirection: 'column',
           gap: '28px',
           boxShadow: '0 12px 40px rgba(0, 0, 0, 0.08)',
-          overflowY: 'auto'
+          overflowY: 'auto',
+          position: 'absolute',
+          right: '-340px',
+          top: 0,
+          height: '100%',
+          transition: 'right 0.3s ease',
+          cursor: 'pointer'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.right = '0px';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.right = '-340px';
         }}>
           {/* Header */}
           <div style={{
@@ -536,33 +638,6 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                     {configState.isInteriorView ? 'Exterior View' : 'Interior View'}
                   </button>
 
-                  <button
-                    onClick={() => window.location.href = '/configurator/command-posting'}
-                    style={{
-                      background: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%)',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '16px',
-                      padding: '20px 24px',
-                      fontSize: '15px',
-                      fontWeight: '800',
-                      cursor: 'pointer',
-                      transition: 'all 0.3s ease',
-                      boxShadow: '0 8px 25px rgba(0, 0, 0, 0.15)',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.5px'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-3px)';
-                      e.currentTarget.style.boxShadow = '0 12px 35px rgba(0, 0, 0, 0.25)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15)';
-                    }}
-                  >
-                    Command Posting
-                  </button>
 
                   <button
                     onClick={handleWalkthroughVideo}
@@ -613,24 +688,6 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                 </div>
               )}
 
-              {shelterId === 'command-posting' && (
-                <div style={{
-                  padding: '20px',
-                  background: 'rgba(0, 102, 204, 0.1)',
-                  borderRadius: '12px',
-                  border: '1px solid rgba(0, 102, 204, 0.2)',
-                  textAlign: 'center'
-                }}>
-                  <p style={{
-                    fontSize: '14px',
-                    color: '#1a1a2e',
-                    margin: '0',
-                    fontWeight: '600'
-                  }}>
-                    Command Posting Interior Active
-                  </p>
-                </div>
-              )}
 
 
             </div>
@@ -642,7 +699,9 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             borderRadius: '20px',
             padding: '28px',
             border: '1px solid rgba(0, 0, 0, 0.06)',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.04)'
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.04)',
+            maxHeight: '300px',
+            overflowY: 'auto'
           }}>
             <h3 style={{
               fontSize: '18px',

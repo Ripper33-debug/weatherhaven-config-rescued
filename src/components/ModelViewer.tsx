@@ -1,11 +1,11 @@
 'use client';
 
-import React, { Suspense, useEffect, useMemo } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { useGLTF, Html, OrbitControls, Environment, PerspectiveCamera } from '@react-three/drei';
+import React, { Suspense, useEffect, useMemo, useRef, useState } from 'react';
+import { Canvas, useThree } from '@react-three/fiber';
+import { useGLTF, Html, OrbitControls, Environment, PerspectiveCamera, MOUSE } from '@react-three/drei';
 import * as THREE from 'three';
 
-/** One-file Model Viewer that loads /models/trecc.glb */
+/** Full-page viewer wrapper */
 export default function ModelViewer() {
   return (
     <div style={{ position: 'fixed', inset: 0, background: '#0b1020' }}>
@@ -18,7 +18,7 @@ export default function ModelViewer() {
   );
 }
 
-/* ---------------- Loading UI ---------------- */
+/* ---------------- UI ---------------- */
 function Loading() {
   return (
     <Html center>
@@ -29,94 +29,127 @@ function Loading() {
 
 /* ---------------- Scene ---------------- */
 function Scene({ color = '#D2B48C' }: { color?: string }) {
-  // Camera & controls
-  const isInteriorView = false; // keep false; you can wire this to props later
+  const controlsRef = useRef<any>(null);
+  const cameraTarget = useRef(new THREE.Vector3(0, 0.75, 0)); // default until model reports real center
 
-  // Lights config (safe defaults)
-  const ambientIntensity = 0.3;
+  // Lighting defaults
+  const ambientIntensity = 0.35;
   const directionalIntensity = 1.2;
-  const sun = { x: 5, y: 8, z: 5 };
+  const sun = { x: 6, y: 10, z: 6 };
+
+  // Update controls target once model tells us where its center is
+  useEffect(() => {
+    if (controlsRef.current) {
+      controlsRef.current.target.copy(cameraTarget.current);
+      controlsRef.current.update();
+    }
+  }, []);
 
   return (
     <>
       {/* Camera */}
-      <PerspectiveCamera
-        makeDefault
-        position={isInteriorView ? [0, 1.7, 0] : [5, 3, 5]}
-        fov={isInteriorView ? 60 : 75}
-        near={0.1}
-        far={1000}
-      />
+      <PerspectiveCamera makeDefault position={[6, 4, 6]} fov={60} near={0.1} far={200} />
 
-      {/* Controls */}
+      {/* Controls: LEFT = PAN, RIGHT = ROTATE, MIDDLE = ZOOM */}
       <OrbitControls
-        enablePan={!isInteriorView}
+        ref={controlsRef}
+        enablePan
         enableZoom
         enableRotate
-        minDistance={isInteriorView ? 0.1 : 2}
-        maxDistance={isInteriorView ? 5 : 20}
-        target={isInteriorView ? [0, 1.7, 1] : [0, 0.5, 0]}
+        mouseButtons={{ LEFT: MOUSE.PAN, RIGHT: MOUSE.ROTATE, MIDDLE: MOUSE.DOLLY }}
         enableDamping
-        dampingFactor={0.05}
-        rotateSpeed={isInteriorView ? 0.5 : 1}
-        zoomSpeed={isInteriorView ? 0.5 : 1}
+        dampingFactor={0.08}
+        zoomSpeed={1}
+        rotateSpeed={0.9}
+        panSpeed={0.8}
       />
 
-      {/* Lighting */}
-      <ambientLight intensity={ambientIntensity} color="#ffffff" />
+      {/* Lights */}
+      <ambientLight intensity={ambientIntensity} />
       <directionalLight
         position={[sun.x, sun.y, sun.z]}
         intensity={directionalIntensity}
         castShadow
         shadow-mapSize-width={2048}
         shadow-mapSize-height={2048}
-        shadow-camera-far={50}
-        shadow-camera-left={-10}
-        shadow-camera-right={10}
-        shadow-camera-top={10}
-        shadow-camera-bottom={-10}
-        color="#ffffff"
-      />
-      <directionalLight
-        position={[-sun.x, sun.y * 0.5, -sun.z]}
-        intensity={directionalIntensity * 0.3}
-        color="#ffffff"
       />
 
-      {/* Subtle environment reflections */}
+      {/* Environment reflections */}
       <Environment preset="sunset" />
 
-      {/* Ground (hide if you want pure floating) */}
-      {!isInteriorView && (
-        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
-          <planeGeometry args={[50, 50]} />
-          <meshStandardMaterial color="#2a2a2a" roughness={0.8} metalness={0.0} />
-        </mesh>
-      )}
+      {/* Ground */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
+        <planeGeometry args={[80, 80]} />
+        <meshStandardMaterial color="#2a2f3a" roughness={0.9} metalness={0} />
+      </mesh>
 
       {/* Model */}
-      <TreccModel color={color} />
+      <TreccModel
+        color={color}
+        onReady={({ center, radius }) => {
+          // Center camera target and frame the model nicely
+          cameraTarget.current.copy(center);
+          if (controlsRef.current) {
+            controlsRef.current.target.copy(center);
+            controlsRef.current.update();
+          }
+        }}
+      />
     </>
   );
 }
 
 /* ---------------- Model (trecc.glb) ---------------- */
-function TreccModel({ color }: { color?: string }) {
+type ReadyInfo = { center: THREE.Vector3; radius: number };
+
+function TreccModel({
+  color,
+  onReady,
+}: {
+  color?: string;
+  onReady?: (info: ReadyInfo) => void;
+}) {
   const path = '/models/trecc.glb';
-  const gltf = useGLTF(path) as any; // Suspense will handle loading
+  const gltf = useGLTF(path) as any; // Suspense handles loading
   const scene = useMemo<THREE.Group | null>(() => gltf?.scene?.clone(true) ?? null, [gltf]);
 
-  // Apply conservative paint color to body/shell surfaces (avoid wheels/chassis/etc.).
+  // Orientation/Grounding constants
+  // If the model is still on its side, swap which axis you fix below (X/Z).
+  const ROTATE_FIX = new THREE.Euler(-Math.PI / 2, 0, 0); // rotate -90° around X to lay flat
+
+  // Once loaded, fix orientation, center it, then sit it on the ground (y=0).
+  useEffect(() => {
+    if (!scene) return;
+
+    // 1) Apply rotation fix BEFORE measuring
+    scene.rotation.copy(ROTATE_FIX);
+
+    // 2) Center the model at the origin
+    let box = new THREE.Box3().setFromObject(scene);
+    const center = box.getCenter(new THREE.Vector3());
+    scene.position.sub(center); // move so origin is center
+
+    // 3) Recompute and raise so it sits on y=0
+    box = new THREE.Box3().setFromObject(scene);
+    const size = box.getSize(new THREE.Vector3());
+    const radius = Math.max(size.x, size.y, size.z) * 0.5;
+    scene.position.y += -box.min.y; // push up so bottom touches ground
+
+    // Notify parent about bounds/center (for camera target)
+    onReady?.({ center: new THREE.Vector3(0, size.y * 0.5, 0), radius });
+  }, [scene, onReady]);
+
+  // Conservative paint (only “body/shell” words; avoids wheels/chassis)
   useEffect(() => {
     if (!scene || !color) return;
     applyBodyColor(scene, color);
   }, [scene, color]);
 
   if (!scene) return null;
-  return <primitive object={scene} position={[0, 0, 0]} scale={1} />;
+  return <primitive object={scene} castShadow receiveShadow />;
 }
 
-// Preload just the one file that exists
+// Preload just the one model we use
 useGLTF.preload('/models/trecc.glb');
 
 /* ---------------- Colour helper ---------------- */
@@ -160,4 +193,3 @@ function applyBodyColor(root: THREE.Object3D, hex: string) {
     });
   });
 }
-

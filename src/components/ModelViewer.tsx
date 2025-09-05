@@ -51,6 +51,10 @@ export function ModelViewerScene({
         zoomSpeed={1}
         rotateSpeed={0.9}
         panSpeed={0.8}
+        minPolarAngle={Math.PI / 6}
+        maxPolarAngle={Math.PI - Math.PI / 6}
+        minDistance={2}
+        maxDistance={20}
       />
 
       {/* Lights */}
@@ -127,6 +131,10 @@ function Scene({ color = '#3C3B2E' }: { color?: string }) {
         zoomSpeed={1}
         rotateSpeed={0.9}
         panSpeed={0.8}
+        minPolarAngle={Math.PI / 6}
+        maxPolarAngle={Math.PI - Math.PI / 6}
+        minDistance={2}
+        maxDistance={20}
       />
 
       {/* Lights */}
@@ -237,7 +245,8 @@ function applyBodyColor(root: THREE.Object3D, hex: string) {
     'wheel','tire','tyre','rim','hub','axle','suspension','shock','spring','brake','drum','disc',
     'fender','mudflap','mudguard','chassis','trailer','drawbar','hitch','coupling','engine','motor',
     'wire','cable','hose','bolt','nut','screw','washer','bearing','bushing','link','arm','bracket',
-    'frame','rail','beam','crossmember','jack','stand','support','undercarriage','running gear'
+    'frame','rail','beam','crossmember','jack','stand','support','undercarriage','running gear',
+    'solar','panel','photovoltaic','pv','cell','array'
   ];
   const paint = new THREE.Color(hex);
 

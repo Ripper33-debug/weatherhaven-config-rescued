@@ -127,19 +127,17 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   }, [configState.isDeployed, configState.isInteriorView, shelterId]);
 
   const getModelPath = () => {
-    // If we have a specific shelter ID, use the appropriate model logic
+    // Always load the base model and apply colors dynamically
     if (shelterId === 'command-posting') {
       return "/models/interiors/CommandPosting.glb";
     } else if (shelterId === 'trecc') {
-      // TRECC shelter logic with multiple configurations and colors
-      const colorSuffix = getColorSuffix(configState.color);
-      
+      // TRECC shelter logic - load base model, colors applied dynamically
       if (configState.isInteriorView) {
-        return `/models/interiors/interior${colorSuffix}.glb`;
+        return "/models/interiors/interior.glb";
       } else if (configState.isDeployed) {
-        return `/models/trecc-open${colorSuffix}.glb`;
+        return "/models/trecc-open.glb";
       } else {
-        return `/models/trecc${colorSuffix}.glb`;
+        return "/models/trecc.glb";
       }
     } else {
       // Default logic for other shelters
@@ -153,19 +151,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
     }
   };
 
-  // Helper function to get color suffix for model files
-  const getColorSuffix = (color: string) => {
-    switch (color) {
-      case '#4A5D23': // Military Green
-        return '-green';
-      case '#8B7355': // Desert Tan
-        return '-desert';
-      case '#F5F5F5': // Arctic White
-        return '-white';
-      default:
-        return ''; // Default model (no suffix)
-    }
-  };
+  // Colors are now applied dynamically to the loaded model
 
   console.log('🎯 Current state:', configState);
   console.log('📁 Model path:', getModelPath());

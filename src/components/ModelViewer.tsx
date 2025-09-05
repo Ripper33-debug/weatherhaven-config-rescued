@@ -217,8 +217,11 @@ function TreccModel({
   return <primitive object={scene} castShadow receiveShadow />;
 }
 
-// Preload just the one model we use
+// Preload the models we use
 useGLTF.preload('/models/trecc.glb');
+useGLTF.preload('/models/trecc-open.glb');
+useGLTF.preload('/models/interiors/interior.glb');
+useGLTF.preload('/models/interiors/CommandPosting.glb');
 
 /* ---------------- Colour helper ---------------- */
 function applyBodyColor(root: THREE.Object3D, hex: string) {

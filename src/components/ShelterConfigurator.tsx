@@ -127,27 +127,12 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   }, [configState.isDeployed, configState.isInteriorView, shelterId]);
 
   const getModelPath = () => {
-    // Always load the base model and apply colors dynamically
+    // Always load the single base model for all configurations
     if (shelterId === 'command-posting') {
       return "/models/interiors/CommandPosting.glb";
-    } else if (shelterId === 'trecc') {
-      // TRECC shelter logic - load base model, colors applied dynamically
-      if (configState.isInteriorView) {
-        return "/models/interiors/interior.glb";
-      } else if (configState.isDeployed) {
-        return "/models/trecc-open.glb";
-      } else {
-        return "/models/trecc.glb";
-      }
     } else {
-      // Default logic for other shelters
-      if (configState.isInteriorView) {
-        return "/models/interiors/interior.glb";
-      } else if (configState.isDeployed) {
-        return "/models/trecc-open.glb";
-      } else {
-        return defaultModel;
-      }
+      // Use single TRECC model for all states - colors and views applied dynamically
+      return "/models/trecc.glb";
     }
   };
 

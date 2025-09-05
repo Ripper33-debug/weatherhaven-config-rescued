@@ -27,13 +27,13 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   console.log('🏷️ Shelter Name:', shelterName);
 
   const colorOptions = [
-    { name: 'Military Green', value: '#4A5D23' },
-    { name: 'Desert Tan', value: '#8B7355' },
-    { name: 'Arctic White', value: '#F5F5F5' }
+    { name: 'OD Green (Olive Drab)', value: '#3C3B2E' },
+    { name: 'CARC Tan (Desert)', value: '#B8A082' },
+    { name: 'CARC Black', value: '#2C2C2C' }
   ];
 
   const [configState, setConfigState] = useState<ConfigState>({
-    color: '#4A5D23', // Default to Military Green
+    color: '#3C3B2E', // Default to OD Green (Olive Drab)
     isDeployed: false,
     isInteriorView: false,
     isInsideView: false,

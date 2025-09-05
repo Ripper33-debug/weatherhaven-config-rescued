@@ -240,7 +240,11 @@ function applyBodyColor(root: THREE.Object3D, hex: string) {
     const name = (o.name + ' ' + (o.material?.name || '')).toLowerCase();
     const isBody = bodyMatchers.some(k => name.includes(k));
     const isExcluded = excludeMatchers.some(k => name.includes(k));
-    if (!isBody || isExcluded) return;
+    
+    console.log('🎨 Mesh found:', o.name, 'Material:', o.material?.name, 'isBody:', isBody, 'isExcluded:', isExcluded);
+    
+    // Apply color to ALL meshes for now (more aggressive approach)
+    // if (!isBody || isExcluded) return;
 
     const mats = Array.isArray(o.material) ? o.material : [o.material];
     mats.forEach((m: any, i: number) => {

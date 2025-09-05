@@ -207,10 +207,16 @@ function TreccModel({
     onReady?.({ center: new THREE.Vector3(0, size.y * 0.5, 0), radius });
   }, [scene, onReady]);
 
-  // Conservative paint (only “body/shell” words; avoids wheels/chassis)
+  // Conservative paint (only "body/shell" words; avoids wheels/chassis)
   useEffect(() => {
     if (!scene || !color) return;
-    applyBodyColor(scene, color);
+    
+    // Throttle color application to prevent stuttering
+    const timeoutId = setTimeout(() => {
+      applyBodyColor(scene, color);
+    }, 100);
+    
+    return () => clearTimeout(timeoutId);
   }, [scene, color]);
 
   if (!scene) return null;
@@ -241,28 +247,30 @@ function applyBodyColor(root: THREE.Object3D, hex: string) {
     const isBody = bodyMatchers.some(k => name.includes(k));
     const isExcluded = excludeMatchers.some(k => name.includes(k));
     
-    console.log('🎨 Mesh found:', o.name, 'Material:', o.material?.name, 'isBody:', isBody, 'isExcluded:', isExcluded);
-    
-    // Apply color to ALL meshes for now (more aggressive approach)
-    // if (!isBody || isExcluded) return;
+    // Apply color to body parts, but be more permissive
+    if (!isBody && isExcluded) return;
 
     const mats = Array.isArray(o.material) ? o.material : [o.material];
     mats.forEach((m: any, i: number) => {
       if (!m) return;
-      let mat = m;
+      
+      // Only clone if we need to modify the material
       if (!m.isMeshStandardMaterial) {
-        mat = new THREE.MeshStandardMaterial({
-          color: (m.color?.clone?.() ?? new THREE.Color(0xffffff)),
+        const mat = new THREE.MeshStandardMaterial({
+          color: paint,
+          metalness: 0.25,
+          roughness: 0.6,
+          envMapIntensity: 0.3
         });
+        if (Array.isArray(o.material)) o.material[i] = mat; else o.material = mat;
       } else {
-        mat = m.clone();
+        // Modify existing material directly for better performance
+        m.color.copy(paint);
+        m.metalness = Math.min(m.metalness ?? 0.25, 0.25);
+        m.roughness = Math.max(m.roughness ?? 0.6, 0.35);
+        m.envMapIntensity = 0.3;
+        m.needsUpdate = true;
       }
-      if (mat.color) mat.color.copy(paint);
-      if ('metalness' in mat) mat.metalness = Math.min(mat.metalness ?? 0.25, 0.25);
-      if ('roughness' in mat) mat.roughness = Math.max(mat.roughness ?? 0.6, 0.35);
-      mat.envMapIntensity = 0.3;
-      mat.needsUpdate = true;
-      if (Array.isArray(o.material)) o.material[i] = mat; else o.material = mat;
     });
   });
 }

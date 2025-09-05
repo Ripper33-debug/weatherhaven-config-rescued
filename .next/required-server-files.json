@@ -102,7 +102,7 @@
         "transform": "lodash/{{member}}"
       }
     },
-    "outputFileTracingRoot": "/Users/barrycastelli/trecc-configurator",
+    "outputFileTracingRoot": "/Users/barrycastelli/Weatherhaven-config-1",
     "experimental": {
       "useSkewCookie": false,
       "nodeMiddleware": false,
@@ -293,10 +293,10 @@
     "bundlePagesRouterDependencies": false,
     "configFileName": "next.config.js",
     "turbopack": {
-      "root": "/Users/barrycastelli/trecc-configurator"
+      "root": "/Users/barrycastelli/Weatherhaven-config-1"
     }
   },
-  "appDir": "/Users/barrycastelli/trecc-configurator",
+  "appDir": "/Users/barrycastelli/Weatherhaven-config-1",
   "relativeAppDir": "",
   "files": [
     ".next/routes-manifest.json",

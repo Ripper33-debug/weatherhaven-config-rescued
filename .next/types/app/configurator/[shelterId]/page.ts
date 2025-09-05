@@ -1,4 +1,4 @@
-// File: /Users/barrycastelli/trecc-configurator/src/app/configurator/[shelterId]/page.tsx
+// File: /Users/barrycastelli/Weatherhaven-config-1/src/app/configurator/[shelterId]/page.tsx
 import * as entry from '../../../../../src/app/configurator/[shelterId]/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

@@ -2,7 +2,7 @@
 
 import React, { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
-import { useGLTF, Html, OrbitControls, Environment, PerspectiveCamera, MOUSE } from '@react-three/drei';
+import { useGLTF, Html, OrbitControls, Environment, PerspectiveCamera } from '@react-three/drei';
 import * as THREE from 'three';
 
 /** Full-page viewer wrapper */
@@ -15,6 +15,73 @@ export default function ModelViewer() {
         </Suspense>
       </Canvas>
     </div>
+  );
+}
+
+/** Scene component for use in ShelterConfigurator */
+export function ModelViewerScene({ 
+  modelPath, 
+  color, 
+  isDeployed, 
+  environment, 
+  weather, 
+  lighting, 
+  background3D 
+}: {
+  modelPath: string;
+  color: string;
+  isDeployed: boolean;
+  environment: string;
+  weather: string;
+  lighting: any;
+  background3D: any;
+}) {
+  return (
+    <>
+      {/* Camera */}
+      <PerspectiveCamera makeDefault position={[6, 4, 6]} fov={60} near={0.1} far={200} />
+
+      {/* Controls */}
+      <OrbitControls
+        enablePan
+        enableZoom
+        enableRotate
+        mouseButtons={{ LEFT: 1, RIGHT: 2, MIDDLE: 4 }}
+        enableDamping
+        dampingFactor={0.08}
+        zoomSpeed={1}
+        rotateSpeed={0.9}
+        panSpeed={0.8}
+      />
+
+      {/* Lights */}
+      <ambientLight intensity={lighting?.ambientIntensity || 0.35} />
+      <directionalLight
+        position={[lighting?.sunPosition?.x || 6, lighting?.sunPosition?.y || 10, lighting?.sunPosition?.z || 6]}
+        intensity={lighting?.directionalIntensity || 1.2}
+        castShadow
+        shadow-mapSize-width={2048}
+        shadow-mapSize-height={2048}
+      />
+
+      {/* Environment reflections */}
+      <Environment preset="sunset" />
+
+      {/* Ground */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
+        <planeGeometry args={[80, 80]} />
+        <meshStandardMaterial color="#2a2f3a" roughness={0.9} metalness={0} />
+      </mesh>
+
+      {/* Model */}
+      <TreccModel
+        modelPath={modelPath}
+        color={color}
+        onReady={({ center, radius }) => {
+          // Model ready callback
+        }}
+      />
+    </>
   );
 }
 
@@ -56,7 +123,7 @@ function Scene({ color = '#D2B48C' }: { color?: string }) {
         enablePan
         enableZoom
         enableRotate
-        mouseButtons={{ LEFT: MOUSE.PAN, RIGHT: MOUSE.ROTATE, MIDDLE: MOUSE.DOLLY }}
+        mouseButtons={{ LEFT: 1, RIGHT: 2, MIDDLE: 4 }}
         enableDamping
         dampingFactor={0.08}
         zoomSpeed={1}
@@ -85,6 +152,7 @@ function Scene({ color = '#D2B48C' }: { color?: string }) {
 
       {/* Model */}
       <TreccModel
+        modelPath="/models/trecc.glb"
         color={color}
         onReady={({ center, radius }) => {
           // Center camera target and frame the model nicely
@@ -103,13 +171,15 @@ function Scene({ color = '#D2B48C' }: { color?: string }) {
 type ReadyInfo = { center: THREE.Vector3; radius: number };
 
 function TreccModel({
+  modelPath,
   color,
   onReady,
 }: {
+  modelPath?: string;
   color?: string;
   onReady?: (info: ReadyInfo) => void;
 }) {
-  const path = '/models/trecc.glb';
+  const path = modelPath || '/models/trecc.glb';
   const gltf = useGLTF(path) as any; // Suspense handles loading
   const scene = useMemo<THREE.Group | null>(() => gltf?.scene?.clone(true) ?? null, [gltf]);
 

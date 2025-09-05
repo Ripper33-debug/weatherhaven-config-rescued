@@ -11,7 +11,7 @@ export default function ModelViewer() {
     <div style={{ position: 'fixed', inset: 0, background: '#0b1020' }}>
       <Canvas shadows>
         <Suspense fallback={<Loading />}>
-          <Scene color="#D2B48C" />
+          <Scene color="#4A5D23" />
         </Suspense>
       </Canvas>
     </div>
@@ -94,7 +94,7 @@ function Loading() {
 }
 
 /* ---------------- Scene ---------------- */
-function Scene({ color = '#D2B48C' }: { color?: string }) {
+function Scene({ color = '#4A5D23' }: { color?: string }) {
   const controlsRef = useRef<any>(null);
   const cameraTarget = useRef(new THREE.Vector3(0, 0.75, 0)); // default until model reports real center
 

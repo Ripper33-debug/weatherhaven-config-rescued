@@ -1,331 +1,183 @@
 'use client';
 
-import React, { useRef, useState, Suspense } from 'react';
-import { useFrame, useThree } from '@react-three/fiber';
+import React, { Suspense, useEffect, useMemo, useRef, useState } from 'react';
+import { useThree } from '@react-three/fiber';
 import { useGLTF, Html, OrbitControls, Environment, PerspectiveCamera } from '@react-three/drei';
 import * as THREE from 'three';
 
 interface ModelViewerProps {
-  modelPath: string;
-  color?: string;
-  isDeployed?: boolean;
+  modelPath: string;      // kept for API compatibility, ignored in favor of /models/trecc.glb
+  color?: string;         // main body color
+  isDeployed?: boolean;   // kept for API compatibility (not used now)
   environment?: string;
   weather?: string;
   lighting?: any;
   background3D?: any;
 }
 
-// Simple Loading Component
+/* ---------------- UI bits ---------------- */
 const LoadingSpinner: React.FC = () => (
   <Html center>
-    <div style={{ 
-      color: 'white', 
-      fontSize: '16px',
-      textAlign: 'center'
-    }}>
-      Loading...
-    </div>
+    <div style={{ color: 'white', fontSize: 16, textAlign: 'center' }}>Loading…</div>
   </Html>
 );
 
-// Simple Error Component
 const ErrorDisplay: React.FC<{ error: string }> = ({ error }) => (
   <Html center>
-    <div style={{ 
-      background: 'rgba(255, 0, 0, 0.8)', 
-      color: 'white', 
-      padding: '20px', 
-      borderRadius: '8px',
-      textAlign: 'center',
-      minWidth: '200px'
-    }}>
-      <div>Error: {error}</div>
+    <div
+      style={{
+        background: 'rgba(255, 0, 0, 0.85)',
+        color: 'white',
+        padding: 16,
+        borderRadius: 10,
+        minWidth: 240,
+        textAlign: 'center',
+      }}
+    >
+      <div style={{ fontWeight: 700, marginBottom: 6 }}>Model Load Error</div>
+      <div style={{ fontSize: 12, opacity: 0.9 }}>{error}</div>
     </div>
   </Html>
 );
 
-// Simple Model Component
-const Model: React.FC<{
-  modelPath: string;
-  color?: string;
-  isDeployed?: boolean;
-}> = ({ modelPath, color, isDeployed }) => {
-  const meshRef = useRef<THREE.Group>(null);
-  const [currentModelPath, setCurrentModelPath] = useState<string>('');
+/* ------------- Simple recolor helper ------------- */
+/** Safely applies a paint color to meshes that look like the shelter body/shell.
+ *  (Ultra-conservative: it tries to avoid wheels/chassis/trailer bits.)
+ */
+function applyBodyColor(root: THREE.Object3D, hex: string) {
+  const bodyMatchers = [
+    'body', 'shell', 'hull', 'canopy', 'tarp', 'wall', 'panel', 'roof', 'door', 'side',
+    'skin', 'cover', 'enclosure', 'housing', 'box', 'container',
+  ];
+  const excludeMatchers = [
+    'wheel','tire','tyre','rim','hub','axle','suspension','shock','spring','brake','drum','disc',
+    'fender','mudflap','mudguard','chassis','trailer','drawbar','hitch','coupling','engine','motor',
+    'wire','cable','hose','bolt','nut','screw','washer','bearing','bushing','link','arm','bracket',
+    'frame','rail','beam','crossmember','jack','stand','support','undercarriage','running gear'
+  ];
+  const paint = new THREE.Color(hex);
+
+  root.traverse((o: any) => {
+    if (!o.isMesh) return;
+    const name = (o.name + ' ' + (o.material?.name || '')).toLowerCase();
+    const isBody = bodyMatchers.some(k => name.includes(k));
+    const isExcluded = excludeMatchers.some(k => name.includes(k));
+    if (!isBody || isExcluded) return;
+
+    const mats = Array.isArray(o.material) ? o.material : [o.material];
+    mats.forEach((m: any, i: number) => {
+      if (!m) return;
+      // Ensure we have a PBR material for consistent color
+      let mat = m;
+      if (!m.isMeshStandardMaterial) {
+        mat = new THREE.MeshStandardMaterial({
+          color: (m.color?.clone?.() ?? new THREE.Color(0xffffff)),
+        });
+      } else {
+        mat = m.clone();
+      }
+      if (mat.color) mat.color.copy(paint);
+      if ('metalness' in mat) mat.metalness = Math.min(mat.metalness ?? 0.25, 0.25);
+      if ('roughness' in mat) mat.roughness = Math.max(mat.roughness ?? 0.6, 0.35);
+      mat.envMapIntensity = 0.3;
+      mat.needsUpdate = true;
+      if (Array.isArray(o.material)) o.material[i] = mat; else o.material = mat;
+    });
+  });
+}
+
+/* ---------------- Model ---------------- */
+const Model: React.FC<{ color?: string }> = ({ color }) => {
+  const fixedPath = '/models/trecc.glb'; // <-- force the single model
   const [loadError, setLoadError] = useState<string | null>(null);
-  
-  console.log('🎯 Model component rendering with path:', modelPath);
-  
-  // Load the model with error handling
-  let scene: THREE.Group | null = null;
+
+  // Load via drei (cache-aware). If it throws, catch with state and render an overlay.
+  let gltf: any = null;
   try {
-    scene = useGLTF(modelPath).scene;
-    console.log('✅ Model loaded successfully:', modelPath);
-    console.log('📦 Scene object:', scene);
-  } catch (error) {
-    console.error('❌ Error loading model:', modelPath, error);
-    setLoadError(`Failed to load model: ${modelPath}`);
+    gltf = useGLTF(fixedPath);
+  } catch (e) {
+    setLoadError(`Failed to load ${fixedPath}`);
   }
 
-  // Track when model path changes
-  React.useEffect(() => {
-    console.log('🔄 ModelViewer useEffect triggered');
-    console.log('📁 Model path:', modelPath);
-    console.log('🎨 Color:', color);
-    console.log('🚀 Is deployed:', isDeployed);
-    console.log('🏠 Is interior view:', modelPath.includes('interior'));
-    
-    if (modelPath !== currentModelPath) {
-      console.log('🔄 Model path changed from:', currentModelPath, 'to:', modelPath);
-      setCurrentModelPath(modelPath);
+  const scene = useMemo<THREE.Group | null>(() => {
+    if (!gltf?.scene) return null;
+    return gltf.scene.clone(true);
+  }, [gltf]);
+
+  // Apply color when model is ready or color changes.
+  useEffect(() => {
+    if (!scene || !color) return;
+    try {
+      applyBodyColor(scene, color);
+    } catch (e) {
+      console.warn('Recolor failed:', e);
     }
-  }, [modelPath, currentModelPath]);
+  }, [scene, color]);
 
-  // Apply color to shelter ONLY (very specific)
-  React.useEffect(() => {
-    if (scene && color) {
-      const timer = setTimeout(() => {
-        console.log('⏰ Applying color after delay...');
-        console.log('🎨 Target color:', color);
-        console.log('📁 Current model path:', modelPath);
-        
-        const applyColorToShelter = (scene: THREE.Object3D) => {
-          const coloredParts: string[] = [];
-          const skippedParts: string[] = [];
-          
-          console.log('🔍 Starting color application...');
-          console.log('🎨 Target color:', color);
-          
-          scene.traverse((object) => {
-            if (object instanceof THREE.Mesh) {
-              const mesh = object as THREE.Mesh;
-              const objectName = mesh.name.toLowerCase();
-              const material = mesh.material;
-              
-              console.log(`🔍 Processing object: ${objectName}`);
-              
-              // ULTRA specific: ONLY color the shelter box - be extremely restrictive
-              const isShelterBox = (
-                /shelter|body|main|container|box|unit|cabin|pod/.test(objectName) ||
-                /wall|panel|roof|floor|ceiling|side|end|front|back|top|bottom|surface|skin|hull|casing|enclosure|housing/.test(objectName) ||
-                /interior|inner|inside|room|space|area|zone|volume|chamber|compartment/.test(objectName) ||
-                /door|window|hatch|access|entry|exit|vent|port|opening/.test(objectName) ||
-                /shell|cover|outer|external|primary|core|base|main|central/.test(objectName) ||
-                /large|big|major|primary|main|central|body|structure/.test(objectName)
-              );
+  if (loadError) return <ErrorDisplay error={loadError} />;
+  if (!scene) return null;
 
-              // Exclude ALL vehicle, trailer, and mechanical parts - be extremely comprehensive
-              const isVehiclePart = (
-                /wheel|tire|tyre|rim|hub|axle|suspension|spoke|lug|valve|fender|mudflap|mudguard/.test(objectName) ||
-                /chassis|trailer|truck|vehicle|carriage|undercarriage|running|gear|transmission|engine|motor/.test(objectName) ||
-                /brake|drum|disc|caliper|spring|shock|strut|link|arm|bracket|mount|bushing|bearing/.test(objectName) ||
-                /nut|bolt|fastener|hardware|screw|washer|pin|clip|clamp|wire|cable/.test(objectName) ||
-                /tread|sidewall|bead|valve|stem|cap|cover|hubcap|center|spinner/.test(objectName) ||
-                /jockey|jack|stand|support|leg|foot|base/.test(objectName) ||
-                /drawbar|hitch|coupling|connection/.test(objectName) ||
-                /leaf|spring|suspension|shock|absorber/.test(objectName) ||
-                /frame|rail|beam|girder|crossmember/.test(objectName) ||
-                /trailer|chassis|undercarriage|running|gear/.test(objectName) ||
-                /trailer|chassis|frame|rail|beam|girder|crossmember|support|leg|foot|base|stand|jack/.test(objectName) ||
-                /trailer|chassis|undercarriage|running|gear|transmission|engine|motor|brake|drum|disc|caliper/.test(objectName) ||
-                /trailer|chassis|suspension|spring|shock|strut|link|arm|bracket|mount|bushing|bearing/.test(objectName) ||
-                /trailer|chassis|wheel|tire|tyre|rim|hub|axle|spoke|lug|valve|fender|mudflap|mudguard/.test(objectName) ||
-                /trailer|chassis|drawbar|hitch|coupling|connection|jockey|jack|stand|support|leg|foot|base/.test(objectName) ||
-                /trailer|chassis|frame|rail|beam|girder|crossmember|support|leg|foot|base|stand|jack|wheel|tire|axle|suspension|spring|shock|strut|link|arm|bracket|mount|bushing|bearing|drawbar|hitch|coupling|connection|jockey|undercarriage|running|gear|vehicle|carriage|transmission|engine|motor|brake|drum|disc|caliper|fender|mudflap|mudguard|rim|hub|spoke|lug|valve|tread|sidewall|bead|stem|cap|cover|hubcap|center|spinner|nut|bolt|fastener|hardware|screw|washer|pin|clip|clamp|wire|cable/.test(objectName)
-              );
-              
-              console.log(`🔍 isVehiclePart: ${isVehiclePart} for ${objectName}`);
-              
-              // SIMPLIFIED LOGIC: Color everything EXCEPT trailer/vehicle parts
-              if (!isVehiclePart) {
-                // Additional check: make sure it's not ANY kind of trailer or vehicle part
-                const isAnyTrailerPart = /trailer|chassis|frame|rail|beam|girder|crossmember|support|leg|foot|base|stand|jack|wheel|tire|axle|suspension|spring|shock|strut|link|arm|bracket|mount|bushing|bearing|drawbar|hitch|coupling|connection|jockey|undercarriage|running|gear|vehicle|carriage|transmission|engine|motor|brake|drum|disc|caliper|fender|mudflap|mudguard|rim|hub|spoke|lug|valve|tread|sidewall|bead|stem|cap|cover|hubcap|center|spinner|nut|bolt|fastener|hardware|screw|washer|pin|clip|clamp|wire|cable/.test(objectName);
-                
-                // EXTRA check: make sure it's not ANY wheel-related part
-                const isAnyWheelPart = /wheel|tire|tyre|rim|hub|axle|spoke|lug|valve|tread|sidewall|bead|stem|cap|cover|hubcap|center|spinner/.test(objectName);
-                
-                console.log(`🔍 isAnyTrailerPart: ${isAnyTrailerPart}, isAnyWheelPart: ${isAnyWheelPart} for ${objectName}`);
-                
-                if (!isAnyTrailerPart && !isAnyWheelPart) {
-                  coloredParts.push(objectName);
-                  
-                  if (material && !Array.isArray(material)) {
-                    try {
-                      const newMaterial = material.clone();
-                      if (newMaterial instanceof THREE.MeshStandardMaterial || 
-                          newMaterial instanceof THREE.MeshPhongMaterial ||
-                          newMaterial instanceof THREE.MeshBasicMaterial) {
-                        newMaterial.color.setHex(parseInt(color.replace('#', ''), 16));
-                        // More realistic material properties
-                        if (newMaterial instanceof THREE.MeshStandardMaterial) {
-                          newMaterial.roughness = 0.7; // Slightly rough for realistic paint
-                          newMaterial.metalness = 0.0; // No metalness for paint
-                          newMaterial.envMapIntensity = 0.3; // Subtle environment reflection
-                        }
-                        newMaterial.needsUpdate = true;
-                        console.log(`🎨 Applied realistic color ${color} to: ${objectName}`);
-                      }
-                      mesh.material = newMaterial;
-                    } catch (err) {
-                      console.error('Material error:', err);
-                    }
-                  }
-                } else {
-                  skippedParts.push(objectName);
-                  console.log(`🚫 Skipped trailer/wheel part: ${objectName}`);
-                }
-              } else {
-                skippedParts.push(objectName);
-                console.log(`🚫 Skipped vehicle part: ${objectName}`);
-                // Keep original material for vehicle parts
-                if (material && !Array.isArray(material)) {
-                  try {
-                    mesh.material = material.clone();
-                  } catch (err) {
-                    console.error('Material error:', err);
-                  }
-                }
-              }
-            }
-          });
-          
-          console.log('📊 Color application summary:');
-          console.log('✅ Colored parts:', coloredParts);
-          console.log('🚫 Skipped parts:', skippedParts);
-        };
-        
-        if (scene) {
-          applyColorToShelter(scene);
-        }
-        
-        console.log('🎯 Color being applied:', color);
-      }, 100); // Small delay to ensure model is loaded
-
-      return () => clearTimeout(timer);
-    }
-  }, [scene, color, modelPath, isDeployed]); // Added isDeployed to dependencies
-
-  if (loadError) {
-    return (
-      <div style={{
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        background: 'rgba(255, 255, 255, 0.9)',
-        padding: '20px',
-        borderRadius: '10px',
-        textAlign: 'center',
-        zIndex: 1000
-      }}>
-        <h3 style={{ color: '#e74c3c', margin: '0 0 10px 0' }}>⚠️ Model Loading Error</h3>
-        <p style={{ color: '#333', margin: '0 0 10px 0' }}>{loadError}</p>
-        <p style={{ color: '#666', fontSize: '12px', margin: '0' }}>
-          Path: {modelPath}
-        </p>
-      </div>
-    );
-  }
-
-  if (!scene) {
-    return (
-      <div style={{
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        background: 'rgba(255, 255, 255, 0.9)',
-        padding: '20px',
-        borderRadius: '10px',
-        textAlign: 'center',
-        zIndex: 1000
-      }}>
-        <h3 style={{ color: '#3498db', margin: '0 0 10px 0' }}>🔄 Loading Model...</h3>
-        <p style={{ color: '#666', margin: '0' }}>
-          Loading: {modelPath}
-        </p>
-      </div>
-    );
-  }
-
-  return (
-    <primitive 
-      ref={meshRef}
-      object={scene} 
-      position={[0, 0, 0]}
-      scale={1} // Keep same scale for both deployed and undeployed
-    />
-  );
+  return <primitive object={scene} position={[0, 0, 0]} scale={1} />;
 };
 
-// Main Scene Component
+/* --------------- Scene wrapper --------------- */
 export const ModelViewerScene: React.FC<ModelViewerProps> = ({
-  modelPath,
-  color = '#D2B48C',
-  isDeployed = false,
-  environment = 'studio',
-  weather = 'none',
+  modelPath,                 // kept for API compatibility (ignored)
+  color = '#D2B48C',         // tan default
+  isDeployed = false,        // kept for API compatibility (ignored)
+  environment = 'studio',    // kept
+  weather = 'none',          // kept
   lighting = {},
-  background3D = {}
+  background3D = {},
 }) => {
-  // Use lighting props or defaults
+  // Lighting defaults from your previous code
   const ambientIntensity = lighting.ambientIntensity ?? 0.3;
   const directionalIntensity = lighting.directionalIntensity ?? 1.2;
   const sunPosition = lighting.sunPosition ?? { x: 5, y: 8, z: 5 };
 
-  // Check if this is interior view
-  const isInteriorView = modelPath.includes('interior');
+  // Preserve your “interior view” heuristic even if modelPath is ignored for the file path
+  const isInteriorView = modelPath?.includes('interior');
 
-  // Handle WebGL context loss
+  // WebGL context loss handling
   const { gl } = useThree();
-  
-  React.useEffect(() => {
-    const handleContextLost = () => {
-      console.warn('WebGL context lost - attempting to restore...');
-    };
-
-    const handleContextRestored = () => {
-      console.log('WebGL context restored successfully');
-    };
-
-    gl.domElement.addEventListener('webglcontextlost', handleContextLost);
-    gl.domElement.addEventListener('webglcontextrestored', handleContextRestored);
-
+  useEffect(() => {
+    const handleLost = () => console.warn('WebGL context lost – attempting to restore…');
+    const handleRestored = () => console.log('WebGL context restored');
+    gl.domElement.addEventListener('webglcontextlost', handleLost);
+    gl.domElement.addEventListener('webglcontextrestored', handleRestored);
     return () => {
-      gl.domElement.removeEventListener('webglcontextlost', handleContextLost);
-      gl.domElement.removeEventListener('webglcontextrestored', handleContextRestored);
+      gl.domElement.removeEventListener('webglcontextlost', handleLost);
+      gl.domElement.removeEventListener('webglcontextrestored', handleRestored);
     };
   }, [gl]);
 
   return (
     <>
-      {/* Camera with different positions for interior vs exterior */}
+      {/* Camera (same behavior you had) */}
       <PerspectiveCamera
         makeDefault
-        position={isInteriorView ? [0, 1.7, 0] : [5, 3, 5]} // Center of interior space for first-person feel
-        fov={isInteriorView ? 60 : 75} // Narrower FOV for more realistic first-person view
+        position={isInteriorView ? [0, 1.7, 0] : [5, 3, 5]}
+        fov={isInteriorView ? 60 : 75}
         near={0.1}
         far={1000}
       />
 
-      {/* Basic Camera Controls */}
-      <OrbitControls 
-        enablePan={isInteriorView ? false : true} // Disable pan in interior for more first-person feel
-        enableZoom={true}
-        enableRotate={true}
+      {/* Controls */}
+      <OrbitControls
+        enablePan={!isInteriorView}
+        enableZoom
+        enableRotate
         minDistance={isInteriorView ? 0.1 : 2}
         maxDistance={isInteriorView ? 5 : 20}
-        target={isInteriorView ? [0, 1.7, 1] : [0, 0.5, 0]} // Look slightly forward in interior for first-person feel
-        enableDamping={true}
+        target={isInteriorView ? [0, 1.7, 1] : [0, 0.5, 0]}
+        enableDamping
         dampingFactor={0.05}
-        rotateSpeed={isInteriorView ? 0.5 : 1} // Slower rotation for interior
-        zoomSpeed={isInteriorView ? 0.5 : 1} // Slower zoom for interior
+        rotateSpeed={isInteriorView ? 0.5 : 1}
+        zoomSpeed={isInteriorView ? 0.5 : 1}
       />
 
-      {/* Realistic Lighting Setup */}
+      {/* Lighting */}
       <ambientLight intensity={ambientIntensity} color="#ffffff" />
-      
-      {/* Main directional light (sun) */}
       <directionalLight
         position={[sunPosition.x, sunPosition.y, sunPosition.z]}
         intensity={directionalIntensity}
@@ -339,41 +191,30 @@ export const ModelViewerScene: React.FC<ModelViewerProps> = ({
         shadow-camera-bottom={-10}
         color="#ffffff"
       />
-
-      {/* Fill light for better shadows */}
       <directionalLight
         position={[-sunPosition.x, sunPosition.y * 0.5, -sunPosition.z]}
         intensity={directionalIntensity * 0.3}
         color="#ffffff"
       />
 
-      {/* Realistic Environment */}
+      {/* Environment */}
       <Environment preset="sunset" />
 
-      {/* Ground Plane with better material - only show for exterior */}
+      {/* Ground (exterior only) */}
       {!isInteriorView && (
         <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
           <planeGeometry args={[50, 50]} />
-          <meshStandardMaterial 
-            color="#2a2a2a" 
-            roughness={0.8}
-            metalness={0.0}
-          />
+          <meshStandardMaterial color="#2a2a2a" roughness={0.8} metalness={0.0} />
         </mesh>
       )}
 
-      {/* Main Model */}
+      {/* Model */}
       <Suspense fallback={<LoadingSpinner />}>
-        <Model
-          modelPath={modelPath}
-          color={color}
-          isDeployed={isDeployed}
-        />
+        <Model color={color} />
       </Suspense>
     </>
   );
 };
 
-// Preload models
+/* ---- Preload only the file that exists ---- */
 useGLTF.preload('/models/trecc.glb');
-useGLTF.preload('/models/trecc-open.glb');

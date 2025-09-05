@@ -46,7 +46,6 @@ export function ModelViewerScene({
         enablePan
         enableZoom
         enableRotate
-        mouseButtons={{ LEFT: 1, RIGHT: 2, MIDDLE: 4 }}
         enableDamping
         dampingFactor={0.08}
         zoomSpeed={1}
@@ -117,13 +116,12 @@ function Scene({ color = '#D2B48C' }: { color?: string }) {
       {/* Camera */}
       <PerspectiveCamera makeDefault position={[6, 4, 6]} fov={60} near={0.1} far={200} />
 
-      {/* Controls: LEFT = PAN, RIGHT = ROTATE, MIDDLE = ZOOM */}
+      {/* Controls: LEFT = ROTATE, RIGHT = PAN, MIDDLE = ZOOM */}
       <OrbitControls
         ref={controlsRef}
         enablePan
         enableZoom
         enableRotate
-        mouseButtons={{ LEFT: 1, RIGHT: 2, MIDDLE: 4 }}
         enableDamping
         dampingFactor={0.08}
         zoomSpeed={1}
@@ -185,7 +183,7 @@ function TreccModel({
 
   // Orientation/Grounding constants
   // If the model is still on its side, swap which axis you fix below (X/Z).
-  const ROTATE_FIX = new THREE.Euler(0, 0, 0); // no rotation - load vertically
+  const ROTATE_FIX = new THREE.Euler(-Math.PI / 2, 0, 0); // rotate -90° around X to lay flat
 
   // Once loaded, fix orientation, center it, then sit it on the ground (y=0).
   useEffect(() => {

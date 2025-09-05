@@ -183,7 +183,7 @@ function TreccModel({
 
   // Orientation/Grounding constants
   // If the model is still on its side, swap which axis you fix below (X/Z).
-  const ROTATE_FIX = new THREE.Euler(-Math.PI / 2, 0, 0); // rotate -90° around X to lay flat
+  const ROTATE_FIX = new THREE.Euler(-Math.PI / 2, Math.PI, 0); // rotate -90° around X to lay flat, 180° around Y to face opposite direction
 
   // Once loaded, fix orientation, center it, then sit it on the ground (y=0).
   useEffect(() => {

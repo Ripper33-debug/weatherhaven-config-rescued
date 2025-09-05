@@ -27,18 +27,13 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   console.log('🏷️ Shelter Name:', shelterName);
 
   const colorOptions = [
-    { name: 'Desert Tan', value: '#8B7355' }, // Darker desert tan
-    { name: 'OD Green', value: '#4A5D23' },
-    { name: 'Arctic White', value: '#F5F5F5' }, // Arctic white instead of coyote brown
-    { name: 'Forest Green', value: '#2D5016' },
-    { name: 'Sand Beige', value: '#D2B48C' },
-    { name: 'Charcoal Grey', value: '#36454F' },
-    { name: 'Navy Blue', value: '#1B2951' },
-    { name: 'Olive Drab', value: '#6B7C32' }
+    { name: 'Military Green', value: '#4A5D23' },
+    { name: 'Desert Tan', value: '#8B7355' },
+    { name: 'Arctic White', value: '#F5F5F5' }
   ];
 
   const [configState, setConfigState] = useState<ConfigState>({
-    color: '#D2B48C',
+    color: '#4A5D23', // Default to Military Green
     isDeployed: false,
     isInteriorView: false,
     isInsideView: false,
@@ -161,22 +156,12 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   // Helper function to get color suffix for model files
   const getColorSuffix = (color: string) => {
     switch (color) {
+      case '#4A5D23': // Military Green
+        return '-green';
       case '#8B7355': // Desert Tan
         return '-desert';
-      case '#4A5D23': // OD Green
-        return '-green';
       case '#F5F5F5': // Arctic White
         return '-white';
-      case '#2D5016': // Forest Green
-        return '-forest';
-      case '#D2B48C': // Sand Beige
-        return '-sand';
-      case '#36454F': // Charcoal Grey
-        return '-charcoal';
-      case '#1B2951': // Navy Blue
-        return '-navy';
-      case '#6B7C32': // Olive Drab
-        return '-olive';
       default:
         return ''; // Default model (no suffix)
     }

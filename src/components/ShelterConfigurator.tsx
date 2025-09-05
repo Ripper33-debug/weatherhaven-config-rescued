@@ -578,9 +578,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             borderRadius: '20px',
             padding: '28px',
             border: '1px solid rgba(0, 0, 0, 0.06)',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.04)',
-            maxHeight: '300px',
-            overflowY: 'auto'
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.04)'
           }}>
             <h3 style={{
               fontSize: '18px',
@@ -690,33 +688,6 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                 Back to Home
               </button>
 
-              <button
-                onClick={() => window.location.href = '/'}
-                style={{
-                  background: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
-                  color: '#1a1a2e',
-                  border: 'none',
-                  borderRadius: '16px',
-                  padding: '20px 24px',
-                  fontSize: '15px',
-                  fontWeight: '800',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                  boxShadow: '0 8px 25px rgba(168, 237, 234, 0.4)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.5px'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-3px)';
-                  e.currentTarget.style.boxShadow = '0 12px 35px rgba(168, 237, 234, 0.5)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(168, 237, 234, 0.4)';
-                }}
-              >
-                Back to Menu
-              </button>
             </div>
           </div>
         </div>

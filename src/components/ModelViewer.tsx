@@ -285,7 +285,21 @@ function TreccModel({
   
   // Don't load model until we have the proper URL
   if (!actualModelPath) {
-    return <Loading progress={0} stage="Getting model URL..." />;
+    return (
+      <Html center>
+        <div style={{
+          background: 'rgba(0, 0, 0, 0.8)',
+          color: 'white',
+          padding: '20px',
+          borderRadius: '10px',
+          textAlign: 'center',
+          fontFamily: 'Arial, sans-serif'
+        }}>
+          <div style={{ fontSize: '18px', marginBottom: '10px' }}>🔄 Getting model URL...</div>
+          <div style={{ fontSize: '14px', opacity: 0.8 }}>Connecting to Supabase</div>
+        </div>
+      </Html>
+    );
   }
   
   const gltf = useGLTF(actualModelPath) as any; // Suspense handles loading

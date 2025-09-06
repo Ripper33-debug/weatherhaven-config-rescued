@@ -283,30 +283,16 @@ function TreccModel({
     loadModelUrl();
   }, [modelPath]);
   
-  // Don't load model until we have the proper URL
-  if (!actualModelPath) {
-    return (
-      <Html center>
-        <div style={{
-          background: 'rgba(0, 0, 0, 0.8)',
-          color: 'white',
-          padding: '20px',
-          borderRadius: '10px',
-          textAlign: 'center',
-          fontFamily: 'Arial, sans-serif'
-        }}>
-          <div style={{ fontSize: '18px', marginBottom: '10px' }}>🔄 Getting model URL...</div>
-          <div style={{ fontSize: '14px', opacity: 0.8 }}>Connecting to Supabase</div>
-        </div>
-      </Html>
-    );
-  }
+  // Always call hooks in the same order - use a fallback URL
+  const fallbackUrl = '/models/trecc.glb';
+  const modelUrl = actualModelPath || fallbackUrl;
   
-  const gltf = useGLTF(actualModelPath) as any; // Suspense handles loading
+  const gltf = useGLTF(modelUrl) as any; // Suspense handles loading
   
   if (process.env.NODE_ENV === 'development') {
-    console.log('🎨 Model loaded:', actualModelPath, 'gltf:', !!gltf, 'scene:', !!gltf?.scene);
+    console.log('🎨 Model loaded:', modelUrl, 'gltf:', !!gltf, 'scene:', !!gltf?.scene);
   }
+  
   const scene = useMemo<THREE.Group | null>(() => {
     if (!gltf) return null;
     
@@ -373,6 +359,25 @@ function TreccModel({
     applyBodyColor(scene, color);
     onColorApplied?.();
   }, [scene, color]);
+
+  // Show loading state while getting Supabase URL
+  if (!actualModelPath) {
+    return (
+      <Html center>
+        <div style={{
+          background: 'rgba(0, 0, 0, 0.8)',
+          color: 'white',
+          padding: '20px',
+          borderRadius: '10px',
+          textAlign: 'center',
+          fontFamily: 'Arial, sans-serif'
+        }}>
+          <div style={{ fontSize: '18px', marginBottom: '10px' }}>🔄 Getting model URL...</div>
+          <div style={{ fontSize: '14px', opacity: 0.8 }}>Connecting to Supabase</div>
+        </div>
+      </Html>
+    );
+  }
 
   if (!scene) return null;
   return <primitive object={scene} castShadow receiveShadow />;

@@ -36,7 +36,7 @@ export const AVAILABLE_MODELS: ModelConfig[] = [
   {
     id: 'trecc',
     name: 'TRECC Shelter',
-    path: 'trecc.glb',
+    path: 'Trecc Exterior/trecc.glb',
     description: 'Tactical Rapidly Erectable Command Center',
     dimensions: { length: 20, width: 8, height: 8 },
     weight: 5000,

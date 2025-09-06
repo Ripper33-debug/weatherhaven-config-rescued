@@ -297,7 +297,9 @@ function TreccModel({
     if (!gltf) return null;
     
     // Cache the loaded model for future use
-    cacheModel(actualModelPath, gltf);
+    if (actualModelPath) {
+      cacheModel(actualModelPath, gltf);
+    }
     
     // Simulate progressive loading stages
     setLoadingStage('Processing geometry...');

@@ -5,6 +5,7 @@ import { Canvas, useThree } from '@react-three/fiber';
 import { useGLTF, Html, OrbitControls, Environment, PerspectiveCamera } from '@react-three/drei';
 import * as THREE from 'three';
 import { ModelViewerSceneProps, TreccModelProps, ReadyInfo } from '../types';
+import { getModelUrl, preloadModel } from '../lib/supabase';
 
 /** Full-page viewer wrapper */
 export default function ModelViewer() {
@@ -259,20 +260,38 @@ function TreccModel({
   onReady,
   onColorApplied,
 }: TreccModelProps) {
-  const path = modelPath || '/models/trecc.glb';
+  const [actualModelPath, setActualModelPath] = useState(modelPath || '/models/trecc.glb');
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [loadingStage, setLoadingStage] = useState('Loading model...');
   
-  const gltf = useGLTF(path) as any; // Suspense handles loading
+  // Get Supabase URL for the model
+  useEffect(() => {
+    const loadModelUrl = async () => {
+      try {
+        // Extract just the filename from the path
+        const filename = (modelPath || '/models/trecc.glb').replace('/models/', '');
+        const supabaseUrl = await getModelUrl(filename);
+        setActualModelPath(supabaseUrl);
+        console.log('🎨 Using Supabase model URL:', supabaseUrl);
+      } catch (error) {
+        console.error('Error getting Supabase URL, using local:', error);
+        setActualModelPath(modelPath || '/models/trecc.glb');
+      }
+    };
+    
+    loadModelUrl();
+  }, [modelPath]);
+  
+  const gltf = useGLTF(actualModelPath) as any; // Suspense handles loading
   
   if (process.env.NODE_ENV === 'development') {
-    console.log('🎨 Model loaded:', path, 'gltf:', !!gltf, 'scene:', !!gltf?.scene);
+    console.log('🎨 Model loaded:', actualModelPath, 'gltf:', !!gltf, 'scene:', !!gltf?.scene);
   }
   const scene = useMemo<THREE.Group | null>(() => {
     if (!gltf) return null;
     
     // Cache the loaded model for future use
-    cacheModel(path, gltf);
+    cacheModel(actualModelPath, gltf);
     
     // Simulate progressive loading stages
     setLoadingStage('Processing geometry...');

@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { ModelViewerScene } from './ModelViewer';
 import ErrorBoundary from './ErrorBoundary';
+import { preloadModel, getAvailableModels } from '../lib/supabase';
 import * as THREE from 'three';
 import { ConfigState, ColorOption } from '../types';
 
@@ -39,8 +40,28 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   // Loading states
   const [isApplyingColor, setIsApplyingColor] = useState(false);
   const [isModelLoading, setIsModelLoading] = useState(true);
+  const [availableModels, setAvailableModels] = useState<any[]>([]);
 
-
+  // Load available models and preload them
+  useEffect(() => {
+    const loadModels = async () => {
+      try {
+        const models = await getAvailableModels();
+        setAvailableModels(models);
+        
+        // Preload all models for faster switching
+        models.forEach(model => {
+          preloadModel(model.path);
+        });
+        
+        console.log('🎨 Loaded available models:', models);
+      } catch (error) {
+        console.error('Error loading models:', error);
+      }
+    };
+    
+    loadModels();
+  }, []);
 
   // Video walkthrough state
   const [showVideo, setShowVideo] = useState(false);

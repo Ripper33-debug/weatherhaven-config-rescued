@@ -365,92 +365,45 @@ function applyBodyColor(root: THREE.Object3D, hex: string) {
   const paint = new THREE.Color(hex);
   let meshCount = 0;
   let coloredCount = 0;
-  let solarPanelCount = 0;
   
-
-  // Simplified approach - color ALL meshes except solar panels
+  // SIMPLIFIED: Color ALL meshes for debugging
   root.traverse((o: any) => {
     if (!o.isMesh) return;
     meshCount++;
     
-    const name = (o.name + ' ' + (o.material?.name || '')).toLowerCase();
+    console.log(`🎨 Mesh ${meshCount}: "${o.name}" (${o.material?.name || 'no material'})`);
     
-    // Smart solar panel detection - only exclude actual solar components
-    const isSolarPanel = name.includes('solar') || name.includes('photovoltaic') || name.includes('pv') || 
-                        name.includes('cell') || name.includes('array') || name.includes('grid') || 
-                        name.includes('corrugated') || name.includes('module') ||
-                        name.includes('silicon') || name.includes('wafer') || name.includes('sheet') ||
-                        name.includes('glass') || name.includes('mat') || name.includes('film') ||
-                        name.includes('strip') || name.includes('bar') || name.includes('line');
-    
-    // Also exclude hardware/mechanical parts
-    const isHardware = name.includes('wheel') || name.includes('tire') || name.includes('tyre') || 
-                      name.includes('rim') || name.includes('hub') || name.includes('axle') || 
-                      name.includes('suspension') || name.includes('shock') || name.includes('spring') || 
-                      name.includes('brake') || name.includes('drum') || name.includes('disc') ||
-                      name.includes('fender') || name.includes('mudflap') || name.includes('mudguard') || 
-                      name.includes('chassis') || name.includes('trailer') || name.includes('drawbar') || 
-                      name.includes('hitch') || name.includes('coupling') || name.includes('engine') || 
-                      name.includes('motor') || name.includes('wire') || name.includes('cable') || 
-                      name.includes('hose') || name.includes('bolt') || name.includes('nut') || 
-                      name.includes('screw') || name.includes('washer') || name.includes('bearing') || 
-                      name.includes('bushing') || name.includes('link') || name.includes('arm') || 
-                      name.includes('bracket') || name.includes('frame') || name.includes('rail') || 
-                      name.includes('beam') || name.includes('crossmember') || name.includes('jack') || 
-                      name.includes('stand') || name.includes('support') || name.includes('undercarriage') || 
-                      name.includes('running gear');
-    
-    if (process.env.NODE_ENV === 'development' && meshCount <= 5) {
-      console.log(`🎨 Mesh ${meshCount}: "${o.name}" (${o.material?.name || 'no material'}) - isSolarPanel:${isSolarPanel}, isHardware:${isHardware}`);
-    }
-    
-    // Skip only solar panels and hardware components
-    if (isSolarPanel || isHardware) {
-      if (isSolarPanel) solarPanelCount++;
-      if (process.env.NODE_ENV === 'development') {
-        console.log(`🎨 ⚡ SKIPPING ${isSolarPanel ? 'SOLAR PANEL' : 'HARDWARE'}: "${o.name}" (${o.material?.name || 'no material'})`);
-      }
-      return;
-    }
-
     coloredCount++;
-
     const mats = Array.isArray(o.material) ? o.material : [o.material];
     mats.forEach((m: any, i: number) => {
       if (!m) return;
       
-      if (process.env.NODE_ENV === 'development' && coloredCount <= 2) {
-        console.log(`🎨 Coloring material ${i} for mesh "${o.name}":`, m.type, 'color:', m.color?.getHexString());
+      console.log(`🎨 Coloring material ${i} for mesh "${o.name}":`, m.type, 'color:', m.color?.getHexString());
+      
+      // Create new material to ensure color change
+      const newMat = new THREE.MeshStandardMaterial({
+        color: paint,
+        metalness: 0.25,
+        roughness: 0.6,
+        envMapIntensity: 0.3,
+        transparent: m.transparent,
+        opacity: m.opacity,
+        map: m.map,
+        normalMap: m.normalMap,
+        roughnessMap: m.roughnessMap,
+        metalnessMap: m.metalnessMap,
+        envMap: m.envMap
+      });
+      
+      if (Array.isArray(o.material)) {
+        o.material[i] = newMat;
+      } else {
+        o.material = newMat;
       }
       
-      // Only clone if we need to modify the material
-      if (!m.isMeshStandardMaterial) {
-        const mat = new THREE.MeshStandardMaterial({
-          color: paint,
-          metalness: 0.25,
-          roughness: 0.6,
-          envMapIntensity: 0.3
-        });
-        if (Array.isArray(o.material)) o.material[i] = mat; else o.material = mat;
-        if (process.env.NODE_ENV === 'development' && coloredCount <= 2) {
-          console.log(`🎨 Created new MeshStandardMaterial with color:`, paint.getHexString());
-        }
-      } else {
-        // Modify existing material directly for better performance
-        const oldColor = m.color.getHexString();
-        m.color.copy(paint);
-        m.metalness = Math.min(m.metalness ?? 0.25, 0.25);
-        m.roughness = Math.max(m.roughness ?? 0.6, 0.35);
-        m.envMapIntensity = 0.3;
-        m.needsUpdate = true;
-        if (process.env.NODE_ENV === 'development' && coloredCount <= 2) {
-          console.log(`🎨 Updated material color from ${oldColor} to ${paint.getHexString()}`);
-        }
-      }
+      console.log(`🎨 Applied color ${paint.getHexString()} to mesh "${o.name}"`);
     });
   });
   
-  if (process.env.NODE_ENV === 'development') {
-    console.log(`🎨 Color application complete: ${coloredCount}/${meshCount} meshes colored, ${solarPanelCount} solar panels skipped`);
-  }
+  console.log(`🎨 Color application complete: ${coloredCount}/${meshCount} meshes colored`);
 }

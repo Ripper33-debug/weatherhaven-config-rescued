@@ -1,5 +1,5 @@
 {
+  "/configurator/[shelterId]/page": "/configurator/[shelterId]",
   "/page": "/",
-  "/_not-found/page": "/_not-found",
-  "/configurator/[shelterId]/page": "/configurator/[shelterId]"
+  "/_not-found/page": "/_not-found"
 }

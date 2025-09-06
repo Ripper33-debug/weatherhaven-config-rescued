@@ -1,5 +1,5 @@
 {
+  "/configurator/[shelterId]/page": "app/configurator/[shelterId]/page.js",
   "/page": "app/page.js",
-  "/_not-found/page": "app/_not-found/page.js",
-  "/configurator/[shelterId]/page": "app/configurator/[shelterId]/page.js"
+  "/_not-found/page": "app/_not-found/page.js"
 }

@@ -360,7 +360,7 @@ function applyBodyColor(root: THREE.Object3D, hex: string) {
     'fender','mudflap','mudguard','chassis','trailer','drawbar','hitch','coupling','engine','motor',
     'wire','cable','hose','bolt','nut','screw','washer','bearing','bushing','link','arm','bracket',
     'frame','rail','beam','crossmember','jack','stand','support','undercarriage','running gear',
-    'solar','photovoltaic','pv','cell','array'
+    'solar','photovoltaic','pv','cell','array','grid','corrugated'
   ];
   const paint = new THREE.Color(hex);
 
@@ -370,14 +370,25 @@ function applyBodyColor(root: THREE.Object3D, hex: string) {
     const isBody = bodyMatchers.some(k => name.includes(k));
     const isExcluded = excludeMatchers.some(k => name.includes(k));
     
-    // Debug logging for all meshes
-    console.log('🎨 Mesh:', o.name, 'Material:', o.material?.name, 'isBody:', isBody, 'isExcluded:', isExcluded);
+    // Special logic for roof vs solar panels
+    const isRoof = name.includes('roof') || name.includes('top');
+    const isSolarPanel = name.includes('solar') || name.includes('photovoltaic') || name.includes('pv') || 
+                        name.includes('cell') || name.includes('array') || name.includes('grid') || 
+                        name.includes('corrugated');
     
-    // Don't color excluded parts (like solar panels)
-    if (isExcluded) return;
+    // Debug logging for roof and solar components
+    if (isRoof || isSolarPanel) {
+      console.log('🏠 Roof/Solar Mesh:', o.name, 'Material:', o.material?.name, 'isRoof:', isRoof, 'isSolarPanel:', isSolarPanel);
+    }
     
-    // Color body parts, or if no body matchers found, color everything that's not excluded
-    if (!isBody && bodyMatchers.length > 0) return;
+    // Don't color solar panels specifically
+    if (isSolarPanel) return;
+    
+    // Don't color other excluded parts (hardware, etc.)
+    if (isExcluded && !isRoof) return;
+    
+    // Color body parts, roof, or if no body matchers found, color everything that's not excluded
+    if (!isBody && !isRoof && bodyMatchers.length > 0) return;
 
     const mats = Array.isArray(o.material) ? o.material : [o.material];
     mats.forEach((m: any, i: number) => {

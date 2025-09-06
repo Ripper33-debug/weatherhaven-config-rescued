@@ -374,8 +374,6 @@ function applyBodyColor(root: THREE.Object3D, hex: string) {
   let coloredCount = 0;
   let solarPanelCount = 0;
   
-  // Test: Try to color the first few meshes regardless of name
-  let testCount = 0;
 
   // Simplified approach - color ALL meshes except solar panels
   root.traverse((o: any) => {
@@ -409,25 +407,17 @@ function applyBodyColor(root: THREE.Object3D, hex: string) {
                       name.includes('stand') || name.includes('support') || name.includes('undercarriage') || 
                       name.includes('running gear');
     
-    if (process.env.NODE_ENV === 'development' && meshCount <= 15) {
+    if (process.env.NODE_ENV === 'development' && meshCount <= 5) {
       console.log(`🎨 Mesh ${meshCount}: "${o.name}" (${o.material?.name || 'no material'}) - isSolarPanel:${isSolarPanel}, isHardware:${isHardware}`);
     }
     
-    // TEST: Color first 3 meshes regardless of name to see if coloring works at all
-    if (testCount < 3) {
-      testCount++;
+    // Skip only solar panels and hardware components
+    if (isSolarPanel || isHardware) {
+      if (isSolarPanel) solarPanelCount++;
       if (process.env.NODE_ENV === 'development') {
-        console.log(`🎨 🧪 TEST COLORING mesh ${testCount}: "${o.name}"`);
+        console.log(`🎨 ⚡ SKIPPING ${isSolarPanel ? 'SOLAR PANEL' : 'HARDWARE'}: "${o.name}" (${o.material?.name || 'no material'})`);
       }
-    } else {
-      // Skip solar panels and hardware components
-      if (isSolarPanel || isHardware) {
-        if (isSolarPanel) solarPanelCount++;
-        if (process.env.NODE_ENV === 'development') {
-          console.log(`🎨 ⚡ SKIPPING ${isSolarPanel ? 'SOLAR PANEL' : 'HARDWARE'}: "${o.name}" (${o.material?.name || 'no material'})`);
-        }
-        return;
-      }
+      return;
     }
 
     coloredCount++;
@@ -436,7 +426,7 @@ function applyBodyColor(root: THREE.Object3D, hex: string) {
     mats.forEach((m: any, i: number) => {
       if (!m) return;
       
-      if (process.env.NODE_ENV === 'development' && coloredCount <= 3) {
+      if (process.env.NODE_ENV === 'development' && coloredCount <= 2) {
         console.log(`🎨 Coloring material ${i} for mesh "${o.name}":`, m.type, 'color:', m.color?.getHexString());
       }
       
@@ -449,7 +439,7 @@ function applyBodyColor(root: THREE.Object3D, hex: string) {
           envMapIntensity: 0.3
         });
         if (Array.isArray(o.material)) o.material[i] = mat; else o.material = mat;
-        if (process.env.NODE_ENV === 'development' && coloredCount <= 3) {
+        if (process.env.NODE_ENV === 'development' && coloredCount <= 2) {
           console.log(`🎨 Created new MeshStandardMaterial with color:`, paint.getHexString());
         }
       } else {
@@ -460,7 +450,7 @@ function applyBodyColor(root: THREE.Object3D, hex: string) {
         m.roughness = Math.max(m.roughness ?? 0.6, 0.35);
         m.envMapIntensity = 0.3;
         m.needsUpdate = true;
-        if (process.env.NODE_ENV === 'development' && coloredCount <= 3) {
+        if (process.env.NODE_ENV === 'development' && coloredCount <= 2) {
           console.log(`🎨 Updated material color from ${oldColor} to ${paint.getHexString()}`);
         }
       }

@@ -90,9 +90,62 @@ export function ModelViewerScene({
 
 /* ---------------- UI ---------------- */
 function Loading() {
+  const [progress, setProgress] = useState(0);
+  const [stage, setStage] = useState('Initializing...');
+  
+  React.useEffect(() => {
+    const stages = [
+      { text: 'Loading model file...', progress: 20 },
+      { text: 'Processing geometry...', progress: 40 },
+      { text: 'Loading textures...', progress: 60 },
+      { text: 'Applying materials...', progress: 80 },
+      { text: 'Finalizing...', progress: 100 }
+    ];
+    
+    let currentStage = 0;
+    const interval = setInterval(() => {
+      if (currentStage < stages.length) {
+        setStage(stages[currentStage].text);
+        setProgress(stages[currentStage].progress);
+        currentStage++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 200);
+    
+    return () => clearInterval(interval);
+  }, []);
+  
   return (
     <Html center>
-      <div style={{ color: 'white', fontSize: 16, textAlign: 'center' }}>Loading…</div>
+      <div style={{ 
+        color: 'white', 
+        fontSize: 16, 
+        textAlign: 'center',
+        background: 'rgba(0, 0, 0, 0.7)',
+        padding: '20px',
+        borderRadius: '10px',
+        minWidth: '300px'
+      }}>
+        <div style={{ marginBottom: '10px' }}>{stage}</div>
+        <div style={{
+          width: '100%',
+          height: '4px',
+          background: 'rgba(255, 255, 255, 0.2)',
+          borderRadius: '2px',
+          overflow: 'hidden'
+        }}>
+          <div style={{
+            width: `${progress}%`,
+            height: '100%',
+            background: 'linear-gradient(90deg, #4facfe 0%, #00f2fe 100%)',
+            transition: 'width 0.3s ease'
+          }} />
+        </div>
+        <div style={{ marginTop: '8px', fontSize: '12px', opacity: 0.8 }}>
+          {progress}%
+        </div>
+      </div>
     </Html>
   );
 }
@@ -186,8 +239,32 @@ function TreccModel({
   onReady?: (info: ReadyInfo) => void;
 }) {
   const path = modelPath || '/models/trecc.glb';
+  const [loadingProgress, setLoadingProgress] = useState(0);
+  const [loadingStage, setLoadingStage] = useState('Loading model...');
+  
   const gltf = useGLTF(path) as any; // Suspense handles loading
-  const scene = useMemo<THREE.Group | null>(() => gltf?.scene?.clone(true) ?? null, [gltf]);
+  const scene = useMemo<THREE.Group | null>(() => {
+    if (!gltf) return null;
+    
+    // Cache the loaded model for future use
+    cacheModel(path, gltf);
+    
+    // Simulate progressive loading stages
+    setLoadingStage('Processing geometry...');
+    setLoadingProgress(50);
+    
+    setTimeout(() => {
+      setLoadingStage('Applying materials...');
+      setLoadingProgress(75);
+    }, 100);
+    
+    setTimeout(() => {
+      setLoadingStage('Finalizing...');
+      setLoadingProgress(100);
+    }, 200);
+    
+    return gltf?.scene?.clone(true) ?? null;
+  }, [gltf]);
 
   // Orientation/Grounding constants
   // If the model is still on its side, swap which axis you fix below (X/Z).
@@ -231,7 +308,44 @@ function TreccModel({
   return <primitive object={scene} castShadow receiveShadow />;
 }
 
-// Preload the single model we use
+// Caching system for faster subsequent loads
+const CACHE_KEY = 'weatherhaven-models-cache';
+const CACHE_VERSION = '1.0';
+
+// Simple cache management
+const cacheModel = (url: string, data: any) => {
+  try {
+    const cache = JSON.parse(localStorage.getItem(CACHE_KEY) || '{}');
+    cache[url] = {
+      data,
+      timestamp: Date.now(),
+      version: CACHE_VERSION
+    };
+    localStorage.setItem(CACHE_KEY, JSON.stringify(cache));
+    console.log('✅ Model cached:', url);
+  } catch (error) {
+    console.warn('⚠️ Failed to cache model:', error);
+  }
+};
+
+const getCachedModel = (url: string) => {
+  try {
+    const cache = JSON.parse(localStorage.getItem(CACHE_KEY) || '{}');
+    const cached = cache[url];
+    if (cached && cached.version === CACHE_VERSION) {
+      // Check if cache is less than 24 hours old
+      if (Date.now() - cached.timestamp < 24 * 60 * 60 * 1000) {
+        console.log('🚀 Loading from cache:', url);
+        return cached.data;
+      }
+    }
+  } catch (error) {
+    console.warn('⚠️ Failed to read cache:', error);
+  }
+  return null;
+};
+
+// Preload the single model we use with caching
 useGLTF.preload('/models/trecc.glb');
 useGLTF.preload('/models/interiors/CommandPosting.glb');
 

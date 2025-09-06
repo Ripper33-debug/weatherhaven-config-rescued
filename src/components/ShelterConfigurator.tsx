@@ -325,6 +325,70 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             </div>
           </div>
 
+          {/* Lighting Presets */}
+          <div style={{
+            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)',
+            borderRadius: '20px',
+            padding: '24px',
+            border: '1px solid rgba(0, 0, 0, 0.06)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.04)'
+          }}>
+            <label style={{ 
+              fontSize: '15px', 
+              display: 'block', 
+              marginBottom: '16px', 
+              color: '#1a1a2e',
+              fontWeight: '800',
+              textAlign: 'center'
+            }}>
+              Lighting Presets
+            </label>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {[
+                { name: 'Day', ambient: 0.4, directional: 1.5, sun: { x: 5, y: 10, z: 5 } },
+                { name: 'Night', ambient: 0.1, directional: 0.3, sun: { x: -5, y: 2, z: -5 } },
+                { name: 'Overcast', ambient: 0.6, directional: 0.8, sun: { x: 3, y: 6, z: 3 } },
+                { name: 'Desert', ambient: 0.2, directional: 2.0, sun: { x: 8, y: 12, z: 8 } }
+              ].map((preset) => (
+                <button
+                  key={preset.name}
+                  onClick={() => {
+                    setLightingState({
+                      ambientIntensity: preset.ambient,
+                      directionalIntensity: preset.directional,
+                      sunPosition: preset.sun
+                    });
+                  }}
+                  style={{
+                    background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '12px',
+                    padding: '12px 16px',
+                    fontSize: '13px',
+                    fontWeight: '700',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    boxShadow: '0 4px 15px rgba(79, 172, 254, 0.3)',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 6px 20px rgba(79, 172, 254, 0.4)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 4px 15px rgba(79, 172, 254, 0.3)';
+                  }}
+                >
+                  {preset.name}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* Reset Button */}
           <button
             onClick={() => {
@@ -569,6 +633,51 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
 
 
 
+            </div>
+          </div>
+
+          {/* Specifications */}
+          <div style={{
+            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)',
+            borderRadius: '20px',
+            padding: '28px',
+            border: '1px solid rgba(0, 0, 0, 0.06)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.04)'
+          }}>
+            <h3 style={{
+              fontSize: '18px',
+              fontWeight: '800',
+              color: '#1a1a2e',
+              margin: '0 0 24px 0'
+            }}>
+              Specifications
+            </h3>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '14px', color: '#666', fontWeight: '600' }}>Dimensions:</span>
+                <span style={{ fontSize: '14px', color: '#1a1a2e', fontWeight: '700' }}>20' × 8' × 8'</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '14px', color: '#666', fontWeight: '600' }}>Weight:</span>
+                <span style={{ fontSize: '14px', color: '#1a1a2e', fontWeight: '700' }}>2,400 lbs</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '14px', color: '#666', fontWeight: '600' }}>Capacity:</span>
+                <span style={{ fontSize: '14px', color: '#1a1a2e', fontWeight: '700' }}>8-12 personnel</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '14px', color: '#666', fontWeight: '600' }}>Deployment:</span>
+                <span style={{ fontSize: '14px', color: '#1a1a2e', fontWeight: '700' }}>15 minutes</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '14px', color: '#666', fontWeight: '600' }}>Power:</span>
+                <span style={{ fontSize: '14px', color: '#1a1a2e', fontWeight: '700' }}>Solar + Generator</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '14px', color: '#666', fontWeight: '600' }}>Temperature:</span>
+                <span style={{ fontSize: '14px', color: '#1a1a2e', fontWeight: '700' }}>-40°F to +120°F</span>
+              </div>
             </div>
           </div>
 

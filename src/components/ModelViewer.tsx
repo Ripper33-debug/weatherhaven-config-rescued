@@ -237,7 +237,7 @@ function Scene({ color = '#3C3B2E' }: { color?: string }) {
 
       {/* Model */}
       <TreccModel
-        modelPath="Trecc Exterior/trecc.glb"
+        modelPath="trecc.glb"
         color={color}
         onReady={({ center, radius }) => {
           // Center camera target and frame the model nicely
@@ -269,7 +269,7 @@ function TreccModel({
     const loadModelUrl = async () => {
       try {
         // Extract just the filename from the path
-        const filename = modelPath || 'Trecc Exterior/trecc.glb';
+        const filename = modelPath || 'trecc.glb';
         const supabaseUrl = await getModelUrl(filename);
         setActualModelPath(supabaseUrl);
         console.log('🎨 Using Supabase model URL:', supabaseUrl);
@@ -284,7 +284,7 @@ function TreccModel({
   }, [modelPath]);
   
   // Always call hooks in the same order - use a fallback URL
-  const fallbackUrl = '/models/trecc.glb';
+  const fallbackUrl = 'trecc.glb';
   const modelUrl = actualModelPath || fallbackUrl;
   
   const gltf = useGLTF(modelUrl) as any; // Suspense handles loading

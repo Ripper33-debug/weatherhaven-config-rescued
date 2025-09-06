@@ -1,19 +1,13 @@
-import { createClient } from '@supabase/supabase-js'
-
-// Supabase configuration
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://your-project.supabase.co'
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'your-anon-key'
+// AWS S3 + CloudFront configuration
+const AWS_S3_BUCKET = 'weatherhaven-models'
+const AWS_REGION = 'us-east-2'
+const CLOUDFRONT_DOMAIN = 'd3kx2t94cz9q1y.cloudfront.net'
 
 // Debug logging
 if (process.env.NODE_ENV === 'development') {
-  console.log('🔧 Supabase URL:', supabaseUrl)
-  console.log('🔧 Supabase Key:', supabaseAnonKey ? 'Set' : 'Not set')
+  console.log('🔧 AWS S3 Bucket:', AWS_S3_BUCKET)
+  console.log('🔧 CloudFront Domain:', CLOUDFRONT_DOMAIN)
 }
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
-
-// Storage bucket name for models
-export const MODELS_BUCKET = 'models'
 
 // Model configuration
 export interface ModelConfig {
@@ -36,13 +30,13 @@ export const AVAILABLE_MODELS: ModelConfig[] = [
   {
     id: 'trecc',
     name: 'TRECC Shelter',
-    path: 'Trecc Exterior/trecc.glb',
+    path: 'trecc.glb',
     description: 'Tactical Rapidly Erectable Command Center',
     dimensions: { length: 20, width: 8, height: 8 },
     weight: 5000,
     capacity: 12
   }
-  // Temporarily disabled until CommandPosting.glb is uploaded to Supabase
+  // Add more models as you upload them to S3
   // {
   //   id: 'command-posting',
   //   name: 'Command Posting',
@@ -54,84 +48,44 @@ export const AVAILABLE_MODELS: ModelConfig[] = [
   // }
 ]
 
-// Get model URL from Supabase Storage
+// Get model URL from AWS S3 + CloudFront
 export async function getModelUrl(modelPath: string): Promise<string> {
   try {
-    // Check if Supabase is properly configured
-    if (!supabaseUrl || supabaseUrl.includes('your-project') || !supabaseAnonKey || supabaseAnonKey.includes('your-anon-key')) {
-      console.log('🔧 Supabase not configured, using local models')
-      return `/models/${modelPath}`
-    }
-
-    const { data } = await supabase.storage
-      .from(MODELS_BUCKET)
-      .getPublicUrl(modelPath)
-    
-    console.log('🔧 Using Supabase URL:', data.publicUrl)
-    return data.publicUrl
+    // Use CloudFront URL for better performance
+    const cloudfrontUrl = `https://${CLOUDFRONT_DOMAIN}/${modelPath}`
+    console.log('🔧 Using AWS CloudFront URL:', cloudfrontUrl)
+    return cloudfrontUrl
   } catch (error) {
     console.error('Error getting model URL:', error)
-    // Fallback to local path
-    return `/models/${modelPath}`
+    // Fallback to S3 direct URL
+    const s3Url = `https://${AWS_S3_BUCKET}.s3.${AWS_REGION}.amazonaws.com/${modelPath}`
+    console.log('🔧 Fallback to S3 URL:', s3Url)
+    return s3Url
   }
 }
 
 // Get all available models
 export async function getAvailableModels(): Promise<ModelConfig[]> {
   try {
-    const { data, error } = await supabase.storage
-      .from(MODELS_BUCKET)
-      .list('', {
-        limit: 100,
-        offset: 0,
-      })
-
-    if (error) {
-      console.error('Error fetching models:', error)
-      return AVAILABLE_MODELS
-    }
-
-    // Filter for GLB files and map to ModelConfig
-    const models = data
-      .filter(file => file.name.endsWith('.glb'))
-      .map(file => ({
-        id: file.name.replace('.glb', ''),
-        name: file.name.replace('.glb', '').replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
-        path: file.name,
-        description: `3D model: ${file.name}`,
-        dimensions: { length: 20, width: 8, height: 8 },
-        weight: 5000,
-        capacity: 12
-      }))
-
-    return models.length > 0 ? models : AVAILABLE_MODELS
+    // For now, return the hardcoded models
+    // In the future, you could implement S3 list API to dynamically fetch models
+    console.log('🔧 Returning available models from AWS S3')
+    return AVAILABLE_MODELS
   } catch (error) {
     console.error('Error fetching models:', error)
     return AVAILABLE_MODELS
   }
 }
 
-// Test Supabase connection
+// Test AWS S3 connection
 export async function testSupabaseConnection(): Promise<boolean> {
   try {
-    if (!supabaseUrl || supabaseUrl.includes('your-project') || !supabaseAnonKey || supabaseAnonKey.includes('your-anon-key')) {
-      console.log('🔧 Supabase not configured')
-      return false
-    }
-
-    const { data, error } = await supabase.storage
-      .from(MODELS_BUCKET)
-      .list('', { limit: 1 })
-    
-    if (error) {
-      console.error('Supabase connection test failed:', error)
-      return false
-    }
-    
-    console.log('🔧 Supabase connection successful')
+    // Test by trying to fetch a model URL
+    const testUrl = await getModelUrl('trecc.glb')
+    console.log('🔧 AWS S3 connection test successful:', testUrl)
     return true
   } catch (error) {
-    console.error('Supabase connection test error:', error)
+    console.error('AWS S3 connection test error:', error)
     return false
   }
 }

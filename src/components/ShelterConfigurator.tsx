@@ -63,7 +63,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
 
   const handleColorChange = (newColor: string) => {
     if (process.env.NODE_ENV === 'development') {
-      console.log('🎨 Color change requested:', newColor);
+    console.log('🎨 Color change requested:', newColor);
       console.log('🎨 Current configState:', configState);
     }
     setIsApplyingColor(true);
@@ -175,38 +175,51 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             textAlign: 'center',
             marginBottom: '24px',
             position: 'relative',
-            padding: '24px 0',
-            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(248, 250, 252, 0.6) 100%)',
+            padding: '32px 24px',
+            background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(30, 30, 30, 0.9) 100%)',
             borderRadius: '20px',
-            border: '1px solid rgba(59, 130, 246, 0.1)',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+            border: '2px solid rgba(59, 130, 246, 0.3)',
+            boxShadow: '0 12px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
           }}>
             <div style={{
               position: 'absolute',
-              top: '12px',
-              right: '16px',
-              width: '8px',
-              height: '8px',
+              top: '16px',
+              right: '20px',
+              width: '10px',
+              height: '10px',
               background: 'linear-gradient(45deg, #4facfe, #00f2fe)',
               borderRadius: '50%',
-              boxShadow: '0 0 12px rgba(79, 172, 254, 0.6)'
+              boxShadow: '0 0 16px rgba(79, 172, 254, 0.8)'
             }} />
             <h2 style={{
-              fontSize: '36px',
+              fontSize: '42px',
               fontWeight: '900',
               color: '#ffffff',
               margin: '0',
               textTransform: 'uppercase',
-              letterSpacing: '4px',
-              textShadow: '0 6px 12px rgba(0, 0, 0, 0.6), 0 2px 4px rgba(0, 0, 0, 0.4)',
-              background: 'linear-gradient(135deg, #ffffff 0%, #f0f9ff 50%, #e0f2fe 100%)',
+              letterSpacing: '6px',
+              textShadow: '0 4px 8px rgba(0, 0, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.6), 0 0 20px rgba(59, 130, 246, 0.3)',
+              background: 'linear-gradient(135deg, #ffffff 0%, #e0f2fe 50%, #3b82f6 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
-              filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5))'
+              filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8))',
+              position: 'relative',
+              zIndex: 2
             }}>
               TRECC
             </h2>
+            <div style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '120%',
+              height: '120%',
+              background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(99, 102, 241, 0.05) 100%)',
+              borderRadius: '16px',
+              zIndex: 1
+            }} />
           </div>
 
 
@@ -542,36 +555,36 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             </div>
           )}
           <ErrorBoundary>
-            <Canvas
-              camera={{ position: [5, 3, 5], fov: 50 }}
-              shadows
-              gl={{
-                antialias: true,
-                alpha: true,
-                powerPreference: 'high-performance',
-                failIfMajorPerformanceCaveat: false
-              }}
-              onCreated={({ gl }) => {
-                gl.shadowMap.enabled = true;
-                gl.shadowMap.type = THREE.PCFSoftShadowMap;
-              }}
-            >
-              <ModelViewerScene
-                modelPath={getModelPath()}
-                color={configState.color}
-                isDeployed={configState.isDeployed}
-                environment="studio"
-                weather="none"
+          <Canvas
+            camera={{ position: [5, 3, 5], fov: 50 }}
+            shadows
+            gl={{
+              antialias: true,
+              alpha: true,
+              powerPreference: 'high-performance',
+              failIfMajorPerformanceCaveat: false
+            }}
+            onCreated={({ gl }) => {
+              gl.shadowMap.enabled = true;
+              gl.shadowMap.type = THREE.PCFSoftShadowMap;
+            }}
+          >
+            <ModelViewerScene
+              modelPath={getModelPath()}
+              color={configState.color}
+              isDeployed={configState.isDeployed}
+              environment="studio"
+              weather="none"
                 lighting={{
                   ambientIntensity: 0.3,
                   directionalIntensity: 1.2,
                   sunPosition: { x: 5, y: 8, z: 5 }
                 }}
-                background3D={{}}
+              background3D={{}}
                 onModelReady={() => setIsModelLoading(false)}
                 onColorApplied={() => setIsApplyingColor(false)}
-              />
-            </Canvas>
+            />
+          </Canvas>
           </ErrorBoundary>
         </div>
       </div>

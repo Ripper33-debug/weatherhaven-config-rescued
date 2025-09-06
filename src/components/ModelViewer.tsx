@@ -376,8 +376,7 @@ function TreccModel({
           textAlign: 'center',
           fontFamily: 'Arial, sans-serif'
         }}>
-          <div style={{ fontSize: '18px', marginBottom: '10px' }}>🔄 Getting model URL...</div>
-          <div style={{ fontSize: '14px', opacity: 0.8 }}>Connecting to AWS</div>
+          <div style={{ fontSize: '18px' }}>🔄 Loading model...</div>
         </div>
       </Html>
     );

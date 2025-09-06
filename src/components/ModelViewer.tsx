@@ -32,6 +32,9 @@ export function ModelViewerScene({
   onColorApplied
 }: ModelViewerSceneProps) {
   console.log('🎨 ModelViewerScene received color:', color);
+  const controlsRef = useRef<any>(null);
+  const cameraTarget = useRef(new THREE.Vector3(0, 1.5, 0)); // Set target above ground plane
+  
   return (
     <>
       {/* Camera */}
@@ -51,6 +54,7 @@ export function ModelViewerScene({
 
       {/* Controls */}
       <OrbitControls
+        ref={controlsRef}
         enablePan
         enableZoom
         enableRotate
@@ -59,10 +63,11 @@ export function ModelViewerScene({
         zoomSpeed={1}
         rotateSpeed={0.9}
         panSpeed={0.8}
-        minPolarAngle={Math.PI / 6} // Prevent going under the shelter
-        maxPolarAngle={Math.PI - Math.PI / 6} // Prevent going under the shelter
+        minPolarAngle={Math.PI / 4} // Prevent going under the shelter (45 degrees from top)
+        maxPolarAngle={Math.PI - Math.PI / 4} // Prevent going under the shelter (45 degrees from bottom)
         minDistance={2}
         maxDistance={20}
+        target={cameraTarget.current}
       />
 
       {/* Lights */}
@@ -162,7 +167,7 @@ function Loading() {
 /* ---------------- Scene ---------------- */
 function Scene({ color = '#3C3B2E' }: { color?: string }) {
   const controlsRef = useRef<any>(null);
-  const cameraTarget = useRef(new THREE.Vector3(0, 0.75, 0)); // default until model reports real center
+  const cameraTarget = useRef(new THREE.Vector3(0, 1.5, 0)); // Set target above ground plane
 
   // Lighting defaults
   const ambientIntensity = 0.35;
@@ -205,8 +210,8 @@ function Scene({ color = '#3C3B2E' }: { color?: string }) {
         zoomSpeed={1}
         rotateSpeed={0.9}
         panSpeed={0.8}
-        minPolarAngle={Math.PI / 6} // Prevent going under the shelter (30 degrees from top)
-        maxPolarAngle={Math.PI - Math.PI / 6} // Prevent going under the shelter (30 degrees from bottom)
+        minPolarAngle={Math.PI / 4} // Prevent going under the shelter (45 degrees from top)
+        maxPolarAngle={Math.PI - Math.PI / 4} // Prevent going under the shelter (45 degrees from bottom)
         minDistance={2}
         maxDistance={20}
         target={cameraTarget.current}

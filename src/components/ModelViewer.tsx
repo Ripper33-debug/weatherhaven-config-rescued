@@ -377,29 +377,40 @@ function applyBodyColor(root: THREE.Object3D, hex: string) {
     
     const name = (o.name + ' ' + (o.material?.name || '')).toLowerCase();
     
-    // ULTRA-AGGRESSIVE solar panel detection - catch everything that could be solar
+    // Smart solar panel detection - only exclude actual solar components
     const isSolarPanel = name.includes('solar') || name.includes('photovoltaic') || name.includes('pv') || 
                         name.includes('cell') || name.includes('array') || name.includes('grid') || 
-                        name.includes('corrugated') || name.includes('panel') || name.includes('module') ||
+                        name.includes('corrugated') || name.includes('module') ||
                         name.includes('silicon') || name.includes('wafer') || name.includes('sheet') ||
-                        name.includes('plate') || name.includes('surface') || name.includes('glass') ||
-                        name.includes('roof') || name.includes('top') || name.includes('upper') ||
-                        name.includes('ceiling') || name.includes('overhead') || name.includes('canopy') ||
-                        name.includes('cover') || name.includes('lid') || name.includes('cap') ||
-                        name.includes('mat') || name.includes('film') || name.includes('layer') ||
-                        name.includes('strip') || name.includes('bar') || name.includes('line') ||
-                        name.includes('segment') || name.includes('section') || name.includes('part') ||
-                        name.includes('component') || name.includes('element') || name.includes('piece');
+                        name.includes('glass') || name.includes('mat') || name.includes('film') ||
+                        name.includes('strip') || name.includes('bar') || name.includes('line');
+    
+    // Also exclude hardware/mechanical parts
+    const isHardware = name.includes('wheel') || name.includes('tire') || name.includes('tyre') || 
+                      name.includes('rim') || name.includes('hub') || name.includes('axle') || 
+                      name.includes('suspension') || name.includes('shock') || name.includes('spring') || 
+                      name.includes('brake') || name.includes('drum') || name.includes('disc') ||
+                      name.includes('fender') || name.includes('mudflap') || name.includes('mudguard') || 
+                      name.includes('chassis') || name.includes('trailer') || name.includes('drawbar') || 
+                      name.includes('hitch') || name.includes('coupling') || name.includes('engine') || 
+                      name.includes('motor') || name.includes('wire') || name.includes('cable') || 
+                      name.includes('hose') || name.includes('bolt') || name.includes('nut') || 
+                      name.includes('screw') || name.includes('washer') || name.includes('bearing') || 
+                      name.includes('bushing') || name.includes('link') || name.includes('arm') || 
+                      name.includes('bracket') || name.includes('frame') || name.includes('rail') || 
+                      name.includes('beam') || name.includes('crossmember') || name.includes('jack') || 
+                      name.includes('stand') || name.includes('support') || name.includes('undercarriage') || 
+                      name.includes('running gear');
     
     if (process.env.NODE_ENV === 'development' && meshCount <= 15) {
-      console.log(`🎨 Mesh ${meshCount}: "${o.name}" (${o.material?.name || 'no material'}) - isSolarPanel:${isSolarPanel}`);
+      console.log(`🎨 Mesh ${meshCount}: "${o.name}" (${o.material?.name || 'no material'}) - isSolarPanel:${isSolarPanel}, isHardware:${isHardware}`);
     }
     
-    // Skip solar panels and related components
-    if (isSolarPanel) {
-      solarPanelCount++;
+    // Skip solar panels and hardware components
+    if (isSolarPanel || isHardware) {
+      if (isSolarPanel) solarPanelCount++;
       if (process.env.NODE_ENV === 'development') {
-        console.log(`🎨 ⚡ SKIPPING SOLAR PANEL: "${o.name}" (${o.material?.name || 'no material'})`);
+        console.log(`🎨 ⚡ SKIPPING ${isSolarPanel ? 'SOLAR PANEL' : 'HARDWARE'}: "${o.name}" (${o.material?.name || 'no material'})`);
       }
       return;
     }

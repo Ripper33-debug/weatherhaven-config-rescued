@@ -191,29 +191,21 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               boxShadow: '0 0 12px rgba(79, 172, 254, 0.6)'
             }} />
             <h2 style={{
-              fontSize: '28px',
+              fontSize: '36px',
               fontWeight: '900',
-              background: 'linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%)',
+              color: '#ffffff',
+              margin: '0',
+              textTransform: 'uppercase',
+              letterSpacing: '4px',
+              textShadow: '0 6px 12px rgba(0, 0, 0, 0.6), 0 2px 4px rgba(0, 0, 0, 0.4)',
+              background: 'linear-gradient(135deg, #ffffff 0%, #f0f9ff 50%, #e0f2fe 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
-              margin: '0 0 8px 0',
-              textTransform: 'uppercase',
-              letterSpacing: '2px',
-              textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+              filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5))'
             }}>
               TRECC
             </h2>
-            <p style={{
-              fontSize: '14px',
-              color: '#4a5568',
-              margin: '0',
-              fontWeight: '600',
-              textTransform: 'uppercase',
-              letterSpacing: '0.5px'
-            }}>
-              Lighting Controls
-            </p>
           </div>
 
 

@@ -235,6 +235,10 @@ function TreccModel({
   const [loadingStage, setLoadingStage] = useState('Loading model...');
   
   const gltf = useGLTF(path) as any; // Suspense handles loading
+  
+  if (process.env.NODE_ENV === 'development') {
+    console.log('🎨 Model loaded:', path, 'gltf:', !!gltf, 'scene:', !!gltf?.scene);
+  }
   const scene = useMemo<THREE.Group | null>(() => {
     if (!gltf) return null;
     
@@ -361,54 +365,43 @@ function applyBodyColor(root: THREE.Object3D, hex: string) {
     console.log('🎨 applyBodyColor called with:', hex);
   }
   
-  const bodyMatchers = [
-    'body','shell','hull','canopy','tarp','wall','panel','roof','door','side',
-    'skin','cover','enclosure','housing','box','container',
-  ];
-  const excludeMatchers = [
-    'wheel','tire','tyre','rim','hub','axle','suspension','shock','spring','brake','drum','disc',
-    'fender','mudflap','mudguard','chassis','trailer','drawbar','hitch','coupling','engine','motor',
-    'wire','cable','hose','bolt','nut','screw','washer','bearing','bushing','link','arm','bracket',
-    'frame','rail','beam','crossmember','jack','stand','support','undercarriage','running gear',
-    'solar','photovoltaic','pv','cell','array','grid','corrugated'
-  ];
   const paint = new THREE.Color(hex);
-  
   let meshCount = 0;
   let coloredCount = 0;
 
+  // Simplified approach - color ALL meshes except solar panels
   root.traverse((o: any) => {
     if (!o.isMesh) return;
     meshCount++;
     
     const name = (o.name + ' ' + (o.material?.name || '')).toLowerCase();
-    const isBody = bodyMatchers.some(k => name.includes(k));
-    const isExcluded = excludeMatchers.some(k => name.includes(k));
     
-    // Special logic for roof vs solar panels
-    const isRoof = name.includes('roof') || name.includes('top');
+    // Only exclude solar panels
     const isSolarPanel = name.includes('solar') || name.includes('photovoltaic') || name.includes('pv') || 
                         name.includes('cell') || name.includes('array') || name.includes('grid') || 
                         name.includes('corrugated');
     
-    if (process.env.NODE_ENV === 'development' && meshCount <= 5) {
-      console.log(`🎨 Mesh ${meshCount}: "${o.name}" (${o.material?.name || 'no material'}) - isBody:${isBody}, isExcluded:${isExcluded}, isRoof:${isRoof}, isSolarPanel:${isSolarPanel}`);
+    if (process.env.NODE_ENV === 'development' && meshCount <= 10) {
+      console.log(`🎨 Mesh ${meshCount}: "${o.name}" (${o.material?.name || 'no material'}) - isSolarPanel:${isSolarPanel}`);
     }
     
-    // Don't color solar panels specifically
-    if (isSolarPanel) return;
-    
-    // Don't color other excluded parts (hardware, etc.)
-    if (isExcluded && !isRoof) return;
-    
-    // Color body parts, roof, or if no body matchers found, color everything that's not excluded
-    if (!isBody && !isRoof && bodyMatchers.length > 0) return;
+    // Skip only solar panels
+    if (isSolarPanel) {
+      if (process.env.NODE_ENV === 'development') {
+        console.log(`🎨 Skipping solar panel: "${o.name}"`);
+      }
+      return;
+    }
 
     coloredCount++;
 
     const mats = Array.isArray(o.material) ? o.material : [o.material];
     mats.forEach((m: any, i: number) => {
       if (!m) return;
+      
+      if (process.env.NODE_ENV === 'development' && coloredCount <= 3) {
+        console.log(`🎨 Coloring material ${i} for mesh "${o.name}":`, m.type, 'color:', m.color?.getHexString());
+      }
       
       // Only clone if we need to modify the material
       if (!m.isMeshStandardMaterial) {
@@ -419,13 +412,20 @@ function applyBodyColor(root: THREE.Object3D, hex: string) {
           envMapIntensity: 0.3
         });
         if (Array.isArray(o.material)) o.material[i] = mat; else o.material = mat;
+        if (process.env.NODE_ENV === 'development' && coloredCount <= 3) {
+          console.log(`🎨 Created new MeshStandardMaterial with color:`, paint.getHexString());
+        }
       } else {
         // Modify existing material directly for better performance
+        const oldColor = m.color.getHexString();
         m.color.copy(paint);
         m.metalness = Math.min(m.metalness ?? 0.25, 0.25);
         m.roughness = Math.max(m.roughness ?? 0.6, 0.35);
         m.envMapIntensity = 0.3;
         m.needsUpdate = true;
+        if (process.env.NODE_ENV === 'development' && coloredCount <= 3) {
+          console.log(`🎨 Updated material color from ${oldColor} to ${paint.getHexString()}`);
+        }
       }
     });
   });

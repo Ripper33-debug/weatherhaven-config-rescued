@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { ModelViewerScene } from './ModelViewer';
 import ErrorBoundary from './ErrorBoundary';
-import { preloadModel, getAvailableModels } from '../lib/supabase';
+import { preloadModel, getAvailableModels, testSupabaseConnection } from '../lib/supabase';
 import * as THREE from 'three';
 import { ConfigState, ColorOption } from '../types';
 
@@ -46,6 +46,10 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   useEffect(() => {
     const loadModels = async () => {
       try {
+        // Test Supabase connection first
+        const isSupabaseWorking = await testSupabaseConnection();
+        console.log('🔧 Supabase working:', isSupabaseWorking);
+        
         const models = await getAvailableModels();
         setAvailableModels(models);
         
@@ -578,15 +582,15 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               gl.shadowMap.type = THREE.PCFSoftShadowMap;
             }}
           >
-              <ModelViewerScene
-                modelPath={getModelPath()}
+            <ModelViewerScene
+              modelPath={getModelPath()}
                 color={(() => {
                   console.log('🎨 Passing color to ModelViewerScene:', configState.color);
                   return configState.color;
                 })()}
-                isDeployed={configState.isDeployed}
-                environment="studio"
-                weather="none"
+              isDeployed={configState.isDeployed}
+              environment="studio"
+              weather="none"
                 lighting={{
                   ambientIntensity: 0.3,
                   directionalIntensity: 1.2,

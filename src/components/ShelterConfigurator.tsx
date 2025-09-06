@@ -166,21 +166,23 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
       }}>
         {/* Left Side - Lighting Controls (Visible by default) */}
         <div className="left-controls" style={{
-          width: '300px',
-          background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)',
-          backdropFilter: 'blur(20px)',
-          borderRight: '1px solid rgba(0, 0, 0, 0.08)',
-          padding: '32px',
+          width: '340px',
+          background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.95) 50%, rgba(241, 245, 249, 0.98) 100%)',
+          backdropFilter: 'blur(25px) saturate(180%)',
+          borderRight: '1px solid rgba(59, 130, 246, 0.15)',
+          padding: '40px 32px',
           display: 'flex',
           flexDirection: 'column',
-          gap: '28px',
-          boxShadow: '0 12px 40px rgba(0, 0, 0, 0.08)',
+          gap: '32px',
+          boxShadow: '12px 0 50px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.05), inset 1px 0 0 rgba(255, 255, 255, 0.1)',
           overflowY: 'auto',
           zIndex: 10,
           position: 'absolute',
           left: '0px',
           top: 0,
-          height: '100%'
+          height: '100%',
+          borderTopRightRadius: '28px',
+          borderBottomRightRadius: '28px'
         }}>
           {/* Lighting Controls Header */}
           <div style={{
@@ -208,11 +210,14 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
 
           {/* Sun Intensity Control */}
           <div style={{
-            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)',
-            borderRadius: '20px',
-            padding: '24px',
-            border: '1px solid rgba(0, 0, 0, 0.06)',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.04)'
+            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.8) 100%)',
+            borderRadius: '24px',
+            padding: '28px',
+            border: '1px solid rgba(59, 130, 246, 0.1)',
+            boxShadow: '0 12px 40px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+            backdropFilter: 'blur(10px)',
+            position: 'relative',
+            overflow: 'hidden'
           }}>
             <label style={{ 
               fontSize: '15px', 
@@ -327,11 +332,14 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
 
           {/* Lighting Presets */}
           <div style={{
-            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)',
-            borderRadius: '20px',
-            padding: '24px',
-            border: '1px solid rgba(0, 0, 0, 0.06)',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.04)'
+            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.8) 100%)',
+            borderRadius: '24px',
+            padding: '28px',
+            border: '1px solid rgba(59, 130, 246, 0.1)',
+            boxShadow: '0 12px 40px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+            backdropFilter: 'blur(10px)',
+            position: 'relative',
+            overflow: 'hidden'
           }}>
             <label style={{ 
               fontSize: '15px', 
@@ -361,18 +369,20 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                     });
                   }}
                   style={{
-                    background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                     color: 'white',
                     border: 'none',
-                    borderRadius: '12px',
-                    padding: '12px 16px',
+                    borderRadius: '16px',
+                    padding: '14px 20px',
                     fontSize: '13px',
-                    fontWeight: '700',
+                    fontWeight: '800',
                     cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                    boxShadow: '0 4px 15px rgba(79, 172, 254, 0.3)',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                    boxShadow: '0 8px 25px rgba(102, 126, 234, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
                     textTransform: 'uppercase',
-                    letterSpacing: '0.5px'
+                    letterSpacing: '0.8px',
+                    position: 'relative',
+                    overflow: 'hidden'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'translateY(-2px)';
@@ -461,21 +471,23 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
 
         {/* Professional Controls Panel (Visible by default) */}
         <div className="controls-panel" style={{
-          width: '340px',
-          background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)',
-          backdropFilter: 'blur(20px)',
-          borderLeft: '1px solid rgba(0, 0, 0, 0.08)',
-          padding: '32px',
+          width: '360px',
+          background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.95) 50%, rgba(241, 245, 249, 0.98) 100%)',
+          backdropFilter: 'blur(25px) saturate(180%)',
+          borderLeft: '1px solid rgba(59, 130, 246, 0.15)',
+          padding: '40px 32px',
           display: 'flex',
           flexDirection: 'column',
-          gap: '28px',
-          boxShadow: '0 12px 40px rgba(0, 0, 0, 0.08)',
+          gap: '32px',
+          boxShadow: '-12px 0 50px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.05), inset -1px 0 0 rgba(255, 255, 255, 0.1)',
           overflowY: 'auto',
           position: 'absolute',
           right: '0px',
           top: 0,
           height: '100%',
-          zIndex: 10
+          zIndex: 10,
+          borderTopLeftRadius: '28px',
+          borderBottomLeftRadius: '28px'
         }}>
           {/* Header */}
           <div style={{

@@ -290,22 +290,16 @@ function TreccModel({
 
   // Conservative paint (only "body/shell" words; avoids wheels/chassis)
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') {
-      console.log('🎨 Color effect triggered - scene:', !!scene, 'color:', color);
-    }
+    console.log('🎨 Color effect triggered - scene:', !!scene, 'color:', color);
     
     if (!scene || !color) {
-      if (process.env.NODE_ENV === 'development') {
-        console.log('🎨 Color effect skipped - scene:', !!scene, 'color:', color);
-      }
+      console.log('🎨 Color effect skipped - scene:', !!scene, 'color:', color);
       return;
     }
     
-    if (process.env.NODE_ENV === 'development') {
-      console.log('🎨 Applying color to model:', color);
-      console.log('🎨 Scene object:', scene);
-      console.log('🎨 Scene children count:', scene.children.length);
-    }
+    console.log('🎨 Applying color to model:', color);
+    console.log('🎨 Scene object:', scene);
+    console.log('🎨 Scene children count:', scene.children.length);
     
     // Apply color immediately without timeout to see if that's the issue
     applyBodyColor(scene, color);
@@ -363,11 +357,9 @@ useGLTF.preload('/models/interiors/CommandPosting.glb');
 
 /* ---------------- Colour helper ---------------- */
 function applyBodyColor(root: THREE.Object3D, hex: string) {
-  if (process.env.NODE_ENV === 'development') {
-    console.log('🎨 applyBodyColor called with:', hex);
-    console.log('🎨 Root object:', root);
-    console.log('🎨 Root type:', root.type);
-  }
+  console.log('🎨 applyBodyColor called with:', hex);
+  console.log('🎨 Root object:', root);
+  console.log('🎨 Root type:', root.type);
   
   const paint = new THREE.Color(hex);
   let meshCount = 0;

@@ -48,19 +48,43 @@ export const AVAILABLE_MODELS: ModelConfig[] = [
   // }
 ]
 
-// Get model URL from AWS S3 + CloudFront
+// Get model URL from AWS S3 + CloudFront with local fallback
 export async function getModelUrl(modelPath: string): Promise<string> {
   try {
-    // Use CloudFront URL for better performance
+    // First try CloudFront URL
     const cloudfrontUrl = `https://${CLOUDFRONT_DOMAIN}/${modelPath}`
-    console.log('🔧 Using AWS CloudFront URL:', cloudfrontUrl)
-    return cloudfrontUrl
+    console.log('🔧 Trying AWS CloudFront URL:', cloudfrontUrl)
+    
+    // Test if the URL is accessible
+    const response = await fetch(cloudfrontUrl, { method: 'HEAD' })
+    if (response.ok) {
+      console.log('✅ AWS CloudFront URL working:', cloudfrontUrl)
+      return cloudfrontUrl
+    } else {
+      console.warn('⚠️ CloudFront URL not accessible, trying S3 direct...')
+      throw new Error(`CloudFront returned ${response.status}`)
+    }
   } catch (error) {
-    console.error('Error getting model URL:', error)
-    // Fallback to S3 direct URL
-    const s3Url = `https://${AWS_S3_BUCKET}.s3.${AWS_REGION}.amazonaws.com/${modelPath}`
-    console.log('🔧 Fallback to S3 URL:', s3Url)
-    return s3Url
+    console.warn('⚠️ CloudFront failed, trying S3 direct URL...', error)
+    
+    try {
+      // Fallback to S3 direct URL
+      const s3Url = `https://${AWS_S3_BUCKET}.s3.${AWS_REGION}.amazonaws.com/${modelPath}`
+      const response = await fetch(s3Url, { method: 'HEAD' })
+      if (response.ok) {
+        console.log('✅ S3 direct URL working:', s3Url)
+        return s3Url
+      } else {
+        throw new Error(`S3 returned ${response.status}`)
+      }
+    } catch (s3Error) {
+      console.warn('⚠️ AWS S3 failed, falling back to local model...', s3Error)
+      
+      // Final fallback to local model
+      const localUrl = `/models/${modelPath}`
+      console.log('🔄 Using local fallback URL:', localUrl)
+      return localUrl
+    }
   }
 }
 
@@ -82,8 +106,9 @@ export async function testAWSConnection(): Promise<boolean> {
   try {
     // Test by trying to fetch a model URL
     const testUrl = await getModelUrl('trecc.glb')
-    console.log('🔧 AWS S3 connection test successful:', testUrl)
-    return true
+    const isAWS = testUrl.includes('cloudfront.net') || testUrl.includes('s3.amazonaws.com')
+    console.log('🔧 Model URL test result:', testUrl, isAWS ? '(AWS)' : '(Local fallback)')
+    return isAWS
   } catch (error) {
     console.error('AWS S3 connection test error:', error)
     return false

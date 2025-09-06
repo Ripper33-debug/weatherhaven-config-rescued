@@ -166,68 +166,119 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
       }}>
         {/* Left Side - Lighting Controls (Visible by default) */}
         <div className="left-controls" style={{
-          width: '340px',
-          background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.95) 50%, rgba(241, 245, 249, 0.98) 100%)',
-          backdropFilter: 'blur(25px) saturate(180%)',
-          borderRight: '1px solid rgba(59, 130, 246, 0.15)',
-          padding: '40px 32px',
+          width: '360px',
+          background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 30%, rgba(241, 245, 249, 0.95) 70%, rgba(255, 255, 255, 0.98) 100%)',
+          backdropFilter: 'blur(30px) saturate(200%) brightness(1.1)',
+          borderRight: '2px solid rgba(59, 130, 246, 0.2)',
+          padding: '48px 36px',
           display: 'flex',
           flexDirection: 'column',
-          gap: '32px',
-          boxShadow: '12px 0 50px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.05), inset 1px 0 0 rgba(255, 255, 255, 0.1)',
+          gap: '36px',
+          boxShadow: '16px 0 60px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.1), inset 2px 0 0 rgba(255, 255, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
           overflowY: 'auto',
           zIndex: 10,
           position: 'absolute',
           left: '0px',
           top: 0,
           height: '100%',
-          borderTopRightRadius: '28px',
-          borderBottomRightRadius: '28px'
+          borderTopRightRadius: '32px',
+          borderBottomRightRadius: '32px',
+          position: 'relative'
         }}>
-          {/* Lighting Controls Header */}
+          {/* Enhanced Header */}
           <div style={{
             textAlign: 'center',
-            marginBottom: '12px'
+            marginBottom: '24px',
+            position: 'relative',
+            padding: '24px 0',
+            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(248, 250, 252, 0.6) 100%)',
+            borderRadius: '20px',
+            border: '1px solid rgba(59, 130, 246, 0.1)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
           }}>
+            <div style={{
+              position: 'absolute',
+              top: '12px',
+              right: '16px',
+              width: '8px',
+              height: '8px',
+              background: 'linear-gradient(45deg, #4facfe, #00f2fe)',
+              borderRadius: '50%',
+              boxShadow: '0 0 12px rgba(79, 172, 254, 0.6)'
+            }} />
             <h2 style={{
-              fontSize: '20px',
-              fontWeight: '800',
-              color: '#1a1a2e',
+              fontSize: '28px',
+              fontWeight: '900',
+              background: 'linear-gradient(135deg, #1a1a2e 0%, #4facfe 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
               margin: '0 0 8px 0',
-              letterSpacing: '-0.5px'
+              textTransform: 'uppercase',
+              letterSpacing: '2px',
+              textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
             }}>
-              Lighting Controls
+              TRECC
             </h2>
             <p style={{
-              fontSize: '13px',
-              color: '#666',
+              fontSize: '14px',
+              color: '#4a5568',
               margin: '0',
-              fontWeight: '500'
+              fontWeight: '600',
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px'
             }}>
-              Adjust scene lighting
+              Lighting Controls
             </p>
           </div>
 
           {/* Sun Intensity Control */}
           <div style={{
-            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.8) 100%)',
-            borderRadius: '24px',
-            padding: '28px',
-            border: '1px solid rgba(59, 130, 246, 0.1)',
-            boxShadow: '0 12px 40px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
-            backdropFilter: 'blur(10px)',
+            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.85) 50%, rgba(241, 245, 249, 0.9) 100%)',
+            borderRadius: '28px',
+            padding: '32px',
+            border: '2px solid rgba(59, 130, 246, 0.15)',
+            boxShadow: '0 16px 48px rgba(0, 0, 0, 0.12), inset 0 2px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.05)',
+            backdropFilter: 'blur(15px) saturate(120%)',
             position: 'relative',
             overflow: 'hidden'
           }}>
+            {/* Decorative elements */}
+            <div style={{
+              position: 'absolute',
+              top: '16px',
+              left: '20px',
+              width: '4px',
+              height: '4px',
+              background: 'linear-gradient(45deg, #ff6b35, #f7931e)',
+              borderRadius: '50%',
+              boxShadow: '0 0 8px rgba(255, 107, 53, 0.4)'
+            }} />
+            <div style={{
+              position: 'absolute',
+              top: '24px',
+              left: '28px',
+              width: '2px',
+              height: '2px',
+              background: 'linear-gradient(45deg, #4facfe, #00f2fe)',
+              borderRadius: '50%',
+              boxShadow: '0 0 6px rgba(79, 172, 254, 0.4)'
+            }} />
             <label style={{ 
-              fontSize: '15px', 
+              fontSize: '16px', 
               display: 'block', 
-              marginBottom: '16px', 
+              marginBottom: '20px', 
               color: '#1a1a2e',
-              fontWeight: '800',
-              textAlign: 'center'
+              fontWeight: '900',
+              textAlign: 'center',
+              textTransform: 'uppercase',
+              letterSpacing: '0.8px',
+              background: 'linear-gradient(135deg, #1a1a2e 0%, #4facfe 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text'
             }}>
-              Sun Intensity: {lightingState.directionalIntensity.toFixed(1)}
+              ☀️ Sun Intensity: {lightingState.directionalIntensity.toFixed(1)}
             </label>
             <input
               type="range"
@@ -238,12 +289,15 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               onChange={(e) => handleLightingChange('directionalIntensity', parseFloat(e.target.value))}
               style={{ 
                 width: '100%',
-                height: '10px',
-                borderRadius: '5px',
-                background: 'linear-gradient(90deg, #f093fb 0%, #f5576c 100%)',
+                height: '12px',
+                borderRadius: '8px',
+                background: 'linear-gradient(90deg, #ff6b35 0%, #f7931e 50%, #4facfe 100%)',
                 outline: 'none',
                 cursor: 'pointer',
-                boxShadow: 'inset 0 3px 6px rgba(0, 0, 0, 0.1)'
+                boxShadow: 'inset 0 4px 8px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                WebkitAppearance: 'none',
+                appearance: 'none'
               }}
             />
             <div style={{ 
@@ -471,45 +525,69 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
 
         {/* Professional Controls Panel (Visible by default) */}
         <div className="controls-panel" style={{
-          width: '360px',
-          background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.95) 50%, rgba(241, 245, 249, 0.98) 100%)',
-          backdropFilter: 'blur(25px) saturate(180%)',
-          borderLeft: '1px solid rgba(59, 130, 246, 0.15)',
-          padding: '40px 32px',
+          width: '380px',
+          background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 30%, rgba(241, 245, 249, 0.95) 70%, rgba(255, 255, 255, 0.98) 100%)',
+          backdropFilter: 'blur(30px) saturate(200%) brightness(1.1)',
+          borderLeft: '2px solid rgba(59, 130, 246, 0.2)',
+          padding: '48px 36px',
           display: 'flex',
           flexDirection: 'column',
-          gap: '32px',
-          boxShadow: '-12px 0 50px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.05), inset -1px 0 0 rgba(255, 255, 255, 0.1)',
+          gap: '36px',
+          boxShadow: '-16px 0 60px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.1), inset -2px 0 0 rgba(255, 255, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
           overflowY: 'auto',
           position: 'absolute',
           right: '0px',
           top: 0,
           height: '100%',
           zIndex: 10,
-          borderTopLeftRadius: '28px',
-          borderBottomLeftRadius: '28px'
+          borderTopLeftRadius: '32px',
+          borderBottomLeftRadius: '32px',
+          position: 'relative'
         }}>
-          {/* Header */}
+          {/* Enhanced Header */}
           <div style={{
             textAlign: 'center',
-            marginBottom: '12px'
+            marginBottom: '24px',
+            position: 'relative',
+            padding: '24px 0',
+            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(248, 250, 252, 0.6) 100%)',
+            borderRadius: '20px',
+            border: '1px solid rgba(59, 130, 246, 0.1)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
           }}>
+            <div style={{
+              position: 'absolute',
+              top: '12px',
+              left: '16px',
+              width: '8px',
+              height: '8px',
+              background: 'linear-gradient(45deg, #ff6b35, #f7931e)',
+              borderRadius: '50%',
+              boxShadow: '0 0 12px rgba(255, 107, 53, 0.6)'
+            }} />
             <h1 style={{
-              fontSize: '24px',
-              fontWeight: '800',
-              color: '#1a1a2e',
+              fontSize: '28px',
+              fontWeight: '900',
+              background: 'linear-gradient(135deg, #1a1a2e 0%, #4facfe 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
               margin: '0 0 8px 0',
-              letterSpacing: '-0.5px'
+              textTransform: 'uppercase',
+              letterSpacing: '2px',
+              textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
             }}>
               {shelterName}
             </h1>
             <p style={{
               fontSize: '14px',
-              color: '#666',
+              color: '#4a5568',
               margin: '0',
-              fontWeight: '500'
+              fontWeight: '600',
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px'
             }}>
-              Customize your shelter configuration
+              Shelter Configuration
             </p>
           </div>
 

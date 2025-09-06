@@ -233,10 +233,10 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
 
           {/* Sun Intensity Control */}
           <div style={{
-            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.15) 100%)',
+            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.35) 50%, rgba(255, 255, 255, 0.3) 100%)',
             borderRadius: '28px',
             padding: '32px',
-            border: '2px solid rgba(59, 130, 246, 0.15)',
+            border: '2px solid rgba(255, 255, 255, 0.3)',
             boxShadow: '0 16px 48px rgba(0, 0, 0, 0.12), inset 0 2px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.05)',
             backdropFilter: 'blur(15px) saturate(120%)',
             position: 'relative',
@@ -382,10 +382,10 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
 
           {/* Specifications */}
           <div style={{
-            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.15) 100%)',
+            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.35) 50%, rgba(255, 255, 255, 0.3) 100%)',
             borderRadius: '28px',
             padding: '32px',
-            border: '2px solid rgba(59, 130, 246, 0.15)',
+            border: '2px solid rgba(255, 255, 255, 0.3)',
             boxShadow: '0 16px 48px rgba(0, 0, 0, 0.12), inset 0 2px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.05)',
             backdropFilter: 'blur(15px) saturate(120%)',
             position: 'relative',
@@ -429,38 +429,38 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '14px', color: '#666', fontWeight: '600' }}>Dimensions:</span>
-                <span style={{ fontSize: '14px', color: '#1a1a2e', fontWeight: '700' }}>20' × 8' × 8'</span>
+                <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Dimensions:</span>
+                <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>20' × 8' × 8'</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '14px', color: '#666', fontWeight: '600' }}>Weight:</span>
-                <span style={{ fontSize: '14px', color: '#1a1a2e', fontWeight: '700' }}>2,400 lbs</span>
+                <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Weight:</span>
+                <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>2,400 lbs</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '14px', color: '#666', fontWeight: '600' }}>Capacity:</span>
-                <span style={{ fontSize: '14px', color: '#1a1a2e', fontWeight: '700' }}>8-12 personnel</span>
+                <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Capacity:</span>
+                <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>8-12 personnel</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '14px', color: '#666', fontWeight: '600' }}>Deployment:</span>
-                <span style={{ fontSize: '14px', color: '#1a1a2e', fontWeight: '700' }}>15 minutes</span>
+                <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Deployment:</span>
+                <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>15 minutes</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '14px', color: '#666', fontWeight: '600' }}>Power:</span>
-                <span style={{ fontSize: '14px', color: '#1a1a2e', fontWeight: '700' }}>Solar + Generator</span>
+                <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Power:</span>
+                <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>Solar + Generator</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '14px', color: '#666', fontWeight: '600' }}>Temperature:</span>
-                <span style={{ fontSize: '14px', color: '#1a1a2e', fontWeight: '700' }}>-40°F to +120°F</span>
+                <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Temperature:</span>
+                <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>-40°F to +120°F</span>
               </div>
             </div>
           </div>
 
           {/* Color Selection */}
           <div style={{
-            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.15) 100%)',
+            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.35) 50%, rgba(255, 255, 255, 0.3) 100%)',
             borderRadius: '28px',
             padding: '32px',
-            border: '2px solid rgba(59, 130, 246, 0.15)',
+            border: '2px solid rgba(255, 255, 255, 0.3)',
             boxShadow: '0 16px 48px rgba(0, 0, 0, 0.12), inset 0 2px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.05)',
             backdropFilter: 'blur(15px) saturate(120%)',
             position: 'relative',
@@ -565,10 +565,10 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
 
           {/* View Options */}
           <div style={{
-            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.15) 100%)',
+            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.35) 50%, rgba(255, 255, 255, 0.3) 100%)',
             borderRadius: '28px',
             padding: '32px',
-            border: '2px solid rgba(59, 130, 246, 0.15)',
+            border: '2px solid rgba(255, 255, 255, 0.3)',
             boxShadow: '0 16px 48px rgba(0, 0, 0, 0.12), inset 0 2px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.05)',
             backdropFilter: 'blur(15px) saturate(120%)',
             position: 'relative',

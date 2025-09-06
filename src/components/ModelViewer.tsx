@@ -37,6 +37,18 @@ export function ModelViewerScene({
       {/* Camera */}
       <PerspectiveCamera makeDefault position={[6, 4, 6]} fov={60} near={0.1} far={200} />
 
+      {/* Ground Plane */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.1, 0]} receiveShadow>
+        <planeGeometry args={[50, 50]} />
+        <meshStandardMaterial 
+          color="#2a2a2a" 
+          roughness={0.8} 
+          metalness={0.1}
+          transparent
+          opacity={0.8}
+        />
+      </mesh>
+
       {/* Controls */}
       <OrbitControls
         enablePan
@@ -47,8 +59,8 @@ export function ModelViewerScene({
         zoomSpeed={1}
         rotateSpeed={0.9}
         panSpeed={0.8}
-        minPolarAngle={Math.PI / 4}
-        maxPolarAngle={Math.PI * 0.8}
+        minPolarAngle={Math.PI / 6} // Prevent going under the shelter
+        maxPolarAngle={Math.PI - Math.PI / 6} // Prevent going under the shelter
         minDistance={2}
         maxDistance={20}
       />
@@ -170,6 +182,18 @@ function Scene({ color = '#3C3B2E' }: { color?: string }) {
       {/* Camera */}
       <PerspectiveCamera makeDefault position={[6, 4, 6]} fov={60} near={0.1} far={200} />
 
+      {/* Ground Plane */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.1, 0]} receiveShadow>
+        <planeGeometry args={[50, 50]} />
+        <meshStandardMaterial 
+          color="#2a2a2a" 
+          roughness={0.8} 
+          metalness={0.1}
+          transparent
+          opacity={0.8}
+        />
+      </mesh>
+
       {/* Controls: LEFT = ROTATE, RIGHT = PAN, MIDDLE = ZOOM */}
       <OrbitControls
         ref={controlsRef}
@@ -181,10 +205,11 @@ function Scene({ color = '#3C3B2E' }: { color?: string }) {
         zoomSpeed={1}
         rotateSpeed={0.9}
         panSpeed={0.8}
-        minPolarAngle={Math.PI / 4}
-        maxPolarAngle={Math.PI * 0.8}
+        minPolarAngle={Math.PI / 6} // Prevent going under the shelter (30 degrees from top)
+        maxPolarAngle={Math.PI - Math.PI / 6} // Prevent going under the shelter (30 degrees from bottom)
         minDistance={2}
         maxDistance={20}
+        target={cameraTarget.current}
       />
 
       {/* Lights */}

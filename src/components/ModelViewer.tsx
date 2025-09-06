@@ -63,7 +63,7 @@ export function ModelViewerScene({
         zoomSpeed={1}
         rotateSpeed={0.9}
         minPolarAngle={0} // 0 degrees from top (can go straight up)
-        maxPolarAngle={Math.PI / 2} // 90 degrees from top (horizontal, can't go down)
+        maxPolarAngle={Math.PI / 18} // 10 degrees from top (very restrictive)
         minDistance={3}
         maxDistance={15}
         target={cameraTarget.current}
@@ -209,7 +209,7 @@ function Scene({ color = '#3C3B2E' }: { color?: string }) {
         zoomSpeed={1}
         rotateSpeed={0.9}
         minPolarAngle={0} // 0 degrees from top (can go straight up)
-        maxPolarAngle={Math.PI / 2} // 90 degrees from top (horizontal, can't go down)
+        maxPolarAngle={Math.PI / 18} // 10 degrees from top (very restrictive)
         minDistance={3}
         maxDistance={15}
         target={cameraTarget.current}

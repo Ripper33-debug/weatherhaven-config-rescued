@@ -4,6 +4,7 @@ import React, { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
 import { useGLTF, Html, OrbitControls, Environment, PerspectiveCamera } from '@react-three/drei';
 import * as THREE from 'three';
+import { ModelViewerSceneProps, TreccModelProps, ReadyInfo } from '../types';
 
 /** Full-page viewer wrapper */
 export default function ModelViewer() {
@@ -26,16 +27,10 @@ export function ModelViewerScene({
   environment, 
   weather, 
   lighting, 
-  background3D 
-}: {
-  modelPath: string;
-  color: string;
-  isDeployed: boolean;
-  environment: string;
-  weather: string;
-  lighting: any;
-  background3D: any;
-}) {
+  background3D,
+  onModelReady,
+  onColorApplied
+}: ModelViewerSceneProps) {
   return (
     <>
       {/* Camera */}
@@ -81,8 +76,9 @@ export function ModelViewerScene({
         modelPath={modelPath}
         color={color}
         onReady={({ center, radius }) => {
-          // Model ready callback
+          onModelReady?.();
         }}
+        onColorApplied={onColorApplied}
       />
     </>
   );
@@ -227,17 +223,13 @@ function Scene({ color = '#3C3B2E' }: { color?: string }) {
 }
 
 /* ---------------- Model (trecc.glb) ---------------- */
-type ReadyInfo = { center: THREE.Vector3; radius: number };
 
 function TreccModel({
   modelPath,
   color,
   onReady,
-}: {
-  modelPath?: string;
-  color?: string;
-  onReady?: (info: ReadyInfo) => void;
-}) {
+  onColorApplied,
+}: TreccModelProps) {
   const path = modelPath || '/models/trecc.glb';
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [loadingStage, setLoadingStage] = useState('Loading model...');
@@ -299,6 +291,7 @@ function TreccModel({
     // Throttle color application to prevent stuttering
     const timeoutId = setTimeout(() => {
       applyBodyColor(scene, color);
+      onColorApplied?.();
     }, 100);
     
     return () => clearTimeout(timeoutId);

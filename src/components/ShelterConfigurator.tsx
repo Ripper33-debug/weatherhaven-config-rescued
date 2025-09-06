@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { ModelViewerScene } from './ModelViewer';
+import ErrorBoundary from './ErrorBoundary';
 import * as THREE from 'three';
-
-interface ConfigState {
-  color: string;
-  isDeployed: boolean;
-  isInteriorView: boolean;
-  isInsideView: boolean;
-}
+import { ConfigState, ColorOption } from '../types';
 
 interface ShelterConfiguratorProps {
   shelterId?: string;
@@ -28,7 +23,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   console.log('🏷️ Shelter Name:', shelterName);
   }
 
-  const colorOptions = [
+  const colorOptions: ColorOption[] = [
     { name: 'OD Green (Olive Drab)', value: '#3C3B2E' },
     { name: 'CARC Tan (Desert)', value: '#B8A082' },
     { name: 'Arctic White', value: '#F8F8F8' }
@@ -40,6 +35,10 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
     isInteriorView: false,
     isInsideView: false,
   });
+
+  // Loading states
+  const [isApplyingColor, setIsApplyingColor] = useState(false);
+  const [isModelLoading, setIsModelLoading] = useState(true);
 
 
 
@@ -64,9 +63,15 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
 
   const handleColorChange = (newColor: string) => {
     if (process.env.NODE_ENV === 'development') {
-    console.log('🎨 Color change requested:', newColor);
+      console.log('🎨 Color change requested:', newColor);
     }
+    setIsApplyingColor(true);
     setConfigState(prev => ({ ...prev, color: newColor }));
+    
+    // Simulate color application time
+    setTimeout(() => {
+      setIsApplyingColor(false);
+    }, 500);
   };
 
   const handleDeployToggle = () => {
@@ -491,34 +496,76 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
           height: '100%',
           background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)'
         }}>
-          <Canvas
-            camera={{ position: [5, 3, 5], fov: 50 }}
-            shadows
-            gl={{
-              antialias: true,
-              alpha: true,
-              powerPreference: 'high-performance',
-              failIfMajorPerformanceCaveat: false
-            }}
-            onCreated={({ gl }) => {
-              gl.shadowMap.enabled = true;
-              gl.shadowMap.type = THREE.PCFSoftShadowMap;
-            }}
-          >
-            <ModelViewerScene
-              modelPath={getModelPath()}
-              color={configState.color}
-              isDeployed={configState.isDeployed}
-              environment="studio"
-              weather="none"
-              lighting={{
-                ambientIntensity: 0.3,
-                directionalIntensity: 1.2,
-                sunPosition: { x: 5, y: 8, z: 5 }
+          {/* Loading Overlay */}
+          {(isModelLoading || isApplyingColor) && (
+            <div style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'rgba(0, 0, 0, 0.7)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 100,
+              backdropFilter: 'blur(4px)'
+            }}>
+              <div style={{
+                background: 'rgba(255, 255, 255, 0.1)',
+                padding: '24px 32px',
+                borderRadius: '16px',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                textAlign: 'center',
+                color: 'white'
+              }}>
+                <div style={{
+                  width: '40px',
+                  height: '40px',
+                  border: '3px solid rgba(255, 255, 255, 0.3)',
+                  borderTop: '3px solid #3b82f6',
+                  borderRadius: '50%',
+                  animation: 'spin 1s linear infinite',
+                  margin: '0 auto 16px'
+                }} />
+                <div style={{ fontSize: '16px', fontWeight: '600' }}>
+                  {isModelLoading ? 'Loading Model...' : 'Applying Color...'}
+                </div>
+              </div>
+            </div>
+          )}
+          <ErrorBoundary>
+            <Canvas
+              camera={{ position: [5, 3, 5], fov: 50 }}
+              shadows
+              gl={{
+                antialias: true,
+                alpha: true,
+                powerPreference: 'high-performance',
+                failIfMajorPerformanceCaveat: false
               }}
-              background3D={{}}
-            />
-          </Canvas>
+              onCreated={({ gl }) => {
+                gl.shadowMap.enabled = true;
+                gl.shadowMap.type = THREE.PCFSoftShadowMap;
+              }}
+            >
+              <ModelViewerScene
+                modelPath={getModelPath()}
+                color={configState.color}
+                isDeployed={configState.isDeployed}
+                environment="studio"
+                weather="none"
+                lighting={{
+                  ambientIntensity: 0.3,
+                  directionalIntensity: 1.2,
+                  sunPosition: { x: 5, y: 8, z: 5 }
+                }}
+                background3D={{}}
+                onModelReady={() => setIsModelLoading(false)}
+                onColorApplied={() => setIsApplyingColor(false)}
+              />
+            </Canvas>
+          </ErrorBoundary>
         </div>
       </div>
 

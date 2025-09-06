@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { ModelViewerScene } from './ModelViewer';
 import ErrorBoundary from './ErrorBoundary';
-import { preloadModel, getAvailableModels, testSupabaseConnection } from '../lib/supabase';
+import { preloadModel, getAvailableModels, testAWSConnection } from '../lib/aws';
 import * as THREE from 'three';
 import { ConfigState, ColorOption } from '../types';
 
@@ -46,9 +46,9 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   useEffect(() => {
     const loadModels = async () => {
       try {
-        // Test Supabase connection first
-        const isSupabaseWorking = await testSupabaseConnection();
-        console.log('🔧 Supabase working:', isSupabaseWorking);
+        // Test AWS connection first
+               const isAWSWorking = await testAWSConnection();
+        console.log('🔧 AWS working:', isAWSWorking);
         
         const models = await getAvailableModels();
         setAvailableModels(models);

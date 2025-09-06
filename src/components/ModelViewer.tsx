@@ -5,7 +5,7 @@ import { Canvas, useThree } from '@react-three/fiber';
 import { useGLTF, Html, OrbitControls, Environment, PerspectiveCamera } from '@react-three/drei';
 import * as THREE from 'three';
 import { ModelViewerSceneProps, TreccModelProps, ReadyInfo } from '../types';
-import { getModelUrl, preloadModel } from '../lib/supabase';
+import { getModelUrl, preloadModel } from '../lib/aws';
 
 /** Full-page viewer wrapper */
 export default function ModelViewer() {

@@ -78,7 +78,7 @@ export async function getAvailableModels(): Promise<ModelConfig[]> {
 }
 
 // Test AWS S3 connection
-export async function testSupabaseConnection(): Promise<boolean> {
+export async function testAWSConnection(): Promise<boolean> {
   try {
     // Test by trying to fetch a model URL
     const testUrl = await getModelUrl('trecc.glb')

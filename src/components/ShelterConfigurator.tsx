@@ -63,9 +63,13 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   const handleColorChange = (newColor: string) => {
     console.log('🎨 Color change requested:', newColor);
     console.log('🎨 Previous color was:', configState.color);
+    console.log('🎨 Color options available:', colorOptions);
     setConfigState(prev => {
       console.log('🎨 Setting new color:', newColor);
-      return { ...prev, color: newColor };
+      console.log('🎨 Previous state:', prev);
+      const newState = { ...prev, color: newColor };
+      console.log('🎨 New state:', newState);
+      return newState;
     });
   };
 
@@ -214,126 +218,13 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
 
 
 
-          {/* Specifications */}
-          <h3 style={{
-            fontSize: '18px',
-            fontWeight: '900',
-            color: 'white',
-            margin: '0 0 20px 0',
-            textAlign: 'center',
-            textTransform: 'uppercase',
-            letterSpacing: '1px'
-          }}>
-            📋 Specifications
-          </h3>
-          
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '36px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Dimensions:</span>
-              <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>20' × 8' × 8'</span>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Weight:</span>
-              <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>2,400 lbs</span>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Capacity:</span>
-              <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>8-12 personnel</span>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Deployment:</span>
-              <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>15 minutes</span>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Power:</span>
-              <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>Solar + Generator</span>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Temperature:</span>
-              <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>-40°F to +120°F</span>
-            </div>
-          </div>
-
-          {/* Color Options */}
-          <h3 style={{
-            fontSize: '18px',
-            fontWeight: '900',
-            color: 'white',
-            margin: '0 0 20px 0',
-            textAlign: 'center',
-            textTransform: 'uppercase',
-            letterSpacing: '1px'
-          }}>
-            🎨 Color Options
-          </h3>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '36px' }}>
-            {colorOptions.map((option) => (
-              <button
-                key={option.value}
-                onClick={() => handleColorChange(option.value)}
-                  style={{ 
-                  background: configState.color === option.value 
-                    ? 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)'
-                    : 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
-                  color: 'white',
-                  border: configState.color === option.value 
-                    ? '2px solid rgba(102, 126, 234, 0.3)'
-                    : '2px solid rgba(59, 130, 246, 0.1)',
-                  borderRadius: '16px',
-                  padding: '16px 20px',
-                  fontSize: '14px',
-                  fontWeight: '700',
-                    cursor: 'pointer',
-                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                  boxShadow: configState.color === option.value
-                    ? '0 8px 25px rgba(102, 126, 234, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
-                    : '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.5px',
-                  position: 'relative',
-                  overflow: 'hidden'
-                }}
-                onMouseEnter={(e) => {
-                  if (configState.color !== option.value) {
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                    e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3)';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (configState.color !== option.value) {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
-                  }
-                }}
-              >
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  width: '100%'
-                }}>
-                  <span>{option.name}</span>
-                  <div style={{
-                    width: '24px',
-                    height: '24px',
-                    borderRadius: '50%',
-                    background: option.value,
-                    border: '2px solid rgba(255, 255, 255, 0.3)',
-                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
-                  }} />
-              </div>
-              </button>
-            ))}
-            </div>
-
           {/* View Options */}
           <h3 style={{
             fontSize: '18px',
             fontWeight: '900',
             color: 'white',
             margin: '0 0 20px 0',
-              textAlign: 'center',
+            textAlign: 'center',
             textTransform: 'uppercase',
             letterSpacing: '1px'
           }}>
@@ -448,6 +339,119 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             >
               📹 Walkthrough Video
             </button>
+          </div>
+
+          {/* Color Options */}
+          <h3 style={{
+            fontSize: '18px',
+            fontWeight: '900',
+            color: 'white',
+            margin: '0 0 20px 0',
+            textAlign: 'center',
+            textTransform: 'uppercase',
+            letterSpacing: '1px'
+          }}>
+            🎨 Color Options
+          </h3>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '36px' }}>
+            {colorOptions.map((option) => (
+              <button
+                key={option.value}
+                onClick={() => handleColorChange(option.value)}
+                style={{
+                  background: configState.color === option.value 
+                    ? 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)'
+                    : 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                  color: 'white',
+                  border: configState.color === option.value 
+                    ? '2px solid rgba(102, 126, 234, 0.3)'
+                    : '2px solid rgba(59, 130, 246, 0.1)',
+                  borderRadius: '16px',
+                  padding: '16px 20px',
+                  fontSize: '14px',
+                  fontWeight: '700',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  boxShadow: configState.color === option.value
+                    ? '0 8px 25px rgba(102, 126, 234, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                    : '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px',
+                  position: 'relative',
+                  overflow: 'hidden'
+                }}
+                onMouseEnter={(e) => {
+                  if (configState.color !== option.value) {
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (configState.color !== option.value) {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
+                  }
+                }}
+              >
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  width: '100%'
+                }}>
+                  <span>{option.name}</span>
+                  <div style={{
+                    width: '24px',
+                    height: '24px',
+                    borderRadius: '50%',
+                    background: option.value,
+                    border: '2px solid rgba(255, 255, 255, 0.3)',
+                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
+                  }} />
+                </div>
+              </button>
+            ))}
+          </div>
+
+          {/* Specifications */}
+          <h3 style={{
+            fontSize: '18px',
+            fontWeight: '900',
+            color: 'white',
+            margin: '0 0 20px 0',
+            textAlign: 'center',
+            textTransform: 'uppercase',
+            letterSpacing: '1px'
+          }}>
+            📋 Specifications
+          </h3>
+          
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '36px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Dimensions:</span>
+              <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>20' × 8' × 8'</span>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Weight:</span>
+              <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>2,400 lbs</span>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Capacity:</span>
+              <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>8-12 personnel</span>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Deployment:</span>
+              <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>15 minutes</span>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Power:</span>
+              <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>Solar + Generator</span>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Temperature:</span>
+              <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>-40°F to +120°F</span>
+            </div>
           </div>
 
           {/* Reset Button */}

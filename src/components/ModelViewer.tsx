@@ -294,10 +294,16 @@ function TreccModel({
 
   // Conservative paint (only "body/shell" words; avoids wheels/chassis)
   useEffect(() => {
-    if (!scene || !color) return;
+    if (!scene || !color) {
+      console.log('🎨 ModelViewer: No scene or color, skipping color application', { scene: !!scene, color });
+      return;
+    }
+    
+    console.log('🎨 ModelViewer: Applying color to model:', color);
     
     // Throttle color application to prevent stuttering
     const timeoutId = setTimeout(() => {
+      console.log('🎨 ModelViewer: Executing color application for:', color);
       applyBodyColor(scene, color);
     }, 100);
     
@@ -351,6 +357,8 @@ useGLTF.preload('/models/interiors/CommandPosting.glb');
 
 /* ---------------- Colour helper ---------------- */
 function applyBodyColor(root: THREE.Object3D, hex: string) {
+  console.log('🎨 applyBodyColor called with color:', hex);
+  
   const bodyMatchers = [
     'body','shell','hull','canopy','tarp','wall','panel','roof','door','side',
     'skin','cover','enclosure','housing','box','container',
@@ -363,9 +371,14 @@ function applyBodyColor(root: THREE.Object3D, hex: string) {
     'solar','photovoltaic','pv','cell','array','grid','corrugated'
   ];
   const paint = new THREE.Color(hex);
+  
+  let meshCount = 0;
+  let coloredCount = 0;
 
   root.traverse((o: any) => {
     if (!o.isMesh) return;
+    meshCount++;
+    
     const name = (o.name + ' ' + (o.material?.name || '')).toLowerCase();
     const isBody = bodyMatchers.some(k => name.includes(k));
     const isExcluded = excludeMatchers.some(k => name.includes(k));
@@ -376,19 +389,29 @@ function applyBodyColor(root: THREE.Object3D, hex: string) {
                         name.includes('cell') || name.includes('array') || name.includes('grid') || 
                         name.includes('corrugated');
     
-    // Debug logging for roof and solar components
-    if (isRoof || isSolarPanel) {
-      console.log('🏠 Roof/Solar Mesh:', o.name, 'Material:', o.material?.name, 'isRoof:', isRoof, 'isSolarPanel:', isSolarPanel);
-    }
+    // Debug logging for all meshes
+    console.log(`🎨 Mesh ${meshCount}:`, o.name, 'Material:', o.material?.name, 'isBody:', isBody, 'isExcluded:', isExcluded, 'isRoof:', isRoof, 'isSolarPanel:', isSolarPanel);
     
     // Don't color solar panels specifically
-    if (isSolarPanel) return;
+    if (isSolarPanel) {
+      console.log('🚫 Skipping solar panel:', o.name);
+      return;
+    }
     
     // Don't color other excluded parts (hardware, etc.)
-    if (isExcluded && !isRoof) return;
+    if (isExcluded && !isRoof) {
+      console.log('🚫 Skipping excluded part:', o.name);
+      return;
+    }
     
     // Color body parts, roof, or if no body matchers found, color everything that's not excluded
-    if (!isBody && !isRoof && bodyMatchers.length > 0) return;
+    if (!isBody && !isRoof && bodyMatchers.length > 0) {
+      console.log('🚫 Skipping non-body part:', o.name);
+      return;
+    }
+
+    console.log('✅ Coloring mesh:', o.name);
+    coloredCount++;
 
     const mats = Array.isArray(o.material) ? o.material : [o.material];
     mats.forEach((m: any, i: number) => {
@@ -403,6 +426,7 @@ function applyBodyColor(root: THREE.Object3D, hex: string) {
           envMapIntensity: 0.3
         });
         if (Array.isArray(o.material)) o.material[i] = mat; else o.material = mat;
+        console.log('🎨 Created new material for:', o.name);
       } else {
         // Modify existing material directly for better performance
         m.color.copy(paint);
@@ -410,7 +434,10 @@ function applyBodyColor(root: THREE.Object3D, hex: string) {
         m.roughness = Math.max(m.roughness ?? 0.6, 0.35);
         m.envMapIntensity = 0.3;
         m.needsUpdate = true;
+        console.log('🎨 Updated existing material for:', o.name, 'to color:', hex);
       }
     });
   });
+  
+  console.log(`🎨 Color application complete: ${coloredCount}/${meshCount} meshes colored`);
 }

@@ -144,7 +144,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
     // Always load the single base model for all configurations
     if (shelterId === 'command-posting') {
       return "/models/interiors/CommandPosting.glb";
-    } else {
+      } else {
       // Use single TRECC model for all states - colors and views applied dynamically
       return "/models/trecc.glb";
     }
@@ -258,63 +258,76 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             position: 'relative',
             overflow: 'hidden'
           }}>
-            <label style={{ 
-              fontSize: '15px', 
-              display: 'block', 
-              marginBottom: '16px', 
-              color: 'white',
-              fontWeight: '800',
-              textAlign: 'center'
-            }}>
-              Lighting Presets
-            </label>
-            
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              {[
-                { name: 'Day', ambient: 0.4, directional: 1.5, sun: { x: 5, y: 10, z: 5 } },
-                { name: 'Night', ambient: 0.1, directional: 0.3, sun: { x: -5, y: 2, z: -5 } },
-                { name: 'Overcast', ambient: 0.6, directional: 0.8, sun: { x: 3, y: 6, z: 3 } },
-                { name: 'Desert', ambient: 0.2, directional: 2.0, sun: { x: 8, y: 12, z: 8 } }
-              ].map((preset) => (
-                <button
-                  key={preset.name}
-                  onClick={() => {
-                    setLightingState({
-                      ambientIntensity: preset.ambient,
-                      directionalIntensity: preset.directional,
-                      sunPosition: preset.sun
-                    });
-                  }}
-                  style={{
-                    background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '16px',
-                    padding: '14px 20px',
-                    fontSize: '13px',
-                    fontWeight: '800',
+            <button
+              onClick={() => toggleSection('lighting')}
+                  style={{ 
+                background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                color: 'white',
+                border: 'none',
+                borderRadius: '16px',
+                padding: '16px 20px',
+                fontSize: '14px',
+                fontWeight: '700',
                     cursor: 'pointer',
-                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                    boxShadow: '0 8px 25px rgba(102, 126, 234, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.8px',
-                    position: 'relative',
-                    overflow: 'hidden'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                    e.currentTarget.style.boxShadow = '0 6px 20px rgba(79, 172, 254, 0.4)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 4px 15px rgba(79, 172, 254, 0.3)';
-                  }}
-                >
-                  {preset.name}
-                </button>
-              ))}
-            </div>
-          </div>
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                boxShadow: '0 8px 25px rgba(59, 130, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px',
+                width: '100%',
+                marginBottom: openSections.lighting ? '20px' : '0'
+              }}
+            >
+              💡 Lighting Presets {openSections.lighting ? '▼' : '▶'}
+            </button>
+            
+            {openSections.lighting && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {[
+                  { name: 'Day', ambient: 0.4, directional: 1.5, sun: { x: 5, y: 10, z: 5 } },
+                  { name: 'Night', ambient: 0.1, directional: 0.3, sun: { x: -5, y: 2, z: -5 } },
+                  { name: 'Overcast', ambient: 0.6, directional: 0.8, sun: { x: 3, y: 6, z: 3 } },
+                  { name: 'Desert', ambient: 0.2, directional: 2.0, sun: { x: 8, y: 12, z: 8 } }
+                ].map((preset) => (
+          <button
+                    key={preset.name}
+            onClick={() => {
+              setLightingState({
+                        ambientIntensity: preset.ambient,
+                        directionalIntensity: preset.directional,
+                        sunPosition: preset.sun
+              });
+            }}
+            style={{
+                      background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+              color: 'white',
+              border: 'none',
+              borderRadius: '16px',
+                      padding: '14px 20px',
+                      fontSize: '13px',
+              fontWeight: '800',
+              cursor: 'pointer',
+                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                      boxShadow: '0 8px 25px rgba(102, 126, 234, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+              textTransform: 'uppercase',
+                      letterSpacing: '0.8px',
+                      position: 'relative',
+                      overflow: 'hidden'
+            }}
+            onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-2px)';
+                      e.currentTarget.style.boxShadow = '0 6px 20px rgba(79, 172, 254, 0.4)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = '0 4px 15px rgba(79, 172, 254, 0.3)';
+            }}
+          >
+                    {preset.name}
+          </button>
+                ))}
+              </div>
+            )}
+        </div>
 
           {/* Specifications */}
           <div style={{
@@ -324,7 +337,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             border: '2px solid rgba(255, 255, 255, 0.3)',
             boxShadow: '0 16px 48px rgba(0, 0, 0, 0.12), inset 0 2px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.05)',
             backdropFilter: 'blur(15px) saturate(120%)',
-            position: 'relative',
+          position: 'relative',
             overflow: 'hidden'
           }}>
             {/* Decorative elements */}
@@ -348,54 +361,63 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               borderRadius: '50%',
               boxShadow: '0 0 6px rgba(79, 172, 254, 0.4)'
             }} />
-            <h3 style={{
-              fontSize: '18px',
-              fontWeight: '900',
-              background: 'linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              margin: '0 0 24px 0',
-              textAlign: 'center',
-              textTransform: 'uppercase',
-              letterSpacing: '1px'
-            }}>
-              📋 Specifications
-            </h3>
+            <button
+              onClick={() => toggleSection('specifications')}
+              style={{
+                background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                color: 'white',
+                border: 'none',
+                borderRadius: '16px',
+                padding: '16px 20px',
+                fontSize: '14px',
+                fontWeight: '700',
+                cursor: 'pointer',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                boxShadow: '0 8px 25px rgba(59, 130, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px',
+                width: '100%',
+                marginBottom: openSections.specifications ? '20px' : '0'
+              }}
+            >
+              📋 Specifications {openSections.specifications ? '▼' : '▶'}
+            </button>
             
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Dimensions:</span>
-                <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>20' × 8' × 8'</span>
+            {openSections.specifications && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Dimensions:</span>
+                  <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>20' × 8' × 8'</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Weight:</span>
+                  <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>2,400 lbs</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Capacity:</span>
+                  <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>8-12 personnel</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Deployment:</span>
+                  <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>15 minutes</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Power:</span>
+                  <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>Solar + Generator</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Temperature:</span>
+                  <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>-40°F to +120°F</span>
+                </div>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Weight:</span>
-                <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>2,400 lbs</span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Capacity:</span>
-                <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>8-12 personnel</span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Deployment:</span>
-                <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>15 minutes</span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Power:</span>
-                <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>Solar + Generator</span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Temperature:</span>
-                <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>-40°F to +120°F</span>
-              </div>
-            </div>
-          </div>
+            )}
+        </div>
 
           {/* Color Selection */}
           <div style={{
             background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.35) 50%, rgba(255, 255, 255, 0.3) 100%)',
             borderRadius: '28px',
-            padding: '32px',
+          padding: '32px',
             border: '2px solid rgba(255, 255, 255, 0.3)',
             boxShadow: '0 16px 48px rgba(0, 0, 0, 0.12), inset 0 2px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.05)',
             backdropFilter: 'blur(15px) saturate(120%)',
@@ -403,7 +425,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             overflow: 'hidden'
           }}>
             {/* Decorative elements */}
-            <div style={{
+          <div style={{
               position: 'absolute',
               top: '16px',
               left: '20px',
@@ -413,7 +435,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               borderRadius: '50%',
               boxShadow: '0 0 8px rgba(255, 107, 53, 0.4)'
             }} />
-            <div style={{
+          <div style={{
               position: 'absolute',
               top: '24px',
               left: '28px',
@@ -423,80 +445,89 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               borderRadius: '50%',
               boxShadow: '0 0 6px rgba(79, 172, 254, 0.4)'
             }} />
-            <h3 style={{
-              fontSize: '18px',
-              fontWeight: '900',
-              background: 'linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              margin: '0 0 24px 0',
-              textAlign: 'center',
-              textTransform: 'uppercase',
-              letterSpacing: '1px'
-            }}>
-              🎨 Color Options
-            </h3>
-            
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              {colorOptions.map((option) => (
-                <button
-                  key={option.value}
-                  onClick={() => handleColorChange(option.value)}
-                  style={{
-                    background: configState.color === option.value 
-                      ? 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)'
-                      : 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
-                    color: 'white',
-                    border: configState.color === option.value 
-                      ? '2px solid rgba(102, 126, 234, 0.3)'
-                      : '2px solid rgba(59, 130, 246, 0.1)',
-                    borderRadius: '16px',
-                    padding: '16px 20px',
-                    fontSize: '14px',
-                    fontWeight: '700',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                    boxShadow: configState.color === option.value
-                      ? '0 8px 25px rgba(102, 126, 234, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
-                      : '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.5px',
-                    position: 'relative',
-                    overflow: 'hidden'
-                  }}
-                  onMouseEnter={(e) => {
-                    if (configState.color !== option.value) {
-                      e.currentTarget.style.transform = 'translateY(-2px)';
-                      e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3)';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (configState.color !== option.value) {
+                  <button
+              onClick={() => toggleSection('colors')}
+                    style={{
+                background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '16px',
+                padding: '16px 20px',
+                fontSize: '14px',
+                fontWeight: '700',
+                      cursor: 'pointer',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                boxShadow: '0 8px 25px rgba(59, 130, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+                      textTransform: 'uppercase',
+                letterSpacing: '0.5px',
+                width: '100%',
+                marginBottom: openSections.colors ? '20px' : '0'
+              }}
+            >
+              🎨 Color Options {openSections.colors ? '▼' : '▶'}
+                  </button>
+
+            {openSections.colors && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                {colorOptions.map((option) => (
+                  <button
+                    key={option.value}
+                    onClick={() => handleColorChange(option.value)}
+                    style={{
+                      background: configState.color === option.value 
+                        ? 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)'
+                        : 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                      color: 'white',
+                      border: configState.color === option.value 
+                        ? '2px solid rgba(102, 126, 234, 0.3)'
+                        : '2px solid rgba(59, 130, 246, 0.1)',
+                      borderRadius: '16px',
+                      padding: '16px 20px',
+                      fontSize: '14px',
+                      fontWeight: '700',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                      boxShadow: configState.color === option.value
+                        ? '0 8px 25px rgba(102, 126, 234, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                        : '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.5px',
+                      position: 'relative',
+                      overflow: 'hidden'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (configState.color !== option.value) {
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                        e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (configState.color !== option.value) {
                       e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
-                    }
-                  }}
-                >
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    width: '100%'
-                  }}>
-                    <span>{option.name}</span>
+                        e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
+                      }
+                    }}
+                  >
                     <div style={{
-                      width: '24px',
-                      height: '24px',
-                      borderRadius: '50%',
-                      background: option.value,
-                      border: '2px solid rgba(255, 255, 255, 0.3)',
-                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
-                    }} />
-                  </div>
-                </button>
-              ))}
-            </div>
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      width: '100%'
+                    }}>
+                      <span>{option.name}</span>
+                      <div style={{
+                        width: '24px',
+                        height: '24px',
+                        borderRadius: '50%',
+                        background: option.value,
+                        border: '2px solid rgba(255, 255, 255, 0.3)',
+                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
+                      }} />
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* View Options */}
@@ -531,63 +562,71 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               borderRadius: '50%',
               boxShadow: '0 0 6px rgba(79, 172, 254, 0.4)'
             }} />
-            <h3 style={{
-              fontSize: '18px',
-              fontWeight: '900',
-              background: 'linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              margin: '0 0 24px 0',
-              textAlign: 'center',
-              textTransform: 'uppercase',
-              letterSpacing: '1px'
-            }}>
-              👁️ View Options
-            </h3>
+                  <button
+              onClick={() => toggleSection('views')}
+                    style={{
+                background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '16px',
+                padding: '16px 20px',
+                fontSize: '14px',
+                fontWeight: '700',
+                      cursor: 'pointer',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                boxShadow: '0 8px 25px rgba(59, 130, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+                      textTransform: 'uppercase',
+                letterSpacing: '0.5px',
+                width: '100%',
+                marginBottom: openSections.views ? '20px' : '0'
+              }}
+            >
+              👁️ View Options {openSections.views ? '▼' : '▶'}
+            </button>
             
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <button
+            {openSections.views && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  <button
                 onClick={handleDeployToggle}
-                style={{
+                    style={{
                   background: configState.isDeployed 
                     ? 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)'
                     : 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
-                  color: 'white',
+                      color: 'white',
                   border: configState.isDeployed 
                     ? '2px solid rgba(102, 126, 234, 0.3)'
                     : '2px solid rgba(59, 130, 246, 0.1)',
-                  borderRadius: '16px',
+                      borderRadius: '16px',
                   padding: '16px 20px',
                   fontSize: '14px',
                   fontWeight: '700',
-                  cursor: 'pointer',
+                      cursor: 'pointer',
                   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                   boxShadow: configState.isDeployed
                     ? '0 8px 25px rgba(102, 126, 234, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
                     : '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.5px'
-                }}
-                onMouseEnter={(e) => {
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.5px'
+                    }}
+                    onMouseEnter={(e) => {
                   if (!configState.isDeployed) {
                     e.currentTarget.style.transform = 'translateY(-2px)';
                     e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3)';
                   }
-                }}
-                onMouseLeave={(e) => {
+                    }}
+                    onMouseLeave={(e) => {
                   if (!configState.isDeployed) {
-                    e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.transform = 'translateY(0)';
                     e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
                   }
-                }}
-              >
+                    }}
+                  >
                 Open View
-              </button>
+                  </button>
               
-              <button
+                <button
                 onClick={handleInteriorViewToggle}
-                style={{
+                  style={{
                   background: configState.isInsideView 
                     ? 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)'
                     : 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
@@ -595,33 +634,33 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                   border: configState.isInsideView 
                     ? '2px solid rgba(102, 126, 234, 0.3)'
                     : '2px solid rgba(59, 130, 246, 0.1)',
-                  borderRadius: '16px',
+                    borderRadius: '16px',
                   padding: '16px 20px',
                   fontSize: '14px',
                   fontWeight: '700',
-                  cursor: 'pointer',
+                    cursor: 'pointer',
                   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                   boxShadow: configState.isInsideView
                     ? '0 8px 25px rgba(102, 126, 234, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
                     : '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
                   textTransform: 'uppercase',
                   letterSpacing: '0.5px'
-                }}
-                onMouseEnter={(e) => {
+                  }}
+                  onMouseEnter={(e) => {
                   if (!configState.isInsideView) {
                     e.currentTarget.style.transform = 'translateY(-2px)';
                     e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3)';
-                  }
-                }}
-                onMouseLeave={(e) => {
+                    }
+                  }}
+                  onMouseLeave={(e) => {
                   if (!configState.isInsideView) {
-                    e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.transform = 'translateY(0)';
                     e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
                   }
                 }}
               >
                 Interior View
-              </button>
+                </button>
               
               <button
                 onClick={handleWalkthroughVideo}
@@ -654,11 +693,12 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               >
                 📹 Walkthrough Video
               </button>
-            </div>
+              </div>
+            )}
           </div>
 
           {/* Reset Button */}
-          <button
+              <button
             onClick={() => {
               setLightingState({
                 ambientIntensity: 0.3,
@@ -666,32 +706,32 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                 sunPosition: { x: 5, y: 8, z: 5 }
               });
             }}
-            style={{
+                style={{
               background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
               color: 'white',
-              border: 'none',
-              borderRadius: '16px',
+                  border: 'none',
+                  borderRadius: '16px',
               padding: '18px 24px',
               fontSize: '14px',
-              fontWeight: '800',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
+                  fontWeight: '800',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
               boxShadow: '0 8px 25px rgba(102, 126, 234, 0.4)',
-              textTransform: 'uppercase',
-              letterSpacing: '0.5px'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-3px)';
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-3px)';
               e.currentTarget.style.boxShadow = '0 12px 35px rgba(102, 126, 234, 0.5)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
               e.currentTarget.style.boxShadow = '0 8px 25px rgba(102, 126, 234, 0.4)';
-            }}
-          >
+                }}
+              >
             Reset Lighting
-          </button>
-        </div>
+              </button>
+            </div>
 
 
         {/* 3D Viewer Section */}
@@ -809,21 +849,21 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               borderRadius: '10px',
               overflow: 'hidden'
             }}>
-              <video
-                controls
-                style={{
+            <video
+              controls
+              style={{
                   position: 'absolute',
                   top: 0,
                   left: 0,
-                  width: '100%',
-                  height: '100%',
+                width: '100%',
+                height: '100%',
                   objectFit: 'cover'
-                }}
+              }}
                 poster="/videos/trecc-poster.jpg"
-              >
+            >
                 <source src="/videos/trecc-walkthrough.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+              Your browser does not support the video tag.
+            </video>
             </div>
           </div>
         </div>

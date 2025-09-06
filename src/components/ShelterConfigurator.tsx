@@ -557,21 +557,30 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               gl.shadowMap.type = THREE.PCFSoftShadowMap;
             }}
           >
-            <ModelViewerScene
-              modelPath={getModelPath()}
-              color={configState.color}
-              isDeployed={configState.isDeployed}
-              environment="studio"
-              weather="none"
+              <ModelViewerScene
+                modelPath={getModelPath()}
+                color={(() => {
+                  console.log('🎨 Passing color to ModelViewerScene:', configState.color);
+                  return configState.color;
+                })()}
+                isDeployed={configState.isDeployed}
+                environment="studio"
+                weather="none"
                 lighting={{
                   ambientIntensity: 0.3,
                   directionalIntensity: 1.2,
                   sunPosition: { x: 5, y: 8, z: 5 }
                 }}
-              background3D={{}}
-                onModelReady={() => setIsModelLoading(false)}
-                onColorApplied={() => setIsApplyingColor(false)}
-            />
+                background3D={{}}
+                onModelReady={() => {
+                  console.log('🎨 Model ready callback triggered');
+                  setIsModelLoading(false);
+                }}
+                onColorApplied={() => {
+                  console.log('🎨 Color applied callback triggered');
+                  setIsApplyingColor(false);
+                }}
+              />
           </Canvas>
           </ErrorBoundary>
         </div>

@@ -31,6 +31,7 @@ export function ModelViewerScene({
   onModelReady,
   onColorApplied
 }: ModelViewerSceneProps) {
+  console.log('🎨 ModelViewerScene received color:', color);
   return (
     <>
       {/* Camera */}

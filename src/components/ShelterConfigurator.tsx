@@ -233,7 +233,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
 
           {/* Sun Intensity Control */}
           <div style={{
-            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.05) 100%)',
+            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.15) 100%)',
             borderRadius: '28px',
             padding: '32px',
             border: '2px solid rgba(59, 130, 246, 0.15)',
@@ -350,7 +350,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                     });
                   }}
                   style={{
-                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
                     color: 'white',
                     border: 'none',
                     borderRadius: '16px',
@@ -382,7 +382,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
 
           {/* Specifications */}
           <div style={{
-            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.05) 100%)',
+            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.15) 100%)',
             borderRadius: '28px',
             padding: '32px',
             border: '2px solid rgba(59, 130, 246, 0.15)',
@@ -457,7 +457,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
 
           {/* Color Selection */}
           <div style={{
-            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.05) 100%)',
+            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.15) 100%)',
             borderRadius: '28px',
             padding: '32px',
             border: '2px solid rgba(59, 130, 246, 0.15)',
@@ -509,9 +509,9 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                   onClick={() => handleColorChange(option.value)}
                   style={{
                     background: configState.color === option.value 
-                      ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-                      : 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.8) 100%)',
-                    color: configState.color === option.value ? 'white' : '#1a1a2e',
+                      ? 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)'
+                      : 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                    color: 'white',
                     border: configState.color === option.value 
                       ? '2px solid rgba(102, 126, 234, 0.3)'
                       : '2px solid rgba(59, 130, 246, 0.1)',
@@ -565,7 +565,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
 
           {/* View Options */}
           <div style={{
-            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.05) 100%)',
+            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.15) 100%)',
             borderRadius: '28px',
             padding: '32px',
             border: '2px solid rgba(59, 130, 246, 0.15)',
@@ -615,9 +615,9 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                 onClick={handleDeployToggle}
                 style={{
                   background: configState.isDeployed 
-                    ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-                    : 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.8) 100%)',
-                  color: configState.isDeployed ? 'white' : '#1a1a2e',
+                    ? 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)'
+                    : 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                  color: 'white',
                   border: configState.isDeployed 
                     ? '2px solid rgba(102, 126, 234, 0.3)'
                     : '2px solid rgba(59, 130, 246, 0.1)',
@@ -653,9 +653,9 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                 onClick={handleInteriorViewToggle}
                 style={{
                   background: configState.isInsideView 
-                    ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-                    : 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.8) 100%)',
-                  color: configState.isInsideView ? 'white' : '#1a1a2e',
+                    ? 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)'
+                    : 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                  color: 'white',
                   border: configState.isInsideView 
                     ? '2px solid rgba(102, 126, 234, 0.3)'
                     : '2px solid rgba(59, 130, 246, 0.1)',
@@ -690,7 +690,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               <button
                 onClick={handleWalkthroughVideo}
                 style={{
-                  background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.8) 100%)',
+                  background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
                   color: 'white',
                   border: '2px solid rgba(59, 130, 246, 0.1)',
                   borderRadius: '16px',
@@ -731,7 +731,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               });
             }}
             style={{
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
               color: 'white',
               border: 'none',
               borderRadius: '16px',

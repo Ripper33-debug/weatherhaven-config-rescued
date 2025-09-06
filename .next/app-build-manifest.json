@@ -1,15 +1,7 @@
 {
   "pages": {
-    "/layout": [
-      "static/chunks/webpack-189c152f0829e124.js",
-      "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
-      "static/chunks/964-4e887a628d1bd073.js",
-      "static/chunks/main-app-ac1fed072eec132d.js",
-      "static/css/d535e99937b82117.css",
-      "static/chunks/app/layout-40e83121da1f7ce6.js"
-    ],
     "/not-found": [
-      "static/chunks/webpack-189c152f0829e124.js",
+      "static/chunks/webpack-5ce785cf997fd0d1.js",
       "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
       "static/chunks/964-4e887a628d1bd073.js",
       "static/chunks/main-app-ac1fed072eec132d.js",
@@ -17,8 +9,23 @@
       "static/chunks/493-78ef9f9e59a62401.js",
       "static/chunks/app/not-found-114c051e471fb1b3.js"
     ],
+    "/_not-found/page": [
+      "static/chunks/webpack-5ce785cf997fd0d1.js",
+      "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
+      "static/chunks/964-4e887a628d1bd073.js",
+      "static/chunks/main-app-ac1fed072eec132d.js",
+      "static/chunks/app/_not-found/page-dd8115defa1af443.js"
+    ],
+    "/layout": [
+      "static/chunks/webpack-5ce785cf997fd0d1.js",
+      "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
+      "static/chunks/964-4e887a628d1bd073.js",
+      "static/chunks/main-app-ac1fed072eec132d.js",
+      "static/css/d535e99937b82117.css",
+      "static/chunks/app/layout-40e83121da1f7ce6.js"
+    ],
     "/page": [
-      "static/chunks/webpack-189c152f0829e124.js",
+      "static/chunks/webpack-5ce785cf997fd0d1.js",
       "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
       "static/chunks/964-4e887a628d1bd073.js",
       "static/chunks/main-app-ac1fed072eec132d.js",
@@ -26,15 +33,8 @@
       "static/chunks/493-78ef9f9e59a62401.js",
       "static/chunks/app/page-9c66d623fc2c303f.js"
     ],
-    "/_not-found/page": [
-      "static/chunks/webpack-189c152f0829e124.js",
-      "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
-      "static/chunks/964-4e887a628d1bd073.js",
-      "static/chunks/main-app-ac1fed072eec132d.js",
-      "static/chunks/app/_not-found/page-dd8115defa1af443.js"
-    ],
     "/configurator/[shelterId]/page": [
-      "static/chunks/webpack-189c152f0829e124.js",
+      "static/chunks/webpack-5ce785cf997fd0d1.js",
       "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
       "static/chunks/964-4e887a628d1bd073.js",
       "static/chunks/main-app-ac1fed072eec132d.js",

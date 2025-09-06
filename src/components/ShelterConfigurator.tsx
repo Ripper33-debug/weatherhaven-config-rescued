@@ -280,30 +280,39 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             </button>
             
             {openSections.specifications && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div style={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                gap: '16px',
+                background: 'rgba(255, 255, 255, 0.9)',
+                borderRadius: '12px',
+                padding: '20px',
+                border: '2px solid rgba(255, 255, 255, 0.3)',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+              }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Dimensions:</span>
-                  <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>20' × 8' × 8'</span>
+                  <span style={{ fontSize: '14px', color: '#1a202c', fontWeight: '600' }}>Dimensions:</span>
+                  <span style={{ fontSize: '14px', color: '#1a202c', fontWeight: '700' }}>20' × 8' × 8'</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Weight:</span>
-                  <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>2,400 lbs</span>
+                  <span style={{ fontSize: '14px', color: '#1a202c', fontWeight: '600' }}>Weight:</span>
+                  <span style={{ fontSize: '14px', color: '#1a202c', fontWeight: '700' }}>2,400 lbs</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Capacity:</span>
-                  <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>8-12 personnel</span>
+                  <span style={{ fontSize: '14px', color: '#1a202c', fontWeight: '600' }}>Capacity:</span>
+                  <span style={{ fontSize: '14px', color: '#1a202c', fontWeight: '700' }}>8-12 personnel</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Deployment:</span>
-                  <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>15 minutes</span>
+                  <span style={{ fontSize: '14px', color: '#1a202c', fontWeight: '600' }}>Deployment:</span>
+                  <span style={{ fontSize: '14px', color: '#1a202c', fontWeight: '700' }}>15 minutes</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Power:</span>
-                  <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>Solar + Generator</span>
+                  <span style={{ fontSize: '14px', color: '#1a202c', fontWeight: '600' }}>Power:</span>
+                  <span style={{ fontSize: '14px', color: '#1a202c', fontWeight: '700' }}>Solar + Generator</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Temperature:</span>
-                  <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>-40°F to +120°F</span>
+                  <span style={{ fontSize: '14px', color: '#1a202c', fontWeight: '600' }}>Temperature:</span>
+                  <span style={{ fontSize: '14px', color: '#1a202c', fontWeight: '700' }}>-40°F to +120°F</span>
                 </div>
               </div>
             )}
@@ -364,7 +373,16 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                   </button>
 
             {openSections.colors && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              <div style={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                gap: '20px',
+                background: 'rgba(255, 255, 255, 0.9)',
+                borderRadius: '12px',
+                padding: '20px',
+                border: '2px solid rgba(255, 255, 255, 0.3)',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+              }}>
                 {colorOptions.map((option) => (
                   <button
                     key={option.value}
@@ -481,7 +499,16 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             </button>
             
             {openSections.views && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div style={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                gap: '16px',
+                background: 'rgba(255, 255, 255, 0.9)',
+                borderRadius: '12px',
+                padding: '20px',
+                border: '2px solid rgba(255, 255, 255, 0.3)',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+              }}>
                   <button
                 onClick={handleDeployToggle}
                     style={{

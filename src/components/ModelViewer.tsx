@@ -290,6 +290,10 @@ function TreccModel({
 
   // Conservative paint (only "body/shell" words; avoids wheels/chassis)
   useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log('🎨 Color effect triggered - scene:', !!scene, 'color:', color);
+    }
+    
     if (!scene || !color) {
       if (process.env.NODE_ENV === 'development') {
         console.log('🎨 Color effect skipped - scene:', !!scene, 'color:', color);
@@ -299,15 +303,13 @@ function TreccModel({
     
     if (process.env.NODE_ENV === 'development') {
       console.log('🎨 Applying color to model:', color);
+      console.log('🎨 Scene object:', scene);
+      console.log('🎨 Scene children count:', scene.children.length);
     }
     
-    // Throttle color application to prevent stuttering
-    const timeoutId = setTimeout(() => {
-      applyBodyColor(scene, color);
-      onColorApplied?.();
-    }, 100);
-    
-    return () => clearTimeout(timeoutId);
+    // Apply color immediately without timeout to see if that's the issue
+    applyBodyColor(scene, color);
+    onColorApplied?.();
   }, [scene, color]);
 
   if (!scene) return null;
@@ -363,12 +365,17 @@ useGLTF.preload('/models/interiors/CommandPosting.glb');
 function applyBodyColor(root: THREE.Object3D, hex: string) {
   if (process.env.NODE_ENV === 'development') {
     console.log('🎨 applyBodyColor called with:', hex);
+    console.log('🎨 Root object:', root);
+    console.log('🎨 Root type:', root.type);
   }
   
   const paint = new THREE.Color(hex);
   let meshCount = 0;
   let coloredCount = 0;
   let solarPanelCount = 0;
+  
+  // Test: Try to color the first few meshes regardless of name
+  let testCount = 0;
 
   // Simplified approach - color ALL meshes except solar panels
   root.traverse((o: any) => {
@@ -406,13 +413,21 @@ function applyBodyColor(root: THREE.Object3D, hex: string) {
       console.log(`🎨 Mesh ${meshCount}: "${o.name}" (${o.material?.name || 'no material'}) - isSolarPanel:${isSolarPanel}, isHardware:${isHardware}`);
     }
     
-    // Skip solar panels and hardware components
-    if (isSolarPanel || isHardware) {
-      if (isSolarPanel) solarPanelCount++;
+    // TEST: Color first 3 meshes regardless of name to see if coloring works at all
+    if (testCount < 3) {
+      testCount++;
       if (process.env.NODE_ENV === 'development') {
-        console.log(`🎨 ⚡ SKIPPING ${isSolarPanel ? 'SOLAR PANEL' : 'HARDWARE'}: "${o.name}" (${o.material?.name || 'no material'})`);
+        console.log(`🎨 🧪 TEST COLORING mesh ${testCount}: "${o.name}"`);
       }
-      return;
+    } else {
+      // Skip solar panels and hardware components
+      if (isSolarPanel || isHardware) {
+        if (isSolarPanel) solarPanelCount++;
+        if (process.env.NODE_ENV === 'development') {
+          console.log(`🎨 ⚡ SKIPPING ${isSolarPanel ? 'SOLAR PANEL' : 'HARDWARE'}: "${o.name}" (${o.material?.name || 'no material'})`);
+        }
+        return;
+      }
     }
 
     coloredCount++;

@@ -39,11 +39,6 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
     isInsideView: false,
   });
 
-  const [openSections, setOpenSections] = useState<{[key: string]: boolean}>({
-    specifications: true,
-    colors: true,
-    views: true
-  });
 
 
   // Video walkthrough state
@@ -100,12 +95,6 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
     }
   };
 
-  const toggleSection = (sectionName: string) => {
-    setOpenSections(prev => ({
-      ...prev,
-      [sectionName]: !prev[sectionName]
-    }));
-  };
 
   // Update video when configuration changes
   React.useEffect(() => {
@@ -257,30 +246,22 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               borderRadius: '50%',
               boxShadow: '0 0 6px rgba(79, 172, 254, 0.4)'
             }} />
-            <button
-              onClick={() => toggleSection('specifications')}
-              style={{
-                background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
-                color: 'white',
-                border: 'none',
-                borderRadius: '16px',
-                padding: '16px 20px',
-                fontSize: '14px',
-                fontWeight: '700',
-                cursor: 'pointer',
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                boxShadow: '0 8px 25px rgba(59, 130, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px',
-                width: '100%',
-                marginBottom: openSections.specifications ? '20px' : '0'
-              }}
-            >
-              📋 Specifications {openSections.specifications ? '▼' : '▶'}
-            </button>
+            <h3 style={{
+              fontSize: '18px',
+              fontWeight: '900',
+              background: 'linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              margin: '0 0 20px 0',
+              textAlign: 'center',
+              textTransform: 'uppercase',
+              letterSpacing: '1px'
+            }}>
+              📋 Specifications
+            </h3>
             
-            {openSections.specifications && (
-              <div style={{ 
+            <div style={{ 
                 display: 'flex', 
                 flexDirection: 'column', 
                 gap: '16px',
@@ -315,7 +296,6 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                   <span style={{ fontSize: '14px', color: '#1a202c', fontWeight: '700' }}>-40°F to +120°F</span>
                 </div>
               </div>
-            )}
         </div>
 
           {/* Color Selection */}
@@ -350,30 +330,22 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               borderRadius: '50%',
               boxShadow: '0 0 6px rgba(79, 172, 254, 0.4)'
             }} />
-                  <button
-              onClick={() => toggleSection('colors')}
-                    style={{
-                background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '16px',
-                padding: '16px 20px',
-                fontSize: '14px',
-                fontWeight: '700',
-                      cursor: 'pointer',
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                boxShadow: '0 8px 25px rgba(59, 130, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
-                      textTransform: 'uppercase',
-                letterSpacing: '0.5px',
-                width: '100%',
-                marginBottom: openSections.colors ? '20px' : '0'
-              }}
-            >
-              🎨 Color Options {openSections.colors ? '▼' : '▶'}
-                  </button>
+            <h3 style={{
+              fontSize: '18px',
+              fontWeight: '900',
+              background: 'linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              margin: '0 0 20px 0',
+              textAlign: 'center',
+              textTransform: 'uppercase',
+              letterSpacing: '1px'
+            }}>
+              🎨 Color Options
+            </h3>
 
-            {openSections.colors && (
-              <div style={{ 
+            <div style={{ 
                 display: 'flex', 
                 flexDirection: 'column', 
                 gap: '20px',
@@ -441,7 +413,6 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                   </button>
                 ))}
               </div>
-            )}
           </div>
 
           {/* View Options */}
@@ -476,30 +447,22 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               borderRadius: '50%',
               boxShadow: '0 0 6px rgba(79, 172, 254, 0.4)'
             }} />
-                  <button
-              onClick={() => toggleSection('views')}
-                    style={{
-                background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '16px',
-                padding: '16px 20px',
-                fontSize: '14px',
-                fontWeight: '700',
-                      cursor: 'pointer',
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                boxShadow: '0 8px 25px rgba(59, 130, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
-                      textTransform: 'uppercase',
-                letterSpacing: '0.5px',
-                width: '100%',
-                marginBottom: openSections.views ? '20px' : '0'
-              }}
-            >
-              👁️ View Options {openSections.views ? '▼' : '▶'}
-            </button>
+            <h3 style={{
+              fontSize: '18px',
+              fontWeight: '900',
+              background: 'linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              margin: '0 0 20px 0',
+              textAlign: 'center',
+              textTransform: 'uppercase',
+              letterSpacing: '1px'
+            }}>
+              👁️ View Options
+            </h3>
             
-            {openSections.views && (
-              <div style={{ 
+            <div style={{ 
                 display: 'flex', 
                 flexDirection: 'column', 
                 gap: '16px',
@@ -617,7 +580,6 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                 📹 Walkthrough Video
               </button>
               </div>
-            )}
           </div>
 
           {/* Reset Button */}

@@ -41,16 +41,17 @@ export const AVAILABLE_MODELS: ModelConfig[] = [
     dimensions: { length: 20, width: 8, height: 8 },
     weight: 5000,
     capacity: 12
-  },
-  {
-    id: 'command-posting',
-    name: 'Command Posting',
-    path: 'interiors/CommandPosting.glb',
-    description: 'Interior command center configuration',
-    dimensions: { length: 20, width: 8, height: 8 },
-    weight: 5000,
-    capacity: 8
   }
+  // Temporarily disabled until CommandPosting.glb is uploaded to Supabase
+  // {
+  //   id: 'command-posting',
+  //   name: 'Command Posting',
+  //   path: 'interiors/CommandPosting.glb',
+  //   description: 'Interior command center configuration',
+  //   dimensions: { length: 20, width: 8, height: 8 },
+  //   weight: 5000,
+  //   capacity: 8
+  // }
 ]
 
 // Get model URL from Supabase Storage

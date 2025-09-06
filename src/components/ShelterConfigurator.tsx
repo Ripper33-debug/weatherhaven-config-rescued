@@ -453,6 +453,347 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             </div>
           </div>
 
+          {/* Specifications */}
+          <div style={{
+            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.85) 50%, rgba(241, 245, 249, 0.9) 100%)',
+            borderRadius: '28px',
+            padding: '32px',
+            border: '2px solid rgba(59, 130, 246, 0.15)',
+            boxShadow: '0 16px 48px rgba(0, 0, 0, 0.12), inset 0 2px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.05)',
+            backdropFilter: 'blur(15px) saturate(120%)',
+            position: 'relative',
+            overflow: 'hidden'
+          }}>
+            {/* Decorative elements */}
+            <div style={{
+              position: 'absolute',
+              top: '16px',
+              left: '20px',
+              width: '4px',
+              height: '4px',
+              background: 'linear-gradient(45deg, #ff6b35, #f7931e)',
+              borderRadius: '50%',
+              boxShadow: '0 0 8px rgba(255, 107, 53, 0.4)'
+            }} />
+            <div style={{
+              position: 'absolute',
+              top: '24px',
+              left: '28px',
+              width: '2px',
+              height: '2px',
+              background: 'linear-gradient(45deg, #4facfe, #00f2fe)',
+              borderRadius: '50%',
+              boxShadow: '0 0 6px rgba(79, 172, 254, 0.4)'
+            }} />
+            <h3 style={{
+              fontSize: '18px',
+              fontWeight: '900',
+              background: 'linear-gradient(135deg, #1a1a2e 0%, #4facfe 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              margin: '0 0 24px 0',
+              textAlign: 'center',
+              textTransform: 'uppercase',
+              letterSpacing: '1px'
+            }}>
+              📋 Specifications
+            </h3>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '14px', color: '#666', fontWeight: '600' }}>Dimensions:</span>
+                <span style={{ fontSize: '14px', color: '#1a1a2e', fontWeight: '700' }}>20' × 8' × 8'</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '14px', color: '#666', fontWeight: '600' }}>Weight:</span>
+                <span style={{ fontSize: '14px', color: '#1a1a2e', fontWeight: '700' }}>2,400 lbs</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '14px', color: '#666', fontWeight: '600' }}>Capacity:</span>
+                <span style={{ fontSize: '14px', color: '#1a1a2e', fontWeight: '700' }}>8-12 personnel</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '14px', color: '#666', fontWeight: '600' }}>Deployment:</span>
+                <span style={{ fontSize: '14px', color: '#1a1a2e', fontWeight: '700' }}>15 minutes</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '14px', color: '#666', fontWeight: '600' }}>Power:</span>
+                <span style={{ fontSize: '14px', color: '#1a1a2e', fontWeight: '700' }}>Solar + Generator</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '14px', color: '#666', fontWeight: '600' }}>Temperature:</span>
+                <span style={{ fontSize: '14px', color: '#1a1a2e', fontWeight: '700' }}>-40°F to +120°F</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Color Selection */}
+          <div style={{
+            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.85) 50%, rgba(241, 245, 249, 0.9) 100%)',
+            borderRadius: '28px',
+            padding: '32px',
+            border: '2px solid rgba(59, 130, 246, 0.15)',
+            boxShadow: '0 16px 48px rgba(0, 0, 0, 0.12), inset 0 2px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.05)',
+            backdropFilter: 'blur(15px) saturate(120%)',
+            position: 'relative',
+            overflow: 'hidden'
+          }}>
+            {/* Decorative elements */}
+            <div style={{
+              position: 'absolute',
+              top: '16px',
+              left: '20px',
+              width: '4px',
+              height: '4px',
+              background: 'linear-gradient(45deg, #ff6b35, #f7931e)',
+              borderRadius: '50%',
+              boxShadow: '0 0 8px rgba(255, 107, 53, 0.4)'
+            }} />
+            <div style={{
+              position: 'absolute',
+              top: '24px',
+              left: '28px',
+              width: '2px',
+              height: '2px',
+              background: 'linear-gradient(45deg, #4facfe, #00f2fe)',
+              borderRadius: '50%',
+              boxShadow: '0 0 6px rgba(79, 172, 254, 0.4)'
+            }} />
+            <h3 style={{
+              fontSize: '18px',
+              fontWeight: '900',
+              background: 'linear-gradient(135deg, #1a1a2e 0%, #4facfe 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              margin: '0 0 24px 0',
+              textAlign: 'center',
+              textTransform: 'uppercase',
+              letterSpacing: '1px'
+            }}>
+              🎨 Color Options
+            </h3>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              {colorOptions.map((option) => (
+                <button
+                  key={option.value}
+                  onClick={() => handleColorChange(option.value)}
+                  style={{
+                    background: configState.color === option.value 
+                      ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                      : 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.8) 100%)',
+                    color: configState.color === option.value ? 'white' : '#1a1a2e',
+                    border: configState.color === option.value 
+                      ? '2px solid rgba(102, 126, 234, 0.3)'
+                      : '2px solid rgba(59, 130, 246, 0.1)',
+                    borderRadius: '16px',
+                    padding: '16px 20px',
+                    fontSize: '14px',
+                    fontWeight: '700',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                    boxShadow: configState.color === option.value
+                      ? '0 8px 25px rgba(102, 126, 234, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                      : '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px',
+                    position: 'relative',
+                    overflow: 'hidden'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (configState.color !== option.value) {
+                      e.currentTarget.style.transform = 'translateY(-2px)';
+                      e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (configState.color !== option.value) {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
+                    }
+                  }}
+                >
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    width: '100%'
+                  }}>
+                    <span>{option.label}</span>
+                    <div style={{
+                      width: '24px',
+                      height: '24px',
+                      borderRadius: '50%',
+                      background: option.value,
+                      border: '2px solid rgba(255, 255, 255, 0.3)',
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
+                    }} />
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* View Options */}
+          <div style={{
+            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.85) 50%, rgba(241, 245, 249, 0.9) 100%)',
+            borderRadius: '28px',
+            padding: '32px',
+            border: '2px solid rgba(59, 130, 246, 0.15)',
+            boxShadow: '0 16px 48px rgba(0, 0, 0, 0.12), inset 0 2px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.05)',
+            backdropFilter: 'blur(15px) saturate(120%)',
+            position: 'relative',
+            overflow: 'hidden'
+          }}>
+            {/* Decorative elements */}
+            <div style={{
+              position: 'absolute',
+              top: '16px',
+              left: '20px',
+              width: '4px',
+              height: '4px',
+              background: 'linear-gradient(45deg, #ff6b35, #f7931e)',
+              borderRadius: '50%',
+              boxShadow: '0 0 8px rgba(255, 107, 53, 0.4)'
+            }} />
+            <div style={{
+              position: 'absolute',
+              top: '24px',
+              left: '28px',
+              width: '2px',
+              height: '2px',
+              background: 'linear-gradient(45deg, #4facfe, #00f2fe)',
+              borderRadius: '50%',
+              boxShadow: '0 0 6px rgba(79, 172, 254, 0.4)'
+            }} />
+            <h3 style={{
+              fontSize: '18px',
+              fontWeight: '900',
+              background: 'linear-gradient(135deg, #1a1a2e 0%, #4facfe 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              margin: '0 0 24px 0',
+              textAlign: 'center',
+              textTransform: 'uppercase',
+              letterSpacing: '1px'
+            }}>
+              👁️ View Options
+            </h3>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <button
+                onClick={() => handleViewChange('open')}
+                style={{
+                  background: configState.isDeployed 
+                    ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                    : 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.8) 100%)',
+                  color: configState.isDeployed ? 'white' : '#1a1a2e',
+                  border: configState.isDeployed 
+                    ? '2px solid rgba(102, 126, 234, 0.3)'
+                    : '2px solid rgba(59, 130, 246, 0.1)',
+                  borderRadius: '16px',
+                  padding: '16px 20px',
+                  fontSize: '14px',
+                  fontWeight: '700',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  boxShadow: configState.isDeployed
+                    ? '0 8px 25px rgba(102, 126, 234, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                    : '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px'
+                }}
+                onMouseEnter={(e) => {
+                  if (!configState.isDeployed) {
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!configState.isDeployed) {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
+                  }
+                }}
+              >
+                Open View
+              </button>
+              
+              <button
+                onClick={() => handleViewChange('interior')}
+                style={{
+                  background: configState.isInsideView 
+                    ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                    : 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.8) 100%)',
+                  color: configState.isInsideView ? 'white' : '#1a1a2e',
+                  border: configState.isInsideView 
+                    ? '2px solid rgba(102, 126, 234, 0.3)'
+                    : '2px solid rgba(59, 130, 246, 0.1)',
+                  borderRadius: '16px',
+                  padding: '16px 20px',
+                  fontSize: '14px',
+                  fontWeight: '700',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  boxShadow: configState.isInsideView
+                    ? '0 8px 25px rgba(102, 126, 234, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                    : '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px'
+                }}
+                onMouseEnter={(e) => {
+                  if (!configState.isInsideView) {
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!configState.isInsideView) {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
+                  }
+                }}
+              >
+                Interior View
+              </button>
+              
+              <button
+                onClick={() => setShowVideoWalkthrough(true)}
+                style={{
+                  background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.8) 100%)',
+                  color: '#1a1a2e',
+                  border: '2px solid rgba(59, 130, 246, 0.1)',
+                  borderRadius: '16px',
+                  padding: '16px 20px',
+                  fontSize: '14px',
+                  fontWeight: '700',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
+                }}
+              >
+                📹 Walkthrough Video
+              </button>
+            </div>
+          </div>
+
           {/* Reset Button */}
           <button
             onClick={() => {
@@ -523,73 +864,6 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
           </Canvas>
         </div>
 
-        {/* Professional Controls Panel (Visible by default) */}
-        <div className="controls-panel" style={{
-          width: '380px',
-          background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 30%, rgba(241, 245, 249, 0.95) 70%, rgba(255, 255, 255, 0.98) 100%)',
-          backdropFilter: 'blur(30px) saturate(200%) brightness(1.1)',
-          borderLeft: '2px solid rgba(59, 130, 246, 0.2)',
-          padding: '48px 36px',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '36px',
-          boxShadow: '-16px 0 60px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.1), inset -2px 0 0 rgba(255, 255, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-          overflowY: 'auto',
-          position: 'absolute',
-          right: '0px',
-          top: 0,
-          height: '100%',
-          zIndex: 10,
-          borderTopLeftRadius: '32px',
-          borderBottomLeftRadius: '32px',
-          position: 'relative'
-        }}>
-          {/* Enhanced Header */}
-          <div style={{
-            textAlign: 'center',
-            marginBottom: '24px',
-            position: 'relative',
-            padding: '24px 0',
-            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(248, 250, 252, 0.6) 100%)',
-            borderRadius: '20px',
-            border: '1px solid rgba(59, 130, 246, 0.1)',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
-          }}>
-            <div style={{
-              position: 'absolute',
-              top: '12px',
-              left: '16px',
-              width: '8px',
-              height: '8px',
-              background: 'linear-gradient(45deg, #ff6b35, #f7931e)',
-              borderRadius: '50%',
-              boxShadow: '0 0 12px rgba(255, 107, 53, 0.6)'
-            }} />
-            <h1 style={{
-              fontSize: '28px',
-              fontWeight: '900',
-              background: 'linear-gradient(135deg, #1a1a2e 0%, #4facfe 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              margin: '0 0 8px 0',
-              textTransform: 'uppercase',
-              letterSpacing: '2px',
-              textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
-            }}>
-              {shelterName}
-            </h1>
-            <p style={{
-              fontSize: '14px',
-              color: '#4a5568',
-              margin: '0',
-              fontWeight: '600',
-              textTransform: 'uppercase',
-              letterSpacing: '0.5px'
-            }}>
-              Shelter Configuration
-            </p>
-          </div>
 
           {/* View Options */}
           <div style={{

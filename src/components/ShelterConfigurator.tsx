@@ -40,18 +40,11 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   });
 
   const [openSections, setOpenSections] = useState<{[key: string]: boolean}>({
-    lighting: true,
     specifications: true,
     colors: true,
     views: true
   });
 
-  // Lighting state
-  const [lightingState, setLightingState] = useState({
-    ambientIntensity: 0.3,
-    directionalIntensity: 1.2,
-    sunPosition: { x: 5, y: 8, z: 5 }
-  });
 
   // Video walkthrough state
   const [showVideo, setShowVideo] = useState(false);
@@ -98,22 +91,6 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
     });
   };
 
-  const handleLightingChange = (type: string, value: number) => {
-    setLightingState(prev => ({
-      ...prev,
-      [type]: value
-    }));
-  };
-
-  const handleSunPositionChange = (axis: 'x' | 'y' | 'z', value: number) => {
-    setLightingState(prev => ({
-      ...prev,
-      sunPosition: {
-        ...prev.sunPosition,
-        [axis]: value
-      }
-    }));
-  };
 
   const handleWalkthroughVideo = () => {
     const videoPath = getWalkthroughVideo();
@@ -247,87 +224,6 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
 
 
 
-          {/* Lighting Presets */}
-          <div style={{
-            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.8) 100%)',
-            borderRadius: '24px',
-            padding: '28px',
-            border: '1px solid rgba(59, 130, 246, 0.1)',
-            boxShadow: '0 12px 40px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
-            backdropFilter: 'blur(10px)',
-            position: 'relative',
-            overflow: 'hidden'
-          }}>
-            <button
-              onClick={() => toggleSection('lighting')}
-                  style={{ 
-                background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
-                color: 'white',
-                border: 'none',
-                borderRadius: '16px',
-                padding: '16px 20px',
-                fontSize: '14px',
-                fontWeight: '700',
-                    cursor: 'pointer',
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                boxShadow: '0 8px 25px rgba(59, 130, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px',
-                width: '100%',
-                marginBottom: openSections.lighting ? '20px' : '0'
-              }}
-            >
-              💡 Lighting Presets {openSections.lighting ? '▼' : '▶'}
-            </button>
-            
-            {openSections.lighting && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                {[
-                  { name: 'Day', ambient: 0.4, directional: 1.5, sun: { x: 5, y: 10, z: 5 } },
-                  { name: 'Night', ambient: 0.1, directional: 0.3, sun: { x: -5, y: 2, z: -5 } },
-                  { name: 'Overcast', ambient: 0.6, directional: 0.8, sun: { x: 3, y: 6, z: 3 } },
-                  { name: 'Desert', ambient: 0.2, directional: 2.0, sun: { x: 8, y: 12, z: 8 } }
-                ].map((preset) => (
-          <button
-                    key={preset.name}
-            onClick={() => {
-              setLightingState({
-                        ambientIntensity: preset.ambient,
-                        directionalIntensity: preset.directional,
-                        sunPosition: preset.sun
-              });
-            }}
-            style={{
-                      background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
-              color: 'white',
-              border: 'none',
-              borderRadius: '16px',
-                      padding: '14px 20px',
-                      fontSize: '13px',
-              fontWeight: '800',
-              cursor: 'pointer',
-                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                      boxShadow: '0 8px 25px rgba(102, 126, 234, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
-              textTransform: 'uppercase',
-                      letterSpacing: '0.8px',
-                      position: 'relative',
-                      overflow: 'hidden'
-            }}
-            onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-2px)';
-                      e.currentTarget.style.boxShadow = '0 6px 20px rgba(79, 172, 254, 0.4)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.boxShadow = '0 4px 15px rgba(79, 172, 254, 0.3)';
-            }}
-          >
-                    {preset.name}
-          </button>
-                ))}
-              </div>
-            )}
-        </div>
 
           {/* Specifications */}
           <div style={{
@@ -700,11 +596,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
           {/* Reset Button */}
               <button
             onClick={() => {
-              setLightingState({
-                ambientIntensity: 0.3,
-                directionalIntensity: 1.2,
-                sunPosition: { x: 5, y: 8, z: 5 }
-              });
+              // Reset configuration
             }}
                 style={{
               background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
@@ -761,7 +653,11 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               isDeployed={configState.isDeployed}
               environment="studio"
               weather="none"
-              lighting={lightingState}
+              lighting={{
+                ambientIntensity: 0.3,
+                directionalIntensity: 1.2,
+                sunPosition: { x: 5, y: 8, z: 5 }
+              }}
               background3D={{}}
             />
           </Canvas>

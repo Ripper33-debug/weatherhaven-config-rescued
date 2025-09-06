@@ -362,7 +362,7 @@ function TreccModel({
     onColorApplied?.();
   }, [scene, color]);
 
-  // Show loading state while getting Supabase URL
+  // Show loading state while getting AWS URL
   if (!actualModelPath) {
     return (
       <Html center>
@@ -375,7 +375,7 @@ function TreccModel({
           fontFamily: 'Arial, sans-serif'
         }}>
           <div style={{ fontSize: '18px', marginBottom: '10px' }}>🔄 Getting model URL...</div>
-          <div style={{ fontSize: '14px', opacity: 0.8 }}>Connecting to Supabase</div>
+          <div style={{ fontSize: '14px', opacity: 0.8 }}>Connecting to AWS</div>
         </div>
       </Html>
     );

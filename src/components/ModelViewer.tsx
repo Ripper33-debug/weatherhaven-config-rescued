@@ -260,7 +260,7 @@ function TreccModel({
   onReady,
   onColorApplied,
 }: TreccModelProps) {
-  const [actualModelPath, setActualModelPath] = useState(modelPath || 'Trecc Exterior/trecc.glb');
+  const [actualModelPath, setActualModelPath] = useState<string | null>(null);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [loadingStage, setLoadingStage] = useState('Loading model...');
   
@@ -275,12 +275,18 @@ function TreccModel({
         console.log('🎨 Using Supabase model URL:', supabaseUrl);
       } catch (error) {
         console.error('Error getting Supabase URL, using local:', error);
-        setActualModelPath(modelPath || 'Trecc Exterior/trecc.glb');
+        // Fallback to local path with proper prefix
+        setActualModelPath(`/models/${modelPath || 'trecc.glb'}`);
       }
     };
     
     loadModelUrl();
   }, [modelPath]);
+  
+  // Don't load model until we have the proper URL
+  if (!actualModelPath) {
+    return <Loading progress={0} stage="Getting model URL..." />;
+  }
   
   const gltf = useGLTF(actualModelPath) as any; // Suspense handles loading
   

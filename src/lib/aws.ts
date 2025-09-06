@@ -50,14 +50,6 @@ export const AVAILABLE_MODELS: ModelConfig[] = [
 
 // Get model URL from AWS S3 + CloudFront with local fallback
 export async function getModelUrl(modelPath: string): Promise<string> {
-  // For now, let's use local models until AWS is properly configured
-  // This ensures the site works immediately
-  const localUrl = `/models/${modelPath}`
-  console.log('🔄 Using local model URL (AWS not configured yet):', localUrl)
-  return localUrl
-  
-  // TODO: Uncomment this when AWS is properly configured
-  /*
   try {
     // First try CloudFront URL
     const cloudfrontUrl = `https://${CLOUDFRONT_DOMAIN}/${modelPath}`
@@ -103,7 +95,6 @@ export async function getModelUrl(modelPath: string): Promise<string> {
       return localUrl
     }
   }
-  */
 }
 
 // Get all available models

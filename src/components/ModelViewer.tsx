@@ -264,12 +264,23 @@ function TreccModel({
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [loadingStage, setLoadingStage] = useState('Loading model...');
   
-  // Use local model directly (AWS disabled for now)
+  // Get AWS URL for the model with fallback
   useEffect(() => {
-    const filename = modelPath || 'trecc.glb';
-    const localUrl = `/models/${filename}`;
-    setActualModelPath(localUrl);
-    console.log('🎨 Using local model URL:', localUrl);
+    const loadModelUrl = async () => {
+      try {
+        // Extract just the filename from the path
+        const filename = modelPath || 'trecc.glb';
+        const awsUrl = await getModelUrl(filename);
+        setActualModelPath(awsUrl);
+        console.log('🎨 Using AWS model URL:', awsUrl);
+      } catch (error) {
+        console.error('Error getting AWS URL, using local:', error);
+        // Fallback to local path with proper prefix
+        setActualModelPath(`/models/${modelPath || 'trecc.glb'}`);
+      }
+    };
+    
+    loadModelUrl();
   }, [modelPath]);
   
   // Always call hooks in the same order - use a fallback URL

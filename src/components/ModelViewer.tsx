@@ -368,6 +368,7 @@ function applyBodyColor(root: THREE.Object3D, hex: string) {
   const paint = new THREE.Color(hex);
   let meshCount = 0;
   let coloredCount = 0;
+  let solarPanelCount = 0;
 
   // Simplified approach - color ALL meshes except solar panels
   root.traverse((o: any) => {
@@ -376,19 +377,22 @@ function applyBodyColor(root: THREE.Object3D, hex: string) {
     
     const name = (o.name + ' ' + (o.material?.name || '')).toLowerCase();
     
-    // Only exclude solar panels
+    // Enhanced solar panel detection - be more aggressive about detecting them
     const isSolarPanel = name.includes('solar') || name.includes('photovoltaic') || name.includes('pv') || 
                         name.includes('cell') || name.includes('array') || name.includes('grid') || 
-                        name.includes('corrugated');
+                        name.includes('corrugated') || name.includes('panel') || name.includes('module') ||
+                        name.includes('silicon') || name.includes('wafer') || name.includes('sheet') ||
+                        name.includes('plate') || name.includes('surface') || name.includes('glass');
     
-    if (process.env.NODE_ENV === 'development' && meshCount <= 10) {
+    if (process.env.NODE_ENV === 'development' && meshCount <= 15) {
       console.log(`🎨 Mesh ${meshCount}: "${o.name}" (${o.material?.name || 'no material'}) - isSolarPanel:${isSolarPanel}`);
     }
     
-    // Skip only solar panels
+    // Skip solar panels and related components
     if (isSolarPanel) {
+      solarPanelCount++;
       if (process.env.NODE_ENV === 'development') {
-        console.log(`🎨 Skipping solar panel: "${o.name}"`);
+        console.log(`🎨 ⚡ SKIPPING SOLAR PANEL: "${o.name}" (${o.material?.name || 'no material'})`);
       }
       return;
     }
@@ -431,6 +435,6 @@ function applyBodyColor(root: THREE.Object3D, hex: string) {
   });
   
   if (process.env.NODE_ENV === 'development') {
-    console.log(`🎨 Color application complete: ${coloredCount}/${meshCount} meshes colored`);
+    console.log(`🎨 Color application complete: ${coloredCount}/${meshCount} meshes colored, ${solarPanelCount} solar panels skipped`);
   }
 }

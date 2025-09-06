@@ -51,8 +51,8 @@ export function ModelViewerScene({
         zoomSpeed={1}
         rotateSpeed={0.9}
         panSpeed={0.8}
-        minPolarAngle={Math.PI / 6}
-        maxPolarAngle={Math.PI - Math.PI / 6}
+        minPolarAngle={Math.PI / 4}
+        maxPolarAngle={Math.PI * 0.8}
         minDistance={2}
         maxDistance={20}
       />
@@ -71,7 +71,7 @@ export function ModelViewerScene({
       <Environment preset="sunset" />
 
       {/* Ground */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]} receiveShadow>
         <planeGeometry args={[80, 80]} />
         <meshStandardMaterial color="#2a2f3a" roughness={0.9} metalness={0} />
       </mesh>
@@ -184,8 +184,8 @@ function Scene({ color = '#3C3B2E' }: { color?: string }) {
         zoomSpeed={1}
         rotateSpeed={0.9}
         panSpeed={0.8}
-        minPolarAngle={Math.PI / 6}
-        maxPolarAngle={Math.PI - Math.PI / 6}
+        minPolarAngle={Math.PI / 4}
+        maxPolarAngle={Math.PI * 0.8}
         minDistance={2}
         maxDistance={20}
       />
@@ -204,7 +204,7 @@ function Scene({ color = '#3C3B2E' }: { color?: string }) {
       <Environment preset="sunset" />
 
       {/* Ground */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]} receiveShadow>
         <planeGeometry args={[80, 80]} />
         <meshStandardMaterial color="#2a2f3a" roughness={0.9} metalness={0} />
       </mesh>

@@ -39,6 +39,13 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
     isInsideView: false,
   });
 
+  const [openSections, setOpenSections] = useState<{[key: string]: boolean}>({
+    lighting: false,
+    specifications: false,
+    colors: false,
+    views: false
+  });
+
   // Lighting state
   const [lightingState, setLightingState] = useState({
     ambientIntensity: 0.3,
@@ -114,6 +121,13 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
       setCurrentVideo(videoPath);
       setShowVideo(true);
     }
+  };
+
+  const toggleSection = (sectionName: string) => {
+    setOpenSections(prev => ({
+      ...prev,
+      [sectionName]: !prev[sectionName]
+    }));
   };
 
   // Update video when configuration changes
@@ -231,84 +245,6 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             </p>
           </div>
 
-          {/* Sun Intensity Control */}
-          <div style={{
-            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.35) 50%, rgba(255, 255, 255, 0.3) 100%)',
-            borderRadius: '28px',
-            padding: '32px',
-            border: '2px solid rgba(255, 255, 255, 0.3)',
-            boxShadow: '0 16px 48px rgba(0, 0, 0, 0.12), inset 0 2px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.05)',
-            backdropFilter: 'blur(15px) saturate(120%)',
-            position: 'relative',
-            overflow: 'hidden'
-          }}>
-            {/* Decorative elements */}
-            <div style={{
-              position: 'absolute',
-              top: '16px',
-              left: '20px',
-              width: '4px',
-              height: '4px',
-              background: 'linear-gradient(45deg, #ff6b35, #f7931e)',
-              borderRadius: '50%',
-              boxShadow: '0 0 8px rgba(255, 107, 53, 0.4)'
-            }} />
-            <div style={{
-              position: 'absolute',
-              top: '24px',
-              left: '28px',
-              width: '2px',
-              height: '2px',
-              background: 'linear-gradient(45deg, #4facfe, #00f2fe)',
-              borderRadius: '50%',
-              boxShadow: '0 0 6px rgba(79, 172, 254, 0.4)'
-            }} />
-            <label style={{ 
-              fontSize: '16px', 
-              display: 'block', 
-              marginBottom: '20px', 
-              color: 'white',
-              fontWeight: '900',
-              textAlign: 'center',
-              textTransform: 'uppercase',
-              letterSpacing: '0.8px',
-              background: 'linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text'
-            }}>
-              ☀️ Sun Intensity: {lightingState.directionalIntensity.toFixed(1)}
-            </label>
-            <input
-              type="range"
-              min="0"
-              max="2"
-              step="0.1"
-              value={lightingState.directionalIntensity}
-              onChange={(e) => handleLightingChange('directionalIntensity', parseFloat(e.target.value))}
-              style={{ 
-                width: '100%',
-                height: '12px',
-                borderRadius: '8px',
-                background: 'linear-gradient(90deg, #ff6b35 0%, #f7931e 50%, #4facfe 100%)',
-                outline: 'none',
-                cursor: 'pointer',
-                boxShadow: 'inset 0 4px 8px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                WebkitAppearance: 'none',
-                appearance: 'none'
-              }}
-            />
-            <div style={{ 
-              fontSize: '12px', 
-              color: '#666', 
-              marginTop: '12px',
-              textAlign: 'center',
-              fontWeight: '600'
-            }}>
-              More Sun ← → Less Sun
-            </div>
-          </div>
 
 
           {/* Lighting Presets */}

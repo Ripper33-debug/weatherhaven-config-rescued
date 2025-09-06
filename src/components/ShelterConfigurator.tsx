@@ -167,7 +167,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
         {/* Left Side - Lighting Controls (Visible by default) */}
         <div className="left-controls" style={{
           width: '360px',
-          background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 30%, rgba(241, 245, 249, 0.95) 70%, rgba(255, 255, 255, 0.98) 100%)',
+          background: 'linear-gradient(145deg, rgba(59, 130, 246, 0.95) 0%, rgba(99, 102, 241, 0.9) 30%, rgba(251, 146, 60, 0.95) 70%, rgba(249, 115, 22, 0.98) 100%)',
           backdropFilter: 'blur(30px) saturate(200%) brightness(1.1)',
           borderRight: '2px solid rgba(59, 130, 246, 0.2)',
           padding: '48px 36px',
@@ -208,7 +208,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             <h2 style={{
               fontSize: '28px',
               fontWeight: '900',
-              background: 'linear-gradient(135deg, #1a1a2e 0%, #4facfe 100%)',
+              background: 'linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
@@ -233,7 +233,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
 
           {/* Sun Intensity Control */}
           <div style={{
-            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.85) 50%, rgba(241, 245, 249, 0.9) 100%)',
+            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.05) 100%)',
             borderRadius: '28px',
             padding: '32px',
             border: '2px solid rgba(59, 130, 246, 0.15)',
@@ -267,12 +267,12 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               fontSize: '16px', 
               display: 'block', 
               marginBottom: '20px', 
-              color: '#1a1a2e',
+              color: 'white',
               fontWeight: '900',
               textAlign: 'center',
               textTransform: 'uppercase',
               letterSpacing: '0.8px',
-              background: 'linear-gradient(135deg, #1a1a2e 0%, #4facfe 100%)',
+              background: 'linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text'
@@ -310,78 +310,6 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             </div>
           </div>
 
-          {/* Sun Position Controls - Simplified */}
-          <div style={{
-            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)',
-            borderRadius: '20px',
-            padding: '24px',
-            border: '1px solid rgba(0, 0, 0, 0.06)',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.04)'
-          }}>
-            <label style={{ 
-              fontSize: '15px', 
-              display: 'block', 
-              marginBottom: '20px', 
-              color: '#1a1a2e',
-              fontWeight: '800',
-              textAlign: 'center'
-            }}>
-              Sun Position
-            </label>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                <span style={{ fontSize: '14px', minWidth: '28px', fontWeight: '800', color: '#1a1a2e' }}>←→:</span>
-                <input
-                  type="range"
-                  min="-10"
-                  max="10"
-                  step="0.5"
-                  value={lightingState.sunPosition.x}
-                  onChange={(e) => handleSunPositionChange('x', parseFloat(e.target.value))}
-                  style={{ 
-                    flex: 1,
-                    height: '10px',
-                    borderRadius: '5px',
-                    background: 'linear-gradient(90deg, #4facfe 0%, #00f2fe 100%)',
-                    outline: 'none',
-                    cursor: 'pointer',
-                    boxShadow: 'inset 0 3px 6px rgba(0, 0, 0, 0.1)'
-                  }}
-                />
-                <span style={{ fontSize: '14px', minWidth: '35px', fontWeight: '800', color: '#1a1a2e' }}>{lightingState.sunPosition.x}</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                <span style={{ fontSize: '14px', minWidth: '28px', fontWeight: '800', color: '#1a1a2e' }}>↑↓:</span>
-                <input
-                  type="range"
-                  min="0"
-                  max="15"
-                  step="0.5"
-                  value={lightingState.sunPosition.y}
-                  onChange={(e) => handleSunPositionChange('y', parseFloat(e.target.value))}
-                  style={{ 
-                    flex: 1,
-                    height: '10px',
-                    borderRadius: '5px',
-                    background: 'linear-gradient(90deg, #43e97b 0%, #38f9d7 100%)',
-                    outline: 'none',
-                    cursor: 'pointer',
-                    boxShadow: 'inset 0 3px 6px rgba(0, 0, 0, 0.1)'
-                  }}
-                />
-                <span style={{ fontSize: '14px', minWidth: '35px', fontWeight: '800', color: '#1a1a2e' }}>{lightingState.sunPosition.y}</span>
-              </div>
-            </div>
-            <div style={{ 
-              fontSize: '12px', 
-              color: '#666', 
-              marginTop: '16px',
-              textAlign: 'center',
-              fontWeight: '600'
-            }}>
-              Left/Right ←→ Up/Down ↑↓
-            </div>
-          </div>
 
           {/* Lighting Presets */}
           <div style={{
@@ -398,7 +326,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               fontSize: '15px', 
               display: 'block', 
               marginBottom: '16px', 
-              color: '#1a1a2e',
+              color: 'white',
               fontWeight: '800',
               textAlign: 'center'
             }}>
@@ -454,7 +382,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
 
           {/* Specifications */}
           <div style={{
-            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.85) 50%, rgba(241, 245, 249, 0.9) 100%)',
+            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.05) 100%)',
             borderRadius: '28px',
             padding: '32px',
             border: '2px solid rgba(59, 130, 246, 0.15)',
@@ -487,7 +415,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             <h3 style={{
               fontSize: '18px',
               fontWeight: '900',
-              background: 'linear-gradient(135deg, #1a1a2e 0%, #4facfe 100%)',
+              background: 'linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
@@ -529,7 +457,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
 
           {/* Color Selection */}
           <div style={{
-            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.85) 50%, rgba(241, 245, 249, 0.9) 100%)',
+            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.05) 100%)',
             borderRadius: '28px',
             padding: '32px',
             border: '2px solid rgba(59, 130, 246, 0.15)',
@@ -562,7 +490,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             <h3 style={{
               fontSize: '18px',
               fontWeight: '900',
-              background: 'linear-gradient(135deg, #1a1a2e 0%, #4facfe 100%)',
+              background: 'linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
@@ -637,7 +565,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
 
           {/* View Options */}
           <div style={{
-            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.85) 50%, rgba(241, 245, 249, 0.9) 100%)',
+            background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.05) 100%)',
             borderRadius: '28px',
             padding: '32px',
             border: '2px solid rgba(59, 130, 246, 0.15)',
@@ -670,7 +598,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             <h3 style={{
               fontSize: '18px',
               fontWeight: '900',
-              background: 'linear-gradient(135deg, #1a1a2e 0%, #4facfe 100%)',
+              background: 'linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
@@ -763,7 +691,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                 onClick={handleWalkthroughVideo}
                 style={{
                   background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.8) 100%)',
-                  color: '#1a1a2e',
+                  color: 'white',
                   border: '2px solid rgba(59, 130, 246, 0.1)',
                   borderRadius: '16px',
                   padding: '16px 20px',

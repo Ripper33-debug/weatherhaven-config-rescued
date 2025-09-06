@@ -72,12 +72,12 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/logo192.png" />
         <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#1a202c" />
+        <meta name="theme-color" content="#ff6b35" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body style={{
         fontFamily: `${roboto.style.fontFamily}, ${inter.style.fontFamily}, system-ui, -apple-system, sans-serif`,
-        background: 'linear-gradient(135deg, #1a202c 0%, #2d3748 50%, #1a202c 100%)',
+        background: 'linear-gradient(135deg, #ff6b35 0%, #f7931e 25%, #4facfe 75%, #00f2fe 100%)',
         color: '#e2e8f0',
         margin: 0,
         padding: 0,

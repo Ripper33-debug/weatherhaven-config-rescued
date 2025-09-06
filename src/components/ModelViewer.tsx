@@ -8,7 +8,7 @@ import * as THREE from 'three';
 /** Full-page viewer wrapper */
 export default function ModelViewer() {
   return (
-    <div style={{ position: 'fixed', inset: 0, background: '#0b1020' }}>
+    <div style={{ position: 'fixed', inset: 0, background: 'linear-gradient(135deg, #ff6b35 0%, #f7931e 25%, #4facfe 75%, #00f2fe 100%)' }}>
       <Canvas shadows>
         <Suspense fallback={<Loading />}>
           <Scene color="#3C3B2E" />

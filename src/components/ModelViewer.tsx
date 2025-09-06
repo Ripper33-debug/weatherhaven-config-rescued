@@ -63,11 +63,21 @@ export function ModelViewerScene({
         zoomSpeed={1}
         rotateSpeed={0.9}
         panSpeed={0.8}
-        minPolarAngle={Math.PI / 4} // Prevent going under the shelter (45 degrees from top)
-        maxPolarAngle={Math.PI - Math.PI / 4} // Prevent going under the shelter (45 degrees from bottom)
+        minPolarAngle={Math.PI / 6} // Prevent going under the shelter (30 degrees from top)
+        maxPolarAngle={Math.PI - Math.PI / 6} // Prevent going under the shelter (30 degrees from bottom)
         minDistance={2}
         maxDistance={20}
         target={cameraTarget.current}
+        onUpdate={() => {
+          if (controlsRef.current) {
+            const camera = controlsRef.current.object;
+            // Force camera to stay above ground level
+            if (camera.position.y < 0.5) {
+              camera.position.y = 0.5;
+              controlsRef.current.update();
+            }
+          }
+        }}
       />
 
       {/* Lights */}
@@ -210,11 +220,21 @@ function Scene({ color = '#3C3B2E' }: { color?: string }) {
         zoomSpeed={1}
         rotateSpeed={0.9}
         panSpeed={0.8}
-        minPolarAngle={Math.PI / 4} // Prevent going under the shelter (45 degrees from top)
-        maxPolarAngle={Math.PI - Math.PI / 4} // Prevent going under the shelter (45 degrees from bottom)
+        minPolarAngle={Math.PI / 6} // Prevent going under the shelter (30 degrees from top)
+        maxPolarAngle={Math.PI - Math.PI / 6} // Prevent going under the shelter (30 degrees from bottom)
         minDistance={2}
         maxDistance={20}
         target={cameraTarget.current}
+        onUpdate={() => {
+          if (controlsRef.current) {
+            const camera = controlsRef.current.object;
+            // Force camera to stay above ground level
+            if (camera.position.y < 0.5) {
+              camera.position.y = 0.5;
+              controlsRef.current.update();
+            }
+          }
+        }}
       />
 
       {/* Lights */}

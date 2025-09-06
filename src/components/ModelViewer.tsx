@@ -237,7 +237,7 @@ function Scene({ color = '#3C3B2E' }: { color?: string }) {
 
       {/* Model */}
       <TreccModel
-        modelPath="/models/trecc.glb"
+        modelPath="Trecc Exterior/trecc.glb"
         color={color}
         onReady={({ center, radius }) => {
           // Center camera target and frame the model nicely
@@ -260,7 +260,7 @@ function TreccModel({
   onReady,
   onColorApplied,
 }: TreccModelProps) {
-  const [actualModelPath, setActualModelPath] = useState(modelPath || '/models/trecc.glb');
+  const [actualModelPath, setActualModelPath] = useState(modelPath || 'Trecc Exterior/trecc.glb');
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [loadingStage, setLoadingStage] = useState('Loading model...');
   
@@ -269,13 +269,13 @@ function TreccModel({
     const loadModelUrl = async () => {
       try {
         // Extract just the filename from the path
-        const filename = (modelPath || '/models/trecc.glb').replace('/models/', '');
+        const filename = modelPath || 'Trecc Exterior/trecc.glb';
         const supabaseUrl = await getModelUrl(filename);
         setActualModelPath(supabaseUrl);
         console.log('🎨 Using Supabase model URL:', supabaseUrl);
       } catch (error) {
         console.error('Error getting Supabase URL, using local:', error);
-        setActualModelPath(modelPath || '/models/trecc.glb');
+        setActualModelPath(modelPath || 'Trecc Exterior/trecc.glb');
       }
     };
     
@@ -400,7 +400,7 @@ const getCachedModel = (url: string) => {
 };
 
 // Preload the single model we use with caching
-useGLTF.preload('/models/trecc.glb');
+// Preload will be handled by Supabase integration
 useGLTF.preload('/models/interiors/CommandPosting.glb');
 
 /* ---------------- Colour helper ---------------- */

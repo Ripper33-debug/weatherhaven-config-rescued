@@ -22,7 +22,7 @@ const shelters: Shelter[] = [
     category: 'TRECC',
     image: '/models/trecc-preview.jpg',
     features: ['Multiple configurations', 'Rapid deployment', 'Modular design', 'Extreme weather protection'],
-    modelPath: '/models/trecc.glb',
+    modelPath: 'Trecc Exterior/trecc.glb',
     specs: ['Deployment time: <2 hours', 'Capacity: 20-50 personnel', 'Weather rating: Extreme', 'Configurations: Open/Closed/Interior']
   },
   {
@@ -42,7 +42,7 @@ const shelters: Shelter[] = [
     category: 'HERCONN',
     image: '/models/herconn-preview.jpg',
     features: ['Rapid deployment', 'Tactical operations', 'Emergency response', 'Modular design'],
-    modelPath: '/models/trecc.glb',
+    modelPath: 'Trecc Exterior/trecc.glb',
     specs: ['Deployment time: <1 hour', 'Capacity: 15-30 personnel', 'Weather rating: Extreme']
   },
   {
@@ -52,7 +52,7 @@ const shelters: Shelter[] = [
     category: 'Military',
     image: '/models/command-preview.jpg',
     features: ['Command operations', 'Communications hub', 'Security features', 'Redundant systems'],
-    modelPath: '/models/trecc.glb',
+    modelPath: 'Trecc Exterior/trecc.glb',
     specs: ['Comm systems: Integrated', 'Security: Level 3', 'Power: Redundant', 'Capacity: 15-30 operators']
   },
   {
@@ -72,7 +72,7 @@ const shelters: Shelter[] = [
     category: 'Emergency',
     image: '/models/relief-preview.jpg',
     features: ['Rapid deployment', 'High capacity', 'Basic amenities', 'Durable construction'],
-    modelPath: '/models/trecc.glb',
+    modelPath: 'Trecc Exterior/trecc.glb',
     specs: ['Capacity: 50-100 people', 'Deployment: <1 hour', 'Weather: All conditions', 'Durability: Extended']
   }
 ];

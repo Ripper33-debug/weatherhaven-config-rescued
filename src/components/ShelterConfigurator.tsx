@@ -14,7 +14,7 @@ interface ShelterConfiguratorProps {
 
 const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({ 
   shelterId = 'trecc', 
-  defaultModel = '/models/trecc.glb',
+  defaultModel = 'Trecc Exterior/trecc.glb',
   shelterName = 'TRECC Shelter'
 }) => {
   if (process.env.NODE_ENV === 'development') {
@@ -139,7 +139,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
       return "/models/interiors/CommandPosting.glb";
       } else {
       // Use single TRECC model for all states - colors and views applied dynamically
-      return "/models/trecc.glb";
+      return "Trecc Exterior/trecc.glb";
     }
   };
 

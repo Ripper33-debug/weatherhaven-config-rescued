@@ -32,7 +32,7 @@ const shelterData = {
   'trecc': {
     name: 'TRECC',
     description: 'TRECC deployable shelter system with multiple configuration options',
-    defaultModel: '/models/trecc.glb'
+    defaultModel: 'Trecc Exterior/trecc.glb'
   },
   'command-posting': {
     name: 'Command Posting',
@@ -42,12 +42,12 @@ const shelterData = {
   'herconn': {
     name: 'HERCONN',
     description: 'HERCONN deployable shelter system',
-    defaultModel: '/models/trecc.glb'
+    defaultModel: 'Trecc Exterior/trecc.glb'
   },
   'command-center': {
     name: 'Command Center',
     description: 'Specialized command and control facility',
-    defaultModel: '/models/trecc.glb'
+    defaultModel: 'Trecc Exterior/trecc.glb'
   },
   'field-hospital': {
     name: 'Field Hospital',
@@ -57,7 +57,7 @@ const shelterData = {
   'disaster-relief': {
     name: 'Disaster Relief',
     description: 'Emergency shelter system for disaster response',
-    defaultModel: '/models/trecc.glb'
+    defaultModel: 'Trecc Exterior/trecc.glb'
   }
 };
 

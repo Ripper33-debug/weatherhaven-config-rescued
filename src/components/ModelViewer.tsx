@@ -264,27 +264,16 @@ function TreccModel({
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [loadingStage, setLoadingStage] = useState('Loading model...');
   
-  // Get Supabase URL for the model
+  // Use local model directly (AWS disabled for now)
   useEffect(() => {
-    const loadModelUrl = async () => {
-      try {
-        // Extract just the filename from the path
-        const filename = modelPath || 'trecc.glb';
-        const supabaseUrl = await getModelUrl(filename);
-        setActualModelPath(supabaseUrl);
-        console.log('🎨 Using Supabase model URL:', supabaseUrl);
-      } catch (error) {
-        console.error('Error getting Supabase URL, using local:', error);
-        // Fallback to local path with proper prefix
-        setActualModelPath(`/models/${modelPath || 'trecc.glb'}`);
-      }
-    };
-    
-    loadModelUrl();
+    const filename = modelPath || 'trecc.glb';
+    const localUrl = `/models/${filename}`;
+    setActualModelPath(localUrl);
+    console.log('🎨 Using local model URL:', localUrl);
   }, [modelPath]);
   
   // Always call hooks in the same order - use a fallback URL
-  const fallbackUrl = 'trecc.glb';
+  const fallbackUrl = '/models/trecc.glb';
   const modelUrl = actualModelPath || fallbackUrl;
   
   const gltf = useGLTF(modelUrl) as any; // Suspense handles loading

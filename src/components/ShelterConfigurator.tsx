@@ -236,7 +236,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               borderRadius: '50%',
               boxShadow: '0 0 8px rgba(255, 107, 53, 0.4)'
             }} />
-            <div style={{
+            <div style={{ 
               position: 'absolute',
               top: '24px',
               left: '28px',
@@ -261,42 +261,33 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               📋 Specifications
             </h3>
             
-            <div style={{ 
-                display: 'flex', 
-                flexDirection: 'column', 
-                gap: '16px',
-                background: 'rgba(255, 255, 255, 0.9)',
-                borderRadius: '12px',
-                padding: '20px',
-                border: '2px solid rgba(255, 255, 255, 0.3)',
-                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
-              }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '14px', color: '#1a202c', fontWeight: '600' }}>Dimensions:</span>
-                  <span style={{ fontSize: '14px', color: '#1a202c', fontWeight: '700' }}>20' × 8' × 8'</span>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '14px', color: '#1a202c', fontWeight: '600' }}>Weight:</span>
-                  <span style={{ fontSize: '14px', color: '#1a202c', fontWeight: '700' }}>2,400 lbs</span>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '14px', color: '#1a202c', fontWeight: '600' }}>Capacity:</span>
-                  <span style={{ fontSize: '14px', color: '#1a202c', fontWeight: '700' }}>8-12 personnel</span>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '14px', color: '#1a202c', fontWeight: '600' }}>Deployment:</span>
-                  <span style={{ fontSize: '14px', color: '#1a202c', fontWeight: '700' }}>15 minutes</span>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '14px', color: '#1a202c', fontWeight: '600' }}>Power:</span>
-                  <span style={{ fontSize: '14px', color: '#1a202c', fontWeight: '700' }}>Solar + Generator</span>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '14px', color: '#1a202c', fontWeight: '600' }}>Temperature:</span>
-                  <span style={{ fontSize: '14px', color: '#1a202c', fontWeight: '700' }}>-40°F to +120°F</span>
-                </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '24px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Dimensions:</span>
+                <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>20' × 8' × 8'</span>
               </div>
-        </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Weight:</span>
+                <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>2,400 lbs</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Capacity:</span>
+                <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>8-12 personnel</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Deployment:</span>
+                <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>15 minutes</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Power:</span>
+                <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>Solar + Generator</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Temperature:</span>
+                <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>-40°F to +120°F</span>
+              </div>
+            </div>
+          </div>
 
           {/* Color Selection */}
           <div style={{
@@ -345,74 +336,65 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               🎨 Color Options
             </h3>
 
-            <div style={{ 
-                display: 'flex', 
-                flexDirection: 'column', 
-                gap: '20px',
-                background: 'rgba(255, 255, 255, 0.9)',
-                borderRadius: '12px',
-                padding: '20px',
-                border: '2px solid rgba(255, 255, 255, 0.3)',
-                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
-              }}>
-                {colorOptions.map((option) => (
-                  <button
-                    key={option.value}
-                    onClick={() => handleColorChange(option.value)}
-                    style={{
-                      background: configState.color === option.value 
-                        ? 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)'
-                        : 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
-                      color: 'white',
-                      border: configState.color === option.value 
-                        ? '2px solid rgba(102, 126, 234, 0.3)'
-                        : '2px solid rgba(59, 130, 246, 0.1)',
-                      borderRadius: '16px',
-                      padding: '16px 20px',
-                      fontSize: '14px',
-                      fontWeight: '700',
-                      cursor: 'pointer',
-                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                      boxShadow: configState.color === option.value
-                        ? '0 8px 25px rgba(102, 126, 234, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
-                        : '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.5px',
-                      position: 'relative',
-                      overflow: 'hidden'
-                    }}
-                    onMouseEnter={(e) => {
-                      if (configState.color !== option.value) {
-                        e.currentTarget.style.transform = 'translateY(-2px)';
-                        e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3)';
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (configState.color !== option.value) {
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '24px' }}>
+              {colorOptions.map((option) => (
+                <button
+                  key={option.value}
+                  onClick={() => handleColorChange(option.value)}
+                  style={{ 
+                    background: configState.color === option.value 
+                      ? 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)'
+                      : 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                    color: 'white',
+                    border: configState.color === option.value 
+                      ? '2px solid rgba(102, 126, 234, 0.3)'
+                      : '2px solid rgba(59, 130, 246, 0.1)',
+                    borderRadius: '16px',
+                    padding: '16px 20px',
+                    fontSize: '14px',
+                    fontWeight: '700',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                    boxShadow: configState.color === option.value
+                      ? '0 8px 25px rgba(102, 126, 234, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                      : '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px',
+                    position: 'relative',
+                    overflow: 'hidden'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (configState.color !== option.value) {
+                      e.currentTarget.style.transform = 'translateY(-2px)';
+                      e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (configState.color !== option.value) {
                       e.currentTarget.style.transform = 'translateY(0)';
-                        e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
-                      }
-                    }}
-                  >
+                      e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
+                    }
+                  }}
+                >
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    width: '100%'
+                  }}>
+                    <span>{option.name}</span>
                     <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      width: '100%'
-                    }}>
-                      <span>{option.name}</span>
-                      <div style={{
-                        width: '24px',
-                        height: '24px',
-                        borderRadius: '50%',
-                        background: option.value,
-                        border: '2px solid rgba(255, 255, 255, 0.3)',
-                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
-                      }} />
-                    </div>
-                  </button>
-                ))}
+                      width: '24px',
+                      height: '24px',
+                      borderRadius: '50%',
+                      background: option.value,
+                      border: '2px solid rgba(255, 255, 255, 0.3)',
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
+                    }} />
               </div>
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* View Options */}
@@ -437,7 +419,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               borderRadius: '50%',
               boxShadow: '0 0 8px rgba(255, 107, 53, 0.4)'
             }} />
-            <div style={{
+            <div style={{ 
               position: 'absolute',
               top: '24px',
               left: '28px',
@@ -462,57 +444,48 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               👁️ View Options
             </h3>
             
-            <div style={{ 
-                display: 'flex', 
-                flexDirection: 'column', 
-                gap: '16px',
-                background: 'rgba(255, 255, 255, 0.9)',
-                borderRadius: '12px',
-                padding: '20px',
-                border: '2px solid rgba(255, 255, 255, 0.3)',
-                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
-              }}>
-                  <button
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '24px' }}>
+              <button
                 onClick={handleDeployToggle}
-                    style={{
+                style={{
                   background: configState.isDeployed 
                     ? 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)'
                     : 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
-                      color: 'white',
+                  color: 'white',
                   border: configState.isDeployed 
                     ? '2px solid rgba(102, 126, 234, 0.3)'
                     : '2px solid rgba(59, 130, 246, 0.1)',
-                      borderRadius: '16px',
+                  borderRadius: '16px',
                   padding: '16px 20px',
                   fontSize: '14px',
                   fontWeight: '700',
-                      cursor: 'pointer',
+                  cursor: 'pointer',
                   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                   boxShadow: configState.isDeployed
                     ? '0 8px 25px rgba(102, 126, 234, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
                     : '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.5px'
-                    }}
-                    onMouseEnter={(e) => {
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px'
+                }}
+                onMouseEnter={(e) => {
                   if (!configState.isDeployed) {
                     e.currentTarget.style.transform = 'translateY(-2px)';
                     e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3)';
                   }
-                    }}
-                    onMouseLeave={(e) => {
+                }}
+                onMouseLeave={(e) => {
                   if (!configState.isDeployed) {
-                      e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.transform = 'translateY(0)';
                     e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
                   }
-                    }}
-                  >
-                Open View
-                  </button>
+                }}
+              >
+                {configState.isDeployed ? 'Close View' : 'Open View'}
+              </button>
               
-                <button
+              <button
                 onClick={handleInteriorViewToggle}
-                  style={{
+                style={{
                   background: configState.isInsideView 
                     ? 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)'
                     : 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
@@ -520,33 +493,33 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                   border: configState.isInsideView 
                     ? '2px solid rgba(102, 126, 234, 0.3)'
                     : '2px solid rgba(59, 130, 246, 0.1)',
-                    borderRadius: '16px',
+                  borderRadius: '16px',
                   padding: '16px 20px',
                   fontSize: '14px',
                   fontWeight: '700',
-                    cursor: 'pointer',
+                  cursor: 'pointer',
                   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                   boxShadow: configState.isInsideView
                     ? '0 8px 25px rgba(102, 126, 234, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
                     : '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
                   textTransform: 'uppercase',
                   letterSpacing: '0.5px'
-                  }}
-                  onMouseEnter={(e) => {
+                }}
+                onMouseEnter={(e) => {
                   if (!configState.isInsideView) {
                     e.currentTarget.style.transform = 'translateY(-2px)';
                     e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3)';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
+                  }
+                }}
+                onMouseLeave={(e) => {
                   if (!configState.isInsideView) {
-                      e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.transform = 'translateY(0)';
                     e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
                   }
                 }}
               >
                 Interior View
-                </button>
+              </button>
               
               <button
                 onClick={handleWalkthroughVideo}
@@ -579,40 +552,40 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               >
                 📹 Walkthrough Video
               </button>
-              </div>
+            </div>
           </div>
 
           {/* Reset Button */}
-              <button
+          <button
             onClick={() => {
               // Reset configuration
             }}
-                style={{
+            style={{
               background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
               color: 'white',
-                  border: 'none',
-                  borderRadius: '16px',
+              border: 'none',
+              borderRadius: '16px',
               padding: '18px 24px',
               fontSize: '14px',
-                  fontWeight: '800',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
+              fontWeight: '800',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
               boxShadow: '0 8px 25px rgba(102, 126, 234, 0.4)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.5px'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-3px)';
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-3px)';
               e.currentTarget.style.boxShadow = '0 12px 35px rgba(102, 126, 234, 0.5)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
               e.currentTarget.style.boxShadow = '0 8px 25px rgba(102, 126, 234, 0.4)';
-                }}
-              >
+            }}
+          >
             Reset Lighting
-              </button>
-            </div>
+          </button>
+        </div>
 
 
         {/* 3D Viewer Section */}

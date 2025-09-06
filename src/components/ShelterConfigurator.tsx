@@ -175,51 +175,40 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             textAlign: 'center',
             marginBottom: '24px',
             position: 'relative',
-            padding: '32px 24px',
-            background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(30, 30, 30, 0.9) 100%)',
+            padding: '28px 20px',
+            background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(99, 102, 241, 0.1) 30%, rgba(251, 146, 60, 0.15) 70%, rgba(249, 115, 22, 0.2) 100%)',
             borderRadius: '20px',
-            border: '2px solid rgba(59, 130, 246, 0.3)',
-            boxShadow: '0 12px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
           }}>
             <div style={{
               position: 'absolute',
-              top: '16px',
-              right: '20px',
-              width: '10px',
-              height: '10px',
+              top: '12px',
+              right: '16px',
+              width: '8px',
+              height: '8px',
               background: 'linear-gradient(45deg, #4facfe, #00f2fe)',
               borderRadius: '50%',
-              boxShadow: '0 0 16px rgba(79, 172, 254, 0.8)'
+              boxShadow: '0 0 12px rgba(79, 172, 254, 0.6)'
             }} />
             <h2 style={{
-              fontSize: '42px',
+              fontSize: '38px',
               fontWeight: '900',
               color: '#ffffff',
               margin: '0',
               textTransform: 'uppercase',
-              letterSpacing: '6px',
-              textShadow: '0 4px 8px rgba(0, 0, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.6), 0 0 20px rgba(59, 130, 246, 0.3)',
-              background: 'linear-gradient(135deg, #ffffff 0%, #e0f2fe 50%, #3b82f6 100%)',
+              letterSpacing: '5px',
+              textShadow: '0 4px 12px rgba(0, 0, 0, 0.6), 0 2px 6px rgba(0, 0, 0, 0.4)',
+              background: 'linear-gradient(135deg, #ffffff 0%, #f0f9ff 50%, #e0f2fe 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
-              filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8))',
+              filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5))',
               position: 'relative',
               zIndex: 2
             }}>
               TRECC
             </h2>
-            <div style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: '120%',
-              height: '120%',
-              background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(99, 102, 241, 0.05) 100%)',
-              borderRadius: '16px',
-              zIndex: 1
-            }} />
           </div>
 
 

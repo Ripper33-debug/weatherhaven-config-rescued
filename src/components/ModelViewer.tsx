@@ -377,12 +377,19 @@ function applyBodyColor(root: THREE.Object3D, hex: string) {
     
     const name = (o.name + ' ' + (o.material?.name || '')).toLowerCase();
     
-    // Enhanced solar panel detection - be more aggressive about detecting them
+    // ULTRA-AGGRESSIVE solar panel detection - catch everything that could be solar
     const isSolarPanel = name.includes('solar') || name.includes('photovoltaic') || name.includes('pv') || 
                         name.includes('cell') || name.includes('array') || name.includes('grid') || 
                         name.includes('corrugated') || name.includes('panel') || name.includes('module') ||
                         name.includes('silicon') || name.includes('wafer') || name.includes('sheet') ||
-                        name.includes('plate') || name.includes('surface') || name.includes('glass');
+                        name.includes('plate') || name.includes('surface') || name.includes('glass') ||
+                        name.includes('roof') || name.includes('top') || name.includes('upper') ||
+                        name.includes('ceiling') || name.includes('overhead') || name.includes('canopy') ||
+                        name.includes('cover') || name.includes('lid') || name.includes('cap') ||
+                        name.includes('mat') || name.includes('film') || name.includes('layer') ||
+                        name.includes('strip') || name.includes('bar') || name.includes('line') ||
+                        name.includes('segment') || name.includes('section') || name.includes('part') ||
+                        name.includes('component') || name.includes('element') || name.includes('piece');
     
     if (process.env.NODE_ENV === 'development' && meshCount <= 15) {
       console.log(`🎨 Mesh ${meshCount}: "${o.name}" (${o.material?.name || 'no material'}) - isSolarPanel:${isSolarPanel}`);

@@ -286,7 +286,16 @@ function TreccModel({
 
   // Conservative paint (only "body/shell" words; avoids wheels/chassis)
   useEffect(() => {
-    if (!scene || !color) return;
+    if (!scene || !color) {
+      if (process.env.NODE_ENV === 'development') {
+        console.log('🎨 Color effect skipped - scene:', !!scene, 'color:', color);
+      }
+      return;
+    }
+    
+    if (process.env.NODE_ENV === 'development') {
+      console.log('🎨 Applying color to model:', color);
+    }
     
     // Throttle color application to prevent stuttering
     const timeoutId = setTimeout(() => {
@@ -348,6 +357,10 @@ useGLTF.preload('/models/interiors/CommandPosting.glb');
 
 /* ---------------- Colour helper ---------------- */
 function applyBodyColor(root: THREE.Object3D, hex: string) {
+  if (process.env.NODE_ENV === 'development') {
+    console.log('🎨 applyBodyColor called with:', hex);
+  }
+  
   const bodyMatchers = [
     'body','shell','hull','canopy','tarp','wall','panel','roof','door','side',
     'skin','cover','enclosure','housing','box','container',
@@ -377,6 +390,10 @@ function applyBodyColor(root: THREE.Object3D, hex: string) {
     const isSolarPanel = name.includes('solar') || name.includes('photovoltaic') || name.includes('pv') || 
                         name.includes('cell') || name.includes('array') || name.includes('grid') || 
                         name.includes('corrugated');
+    
+    if (process.env.NODE_ENV === 'development' && meshCount <= 5) {
+      console.log(`🎨 Mesh ${meshCount}: "${o.name}" (${o.material?.name || 'no material'}) - isBody:${isBody}, isExcluded:${isExcluded}, isRoof:${isRoof}, isSolarPanel:${isSolarPanel}`);
+    }
     
     // Don't color solar panels specifically
     if (isSolarPanel) return;

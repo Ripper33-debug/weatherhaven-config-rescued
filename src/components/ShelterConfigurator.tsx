@@ -64,9 +64,16 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   const handleColorChange = (newColor: string) => {
     if (process.env.NODE_ENV === 'development') {
       console.log('🎨 Color change requested:', newColor);
+      console.log('🎨 Current configState:', configState);
     }
     setIsApplyingColor(true);
-    setConfigState(prev => ({ ...prev, color: newColor }));
+    setConfigState(prev => {
+      const newState = { ...prev, color: newColor };
+      if (process.env.NODE_ENV === 'development') {
+        console.log('🎨 New state:', newState);
+      }
+      return newState;
+    });
     
     // Simulate color application time
     setTimeout(() => {

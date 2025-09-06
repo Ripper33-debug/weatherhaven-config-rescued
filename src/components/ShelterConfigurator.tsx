@@ -126,6 +126,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   console.log('📁 Model path:', getModelPath());
   console.log('🎨 Color being passed to ModelViewerScene:', configState.color);
   console.log('🚀 Is deployed state:', configState.isDeployed);
+  console.log('🔴 ShelterConfigurator rendering with color options:', colorOptions);
 
   return (
     <div className="configurator-container" style={{
@@ -358,7 +359,10 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             {colorOptions.map((option) => (
               <button
                 key={option.value}
-                onClick={() => handleColorChange(option.value)}
+                onClick={() => {
+                  console.log('🔴 BUTTON CLICKED!', option.name, option.value);
+                  handleColorChange(option.value);
+                }}
                 style={{
                   background: configState.color === option.value 
                     ? 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)'
@@ -379,7 +383,9 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                   textTransform: 'uppercase',
                   letterSpacing: '0.5px',
                   position: 'relative',
-                  overflow: 'hidden'
+                  overflow: 'hidden',
+                  pointerEvents: 'auto',
+                  zIndex: 10
                 }}
                 onMouseEnter={(e) => {
                   if (configState.color !== option.value) {

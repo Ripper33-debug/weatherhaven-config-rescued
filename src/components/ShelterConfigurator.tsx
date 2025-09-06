@@ -40,10 +40,10 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   });
 
   const [openSections, setOpenSections] = useState<{[key: string]: boolean}>({
-    lighting: false,
-    specifications: false,
-    colors: false,
-    views: false
+    lighting: true,
+    specifications: true,
+    colors: true,
+    views: true
   });
 
   // Lighting state

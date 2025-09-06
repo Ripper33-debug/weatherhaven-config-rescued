@@ -358,14 +358,17 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             {colorOptions.map((option) => (
               <button
                 key={option.value}
-                onClick={() => handleColorChange(option.value)}
+                onClick={() => {
+                  console.log('🔴 BUTTON CLICKED!', option.name, option.value);
+                  handleColorChange(option.value);
+                }}
                 style={{
                   background: configState.color === option.value 
-                    ? 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)'
+                    ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
                     : 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
                   color: 'white',
                   border: configState.color === option.value 
-                    ? '2px solid rgba(102, 126, 234, 0.3)'
+                    ? '3px solid rgba(16, 185, 129, 0.8)'
                     : '2px solid rgba(59, 130, 246, 0.1)',
                   borderRadius: '16px',
                   padding: '16px 20px',
@@ -374,7 +377,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                   cursor: 'pointer',
                   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                   boxShadow: configState.color === option.value
-                    ? '0 8px 25px rgba(102, 126, 234, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                    ? '0 8px 25px rgba(16, 185, 129, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 20px rgba(16, 185, 129, 0.3)'
                     : '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
                   textTransform: 'uppercase',
                   letterSpacing: '0.5px',

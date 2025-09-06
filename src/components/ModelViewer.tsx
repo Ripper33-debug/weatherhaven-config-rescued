@@ -261,10 +261,11 @@ function TreccModel({
   onColorApplied,
 }: TreccModelProps) {
   const [actualModelPath, setActualModelPath] = useState<string | null>(null);
+  const [hasError, setHasError] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [loadingStage, setLoadingStage] = useState('Loading model...');
   
-  // Get AWS URL for the model with fallback
+  // Get AWS URL for the model - no fallback, show error if fails
   useEffect(() => {
     const loadModelUrl = async () => {
       try {
@@ -274,9 +275,10 @@ function TreccModel({
         setActualModelPath(awsUrl);
         console.log('🎨 Using AWS model URL:', awsUrl);
       } catch (error) {
-        console.error('Error getting AWS URL, using local:', error);
-        // Fallback to local path with proper prefix
-        setActualModelPath(`/models/${modelPath || 'trecc.glb'}`);
+        console.error('❌ AWS failed - no fallback:', error);
+        // Set error state
+        setHasError(true);
+        setActualModelPath(null);
       }
     };
     
@@ -363,7 +365,7 @@ function TreccModel({
   }, [scene, color]);
 
   // Show loading state while getting AWS URL
-  if (!actualModelPath) {
+  if (actualModelPath === null) {
     return (
       <Html center>
         <div style={{
@@ -376,6 +378,26 @@ function TreccModel({
         }}>
           <div style={{ fontSize: '18px', marginBottom: '10px' }}>🔄 Getting model URL...</div>
           <div style={{ fontSize: '14px', opacity: 0.8 }}>Connecting to AWS</div>
+        </div>
+      </Html>
+    );
+  }
+
+  // Show error state if AWS failed
+  if (hasError) {
+    return (
+      <Html center>
+        <div style={{
+          background: 'rgba(139, 0, 0, 0.9)',
+          color: 'white',
+          padding: '20px',
+          borderRadius: '10px',
+          textAlign: 'center',
+          fontFamily: 'Arial, sans-serif'
+        }}>
+          <div style={{ fontSize: '18px', marginBottom: '10px' }}>❌ AWS Error</div>
+          <div style={{ fontSize: '14px', opacity: 0.8 }}>Failed to load model from CloudFront</div>
+          <div style={{ fontSize: '12px', opacity: 0.6, marginTop: '10px' }}>Check console for details</div>
         </div>
       </Html>
     );

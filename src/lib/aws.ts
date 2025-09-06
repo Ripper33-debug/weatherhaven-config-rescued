@@ -48,52 +48,30 @@ export const AVAILABLE_MODELS: ModelConfig[] = [
   // }
 ]
 
-// Get model URL from AWS S3 + CloudFront with local fallback
+// Get model URL from AWS CloudFront only - no fallbacks
 export async function getModelUrl(modelPath: string): Promise<string> {
-  try {
-    // First try CloudFront URL
-    const cloudfrontUrl = `https://${CLOUDFRONT_DOMAIN}/${modelPath}`
-    console.log('🔧 Trying AWS CloudFront URL:', cloudfrontUrl)
-    
-    // Test if the URL is accessible (only in browser)
-    if (typeof window !== 'undefined') {
+  // Use CloudFront URL directly
+  const cloudfrontUrl = `https://${CLOUDFRONT_DOMAIN}/${modelPath}`
+  console.log('🔧 Using AWS CloudFront URL:', cloudfrontUrl)
+  
+  // Test if the URL is accessible (only in browser)
+  if (typeof window !== 'undefined') {
+    try {
       const response = await fetch(cloudfrontUrl, { method: 'HEAD' })
       if (response.ok) {
         console.log('✅ AWS CloudFront URL working:', cloudfrontUrl)
         return cloudfrontUrl
       } else {
-        console.warn('⚠️ CloudFront URL not accessible, trying S3 direct...')
-        throw new Error(`CloudFront returned ${response.status}`)
+        console.error('❌ CloudFront URL failed:', response.status, response.statusText)
+        throw new Error(`CloudFront returned ${response.status}: ${response.statusText}`)
       }
-    } else {
-      // On server side, just return CloudFront URL
-      return cloudfrontUrl
+    } catch (error) {
+      console.error('❌ CloudFront fetch failed:', error)
+      throw new Error(`CloudFront fetch failed: ${error}`)
     }
-  } catch (error) {
-    console.warn('⚠️ CloudFront failed, trying S3 direct URL...', error)
-    
-    try {
-      // Fallback to S3 direct URL
-      const s3Url = `https://${AWS_S3_BUCKET}.s3.${AWS_REGION}.amazonaws.com/${modelPath}`
-      if (typeof window !== 'undefined') {
-        const response = await fetch(s3Url, { method: 'HEAD' })
-        if (response.ok) {
-          console.log('✅ S3 direct URL working:', s3Url)
-          return s3Url
-        } else {
-          throw new Error(`S3 returned ${response.status}`)
-        }
-      } else {
-        return s3Url
-      }
-    } catch (s3Error) {
-      console.warn('⚠️ AWS S3 failed, falling back to local model...', s3Error)
-      
-      // Final fallback to local model
-      const localUrl = `/models/${modelPath}`
-      console.log('🔄 Using local fallback URL:', localUrl)
-      return localUrl
-    }
+  } else {
+    // On server side, just return CloudFront URL
+    return cloudfrontUrl
   }
 }
 

@@ -294,16 +294,10 @@ function TreccModel({
 
   // Conservative paint (only "body/shell" words; avoids wheels/chassis)
   useEffect(() => {
-    if (!scene || !color) {
-      console.log('🎨 ModelViewer: No scene or color, skipping color application', { scene: !!scene, color });
-      return;
-    }
-    
-    console.log('🎨 ModelViewer: Applying color to model:', color);
+    if (!scene || !color) return;
     
     // Throttle color application to prevent stuttering
     const timeoutId = setTimeout(() => {
-      console.log('🎨 ModelViewer: Executing color application for:', color);
       applyBodyColor(scene, color);
     }, 100);
     
@@ -328,7 +322,9 @@ const cacheModel = (url: string, data: any) => {
       version: CACHE_VERSION
     };
     localStorage.setItem(CACHE_KEY, JSON.stringify(cache));
-    console.log('✅ Model cached:', url);
+    if (process.env.NODE_ENV === 'development') {
+      console.log('✅ Model cached:', url);
+    }
   } catch (error) {
     console.warn('⚠️ Failed to cache model:', error);
   }
@@ -341,7 +337,9 @@ const getCachedModel = (url: string) => {
     if (cached && cached.version === CACHE_VERSION) {
       // Check if cache is less than 24 hours old
       if (Date.now() - cached.timestamp < 24 * 60 * 60 * 1000) {
-        console.log('🚀 Loading from cache:', url);
+        if (process.env.NODE_ENV === 'development') {
+          console.log('🚀 Loading from cache:', url);
+        }
         return cached.data;
       }
     }
@@ -357,8 +355,6 @@ useGLTF.preload('/models/interiors/CommandPosting.glb');
 
 /* ---------------- Colour helper ---------------- */
 function applyBodyColor(root: THREE.Object3D, hex: string) {
-  console.log('🎨 applyBodyColor called with color:', hex);
-  
   const bodyMatchers = [
     'body','shell','hull','canopy','tarp','wall','panel','roof','door','side',
     'skin','cover','enclosure','housing','box','container',
@@ -389,28 +385,15 @@ function applyBodyColor(root: THREE.Object3D, hex: string) {
                         name.includes('cell') || name.includes('array') || name.includes('grid') || 
                         name.includes('corrugated');
     
-    // Debug logging for all meshes
-    console.log(`🎨 Mesh ${meshCount}:`, o.name, 'Material:', o.material?.name, 'isBody:', isBody, 'isExcluded:', isExcluded, 'isRoof:', isRoof, 'isSolarPanel:', isSolarPanel);
-    
     // Don't color solar panels specifically
-    if (isSolarPanel) {
-      console.log('🚫 Skipping solar panel:', o.name);
-      return;
-    }
+    if (isSolarPanel) return;
     
     // Don't color other excluded parts (hardware, etc.)
-    if (isExcluded && !isRoof) {
-      console.log('🚫 Skipping excluded part:', o.name);
-      return;
-    }
+    if (isExcluded && !isRoof) return;
     
     // Color body parts, roof, or if no body matchers found, color everything that's not excluded
-    if (!isBody && !isRoof && bodyMatchers.length > 0) {
-      console.log('🚫 Skipping non-body part:', o.name);
-      return;
-    }
+    if (!isBody && !isRoof && bodyMatchers.length > 0) return;
 
-    console.log('✅ Coloring mesh:', o.name);
     coloredCount++;
 
     const mats = Array.isArray(o.material) ? o.material : [o.material];
@@ -426,7 +409,6 @@ function applyBodyColor(root: THREE.Object3D, hex: string) {
           envMapIntensity: 0.3
         });
         if (Array.isArray(o.material)) o.material[i] = mat; else o.material = mat;
-        console.log('🎨 Created new material for:', o.name);
       } else {
         // Modify existing material directly for better performance
         m.color.copy(paint);
@@ -434,10 +416,11 @@ function applyBodyColor(root: THREE.Object3D, hex: string) {
         m.roughness = Math.max(m.roughness ?? 0.6, 0.35);
         m.envMapIntensity = 0.3;
         m.needsUpdate = true;
-        console.log('🎨 Updated existing material for:', o.name, 'to color:', hex);
       }
     });
   });
   
-  console.log(`🎨 Color application complete: ${coloredCount}/${meshCount} meshes colored`);
+  if (process.env.NODE_ENV === 'development') {
+    console.log(`🎨 Color application complete: ${coloredCount}/${meshCount} meshes colored`);
+  }
 }

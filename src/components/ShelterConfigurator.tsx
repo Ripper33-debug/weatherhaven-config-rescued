@@ -21,10 +21,12 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   defaultModel = '/models/trecc.glb',
   shelterName = 'TRECC Shelter'
 }) => {
+  if (process.env.NODE_ENV === 'development') {
   console.log('🚀 ShelterConfigurator component rendering...');
   console.log('🏠 Shelter ID:', shelterId);
   console.log('📁 Default Model:', defaultModel);
   console.log('🏷️ Shelter Name:', shelterName);
+  }
 
   const colorOptions = [
     { name: 'OD Green (Olive Drab)', value: '#3C3B2E' },
@@ -61,33 +63,18 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   };
 
   const handleColorChange = (newColor: string) => {
+    if (process.env.NODE_ENV === 'development') {
     console.log('🎨 Color change requested:', newColor);
-    console.log('🎨 Previous color was:', configState.color);
-    console.log('🎨 Color options available:', colorOptions);
-    setConfigState(prev => {
-      console.log('🎨 Setting new color:', newColor);
-      console.log('🎨 Previous state:', prev);
-      const newState = { ...prev, color: newColor };
-      console.log('🎨 New state:', newState);
-      return newState;
-    });
+    }
+    setConfigState(prev => ({ ...prev, color: newColor }));
   };
 
   const handleDeployToggle = () => {
-    console.log('🚀 Deploy toggle');
     setConfigState(prev => ({ ...prev, isDeployed: !prev.isDeployed }));
   };
 
   const handleInteriorViewToggle = () => {
-    console.log('🏠 Interior view toggle clicked');
-    console.log('🏠 Current isInteriorView:', configState.isInteriorView);
-    console.log('🏠 Current isDeployed:', configState.isDeployed);
-    
-    setConfigState(prev => {
-      const newState = { ...prev, isInteriorView: !prev.isInteriorView };
-      console.log('🏠 New state will be:', newState);
-      return newState;
-    });
+    setConfigState(prev => ({ ...prev, isInteriorView: !prev.isInteriorView }));
   };
 
 
@@ -96,6 +83,9 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
     if (videoPath) {
       setCurrentVideo(videoPath);
       setShowVideo(true);
+    } else {
+      // Show error message for missing videos
+      alert('Video walkthrough is not available for this configuration.');
     }
   };
 
@@ -122,11 +112,10 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
 
   // Colors are now applied dynamically to the loaded model
 
+  if (process.env.NODE_ENV === 'development') {
   console.log('🎯 Current state:', configState);
   console.log('📁 Model path:', getModelPath());
-  console.log('🎨 Color being passed to ModelViewerScene:', configState.color);
-  console.log('🚀 Is deployed state:', configState.isDeployed);
-  console.log('🔴 ShelterConfigurator rendering with color options:', colorOptions);
+  }
 
   return (
     <div className="configurator-container" style={{
@@ -265,12 +254,12 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             
             <button
               onClick={handleInteriorViewToggle}
-              style={{
-                background: configState.isInsideView 
+              style={{ 
+                background: configState.isInteriorView 
                   ? 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)'
                   : 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
                 color: 'white',
-                border: configState.isInsideView 
+                border: configState.isInteriorView 
                   ? '2px solid rgba(102, 126, 234, 0.3)'
                   : '2px solid rgba(59, 130, 246, 0.1)',
                 borderRadius: '16px',
@@ -279,20 +268,20 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                 fontWeight: '700',
                 cursor: 'pointer',
                 transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                boxShadow: configState.isInsideView
+                boxShadow: configState.isInteriorView
                   ? '0 8px 25px rgba(102, 126, 234, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
                   : '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
                 textTransform: 'uppercase',
                 letterSpacing: '0.5px'
               }}
               onMouseEnter={(e) => {
-                if (!configState.isInsideView) {
+                if (!configState.isInteriorView) {
                   e.currentTarget.style.transform = 'translateY(-2px)';
                   e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3)';
                 }
               }}
               onMouseLeave={(e) => {
-                if (!configState.isInsideView) {
+                if (!configState.isInteriorView) {
                   e.currentTarget.style.transform = 'translateY(0)';
                   e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
                 }
@@ -303,15 +292,18 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             
             <button
               onClick={handleWalkthroughVideo}
+              disabled={!getWalkthroughVideo()}
               style={{
-                background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                background: getWalkthroughVideo() 
+                  ? 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)'
+                  : 'linear-gradient(135deg, #6b7280 0%, #4b5563 100%)',
                 color: 'white',
                 border: '2px solid rgba(59, 130, 246, 0.1)',
                 borderRadius: '16px',
                 padding: '16px 20px',
                 fontSize: '14px',
                 fontWeight: '700',
-                cursor: 'pointer',
+                cursor: getWalkthroughVideo() ? 'pointer' : 'not-allowed',
                 transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                 boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
                 textTransform: 'uppercase',
@@ -319,18 +311,23 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '8px'
+                gap: '8px',
+                opacity: getWalkthroughVideo() ? 1 : 0.6
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3)';
+                if (getWalkthroughVideo()) {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3)';
+                }
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
+                if (getWalkthroughVideo()) {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
+                }
               }}
             >
-              📹 Walkthrough Video
+              📹 Walkthrough Video {!getWalkthroughVideo() && '(Unavailable)'}
             </button>
           </div>
 
@@ -351,10 +348,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             {colorOptions.map((option) => (
               <button
                 key={option.value}
-                onClick={() => {
-                  console.log('🔴 BUTTON CLICKED!', option.name, option.value);
-                  handleColorChange(option.value);
-                }}
+                onClick={() => handleColorChange(option.value)}
                 style={{
                   background: configState.color === option.value 
                     ? 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)'
@@ -392,7 +386,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                   }
                 }}
               >
-                <div style={{
+            <div style={{ 
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
@@ -407,7 +401,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                     border: '2px solid rgba(255, 255, 255, 0.3)',
                     boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
                   }} />
-                </div>
+            </div>
               </button>
             ))}
           </div>
@@ -437,11 +431,11 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Capacity:</span>
               <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>8-12 personnel</span>
-            </div>
+              </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Deployment:</span>
               <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>15 minutes</span>
-            </div>
+              </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Power:</span>
               <span style={{ fontSize: '14px', color: 'white', fontWeight: '700' }}>Solar + Generator</span>
@@ -455,10 +449,15 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
           {/* Reset Button */}
           <button
             onClick={() => {
-              // Reset configuration
+              setConfigState({
+                color: '#3C3B2E', // Default to OD Green (Olive Drab)
+                isDeployed: false,
+                isInteriorView: false,
+                isInsideView: false,
+              });
             }}
             style={{
-              background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+              background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
               color: 'white',
               border: 'none',
               borderRadius: '16px',
@@ -467,20 +466,20 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               fontWeight: '800',
               cursor: 'pointer',
               transition: 'all 0.3s ease',
-              boxShadow: '0 8px 25px rgba(102, 126, 234, 0.4)',
+              boxShadow: '0 8px 25px rgba(239, 68, 68, 0.4)',
               textTransform: 'uppercase',
               letterSpacing: '0.5px'
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = 'translateY(-3px)';
-              e.currentTarget.style.boxShadow = '0 12px 35px rgba(102, 126, 234, 0.5)';
+              e.currentTarget.style.boxShadow = '0 12px 35px rgba(239, 68, 68, 0.5)';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 8px 25px rgba(102, 126, 234, 0.4)';
+              e.currentTarget.style.boxShadow = '0 8px 25px rgba(239, 68, 68, 0.4)';
             }}
           >
-            Reset Lighting
+            Reset Configuration
           </button>
         </div>
 
@@ -615,8 +614,13 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                   objectFit: 'cover'
               }}
                 poster="/videos/trecc-poster.jpg"
+                onError={(e) => {
+                  console.error('Video failed to load:', currentVideo);
+                  alert('Sorry, this video is currently unavailable.');
+                  setShowVideo(false);
+                }}
             >
-                <source src="/videos/trecc-walkthrough.mp4" type="video/mp4" />
+                <source src={currentVideo} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
             </div>

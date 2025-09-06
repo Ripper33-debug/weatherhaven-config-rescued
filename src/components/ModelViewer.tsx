@@ -369,14 +369,34 @@ function TreccModel({
     return (
       <Html center>
         <div style={{
-          background: 'rgba(0, 0, 0, 0.8)',
+          background: 'rgba(0, 0, 0, 0.9)',
           color: 'white',
-          padding: '20px',
-          borderRadius: '10px',
+          padding: '30px',
+          borderRadius: '15px',
           textAlign: 'center',
-          fontFamily: 'Arial, sans-serif'
+          fontFamily: 'Arial, sans-serif',
+          border: '2px solid #4A90E2',
+          boxShadow: '0 0 20px rgba(74, 144, 226, 0.3)'
         }}>
-          <div style={{ fontSize: '18px' }}>🔄 Loading model...</div>
+          <div style={{
+            width: '40px',
+            height: '40px',
+            border: '3px solid #333',
+            borderTop: '3px solid #4A90E2',
+            borderRadius: '50%',
+            margin: '0 auto 15px auto',
+            animation: 'spin 1s linear infinite'
+          }}></div>
+          <div style={{ 
+            fontSize: '18px',
+            fontWeight: 'bold',
+            background: 'linear-gradient(45deg, #4A90E2, #FF6B35)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text'
+          }}>
+            Loading model...
+          </div>
         </div>
       </Html>
     );

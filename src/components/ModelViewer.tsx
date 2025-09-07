@@ -510,5 +510,3 @@ function cacheModel(url: string, gltf: any) {
   modelCache.set(url, gltf);
   console.log('🎨 Cached model:', url);
 }
-
-export { ModelViewerScene };

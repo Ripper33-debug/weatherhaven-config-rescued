@@ -5,7 +5,7 @@ import { Canvas, useThree } from '@react-three/fiber';
 import { useGLTF, Html, OrbitControls, Environment, PerspectiveCamera } from '@react-three/drei';
 import * as THREE from 'three';
 import { ModelViewerSceneProps, TreccModelProps, ReadyInfo } from '../types';
-import { getModelUrl, preloadModel } from '../lib/aws';
+import { getModelUrl } from '../lib/aws';
 
 /** Full-page viewer wrapper */
 export default function ModelViewer() {
@@ -34,7 +34,7 @@ export function ModelViewerScene({
 }: ModelViewerSceneProps) {
   console.log('🎨 ModelViewerScene received color:', color);
   const controlsRef = useRef<any>(null);
-  const cameraTarget = useRef(new THREE.Vector3(0, 1.5, 0)); // Set target above ground plane
+  const cameraTarget = useRef(new THREE.Vector3(0, 1.5, 0));
   
   return (
     <>
@@ -56,15 +56,15 @@ export function ModelViewerScene({
       {/* Controls */}
       <OrbitControls
         ref={controlsRef}
-        enablePan={false} // Disable panning to prevent going under
+        enablePan={false}
         enableZoom
         enableRotate
         enableDamping
         dampingFactor={0.08}
         zoomSpeed={1}
         rotateSpeed={0.9}
-        minPolarAngle={Math.PI / 18} // 10 degrees from top (slightly tilted from straight up)
-        maxPolarAngle={Math.PI / 2} // 90 degrees from top (horizontal)
+        minPolarAngle={Math.PI / 18}
+        maxPolarAngle={Math.PI / 2}
         minDistance={3}
         maxDistance={15}
         target={cameraTarget.current}
@@ -102,46 +102,76 @@ export function ModelViewerScene({
   );
 }
 
-/* ---------------- UI ---------------- */
+/* ---------------- Loading ---------------- */
 function Loading() {
   const [progress, setProgress] = useState(0);
-  const [stage, setStage] = useState('Initializing...');
-  
-  React.useEffect(() => {
-    const stages = [
-      { text: 'Loading model file...', progress: 20 },
-      { text: 'Processing geometry...', progress: 40 },
-      { text: 'Loading textures...', progress: 60 },
-      { text: 'Applying materials...', progress: 80 },
-      { text: 'Finalizing...', progress: 100 }
-    ];
-    
-    let currentStage = 0;
+  const [loadingStage, setLoadingStage] = useState('Initializing...');
+
+  useEffect(() => {
     const interval = setInterval(() => {
-      if (currentStage < stages.length) {
-        setStage(stages[currentStage].text);
-        setProgress(stages[currentStage].progress);
-        currentStage++;
-      } else {
-        clearInterval(interval);
-      }
-    }, 200);
-    
+      setProgress(prev => {
+        if (prev < 30) {
+          setLoadingStage('Connecting to AWS...');
+          return prev + 2;
+        } else if (prev < 60) {
+          setLoadingStage('Downloading model...');
+          return prev + 1.5;
+        } else if (prev < 90) {
+          setLoadingStage('Processing geometry...');
+          return prev + 1;
+        } else if (prev < 100) {
+          setLoadingStage('Finalizing...');
+          return prev + 0.5;
+        } else {
+          clearInterval(interval);
+          return 100;
+        }
+      });
+    }, 100);
+
     return () => clearInterval(interval);
   }, []);
-  
+
   return (
     <Html center>
-      <div style={{ 
-        color: 'white', 
-        fontSize: 16, 
+      <div style={{
+        background: 'rgba(0, 0, 0, 0.9)',
+        color: 'white',
+        padding: '30px',
+        borderRadius: '15px',
         textAlign: 'center',
-        background: 'rgba(0, 0, 0, 0.7)',
-        padding: '20px',
-        borderRadius: '10px',
+        fontFamily: 'Arial, sans-serif',
+        border: '2px solid #4A90E2',
+        boxShadow: '0 0 20px rgba(74, 144, 226, 0.3)',
         minWidth: '300px'
       }}>
-        <div style={{ marginBottom: '10px' }}>{stage}</div>
+        <div style={{
+          width: '40px',
+          height: '40px',
+          border: '3px solid #333',
+          borderTop: '3px solid #4A90E2',
+          borderRadius: '50%',
+          margin: '0 auto 15px auto',
+          animation: 'spin 1s linear infinite'
+        }}></div>
+        <div style={{ 
+          fontSize: '18px',
+          fontWeight: 'bold',
+          background: 'linear-gradient(45deg, #4A90E2, #FF6B35)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text',
+          marginBottom: '10px'
+        }}>
+          Loading model...
+        </div>
+        <div style={{
+          fontSize: '14px',
+          color: '#b0b0b0',
+          marginBottom: '15px'
+        }}>
+          {loadingStage}
+        </div>
         <div style={{
           width: '100%',
           height: '4px',
@@ -152,12 +182,12 @@ function Loading() {
           <div style={{
             width: `${progress}%`,
             height: '100%',
-            background: 'linear-gradient(90deg, #4facfe 0%, #00f2fe 100%)',
+            background: 'linear-gradient(90deg, #4A90E2, #FF6B35)',
             transition: 'width 0.3s ease'
-          }} />
+          }}></div>
         </div>
         <div style={{ marginTop: '8px', fontSize: '12px', opacity: 0.8 }}>
-          {progress}%
+          {Math.round(progress)}%
         </div>
       </div>
     </Html>
@@ -167,7 +197,7 @@ function Loading() {
 /* ---------------- Scene ---------------- */
 function Scene({ color = '#3C3B2E' }: { color?: string }) {
   const controlsRef = useRef<any>(null);
-  const cameraTarget = useRef(new THREE.Vector3(0, 1.5, 0)); // Set target above ground plane
+  const cameraTarget = useRef(new THREE.Vector3(0, 1.5, 0));
 
   // Lighting defaults
   const ambientIntensity = 0.35;
@@ -202,15 +232,15 @@ function Scene({ color = '#3C3B2E' }: { color?: string }) {
       {/* Controls: LEFT = ROTATE, MIDDLE = ZOOM (no panning) */}
       <OrbitControls
         ref={controlsRef}
-        enablePan={false} // Disable panning to prevent going under
+        enablePan={false}
         enableZoom
         enableRotate
         enableDamping
         dampingFactor={0.08}
         zoomSpeed={1}
         rotateSpeed={0.9}
-        minPolarAngle={Math.PI / 18} // 10 degrees from top (slightly tilted from straight up)
-        maxPolarAngle={Math.PI / 2} // 90 degrees from top (horizontal)
+        minPolarAngle={Math.PI / 18}
+        maxPolarAngle={Math.PI / 2}
         minDistance={3}
         maxDistance={15}
         target={cameraTarget.current}
@@ -240,20 +270,20 @@ function Scene({ color = '#3C3B2E' }: { color?: string }) {
         modelPath="trecc.glb"
         color={color}
         onReady={({ center, radius }) => {
-          // Center camera target and frame the model nicely
+          // Update camera target to model center
           cameraTarget.current.copy(center);
           if (controlsRef.current) {
             controlsRef.current.target.copy(center);
             controlsRef.current.update();
           }
         }}
+        onColorApplied={() => {}}
       />
     </>
   );
 }
 
 /* ---------------- Model (trecc.glb) ---------------- */
-
 function TreccModel({
   modelPath,
   color,
@@ -262,21 +292,17 @@ function TreccModel({
 }: TreccModelProps) {
   const [actualModelPath, setActualModelPath] = useState<string | null>(null);
   const [hasError, setHasError] = useState(false);
-  const [loadingProgress, setLoadingProgress] = useState(0);
-  const [loadingStage, setLoadingStage] = useState('Loading model...');
   
-  // Get AWS URL for the model - no fallback, show error if fails
+  // Get AWS URL for the model
   useEffect(() => {
     const loadModelUrl = async () => {
       try {
-        // Extract just the filename from the path
         const filename = modelPath || 'trecc.glb';
         const awsUrl = await getModelUrl(filename);
         setActualModelPath(awsUrl);
         console.log('🎨 Using AWS model URL:', awsUrl);
       } catch (error) {
-        console.error('❌ AWS failed - no fallback:', error);
-        // Set error state
+        console.error('❌ AWS failed:', error);
         setHasError(true);
         setActualModelPath(null);
       }
@@ -289,11 +315,52 @@ function TreccModel({
   const fallbackUrl = 'https://d3kx2t94cz9q1y.cloudfront.net/trecc.glb';
   const modelUrl = actualModelPath || fallbackUrl;
   
-  const gltf = useGLTF(modelUrl) as any; // Suspense handles loading
+  const gltf = useGLTF(modelUrl) as any;
   
-  if (process.env.NODE_ENV === 'development') {
-    console.log('🎨 Model loaded:', actualModelPath, 'gltf:', !!gltf, 'scene:', !!gltf?.scene);
-  }
+  const scene = useMemo<THREE.Group | null>(() => {
+    if (!gltf) return null;
+    
+    return gltf?.scene?.clone(true) ?? null;
+  }, [gltf]);
+
+  // Orientation/Grounding constants
+  const ROTATE_FIX = new THREE.Euler(-Math.PI / 2, Math.PI, 0);
+
+  // Once loaded, fix orientation, center it, then sit it on the ground (y=0).
+  useEffect(() => {
+    if (!scene) return;
+
+    // 1) Apply rotation fix BEFORE measuring
+    scene.rotation.copy(ROTATE_FIX);
+
+    // 2) Center the model at the origin
+    let box = new THREE.Box3().setFromObject(scene);
+    const center = box.getCenter(new THREE.Vector3());
+    scene.position.sub(center);
+
+    // 3) Recompute and raise so it sits on y=0
+    box = new THREE.Box3().setFromObject(scene);
+    const size = box.getSize(new THREE.Vector3());
+    const radius = Math.max(size.x, size.y, size.z) * 0.5;
+    scene.position.y += -box.min.y;
+
+    // Notify parent about bounds/center (for camera target)
+    onReady?.({ center: new THREE.Vector3(0, size.y * 0.5, 0), radius });
+  }, [scene, onReady]);
+
+  // Apply color to the model
+  useEffect(() => {
+    console.log('🎨 Color effect triggered - scene:', !!scene, 'color:', color);
+    
+    if (!scene || !color) {
+      console.log('🎨 Color effect skipped - scene:', !!scene, 'color:', color);
+      return;
+    }
+
+    // Apply color immediately without timeout
+    applyBodyColor(scene, color);
+    onColorApplied?.();
+  }, [scene, color, onColorApplied]);
 
   // Show loading state while getting AWS URL
   if (actualModelPath === null) {
@@ -385,232 +452,63 @@ function TreccModel({
       </Html>
     );
   }
-  
-  const scene = useMemo<THREE.Group | null>(() => {
-    if (!gltf) return null;
-    
-    // Cache the loaded model for future use
-    if (actualModelPath) {
-      cacheModel(actualModelPath, gltf);
-    }
-    
-    // Simulate progressive loading stages
-    setLoadingStage('Processing geometry...');
-    setLoadingProgress(50);
-    
-    setTimeout(() => {
-      setLoadingStage('Applying materials...');
-      setLoadingProgress(75);
-    }, 100);
-    
-    setTimeout(() => {
-      setLoadingStage('Finalizing...');
-      setLoadingProgress(100);
-    }, 200);
-    
-    return gltf?.scene?.clone(true) ?? null;
-  }, [gltf]);
 
-  // Orientation/Grounding constants
-  // If the model is still on its side, swap which axis you fix below (X/Z).
-  const ROTATE_FIX = new THREE.Euler(-Math.PI / 2, Math.PI, 0); // rotate -90° around X to lay flat, 180° around Y to face opposite direction
-
-  // Once loaded, fix orientation, center it, then sit it on the ground (y=0).
-  useEffect(() => {
-    if (!scene) return;
-
-    // 1) Apply rotation fix BEFORE measuring
-    scene.rotation.copy(ROTATE_FIX);
-
-    // 2) Center the model at the origin
-    let box = new THREE.Box3().setFromObject(scene);
-    const center = box.getCenter(new THREE.Vector3());
-    scene.position.sub(center); // move so origin is center
-
-    // 3) Recompute and raise so it sits on y=0
-    box = new THREE.Box3().setFromObject(scene);
-    const size = box.getSize(new THREE.Vector3());
-    const radius = Math.max(size.x, size.y, size.z) * 0.5;
-    scene.position.y += -box.min.y; // push up so bottom touches ground
-
-    // Notify parent about bounds/center (for camera target)
-    onReady?.({ center: new THREE.Vector3(0, size.y * 0.5, 0), radius });
-  }, [scene, onReady]);
-
-  // Conservative paint (only "body/shell" words; avoids wheels/chassis)
-  useEffect(() => {
-    console.log('🎨 Color effect triggered - scene:', !!scene, 'color:', color);
-    
-    if (!scene || !color) {
-      console.log('🎨 Color effect skipped - scene:', !!scene, 'color:', color);
-      return;
-    }
-    
-    console.log('🎨 Applying color to model:', color);
-    console.log('🎨 Scene object:', scene);
-    console.log('🎨 Scene children count:', scene.children.length);
-    
-    // Apply color immediately without timeout to see if that's the issue
-    applyBodyColor(scene, color);
-    onColorApplied?.();
-  }, [scene, color]);
-
-  // Show loading state while getting AWS URL
-  if (actualModelPath === null) {
-    return (
-      <Html center>
-        <div style={{
-          background: 'rgba(0, 0, 0, 0.9)',
-          color: 'white',
-          padding: '30px',
-          borderRadius: '15px',
-          textAlign: 'center',
-          fontFamily: 'Arial, sans-serif',
-          border: '2px solid #4A90E2',
-          boxShadow: '0 0 20px rgba(74, 144, 226, 0.3)'
-        }}>
-          <div style={{
-            width: '40px',
-            height: '40px',
-            border: '3px solid #333',
-            borderTop: '3px solid #4A90E2',
-            borderRadius: '50%',
-            margin: '0 auto 15px auto',
-            animation: 'spin 1s linear infinite'
-          }}></div>
-          <div style={{ 
-            fontSize: '18px',
-            fontWeight: 'bold',
-            background: 'linear-gradient(45deg, #4A90E2, #FF6B35)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text'
-          }}>
-            Loading model...
-          </div>
-        </div>
-      </Html>
-    );
+  if (!scene) {
+    return null;
   }
 
-  // Show error state if AWS failed
-  if (hasError) {
-    return (
-      <Html center>
-        <div style={{
-          background: 'rgba(139, 0, 0, 0.9)',
-          color: 'white',
-          padding: '20px',
-          borderRadius: '10px',
-          textAlign: 'center',
-          fontFamily: 'Arial, sans-serif'
-        }}>
-          <div style={{ fontSize: '18px', marginBottom: '10px' }}>❌ AWS Error</div>
-          <div style={{ fontSize: '14px', opacity: 0.8 }}>Failed to load model from CloudFront</div>
-          <div style={{ fontSize: '12px', opacity: 0.6, marginTop: '10px' }}>Check console for details</div>
-        </div>
-      </Html>
-    );
-  }
-
-  if (!scene) return null;
-  return <primitive object={scene} castShadow receiveShadow />;
+  return <primitive object={scene} />;
 }
-
-// Caching system for faster subsequent loads
-const CACHE_KEY = 'weatherhaven-models-cache';
-const CACHE_VERSION = '1.0';
-
-// Simple cache management
-const cacheModel = (url: string, data: any) => {
-  try {
-    const cache = JSON.parse(localStorage.getItem(CACHE_KEY) || '{}');
-    cache[url] = {
-      data,
-      timestamp: Date.now(),
-      version: CACHE_VERSION
-    };
-    localStorage.setItem(CACHE_KEY, JSON.stringify(cache));
-    if (process.env.NODE_ENV === 'development') {
-      console.log('✅ Model cached:', url);
-    }
-  } catch (error) {
-    console.warn('⚠️ Failed to cache model:', error);
-  }
-};
-
-const getCachedModel = (url: string) => {
-  try {
-    const cache = JSON.parse(localStorage.getItem(CACHE_KEY) || '{}');
-    const cached = cache[url];
-    if (cached && cached.version === CACHE_VERSION) {
-      // Check if cache is less than 24 hours old
-      if (Date.now() - cached.timestamp < 24 * 60 * 60 * 1000) {
-        if (process.env.NODE_ENV === 'development') {
-          console.log('🚀 Loading from cache:', url);
-        }
-        return cached.data;
-      }
-    }
-  } catch (error) {
-    console.warn('⚠️ Failed to read cache:', error);
-  }
-  return null;
-};
-
-// Preload the single model we use with caching
-// Preload will be handled by Supabase integration
-// Preload AWS models
-useGLTF.preload('https://d3kx2t94cz9q1y.cloudfront.net/CommandPosting.glb');
 
 /* ---------------- Colour helper ---------------- */
 function applyBodyColor(root: THREE.Object3D, hex: string) {
   console.log('🎨 applyBodyColor called with:', hex);
   console.log('🎨 Root object:', root);
-  console.log('🎨 Root type:', root.type);
-  
-  const paint = new THREE.Color(hex);
-  let meshCount = 0;
-  let coloredCount = 0;
-  
-  // SIMPLIFIED: Color ALL meshes for debugging
-  root.traverse((o: any) => {
-    if (!o.isMesh) return;
-    meshCount++;
-    
-    console.log(`🎨 Mesh ${meshCount}: "${o.name}" (${o.material?.name || 'no material'})`);
-    
-    coloredCount++;
-    const mats = Array.isArray(o.material) ? o.material : [o.material];
-    mats.forEach((m: any, i: number) => {
-      if (!m) return;
-      
-      console.log(`🎨 Coloring material ${i} for mesh "${o.name}":`, m.type, 'color:', m.color?.getHexString());
-      
-      // Create new material to ensure color change
-      const newMat = new THREE.MeshStandardMaterial({
-        color: paint,
-        metalness: 0.25,
-        roughness: 0.6,
-        envMapIntensity: 0.3,
-        transparent: m.transparent,
-        opacity: m.opacity,
-        map: m.map,
-        normalMap: m.normalMap,
-        roughnessMap: m.roughnessMap,
-        metalnessMap: m.metalnessMap,
-        envMap: m.envMap
-      });
-      
-      if (Array.isArray(o.material)) {
-        o.material[i] = newMat;
-      } else {
-        o.material = newMat;
+
+  root.traverse((child) => {
+    if (child instanceof THREE.Mesh) {
+      // Look for materials that might be the body/shell
+      if (child.material) {
+        if (Array.isArray(child.material)) {
+          child.material.forEach((mat) => {
+            if (mat instanceof THREE.MeshStandardMaterial) {
+              // Only change materials that look like they could be the body
+              if (mat.name.toLowerCase().includes('body') || 
+                  mat.name.toLowerCase().includes('shell') ||
+                  mat.name.toLowerCase().includes('main') ||
+                  mat.name.toLowerCase().includes('frame') ||
+                  mat.name === '' || // Default material name
+                  mat.color.getHex() === 0x3c3b2e) { // Current default color
+                console.log('🎨 Changing material color:', mat.name, 'to', hex);
+                mat.color.setHex(parseInt(hex.replace('#', ''), 16));
+                mat.needsUpdate = true;
+              }
+            }
+          });
+        } else if (child.material instanceof THREE.MeshStandardMaterial) {
+          // Single material
+          if (child.material.name.toLowerCase().includes('body') || 
+              child.material.name.toLowerCase().includes('shell') ||
+              child.material.name.toLowerCase().includes('main') ||
+              child.material.name.toLowerCase().includes('frame') ||
+              child.material.name === '' ||
+              child.material.color.getHex() === 0x3c3b2e) {
+            console.log('🎨 Changing material color:', child.material.name, 'to', hex);
+            child.material.color.setHex(parseInt(hex.replace('#', ''), 16));
+            child.material.needsUpdate = true;
+          }
+        }
       }
-      
-      console.log(`🎨 Applied color ${paint.getHexString()} to mesh "${o.name}"`);
-    });
+    }
   });
-  
-  console.log(`🎨 Color application complete: ${coloredCount}/${meshCount} meshes colored`);
 }
+
+// Model caching
+const modelCache = new Map<string, any>();
+
+function cacheModel(url: string, gltf: any) {
+  modelCache.set(url, gltf);
+  console.log('🎨 Cached model:', url);
+}
+
+export { ModelViewerScene };

@@ -1,77 +1,82 @@
-# Walkthrough Videos
+# 🎥 Walkthrough Videos Directory
 
-This directory contains walkthrough videos for each TRECC configuration state.
+This directory contains walkthrough videos for the Weatherhaven Shelter Configurator.
 
-## Required Videos
+## Required Video Files
 
-### TRECC Configuration Videos
-- `trecc-closed-walkthrough.mp4` - Walkthrough of TRECC in closed/packed configuration
-- `trecc-open-walkthrough.mp4` - Walkthrough of TRECC in open/deployed configuration  
-- `trecc-interior-walkthrough.mp4` - Walkthrough of TRECC interior layout
+### TRECC Shelter Videos
+- `trecc-closed-walkthrough.mp4` - Shelter in transport/storage mode
+- `trecc-open-walkthrough.mp4` - Shelter fully deployed
+- `trecc-interior-walkthrough.mp4` - Inside view of the shelter
 
-### Command Posting Video
-- `command-posting-walkthrough.mp4` - Walkthrough of Command Posting interior
+### HERCONN Shelter Videos
+- `herconn-walkthrough.mp4` - HERCONN shelter walkthrough
+
+### Optional Files
+- `trecc-poster.jpg` - Thumbnail image for video player
 
 ## Video Specifications
 
-### Recommended Format
-- **Format**: MP4 (H.264)
-- **Resolution**: 1920x1080 (Full HD) or 1280x720 (HD)
-- **Frame Rate**: 30fps
-- **Duration**: 30-60 seconds per walkthrough
-- **File Size**: Keep under 50MB per video for optimal loading
+### Technical Requirements
+- **Format**: MP4 (H.264 codec)
+- **Resolution**: 1920x1080 (Full HD) recommended
+- **Duration**: 30-60 seconds per video
+- **File Size**: Keep under 50MB for fast loading
+- **Frame Rate**: 30fps or 60fps
 
 ### Content Guidelines
+- **Show key features** of each shelter configuration
+- **Smooth camera movements** for professional look
+- **Good lighting** to highlight details
+- **Clear audio** if including narration
+- **Consistent branding** with Weatherhaven colors
 
-#### TRECC Closed Walkthrough
-- Show exterior of packed shelter
-- Highlight deployment mechanism
-- Point out key features and dimensions
-- Show connection points and transport configuration
+## How to Add Videos
 
-#### TRECC Open Walkthrough  
+1. **Create your videos** using your preferred video editing software
+2. **Export as MP4** with the specifications above
+3. **Upload to this directory** with the exact filenames listed
+4. **Test the walkthrough button** in the configurator
+
+## Video Ideas
+
+### TRECC Closed Walkthrough
+- Show shelter in transport mode
+- Highlight compact storage
+- Demonstrate setup process
+- Show weather protection features
+
+### TRECC Open Walkthrough
 - Show fully deployed shelter
-- Walk through interior space
-- Highlight layout and functionality
-- Show deployment sequence (if possible)
+- Highlight interior space
+- Demonstrate modularity
+- Show equipment integration
 
-#### TRECC Interior Walkthrough
-- Detailed interior tour
-- Show equipment placement
-- Highlight storage and workspace areas
-- Demonstrate interior lighting and ventilation
+### TRECC Interior Walkthrough
+- Tour inside the shelter
+- Show different configurations
+- Highlight comfort features
+- Demonstrate functionality
 
-#### Command Posting Walkthrough
-- Show command center layout
-- Highlight communications equipment
-- Show control stations and displays
-- Demonstrate operational workflow
+### HERCONN Walkthrough
+- Show rapid deployment
+- Highlight tactical features
+- Demonstrate versatility
+- Show emergency response capabilities
 
-## Video Features
+## Testing
 
-### Interactive Controls
-- **Play/Pause**: Standard video controls
-- **Fullscreen**: Expand to full screen
-- **Auto-play**: Videos start automatically when opened
-- **Auto-close**: Modal closes when video ends
+After adding videos, test the walkthrough functionality:
+1. Go to the configurator page
+2. Click the "Walkthrough Video" button
+3. Verify the correct video plays
+4. Test different shelter configurations
 
-### Dynamic Selection
-- Videos automatically change based on current configuration
-- Seamless switching between different states
-- Context-aware video selection
+## Troubleshooting
 
-## Implementation
-
-The walkthrough system is integrated into the TRECC configurator with:
-
-1. **Video Button**: Purple "🎥 Walkthrough Video" button in controls
-2. **Modal Overlay**: Full-screen video player with controls
-3. **Dynamic Content**: Videos change based on current configuration
-4. **Responsive Design**: Works on desktop and mobile devices
-
-## Adding New Videos
-
-1. Create the video file in the appropriate format
-2. Place it in this directory with the correct filename
-3. The system will automatically detect and use the new video
-4. Update this README with new video information
+If videos don't play:
+- Check file names match exactly
+- Verify MP4 format
+- Check file size (should be under 50MB)
+- Test in different browsers
+- Check browser console for errors

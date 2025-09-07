@@ -80,6 +80,8 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
       } else {
         return '/videos/trecc-closed-walkthrough.mp4';
       }
+    } else if (shelterId === 'herconn') {
+      return '/videos/herconn-walkthrough.mp4';
     } else if (shelterId === 'command-posting') {
       return '/videos/command-posting-walkthrough.mp4';
     }

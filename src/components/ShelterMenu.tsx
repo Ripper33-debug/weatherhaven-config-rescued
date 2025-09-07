@@ -36,21 +36,6 @@ const shelters: Shelter[] = [
     deploymentDifficulty: 'moderate'
   },
   {
-    id: 'command-posting',
-    name: 'Command Posting',
-    description: 'Specialized command posting interior with communications and control systems.',
-    category: 'Military',
-    image: '/models/command-posting-preview.jpg',
-    features: ['Command operations', 'Communications hub', 'Control systems', 'Tactical layout'],
-    modelPath: 'CommandPosting.glb',
-    specs: ['Comm systems: Integrated', 'Control stations: Multiple', 'Security: Level 2', 'Capacity: 8-15 operators'],
-    deploymentTime: 3,
-    weatherRating: 4,
-    capacity: 15,
-    availability: 'limited',
-    deploymentDifficulty: 'complex'
-  },
-  {
     id: 'herconn',
     name: 'HERCONN',
     description: 'HERCONN deployable shelter system for tactical and emergency operations.',
@@ -62,51 +47,6 @@ const shelters: Shelter[] = [
     deploymentTime: 1,
     weatherRating: 5,
     capacity: 30,
-    availability: 'available',
-    deploymentDifficulty: 'easy'
-  },
-  {
-    id: 'command-center',
-    name: 'Command Center',
-    description: 'Specialized command and control facility for military and emergency operations.',
-    category: 'Military',
-    image: '/models/command-preview.jpg',
-    features: ['Command operations', 'Communications hub', 'Security features', 'Redundant systems'],
-    modelPath: 'trecc.glb',
-    specs: ['Comm systems: Integrated', 'Security: Level 3', 'Power: Redundant', 'Capacity: 15-30 operators'],
-    deploymentTime: 4,
-    weatherRating: 4,
-    capacity: 30,
-    availability: 'available',
-    deploymentDifficulty: 'complex'
-  },
-  {
-    id: 'field-hospital',
-    name: 'Field Hospital',
-    description: 'Complete medical facility for emergency and routine care in remote locations.',
-    category: 'Medical',
-    image: '/models/hospital-preview.jpg',
-    features: ['Medical equipment', 'Sterile environment', 'Patient care', 'Emergency response'],
-    modelPath: '/models/trecc-open.glb',
-    specs: ['Beds: 10-20', 'OR capacity: 2-4', 'Sterilization: Full', 'Power: Medical grade'],
-    deploymentTime: 6,
-    weatherRating: 3,
-    capacity: 20,
-    availability: 'limited',
-    deploymentDifficulty: 'complex'
-  },
-  {
-    id: 'disaster-relief',
-    name: 'Disaster Relief',
-    description: 'Emergency shelter system for disaster response and humanitarian aid.',
-    category: 'Emergency',
-    image: '/models/relief-preview.jpg',
-    features: ['Rapid deployment', 'High capacity', 'Basic amenities', 'Durable construction'],
-    modelPath: 'trecc.glb',
-    specs: ['Capacity: 50-100 people', 'Deployment: <1 hour', 'Weather: All conditions', 'Durability: Extended'],
-    deploymentTime: 1,
-    weatherRating: 4,
-    capacity: 100,
     availability: 'available',
     deploymentDifficulty: 'easy'
   }

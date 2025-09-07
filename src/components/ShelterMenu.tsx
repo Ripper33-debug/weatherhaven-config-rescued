@@ -183,10 +183,21 @@ export default function ShelterMenu() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%)',
+      background: 'linear-gradient(135deg, #FF6B35 0%, #F7931E 25%, #4A90E2 75%, #00F2FE 100%)',
       padding: '40px 20px',
-      fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
+      fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
+      position: 'relative'
     }}>
+      {/* Animated background overlay */}
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: 'linear-gradient(45deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.1) 100%)',
+        pointerEvents: 'none'
+      }} />
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -50 }}
@@ -194,15 +205,18 @@ export default function ShelterMenu() {
         transition={{ duration: 0.8 }}
         style={{
           textAlign: 'center',
-          marginBottom: '60px'
+          marginBottom: '60px',
+          position: 'relative',
+          zIndex: 1
         }}
       >
         <h1 style={{
           fontSize: 'clamp(2.5rem, 5vw, 4rem)',
           fontWeight: '900',
-          color: 'var(--text-primary)',
+          color: 'white',
           marginBottom: '20px',
-          background: 'var(--gradient-text)',
+          textShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
+          background: 'linear-gradient(135deg, #FFFFFF 0%, #F0F0F0 100%)',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
           backgroundClip: 'text'
@@ -211,10 +225,11 @@ export default function ShelterMenu() {
         </h1>
         <p style={{
           fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
-          color: 'var(--text-secondary)',
+          color: 'rgba(255, 255, 255, 0.9)',
           maxWidth: '700px',
           margin: '0 auto',
-          lineHeight: '1.6'
+          lineHeight: '1.6',
+          textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)'
         }}>
           Explore and customize Weatherhaven's complete range of deployable shelter solutions for military, emergency response, and remote operations
         </p>
@@ -230,7 +245,9 @@ export default function ShelterMenu() {
           justifyContent: 'center',
           gap: '15px',
           marginBottom: '50px',
-          flexWrap: 'wrap'
+          flexWrap: 'wrap',
+          position: 'relative',
+          zIndex: 1
         }}
       >
         {categories.map((category) => (
@@ -295,7 +312,9 @@ export default function ShelterMenu() {
           gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))',
           gap: '30px',
           maxWidth: '1600px',
-          margin: '0 auto'
+          margin: '0 auto',
+          position: 'relative',
+          zIndex: 1
         }}
       >
         {filteredShelters.map((shelter, index) => (
@@ -696,12 +715,15 @@ export default function ShelterMenu() {
           textAlign: 'center',
           marginTop: '80px',
           padding: '40px 0',
-          borderTop: '1px solid rgba(255, 255, 255, 0.1)'
+          borderTop: '1px solid rgba(255, 255, 255, 0.2)',
+          position: 'relative',
+          zIndex: 1
         }}
       >
         <p style={{
-          color: 'var(--text-muted)',
-          fontSize: '0.9rem'
+          color: 'rgba(255, 255, 255, 0.8)',
+          fontSize: '0.9rem',
+          textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)'
         }}>
           Weatherhaven - Global Leader in Deployable Shelter Solutions
         </p>

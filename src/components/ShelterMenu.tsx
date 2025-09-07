@@ -42,7 +42,7 @@ const shelters: Shelter[] = [
     category: 'Military',
     image: '/models/command-posting-preview.jpg',
     features: ['Command operations', 'Communications hub', 'Control systems', 'Tactical layout'],
-    modelPath: '/models/interiors/CommandPosting.glb',
+    modelPath: 'CommandPosting.glb',
     specs: ['Comm systems: Integrated', 'Control stations: Multiple', 'Security: Level 2', 'Capacity: 8-15 operators'],
     deploymentTime: 3,
     weatherRating: 4,

@@ -102,21 +102,8 @@ export async function testAWSConnection(): Promise<boolean> {
   }
 }
 
-// Preload model for faster loading
+// Preload model for faster loading - disabled to prevent preload issues
 export async function preloadModel(modelPath: string): Promise<void> {
-  try {
-    const modelUrl = await getModelUrl(modelPath)
-    
-    // Create a link element to preload the model
-    const link = document.createElement('link')
-    link.rel = 'preload'
-    link.href = modelUrl
-    link.as = 'fetch'
-    link.crossOrigin = 'anonymous'
-    document.head.appendChild(link)
-    
-    console.log(`Preloaded model: ${modelPath}`)
-  } catch (error) {
-    console.error('Error preloading model:', error)
-  }
+  // Disabled preloading to prevent console warnings
+  console.log(`Preload requested for: ${modelPath} (disabled)`)
 }

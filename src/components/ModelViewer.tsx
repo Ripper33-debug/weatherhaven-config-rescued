@@ -285,6 +285,16 @@ function TreccModel({
     loadModelUrl();
   }, [modelPath]);
   
+  // Always call hooks in the same order - use a fallback URL for useGLTF
+  const fallbackUrl = 'https://d3kx2t94cz9q1y.cloudfront.net/trecc.glb';
+  const modelUrl = actualModelPath || fallbackUrl;
+  
+  const gltf = useGLTF(modelUrl) as any; // Suspense handles loading
+  
+  if (process.env.NODE_ENV === 'development') {
+    console.log('🎨 Model loaded:', actualModelPath, 'gltf:', !!gltf, 'scene:', !!gltf?.scene);
+  }
+
   // Show loading state while getting AWS URL
   if (actualModelPath === null) {
     return (
@@ -374,12 +384,6 @@ function TreccModel({
         </div>
       </Html>
     );
-  }
-  
-  const gltf = useGLTF(actualModelPath) as any; // Suspense handles loading
-  
-  if (process.env.NODE_ENV === 'development') {
-    console.log('🎨 Model loaded:', actualModelPath, 'gltf:', !!gltf, 'scene:', !!gltf?.scene);
   }
   
   const scene = useMemo<THREE.Group | null>(() => {
@@ -556,7 +560,8 @@ const getCachedModel = (url: string) => {
 
 // Preload the single model we use with caching
 // Preload will be handled by Supabase integration
-useGLTF.preload('/models/interiors/CommandPosting.glb');
+// Preload AWS models
+useGLTF.preload('https://d3kx2t94cz9q1y.cloudfront.net/CommandPosting.glb');
 
 /* ---------------- Colour helper ---------------- */
 function applyBodyColor(root: THREE.Object3D, hex: string) {

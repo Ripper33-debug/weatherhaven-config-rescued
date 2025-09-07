@@ -79,6 +79,35 @@ export default function RootLayout({
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
           }
+          
+          @keyframes gradientShift {
+            0%, 100% { 
+              background: linear-gradient(45deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.1) 100%);
+            }
+            50% { 
+              background: linear-gradient(45deg, rgba(74,144,226,0.1) 0%, rgba(255,107,53,0.05) 50%, rgba(74,144,226,0.1) 100%);
+            }
+          }
+          
+          @keyframes float {
+            0%, 100% { 
+              transform: translateY(0px) rotate(0deg); 
+            }
+            50% { 
+              transform: translateY(-20px) rotate(5deg); 
+            }
+          }
+          
+          @keyframes pulse {
+            0%, 100% { 
+              opacity: 0.3; 
+              transform: translate(-50%, -50%) scale(1);
+            }
+            50% { 
+              opacity: 0.6; 
+              transform: translate(-50%, -50%) scale(1.1);
+            }
+          }
         `}</style>
       </head>
       <body style={{

@@ -126,9 +126,10 @@ export default function ShelterMenu() {
       background: 'linear-gradient(135deg, #FF6B35 0%, #F7931E 25%, #4A90E2 75%, #00F2FE 100%)',
       padding: '40px 20px',
       fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
-      position: 'relative'
+      position: 'relative',
+      overflow: 'hidden'
     }}>
-      {/* Animated background overlay */}
+      {/* Animated gradient background */}
       <div style={{
         position: 'absolute',
         top: 0,
@@ -136,6 +137,59 @@ export default function ShelterMenu() {
         right: 0,
         bottom: 0,
         background: 'linear-gradient(45deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.1) 100%)',
+        pointerEvents: 'none',
+        animation: 'gradientShift 8s ease-in-out infinite'
+      }} />
+      
+      {/* Floating geometric elements */}
+      <div style={{
+        position: 'absolute',
+        top: '10%',
+        left: '5%',
+        width: '100px',
+        height: '100px',
+        background: 'rgba(255, 255, 255, 0.05)',
+        borderRadius: '20px',
+        transform: 'rotate(45deg)',
+        animation: 'float 6s ease-in-out infinite',
+        pointerEvents: 'none'
+      }} />
+      <div style={{
+        position: 'absolute',
+        top: '20%',
+        right: '10%',
+        width: '60px',
+        height: '60px',
+        background: 'rgba(74, 144, 226, 0.1)',
+        borderRadius: '50%',
+        animation: 'float 8s ease-in-out infinite reverse',
+        pointerEvents: 'none'
+      }} />
+      <div style={{
+        position: 'absolute',
+        bottom: '15%',
+        left: '15%',
+        width: '80px',
+        height: '80px',
+        background: 'rgba(255, 107, 53, 0.1)',
+        borderRadius: '10px',
+        transform: 'rotate(30deg)',
+        animation: 'float 7s ease-in-out infinite',
+        pointerEvents: 'none'
+      }} />
+      
+      {/* Subtle pattern overlay */}
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundImage: `
+          radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.02) 0%, transparent 50%),
+          radial-gradient(circle at 75% 75%, rgba(74, 144, 226, 0.03) 0%, transparent 50%),
+          radial-gradient(circle at 50% 50%, rgba(255, 107, 53, 0.02) 0%, transparent 50%)
+        `,
         pointerEvents: 'none'
       }} />
       {/* Header */}
@@ -265,20 +319,23 @@ export default function ShelterMenu() {
             transition={{ duration: 0.6, delay: 0.1 * index }}
             whileHover={{ y: -10, scale: 1.02 }}
             style={{
-              background: 'rgba(0, 0, 0, 0.6)',
-              backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderRadius: '20px',
-              padding: '30px',
+              background: 'rgba(0, 0, 0, 0.7)',
+              backdropFilter: 'blur(25px)',
+              border: '2px solid rgba(74, 144, 226, 0.3)',
+              borderRadius: '25px',
+              padding: '35px',
               cursor: 'pointer',
-              transition: 'all 0.3s ease',
+              transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
               position: 'relative',
-              overflow: 'hidden'
+              overflow: 'hidden',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+              transform: 'translateY(0)',
+              transformStyle: 'preserve-3d'
             }}
             onMouseEnter={() => setHoveredShelter(shelter.id)}
             onMouseLeave={() => setHoveredShelter(null)}
           >
-            {/* Hover Overlay */}
+            {/* Enhanced Hover Overlay with Glow */}
             <motion.div
               style={{
                 position: 'absolute',
@@ -286,11 +343,30 @@ export default function ShelterMenu() {
                 left: 0,
                 right: 0,
                 bottom: 0,
-                background: 'linear-gradient(135deg, rgba(0, 102, 204, 0.1), rgba(255, 102, 0, 0.1))',
+                background: 'linear-gradient(135deg, rgba(74, 144, 226, 0.15), rgba(255, 107, 53, 0.15))',
                 opacity: 0,
-                transition: 'opacity 0.3s ease'
+                transition: 'opacity 0.4s ease',
+                borderRadius: '25px'
               }}
               animate={{ opacity: hoveredShelter === shelter.id ? 1 : 0 }}
+            />
+            
+            {/* Glowing border effect */}
+            <motion.div
+              style={{
+                position: 'absolute',
+                top: -2,
+                left: -2,
+                right: -2,
+                bottom: -2,
+                background: 'linear-gradient(45deg, #4A90E2, #FF6B35, #4A90E2)',
+                borderRadius: '27px',
+                opacity: 0,
+                transition: 'opacity 0.4s ease',
+                zIndex: -1,
+                filter: 'blur(8px)'
+              }}
+              animate={{ opacity: hoveredShelter === shelter.id ? 0.6 : 0 }}
             />
 
             {/* Status Indicators */}
@@ -336,25 +412,59 @@ export default function ShelterMenu() {
               </div>
             </div>
 
-            {/* Shelter Image Placeholder */}
+            {/* Enhanced Shelter Image Placeholder */}
             <div style={{
               width: '100%',
-              height: '200px',
-              background: 'linear-gradient(135deg, rgba(0, 102, 204, 0.2), rgba(255, 102, 0, 0.2))',
-              borderRadius: '15px',
-              marginBottom: '20px',
+              height: '220px',
+              background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2))',
+              borderRadius: '20px',
+              marginBottom: '25px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              border: '1px solid rgba(255, 255, 255, 0.1)'
+              border: '2px solid rgba(74, 144, 226, 0.3)',
+              position: 'relative',
+              overflow: 'hidden',
+              boxShadow: 'inset 0 2px 10px rgba(0, 0, 0, 0.3), 0 4px 20px rgba(0, 0, 0, 0.2)'
             }}>
+              {/* Military-style background pattern */}
               <div style={{
-                fontSize: '3rem',
-                color: 'var(--text-accent)',
-                opacity: 0.7
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundImage: `
+                  linear-gradient(45deg, transparent 40%, rgba(74, 144, 226, 0.1) 50%, transparent 60%),
+                  linear-gradient(-45deg, transparent 40%, rgba(255, 107, 53, 0.1) 50%, transparent 60%)
+                `,
+                backgroundSize: '20px 20px'
+              }} />
+              
+              {/* Military-style icon */}
+              <div style={{
+                fontSize: '4rem',
+                color: '#4A90E2',
+                opacity: 0.8,
+                textShadow: '0 0 20px rgba(74, 144, 226, 0.5)',
+                position: 'relative',
+                zIndex: 1
               }}>
-                🏠
+                {shelter.category === 'TRECC' ? '🏗️' : '⚡'}
               </div>
+              
+              {/* Glow effect */}
+              <div style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: '120px',
+                height: '120px',
+                background: 'radial-gradient(circle, rgba(74, 144, 226, 0.2) 0%, transparent 70%)',
+                borderRadius: '50%',
+                animation: 'pulse 3s ease-in-out infinite'
+              }} />
             </div>
 
             {/* Shelter Info */}

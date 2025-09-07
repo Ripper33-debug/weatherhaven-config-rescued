@@ -134,12 +134,12 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   }, [configState.isDeployed, configState.isInteriorView, shelterId]);
 
   const getModelPath = () => {
-    // Always load the single base model for all configurations
+    // Always use AWS CloudFront models - no local paths
     if (shelterId === 'command-posting') {
-      return "/models/interiors/CommandPosting.glb";
-      } else {
+      return "CommandPosting.glb"; // AWS path
+    } else {
       // Use single TRECC model for all states - colors and views applied dynamically
-      return "trecc.glb";
+      return "trecc.glb"; // AWS path
     }
   };
 

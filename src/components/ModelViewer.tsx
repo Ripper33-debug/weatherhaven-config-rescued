@@ -285,14 +285,101 @@ function TreccModel({
     loadModelUrl();
   }, [modelPath]);
   
-  // Always call hooks in the same order - use a fallback URL
-  const fallbackUrl = '/models/trecc.glb';
-  const modelUrl = actualModelPath || fallbackUrl;
+  // Show loading state while getting AWS URL
+  if (actualModelPath === null) {
+    return (
+      <Html center>
+        <div style={{
+          background: 'rgba(0, 0, 0, 0.9)',
+          color: 'white',
+          padding: '30px',
+          borderRadius: '15px',
+          textAlign: 'center',
+          fontFamily: 'Arial, sans-serif',
+          border: '2px solid #4A90E2',
+          boxShadow: '0 0 20px rgba(74, 144, 226, 0.3)'
+        }}>
+          <div style={{
+            width: '40px',
+            height: '40px',
+            border: '3px solid #333',
+            borderTop: '3px solid #4A90E2',
+            borderRadius: '50%',
+            margin: '0 auto 15px auto',
+            animation: 'spin 1s linear infinite'
+          }}></div>
+          <div style={{ 
+            fontSize: '18px',
+            fontWeight: 'bold',
+            background: 'linear-gradient(45deg, #4A90E2, #FF6B35)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text'
+          }}>
+            Loading model...
+          </div>
+        </div>
+      </Html>
+    );
+  }
+
+  // Show error state if AWS failed
+  if (hasError) {
+    return (
+      <Html center>
+        <div style={{
+          background: 'rgba(0, 0, 0, 0.9)',
+          color: 'white',
+          padding: '30px',
+          borderRadius: '15px',
+          textAlign: 'center',
+          fontFamily: 'Arial, sans-serif',
+          border: '2px solid #ff4444',
+          boxShadow: '0 0 20px rgba(255, 68, 68, 0.3)'
+        }}>
+          <div style={{
+            fontSize: '2rem',
+            marginBottom: '15px'
+          }}>
+            ⚠️
+          </div>
+          <div style={{ 
+            fontSize: '18px',
+            fontWeight: 'bold',
+            marginBottom: '10px'
+          }}>
+            Model Loading Error
+          </div>
+          <div style={{
+            fontSize: '14px',
+            opacity: 0.8,
+            marginBottom: '20px'
+          }}>
+            Unable to load model from AWS CloudFront
+          </div>
+          <button
+            onClick={() => window.location.reload()}
+            style={{
+              padding: '10px 20px',
+              background: 'linear-gradient(135deg, #4A90E2, #FF6B35)',
+              color: 'white',
+              border: 'none',
+              borderRadius: '8px',
+              cursor: 'pointer',
+              fontWeight: '600'
+            }}
+          >
+            Reload Page
+          </button>
+        </div>
+      </Html>
+    );
+  }
   
-  const gltf = useGLTF(modelUrl) as any; // Suspense handles loading
+  const gltf = useGLTF(actualModelPath) as any; // Suspense handles loading
   
   if (process.env.NODE_ENV === 'development') {
-    console.log('🎨 Model loaded:', modelUrl, 'gltf:', !!gltf, 'scene:', !!gltf?.scene);
+    console.log('🎨 Model loaded:', actualModelPath, 'gltf:', !!gltf, 'scene:', !!gltf?.scene);
   }
   
   const scene = useMemo<THREE.Group | null>(() => {

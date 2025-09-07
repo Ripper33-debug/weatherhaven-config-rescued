@@ -37,7 +37,7 @@ const shelterData = {
   'command-posting': {
     name: 'Command Posting',
     description: 'Specialized command posting interior',
-    defaultModel: '/models/interiors/CommandPosting.glb'
+    defaultModel: 'CommandPosting.glb'
   },
   'herconn': {
     name: 'HERCONN',
@@ -52,7 +52,7 @@ const shelterData = {
   'field-hospital': {
     name: 'Field Hospital',
     description: 'Complete medical facility for emergency care',
-    defaultModel: '/models/trecc-open.glb'
+    defaultModel: 'trecc.glb'
   },
   'disaster-relief': {
     name: 'Disaster Relief',

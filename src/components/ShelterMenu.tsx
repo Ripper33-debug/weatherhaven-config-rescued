@@ -123,7 +123,7 @@ export default function ShelterMenu() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #FF6B35 0%, #F7931E 25%, #4A90E2 75%, #00F2FE 100%)',
+      background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #dee2e6 100%)',
       padding: '40px 20px',
       fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
       position: 'relative',
@@ -136,47 +136,10 @@ export default function ShelterMenu() {
         left: 0,
         right: 0,
         bottom: 0,
-        background: 'linear-gradient(45deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.1) 100%)',
-        pointerEvents: 'none',
-        animation: 'gradientShift 8s ease-in-out infinite'
+        background: 'linear-gradient(45deg, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0.01) 50%, rgba(0,0,0,0.02) 100%)',
+        pointerEvents: 'none'
       }} />
       
-      {/* Floating geometric elements */}
-      <div style={{
-        position: 'absolute',
-        top: '10%',
-        left: '5%',
-        width: '100px',
-        height: '100px',
-        background: 'rgba(255, 255, 255, 0.05)',
-        borderRadius: '20px',
-        transform: 'rotate(45deg)',
-        animation: 'float 6s ease-in-out infinite',
-        pointerEvents: 'none'
-      }} />
-      <div style={{
-        position: 'absolute',
-        top: '20%',
-        right: '10%',
-        width: '60px',
-        height: '60px',
-        background: 'rgba(74, 144, 226, 0.1)',
-        borderRadius: '50%',
-        animation: 'float 8s ease-in-out infinite reverse',
-        pointerEvents: 'none'
-      }} />
-      <div style={{
-        position: 'absolute',
-        bottom: '15%',
-        left: '15%',
-        width: '80px',
-        height: '80px',
-        background: 'rgba(255, 107, 53, 0.1)',
-        borderRadius: '10px',
-        transform: 'rotate(30deg)',
-        animation: 'float 7s ease-in-out infinite',
-        pointerEvents: 'none'
-      }} />
       
       {/* Subtle pattern overlay */}
       <div style={{
@@ -206,24 +169,21 @@ export default function ShelterMenu() {
       >
         <h1 style={{
           fontSize: 'clamp(2.5rem, 5vw, 4rem)',
-          fontWeight: '900',
-          color: 'white',
+          fontWeight: '700',
+          color: '#212529',
           marginBottom: '20px',
-          textShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
-          background: 'linear-gradient(135deg, #FFFFFF 0%, #F0F0F0 100%)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text'
+          textShadow: 'none',
+          letterSpacing: '-0.02em'
         }}>
           Weatherhaven Configurator
         </h1>
         <p style={{
           fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
-          color: 'rgba(255, 255, 255, 0.9)',
+          color: '#6c757d',
           maxWidth: '700px',
           margin: '0 auto',
           lineHeight: '1.6',
-          textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)'
+          textShadow: 'none'
         }}>
           Explore and customize Weatherhaven's complete range of deployable shelter solutions for military, emergency response, and remote operations
         </p>
@@ -253,21 +213,21 @@ export default function ShelterMenu() {
             style={{
               padding: '12px 24px',
               background: selectedCategory === category 
-                ? 'linear-gradient(135deg, #4A90E2, #FF6B35)' 
-                : 'rgba(0, 0, 0, 0.3)',
+                ? '#0d6efd' 
+                : '#ffffff',
               border: selectedCategory === category 
-                ? 'none' 
-                : '1px solid rgba(74, 144, 226, 0.3)',
-              borderRadius: '25px',
-              color: 'white',
-              fontWeight: '600',
+                ? '1px solid #0d6efd' 
+                : '1px solid #dee2e6',
+              borderRadius: '6px',
+              color: selectedCategory === category ? 'white' : '#495057',
+              fontWeight: '500',
               cursor: 'pointer',
-              transition: 'all 0.3s ease',
-              textTransform: 'capitalize',
-              backdropFilter: 'blur(10px)',
+              transition: 'all 0.2s ease',
+              textTransform: 'none',
+              backdropFilter: 'none',
               boxShadow: selectedCategory === category 
-                ? '0 4px 20px rgba(74, 144, 226, 0.4)' 
-                : '0 2px 10px rgba(0, 0, 0, 0.2)',
+                ? '0 2px 4px rgba(13, 110, 253, 0.2)' 
+                : '0 1px 3px rgba(0, 0, 0, 0.1)',
               position: 'relative',
               overflow: 'hidden'
             }}
@@ -319,16 +279,16 @@ export default function ShelterMenu() {
             transition={{ duration: 0.6, delay: 0.1 * index }}
             whileHover={{ y: -10, scale: 1.02 }}
             style={{
-              background: 'rgba(0, 0, 0, 0.7)',
-              backdropFilter: 'blur(25px)',
-              border: '2px solid rgba(74, 144, 226, 0.3)',
-              borderRadius: '25px',
-              padding: '35px',
+              background: '#ffffff',
+              backdropFilter: 'none',
+              border: '1px solid #e9ecef',
+              borderRadius: '8px',
+              padding: '24px',
               cursor: 'pointer',
-              transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+              transition: 'all 0.2s ease',
               position: 'relative',
               overflow: 'hidden',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
               transform: 'translateY(0)',
               transformStyle: 'preserve-3d'
             }}
@@ -400,13 +360,13 @@ export default function ShelterMenu() {
               {/* Category Badge */}
               <div style={{
                 padding: '6px 12px',
-                background: 'linear-gradient(135deg, #4A90E2, #FF6B35)',
-                borderRadius: '15px',
+                background: '#6c757d',
+                borderRadius: '4px',
                 fontSize: '0.8rem',
-                fontWeight: '600',
+                fontWeight: '500',
                 color: 'white',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px'
+                textTransform: 'none',
+                letterSpacing: '0'
               }}>
                 {shelter.category}
               </div>
@@ -471,15 +431,15 @@ export default function ShelterMenu() {
             <div style={{ position: 'relative', zIndex: 1 }}>
               <h3 style={{
                 fontSize: '1.5rem',
-                fontWeight: '700',
-                color: 'var(--text-primary)',
+                fontWeight: '600',
+                color: '#212529',
                 marginBottom: '10px'
               }}>
                 {shelter.name}
               </h3>
               
               <p style={{
-                color: '#b0b0b0',
+                color: '#6c757d',
                 lineHeight: '1.6',
                 marginBottom: '25px',
                 fontSize: '0.95rem'
@@ -719,11 +679,11 @@ export default function ShelterMenu() {
                   style={{
                     width: '100%',
                     padding: '16px 30px',
-                    background: 'linear-gradient(135deg, #4A90E2, #FF6B35)',
+                    background: '#0d6efd',
                     color: 'white',
                     border: 'none',
-                    borderRadius: '12px',
-                    fontWeight: '700',
+                    borderRadius: '6px',
+                    fontWeight: '500',
                     fontSize: '1rem',
                     cursor: 'pointer',
                     transition: 'all 0.3s ease',
@@ -747,7 +707,7 @@ export default function ShelterMenu() {
                     }}
                   />
                   <span style={{ position: 'relative', zIndex: 1 }}>
-                    🚀 Configure {shelter.name}
+                    Configure {shelter.name}
                   </span>
                 </motion.button>
               </Link>

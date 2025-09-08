@@ -82,6 +82,12 @@ Implementation details:
 - Source: `src/lib/pdfExport.ts`
 - Entry points: Actions in `src/components/ShelterMenu.tsx`
 
+Visual:
+
+![Homepage](public/readme/homepage.svg)
+![Hover Overlay](public/readme/hover-overlay.svg)
+![Comparison Modal](public/readme/comparison-modal.svg)
+
 ## 📞 Contact Sales Usage
 
 - In the configurator (left panel), click "Contact Sales Team" at the bottom to open the contact modal.
@@ -90,6 +96,10 @@ Implementation details:
 Implementation details:
 - Component: `src/components/ContactForm.tsx`
 - Mounted in: `src/components/ShelterConfigurator.tsx` and `src/components/ShelterMenu.tsx`
+
+Visual:
+
+![Contact Modal](public/readme/contact-modal.svg)
 
 ## 🔧 Configuration
 

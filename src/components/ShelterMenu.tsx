@@ -395,7 +395,7 @@ export default function ShelterMenu() {
             <option value="all">All Times</option>
             <option value="fast">≤ 1 Hour</option>
             <option value="moderate">1-2 Hours</option>
-            <option value="extended">> 2 Hours</option>
+            <option value="extended">&gt; 2 Hours</option>
           </select>
         </div>
 
@@ -424,7 +424,7 @@ export default function ShelterMenu() {
             <option value="all">All Sizes</option>
             <option value="small">≤ 30 Personnel</option>
             <option value="medium">31-50 Personnel</option>
-            <option value="large">> 50 Personnel</option>
+            <option value="large">&gt; 50 Personnel</option>
           </select>
         </div>
 

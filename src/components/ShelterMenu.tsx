@@ -616,8 +616,6 @@ export default function ShelterMenu() {
               transform: 'translateY(0)',
               transformStyle: 'preserve-3d'
             }}
-            onMouseEnter={() => setHoveredShelter(shelter.id)}
-            onMouseLeave={() => setHoveredShelter(null)}
           >
             {/* Enhanced Hover Overlay with Glow */}
             <motion.div

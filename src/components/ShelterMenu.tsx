@@ -2,6 +2,8 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { generateShelterPDF, generateComparisonPDF, ShelterSpecs } from '../lib/pdfExport';
+import ContactForm from './ContactForm';
 
 interface Shelter {
   id: string;
@@ -92,6 +94,8 @@ export default function ShelterMenu() {
     weatherRating: 'all'
   });
   const [isFiltering, setIsFiltering] = useState(false);
+  const [showContactForm, setShowContactForm] = useState(false);
+  const [contactShelter, setContactShelter] = useState<string>('');
 
   // Helper functions for visual indicators
   const getAvailabilityColor = (availability: string) => {
@@ -177,6 +181,45 @@ export default function ShelterMenu() {
     setTimeout(() => {
       setIsFiltering(false);
     }, 200);
+  };
+
+  const handleExportPDF = (shelter: Shelter) => {
+    const shelterSpecs: ShelterSpecs = {
+      name: shelter.name,
+      description: shelter.description,
+      category: shelter.category,
+      deploymentTime: shelter.deploymentTime,
+      weatherRating: shelter.weatherRating,
+      capacity: shelter.capacity,
+      availability: shelter.availability,
+      deploymentDifficulty: shelter.deploymentDifficulty,
+      features: shelter.features,
+      useCases: shelter.useCases,
+      technicalSpecs: shelter.technicalSpecs
+    };
+    generateShelterPDF(shelterSpecs);
+  };
+
+  const handleExportComparisonPDF = () => {
+    const shelterSpecs: ShelterSpecs[] = shelters.map(shelter => ({
+      name: shelter.name,
+      description: shelter.description,
+      category: shelter.category,
+      deploymentTime: shelter.deploymentTime,
+      weatherRating: shelter.weatherRating,
+      capacity: shelter.capacity,
+      availability: shelter.availability,
+      deploymentDifficulty: shelter.deploymentDifficulty,
+      features: shelter.features,
+      useCases: shelter.useCases,
+      technicalSpecs: shelter.technicalSpecs
+    }));
+    generateComparisonPDF(shelterSpecs);
+  };
+
+  const handleContactSales = (shelterName?: string) => {
+    setContactShelter(shelterName || '');
+    setShowContactForm(true);
   };
 
   // Don't render until client-side to prevent hydration mismatch
@@ -281,12 +324,46 @@ export default function ShelterMenu() {
           fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
           color: '#6c757d',
           maxWidth: '700px',
-          margin: '0 auto',
+          margin: '0 auto 30px',
           lineHeight: '1.6',
           textShadow: 'none'
         }}>
           Explore and customize Weatherhaven's complete range of deployable shelter solutions for military, emergency response, and remote operations
         </p>
+        
+        {/* Global Contact Button */}
+        <motion.button
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          onClick={() => handleContactSales()}
+          style={{
+            padding: '12px 24px',
+            background: 'linear-gradient(135deg, #0d6efd, #0b5ed7)',
+            color: 'white',
+            border: 'none',
+            borderRadius: '8px',
+            fontSize: '1rem',
+            fontWeight: '600',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease',
+            boxShadow: '0 4px 15px rgba(13, 110, 253, 0.3)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            margin: '0 auto'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translateY(-2px)';
+            e.currentTarget.style.boxShadow = '0 6px 20px rgba(13, 110, 253, 0.4)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = '0 4px 15px rgba(13, 110, 253, 0.3)';
+          }}
+        >
+          📞 Contact Sales Team
+        </motion.button>
       </motion.div>
 
       {/* Category Filter */}
@@ -1069,11 +1146,10 @@ export default function ShelterMenu() {
                 </div>
 
                 {/* Quick Actions */}
-                <div style={{ display: 'flex', gap: '8px', marginTop: '20px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginTop: '20px' }}>
                   <button
                     onClick={() => setShowComparison(true)}
                     style={{
-                      flex: 1,
                       padding: '8px 12px',
                       background: '#6c757d',
                       color: 'white',
@@ -1089,7 +1165,43 @@ export default function ShelterMenu() {
                   >
                     Compare
                   </button>
-                  <Link href={`/configurator/${shelter.id}`} style={{ flex: 1 }}>
+                  <button
+                    onClick={() => handleExportPDF(shelter)}
+                    style={{
+                      padding: '8px 12px',
+                      background: '#28a745',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '4px',
+                      fontSize: '0.8rem',
+                      fontWeight: '500',
+                      cursor: 'pointer',
+                      transition: 'background 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.background = '#218838'}
+                    onMouseLeave={(e) => e.currentTarget.style.background = '#28a745'}
+                  >
+                    Export PDF
+                  </button>
+                  <button
+                    onClick={() => handleContactSales(shelter.name)}
+                    style={{
+                      padding: '8px 12px',
+                      background: '#ffc107',
+                      color: '#212529',
+                      border: 'none',
+                      borderRadius: '4px',
+                      fontSize: '0.8rem',
+                      fontWeight: '500',
+                      cursor: 'pointer',
+                      transition: 'background 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.background = '#e0a800'}
+                    onMouseLeave={(e) => e.currentTarget.style.background = '#ffc107'}
+                  >
+                    Contact Sales
+                  </button>
+                  <Link href={`/configurator/${shelter.id}`} style={{ display: 'block' }}>
                     <button
                       style={{
                         width: '100%',
@@ -1170,15 +1282,34 @@ export default function ShelterMenu() {
               ×
             </button>
 
-            <h2 style={{
-              fontSize: '1.8rem',
-              fontWeight: '600',
-              color: '#212529',
-              marginBottom: '24px',
-              textAlign: 'center'
-            }}>
-              TRECC vs HERCONN Comparison
-            </h2>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+              <h2 style={{
+                fontSize: '1.8rem',
+                fontWeight: '600',
+                color: '#212529',
+                margin: 0
+              }}>
+                TRECC vs HERCONN Comparison
+              </h2>
+              <button
+                onClick={handleExportComparisonPDF}
+                style={{
+                  padding: '8px 16px',
+                  background: '#28a745',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '6px',
+                  fontSize: '0.9rem',
+                  fontWeight: '500',
+                  cursor: 'pointer',
+                  transition: 'background 0.2s ease'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.background = '#218838'}
+                onMouseLeave={(e) => e.currentTarget.style.background = '#28a745'}
+              >
+                Export PDF
+              </button>
+            </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
               {shelters.map((shelter) => (
@@ -1242,6 +1373,13 @@ export default function ShelterMenu() {
           </motion.div>
         </motion.div>
       )}
+
+      {/* Contact Form */}
+      <ContactForm
+        isOpen={showContactForm}
+        onClose={() => setShowContactForm(false)}
+        shelterName={contactShelter}
+      />
 
       {/* Footer */}
       <motion.div

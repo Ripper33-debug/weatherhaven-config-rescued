@@ -204,31 +204,17 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             border: '1px solid rgba(255, 255, 255, 0.2)',
             boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
           }}>
-            <div style={{
-              position: 'absolute',
-              top: '12px',
-              right: '16px',
-              width: '8px',
-              height: '8px',
-              background: 'linear-gradient(45deg, #4facfe, #00f2fe)',
-              borderRadius: '50%',
-              boxShadow: '0 0 12px rgba(79, 172, 254, 0.6)'
-            }} />
             <h2 style={{
-              fontSize: '38px',
-              fontWeight: '900',
-              color: '#ffffff',
+              fontSize: '32px',
+              fontWeight: '700',
+              color: '#212529',
               margin: '0',
               textTransform: 'uppercase',
-              letterSpacing: '5px',
-              textShadow: '0 4px 12px rgba(0, 0, 0, 0.6), 0 2px 6px rgba(0, 0, 0, 0.4)',
-              background: 'linear-gradient(135deg, #ffffff 0%, #f0f9ff 50%, #e0f2fe 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5))',
+              letterSpacing: '2px',
+              textShadow: 'none',
               position: 'relative',
-              zIndex: 2
+              zIndex: 2,
+              fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
             }}>
               TRECC
             </h2>

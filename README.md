@@ -57,11 +57,39 @@ src/
 - **Resources**: Gated downloads and documentation
 - **Contact**: RFQ forms with lead capture
 
+### New: PDF Export & Contact Integration
+- **PDF Export (Home Page)**: Generate professional PDFs for individual shelters and TRECC vs HERCONN comparisons.
+  - Individual spec sheets include: description, key specs, technical data, features, use cases, and contact info.
+  - Comparison report includes side-by-side table of key specs for decision-makers.
+- **Contact Sales (Configurator Panel)**: A dedicated Contact Sales button is available at the bottom of the configurator panel.
+  - Opens a modern modal with fields for name, email, company, phone, inquiry type, and message.
+  - Shelter name is prefilled when contacting from a specific shelter.
+
 ### 3D Configurator
 - **Interactive 3D Models**: Real-time shelter visualization
 - **Configuration Options**: Colors, deployment states, interiors
 - **Collaboration**: Multi-user real-time editing
 - **Export**: Generate quotes and specifications
+
+## 🧾 PDF Export Usage
+
+- On the home page shelter cards, hover to reveal actions:
+  - Click "Export PDF" to download a shelter spec sheet (jsPDF-based).
+  - Open the comparison modal (TRECC vs HERCONN) and click "Export PDF" to download the comparison report.
+
+Implementation details:
+- Library: `jspdf` (with optional `html2canvas` installed)
+- Source: `src/lib/pdfExport.ts`
+- Entry points: Actions in `src/components/ShelterMenu.tsx`
+
+## 📞 Contact Sales Usage
+
+- In the configurator (left panel), click "Contact Sales Team" at the bottom to open the contact modal.
+- The modal collects lead details and confirms successful submission.
+
+Implementation details:
+- Component: `src/components/ContactForm.tsx`
+- Mounted in: `src/components/ShelterConfigurator.tsx` and `src/components/ShelterMenu.tsx`
 
 ## 🔧 Configuration
 

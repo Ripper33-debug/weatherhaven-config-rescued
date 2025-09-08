@@ -99,17 +99,17 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   const handleColorChange = (newColor: string) => {
     console.log('🎨 Color change requested:', newColor);
     console.log('🎨 Current configState:', configState);
-    setIsApplyingColor(true);
+    setIsModelLoading(true); // Show loading while switching models
     setConfigState(prev => {
       const newState = { ...prev, color: newColor };
       console.log('🎨 New state:', newState);
       return newState;
     });
     
-    // Simulate color application time
+    // Model will reload automatically when getModelPath() returns new path
     setTimeout(() => {
-      setIsApplyingColor(false);
-    }, 500);
+      setIsModelLoading(false);
+    }, 1000);
   };
 
   const handleDeployToggle = () => {
@@ -148,8 +148,14 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
     if (shelterId === 'command-posting') {
       return "CommandPosting.glb"; // AWS path
     } else {
-      // Use single TRECC model for all states - colors and views applied dynamically
-      return "trecc.glb"; // AWS path
+      // Use pre-colored models based on selected color
+      const colorModelMap: Record<string, string> = {
+        '#3C3B2E': 'trecc-od-green.glb',     // OD Green
+        '#B8A082': 'trecc-desert-tan.glb',   // Desert Tan  
+        '#F8F8F8': 'trecc-arctic-white.glb'  // Arctic White
+      };
+      
+      return colorModelMap[configState.color] || 'trecc-od-green.glb'; // fallback to OD Green
     }
   };
 
@@ -735,10 +741,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
           >
             <ModelViewerScene
               modelPath={getModelPath()}
-                color={(() => {
-                  console.log('🎨 Passing color to ModelViewerScene:', configState.color);
-                  return configState.color;
-                })()}
+              color={null} // No dynamic coloring - using pre-colored models
               isDeployed={configState.isDeployed}
               environment="studio"
               weather="none"

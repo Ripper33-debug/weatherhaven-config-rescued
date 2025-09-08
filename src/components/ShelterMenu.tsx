@@ -70,10 +70,10 @@ export default function ShelterMenu() {
 
   const getAvailabilityIcon = (availability: string) => {
     switch (availability) {
-      case 'available': return '🟢';
-      case 'limited': return '🟡';
-      case 'unavailable': return '🔴';
-      default: return '⚪';
+      case 'available': return '●';
+      case 'limited': return '●';
+      case 'unavailable': return '●';
+      default: return '●';
     }
   };
 
@@ -410,7 +410,7 @@ export default function ShelterMenu() {
                 position: 'relative',
                 zIndex: 1
               }}>
-                {shelter.category === 'TRECC' ? '🏗️' : '⚡'}
+                {shelter.category === 'TRECC' ? '■' : '▲'}
               </div>
               
               {/* Glow effect */}

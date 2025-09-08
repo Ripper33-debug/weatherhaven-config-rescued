@@ -416,9 +416,10 @@ function TreccModel({
         }}>
           <div style={{
             fontSize: '2rem',
-            marginBottom: '15px'
+            marginBottom: '15px',
+            color: '#ff4444'
           }}>
-            ⚠️
+            ⚠
           </div>
           <div style={{ 
             fontSize: '18px',

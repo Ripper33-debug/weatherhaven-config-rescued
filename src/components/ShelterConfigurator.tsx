@@ -247,7 +247,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             textTransform: 'uppercase',
             letterSpacing: '1px'
           }}>
-            👁️ View Options
+            View Options
           </h3>
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '36px' }}>
@@ -364,7 +364,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                 }
               }}
             >
-              📹 Walkthrough Video {!getWalkthroughVideo() && '(Unavailable)'}
+              Walkthrough Video {!getWalkthroughVideo() && '(Unavailable)'}
             </button>
           </div>
 
@@ -378,7 +378,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             textTransform: 'uppercase',
             letterSpacing: '1px'
           }}>
-            🎨 Color Options
+            Color Options
           </h3>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '36px' }}>

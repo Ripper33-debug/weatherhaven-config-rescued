@@ -17,6 +17,15 @@ interface Shelter {
   capacity: number; // max personnel
   availability: 'available' | 'limited' | 'unavailable';
   deploymentDifficulty: 'easy' | 'moderate' | 'complex';
+  useCases?: string[];
+  technicalSpecs?: {
+    dimensions: string;
+    weight: string;
+    materials: string;
+    power: string;
+    climate: string;
+    certifications: string;
+  };
 }
 
 const shelters: Shelter[] = [
@@ -33,7 +42,16 @@ const shelters: Shelter[] = [
     weatherRating: 5,
     capacity: 50,
     availability: 'available',
-    deploymentDifficulty: 'moderate'
+    deploymentDifficulty: 'moderate',
+    useCases: ['Military Operations', 'Emergency Response', 'Remote Research', 'Disaster Relief'],
+    technicalSpecs: {
+      dimensions: '20ft x 8ft x 8ft (closed)',
+      weight: '2,500 lbs',
+      materials: 'Aluminum frame, composite panels',
+      power: 'Solar + generator compatible',
+      climate: '-40°F to +120°F',
+      certifications: 'MIL-STD-810G, NATO approved'
+    }
   },
   {
     id: 'herconn',
@@ -48,7 +66,16 @@ const shelters: Shelter[] = [
     weatherRating: 5,
     capacity: 30,
     availability: 'available',
-    deploymentDifficulty: 'easy'
+    deploymentDifficulty: 'easy',
+    useCases: ['Tactical Operations', 'Emergency Response', 'Field Hospitals', 'Command Centers'],
+    technicalSpecs: {
+      dimensions: '16ft x 6ft x 6ft (closed)',
+      weight: '1,800 lbs',
+      materials: 'Lightweight aluminum, ballistic panels',
+      power: 'Battery + solar hybrid',
+      climate: '-30°F to +110°F',
+      certifications: 'MIL-STD-810G, Ballistic protection'
+    }
   }
 ];
 
@@ -57,6 +84,8 @@ export default function ShelterMenu() {
   const [hoveredShelter, setHoveredShelter] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [showDetails, setShowDetails] = useState<string | null>(null);
+  const [showComparison, setShowComparison] = useState(false);
 
   // Helper functions for visual indicators
   const getAvailabilityColor = (availability: string) => {
@@ -712,9 +741,254 @@ export default function ShelterMenu() {
                 </motion.button>
               </Link>
             </div>
+
+            {/* Detailed Hover Overlay */}
+            {hoveredShelter === shelter.id && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                transition={{ duration: 0.3 }}
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  background: 'rgba(255, 255, 255, 0.98)',
+                  backdropFilter: 'blur(10px)',
+                  borderRadius: '8px',
+                  padding: '24px',
+                  zIndex: 10,
+                  overflow: 'auto'
+                }}
+                onMouseEnter={() => setShowDetails(shelter.id)}
+                onMouseLeave={() => setShowDetails(null)}
+              >
+                {/* Technical Specifications */}
+                <div style={{ marginBottom: '20px' }}>
+                  <h4 style={{
+                    fontSize: '1.1rem',
+                    fontWeight: '600',
+                    color: '#212529',
+                    marginBottom: '12px',
+                    borderBottom: '2px solid #0d6efd',
+                    paddingBottom: '4px'
+                  }}>
+                    Technical Specifications
+                  </h4>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', fontSize: '0.9rem' }}>
+                    <div><strong>Dimensions:</strong> {shelter.technicalSpecs?.dimensions}</div>
+                    <div><strong>Weight:</strong> {shelter.technicalSpecs?.weight}</div>
+                    <div><strong>Materials:</strong> {shelter.technicalSpecs?.materials}</div>
+                    <div><strong>Power:</strong> {shelter.technicalSpecs?.power}</div>
+                    <div><strong>Climate:</strong> {shelter.technicalSpecs?.climate}</div>
+                    <div><strong>Certifications:</strong> {shelter.technicalSpecs?.certifications}</div>
+                  </div>
+                </div>
+
+                {/* Use Cases */}
+                <div style={{ marginBottom: '20px' }}>
+                  <h4 style={{
+                    fontSize: '1.1rem',
+                    fontWeight: '600',
+                    color: '#212529',
+                    marginBottom: '12px',
+                    borderBottom: '2px solid #0d6efd',
+                    paddingBottom: '4px'
+                  }}>
+                    Use Cases
+                  </h4>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                    {shelter.useCases?.map((useCase, index) => (
+                      <span key={index} style={{
+                        background: '#e9ecef',
+                        color: '#495057',
+                        padding: '4px 8px',
+                        borderRadius: '4px',
+                        fontSize: '0.8rem',
+                        fontWeight: '500'
+                      }}>
+                        {useCase}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Quick Actions */}
+                <div style={{ display: 'flex', gap: '8px', marginTop: '20px' }}>
+                  <button
+                    onClick={() => setShowComparison(true)}
+                    style={{
+                      flex: 1,
+                      padding: '8px 12px',
+                      background: '#6c757d',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '4px',
+                      fontSize: '0.8rem',
+                      fontWeight: '500',
+                      cursor: 'pointer',
+                      transition: 'background 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.background = '#5a6268'}
+                    onMouseLeave={(e) => e.currentTarget.style.background = '#6c757d'}
+                  >
+                    Compare
+                  </button>
+                  <Link href={`/configurator/${shelter.id}`} style={{ flex: 1 }}>
+                    <button
+                      style={{
+                        width: '100%',
+                        padding: '8px 12px',
+                        background: '#0d6efd',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        fontSize: '0.8rem',
+                        fontWeight: '500',
+                        cursor: 'pointer',
+                        transition: 'background 0.2s ease'
+                      }}
+                      onMouseEnter={(e) => e.currentTarget.style.background = '#0b5ed7'}
+                      onMouseLeave={(e) => e.currentTarget.style.background = '#0d6efd'}
+                    >
+                      Configure
+                    </button>
+                  </Link>
+                </div>
+              </motion.div>
+            )}
           </motion.div>
         ))}
       </motion.div>
+
+      {/* Comparison Modal */}
+      {showComparison && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(0, 0, 0, 0.8)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000,
+            padding: '20px'
+          }}
+          onClick={() => setShowComparison(false)}
+        >
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+            style={{
+              background: 'white',
+              borderRadius: '12px',
+              padding: '32px',
+              maxWidth: '1000px',
+              width: '100%',
+              maxHeight: '80vh',
+              overflow: 'auto',
+              position: 'relative'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setShowComparison(false)}
+              style={{
+                position: 'absolute',
+                top: '16px',
+                right: '16px',
+                background: 'none',
+                border: 'none',
+                fontSize: '24px',
+                cursor: 'pointer',
+                color: '#6c757d'
+              }}
+            >
+              ×
+            </button>
+
+            <h2 style={{
+              fontSize: '1.8rem',
+              fontWeight: '600',
+              color: '#212529',
+              marginBottom: '24px',
+              textAlign: 'center'
+            }}>
+              TRECC vs HERCONN Comparison
+            </h2>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+              {shelters.map((shelter) => (
+                <div key={shelter.id} style={{
+                  border: '1px solid #e9ecef',
+                  borderRadius: '8px',
+                  padding: '20px'
+                }}>
+                  <h3 style={{
+                    fontSize: '1.4rem',
+                    fontWeight: '600',
+                    color: '#212529',
+                    marginBottom: '16px',
+                    textAlign: 'center'
+                  }}>
+                    {shelter.name}
+                  </h3>
+
+                  {/* Key Specs */}
+                  <div style={{ marginBottom: '20px' }}>
+                    <h4 style={{ fontSize: '1rem', fontWeight: '600', marginBottom: '8px' }}>Key Specifications</h4>
+                    <div style={{ fontSize: '0.9rem', lineHeight: '1.6' }}>
+                      <div><strong>Deployment Time:</strong> {shelter.deploymentTime} hour{shelter.deploymentTime > 1 ? 's' : ''}</div>
+                      <div><strong>Capacity:</strong> {shelter.capacity} personnel</div>
+                      <div><strong>Weather Rating:</strong> {'★'.repeat(shelter.weatherRating)}</div>
+                      <div><strong>Difficulty:</strong> {shelter.deploymentDifficulty}</div>
+                    </div>
+                  </div>
+
+                  {/* Technical Specs */}
+                  <div style={{ marginBottom: '20px' }}>
+                    <h4 style={{ fontSize: '1rem', fontWeight: '600', marginBottom: '8px' }}>Technical Details</h4>
+                    <div style={{ fontSize: '0.9rem', lineHeight: '1.6' }}>
+                      <div><strong>Dimensions:</strong> {shelter.technicalSpecs?.dimensions}</div>
+                      <div><strong>Weight:</strong> {shelter.technicalSpecs?.weight}</div>
+                      <div><strong>Materials:</strong> {shelter.technicalSpecs?.materials}</div>
+                      <div><strong>Power:</strong> {shelter.technicalSpecs?.power}</div>
+                    </div>
+                  </div>
+
+                  {/* Use Cases */}
+                  <div>
+                    <h4 style={{ fontSize: '1rem', fontWeight: '600', marginBottom: '8px' }}>Use Cases</h4>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                      {shelter.useCases?.map((useCase, index) => (
+                        <span key={index} style={{
+                          background: '#e9ecef',
+                          color: '#495057',
+                          padding: '2px 6px',
+                          borderRadius: '3px',
+                          fontSize: '0.8rem'
+                        }}>
+                          {useCase}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
 
       {/* Footer */}
       <motion.div

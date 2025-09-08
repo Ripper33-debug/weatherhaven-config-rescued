@@ -7,6 +7,7 @@ interface ContactFormProps {
   isOpen: boolean;
   onClose: () => void;
   shelterName?: string;
+  prefillMessage?: string;
 }
 
 interface FormData {
@@ -19,14 +20,14 @@ interface FormData {
   shelter: string;
 }
 
-const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose, shelterName }) => {
+const ContactForm: React.FC<ContactFormProps> = ({ isOpen, onClose, shelterName, prefillMessage }) => {
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
     company: '',
     phone: '',
     interest: 'quote',
-    message: '',
+    message: prefillMessage || '',
     shelter: shelterName || ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);

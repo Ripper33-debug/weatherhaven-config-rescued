@@ -6,6 +6,8 @@ import { preloadModel, getAvailableModels, testAWSConnection } from '../lib/aws'
 import * as THREE from 'three';
 import { ConfigState, ColorOption } from '../types';
 import ContactForm from './ContactForm';
+import { buildShareUrl, encodeConfigToQuery, saveShortCode, resolveShortCode } from '../lib/share';
+import { estimatePrice } from '../lib/pricing';
 
 interface ShelterConfiguratorProps {
   shelterId?: string;
@@ -74,6 +76,8 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   
   // Contact form state
   const [showContactForm, setShowContactForm] = useState(false);
+  const [prefillMsg, setPrefillMsg] = useState<string>('');
+  const [shortCode, setShortCode] = useState<string>('');
 
   const getWalkthroughVideo = () => {
     if (shelterId === 'trecc') {
@@ -155,6 +159,86 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   console.log('🎯 Current state:', configState);
   console.log('📁 Model path:', getModelPath());
   }
+
+  // Apply config from URL or short code on mount
+  useEffect(() => {
+    try {
+      const query = typeof window !== 'undefined' ? window.location.search : '';
+      const params = new URLSearchParams(query);
+      const code = params.get('c');
+      if (code) {
+        const cfg = resolveShortCode(code);
+        if (cfg) {
+          setConfigState(prev => ({
+            ...prev,
+            color: cfg.color ?? prev.color,
+            isDeployed: !!cfg.isDeployed,
+            isInteriorView: !!cfg.isInteriorView,
+            isInsideView: !!cfg.isInsideView
+          }));
+        }
+      } else {
+        const color = params.get('color');
+        if (color) {
+          setConfigState(prev => ({
+            ...prev,
+            color,
+            isDeployed: params.get('d') === '1',
+            isInteriorView: params.get('i') === '1',
+            isInsideView: params.get('in') === '1'
+          }));
+        }
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  const handleShareUrl = () => {
+    const cfg = {
+      color: configState.color,
+      isDeployed: configState.isDeployed,
+      isInteriorView: configState.isInteriorView,
+      isInsideView: configState.isInsideView
+    };
+    const url = buildShareUrl(window.location.href.split('?')[0], cfg);
+    navigator.clipboard.writeText(url).then(() => alert('Link copied to clipboard.'));
+  };
+
+  const handleCreateShortCode = () => {
+    const cfg = {
+      color: configState.color,
+      isDeployed: configState.isDeployed,
+      isInteriorView: configState.isInteriorView,
+      isInsideView: configState.isInsideView
+    };
+    const code = saveShortCode(cfg);
+    setShortCode(code);
+    const base = window.location.href.split('?')[0];
+    const url = `${base}?c=${code}`;
+    navigator.clipboard.writeText(url).then(() => alert(`Short link copied: ${url}`));
+  };
+
+  const handleRequestQuote = () => {
+    const estimate = estimatePrice({
+      shelterId: shelterId,
+      isDeployed: configState.isDeployed,
+      isInteriorView: configState.isInteriorView,
+      color: configState.color
+    });
+    const params = encodeURIComponent(encodeConfigToQuery({
+      color: configState.color,
+      isDeployed: configState.isDeployed,
+      isInteriorView: configState.isInteriorView,
+      isInsideView: configState.isInsideView
+    }));
+    const msg = `Requesting quote for ${shelterName}\n\n` +
+      `Configuration: ${decodeURIComponent(params)}\n` +
+      `Estimate: $${estimate.total.toLocaleString()} (base $${estimate.base.toLocaleString()} + options ${estimate.options.map(o=>o.label+': $'+o.amount.toLocaleString()).join(', ') || 'none'})\n` +
+      `${estimate.note}`;
+    setPrefillMsg(msg);
+    setShowContactForm(true);
+  };
 
   return (
     <div className="configurator-container" style={{
@@ -515,7 +599,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
 
           {/* Contact Sales Button */}
           <button
-            onClick={() => setShowContactForm(true)}
+            onClick={handleRequestQuote}
             style={{
               background: 'linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%)',
               color: 'white',
@@ -544,8 +628,48 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               e.currentTarget.style.boxShadow = '0 8px 25px rgba(13, 110, 253, 0.4)';
             }}
           >
-            📞 Contact Sales Team
+            📄 Request Quote with Config
           </button>
+
+          {/* Share Row */}
+          <div style={{ display: 'flex', gap: '12px' }}>
+            <button
+              onClick={handleShareUrl}
+              style={{
+                flex: 1,
+                background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                color: 'white',
+                border: 'none',
+                borderRadius: '12px',
+                padding: '14px 18px',
+                fontSize: '13px',
+                fontWeight: '800',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                boxShadow: '0 8px 20px rgba(16, 185, 129, 0.35)'
+              }}
+            >
+              🔗 Copy Share URL
+            </button>
+            <button
+              onClick={handleCreateShortCode}
+              style={{
+                flex: 1,
+                background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+                color: 'white',
+                border: 'none',
+                borderRadius: '12px',
+                padding: '14px 18px',
+                fontSize: '13px',
+                fontWeight: '800',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                boxShadow: '0 8px 20px rgba(245, 158, 11, 0.35)'
+              }}
+            >
+              🔒 Create Short Code
+            </button>
+          </div>
         </div>
 
 
@@ -749,6 +873,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
         isOpen={showContactForm}
         onClose={() => setShowContactForm(false)}
         shelterName={shelterName}
+        prefillMessage={prefillMsg}
       />
     </div>
   );

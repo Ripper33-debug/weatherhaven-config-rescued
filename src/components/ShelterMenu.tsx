@@ -230,7 +230,7 @@ export default function ShelterMenu() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #dee2e6 100%)',
+      background: 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 25%, #2563eb 50%, #3b82f6 75%, #60a5fa 100%)',
       padding: '40px 20px',
       fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
       position: 'relative',
@@ -243,7 +243,8 @@ export default function ShelterMenu() {
         left: 0,
         right: 0,
         bottom: 0,
-        background: 'linear-gradient(45deg, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0.01) 50%, rgba(0,0,0,0.02) 100%)',
+        background: 'linear-gradient(45deg, rgba(249, 115, 22, 0.1) 0%, rgba(251, 146, 60, 0.05) 50%, rgba(59, 130, 246, 0.1) 100%)',
+        animation: 'gradientShift 8s ease-in-out infinite',
         pointerEvents: 'none'
       }} />
       
@@ -278,23 +279,23 @@ export default function ShelterMenu() {
           alignItems: 'center',
           gap: '8px',
           fontSize: '0.9rem',
-          color: '#6c757d',
+          color: 'rgba(255, 255, 255, 0.8)',
           maxWidth: '1200px',
           margin: '0 auto',
           padding: '0 20px'
         }}>
           <Link href="/" style={{ 
-            color: '#0d6efd', 
+            color: '#f97316', 
             textDecoration: 'none',
             transition: 'color 0.2s ease'
           }}
-          onMouseEnter={(e) => e.currentTarget.style.color = '#0b5ed7'}
-          onMouseLeave={(e) => e.currentTarget.style.color = '#0d6efd'}
+          onMouseEnter={(e) => e.currentTarget.style.color = '#ea580c'}
+          onMouseLeave={(e) => e.currentTarget.style.color = '#f97316'}
           >
             Home
           </Link>
-          <span style={{ color: '#adb5bd' }}>›</span>
-          <span style={{ color: '#495057', fontWeight: '500' }}>Shelter Configurator</span>
+          <span style={{ color: 'rgba(255, 255, 255, 0.6)' }}>›</span>
+          <span style={{ color: 'rgba(255, 255, 255, 0.9)', fontWeight: '500' }}>Shelter Configurator</span>
         </nav>
       </motion.div>
 
@@ -313,20 +314,20 @@ export default function ShelterMenu() {
         <h1 style={{
           fontSize: 'clamp(2.5rem, 5vw, 4rem)',
           fontWeight: '700',
-          color: '#212529',
+          color: '#ffffff',
           marginBottom: '20px',
-          textShadow: 'none',
+          textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
           letterSpacing: '-0.02em'
         }}>
           Weatherhaven Configurator
         </h1>
         <p style={{
           fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
-          color: '#6c757d',
+          color: 'rgba(255, 255, 255, 0.9)',
           maxWidth: '700px',
           margin: '0 auto',
           lineHeight: '1.6',
-          textShadow: 'none'
+          textShadow: '0 1px 2px rgba(0, 0, 0, 0.2)'
         }}>
           Explore and customize Weatherhaven's complete range of deployable shelter solutions for military, emergency response, and remote operations
         </p>
@@ -356,21 +357,21 @@ export default function ShelterMenu() {
             style={{
               padding: '12px 24px',
               background: selectedCategory === category 
-                ? '#0d6efd' 
-                : '#ffffff',
+                ? '#f97316' 
+                : 'rgba(255, 255, 255, 0.95)',
               border: selectedCategory === category 
-                ? '1px solid #0d6efd' 
-                : '1px solid #dee2e6',
-              borderRadius: '6px',
-              color: selectedCategory === category ? 'white' : '#495057',
-              fontWeight: '500',
+                ? '1px solid #f97316' 
+                : '1px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '8px',
+              color: selectedCategory === category ? 'white' : '#1e3a8a',
+              fontWeight: '600',
               cursor: 'pointer',
               transition: 'all 0.2s ease',
               textTransform: 'none',
-              backdropFilter: 'none',
+              backdropFilter: 'blur(10px)',
               boxShadow: selectedCategory === category 
-                ? '0 2px 4px rgba(13, 110, 253, 0.2)' 
-                : '0 1px 3px rgba(0, 0, 0, 0.1)',
+                ? '0 4px 12px rgba(249, 115, 22, 0.4)' 
+                : '0 2px 8px rgba(0, 0, 0, 0.1)',
               position: 'relative',
               overflow: 'hidden'
             }}
@@ -604,9 +605,9 @@ export default function ShelterMenu() {
             transition={{ duration: 0.6, delay: 0.1 * index }}
             whileHover={{ y: -10, scale: 1.02 }}
             style={{
-              background: '#ffffff',
-              backdropFilter: 'none',
-              border: '1px solid #e9ecef',
+              background: 'rgba(255, 255, 255, 0.95)',
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255, 255, 255, 0.3)',
               borderRadius: '8px',
               padding: '24px',
               cursor: 'pointer',
@@ -635,7 +636,7 @@ export default function ShelterMenu() {
               }}
               animate={{ opacity: hoveredShelter === shelter.id ? 1 : 0 }}
             />
-            
+
             {/* Glowing border effect */}
             <motion.div
               style={{
@@ -670,9 +671,9 @@ export default function ShelterMenu() {
                 border: `1px solid ${getAvailabilityColor(shelter.availability)}`,
                 borderRadius: '12px',
                 fontSize: '0.7rem',
-                fontWeight: '600',
+              fontWeight: '600',
                 color: getAvailabilityColor(shelter.availability),
-                textTransform: 'uppercase',
+              textTransform: 'uppercase',
                 letterSpacing: '0.5px',
                 display: 'flex',
                 alignItems: 'center',
@@ -692,8 +693,8 @@ export default function ShelterMenu() {
                 color: 'white',
                 textTransform: 'none',
                 letterSpacing: '0'
-              }}>
-                {shelter.category}
+            }}>
+              {shelter.category}
               </div>
             </div>
 
@@ -757,14 +758,14 @@ export default function ShelterMenu() {
               <h3 style={{
                 fontSize: '1.5rem',
                 fontWeight: '600',
-                color: '#212529',
+                color: '#1e3a8a',
                 marginBottom: '10px'
               }}>
                 {shelter.name}
               </h3>
               
               <p style={{
-                color: '#6c757d',
+                color: '#475569',
                 lineHeight: '1.6',
                 marginBottom: '25px',
                 fontSize: '0.95rem'
@@ -1004,7 +1005,7 @@ export default function ShelterMenu() {
                   style={{
                     width: '100%',
                     padding: '16px 30px',
-                    background: '#0d6efd',
+                    background: '#f97316',
                     color: 'white',
                     border: 'none',
                     borderRadius: '6px',
@@ -1012,7 +1013,7 @@ export default function ShelterMenu() {
                     fontSize: '1rem',
                     cursor: 'pointer',
                     transition: 'all 0.3s ease',
-                    boxShadow: '0 6px 20px rgba(74, 144, 226, 0.4)',
+                    boxShadow: '0 6px 20px rgba(249, 115, 22, 0.4)',
                     position: 'relative',
                     overflow: 'hidden',
                     textTransform: 'uppercase',
@@ -1032,7 +1033,7 @@ export default function ShelterMenu() {
                     }}
                   />
                   <span style={{ position: 'relative', zIndex: 1 }}>
-                    Configure {shelter.name}
+                  Configure {shelter.name}
                   </span>
                 </motion.button>
               </Link>
@@ -1066,7 +1067,7 @@ export default function ShelterMenu() {
                   <h4 style={{
                     fontSize: '1.1rem',
                     fontWeight: '600',
-                    color: '#212529',
+                    color: '#1e3a8a',
                     marginBottom: '12px',
                     borderBottom: '2px solid #0d6efd',
                     paddingBottom: '4px'
@@ -1088,7 +1089,7 @@ export default function ShelterMenu() {
                   <h4 style={{
                     fontSize: '1.1rem',
                     fontWeight: '600',
-                    color: '#212529',
+                    color: '#1e3a8a',
                     marginBottom: '12px',
                     borderBottom: '2px solid #0d6efd',
                     paddingBottom: '4px'
@@ -1154,7 +1155,7 @@ export default function ShelterMenu() {
                     style={{
                       padding: '8px 12px',
                       background: '#ffc107',
-                      color: '#212529',
+                      color: '#1e3a8a',
                       border: 'none',
                       borderRadius: '4px',
                       fontSize: '0.8rem',
@@ -1172,7 +1173,7 @@ export default function ShelterMenu() {
                       style={{
                         width: '100%',
                         padding: '8px 12px',
-                        background: '#0d6efd',
+                        background: '#f97316',
                         color: 'white',
                         border: 'none',
                         borderRadius: '4px',
@@ -1181,13 +1182,13 @@ export default function ShelterMenu() {
                         cursor: 'pointer',
                         transition: 'background 0.2s ease'
                       }}
-                      onMouseEnter={(e) => e.currentTarget.style.background = '#0b5ed7'}
-                      onMouseLeave={(e) => e.currentTarget.style.background = '#0d6efd'}
+                      onMouseEnter={(e) => e.currentTarget.style.background = '#ea580c'}
+                      onMouseLeave={(e) => e.currentTarget.style.background = '#f97316'}
                     >
                       Configure
                     </button>
-                  </Link>
-                </div>
+              </Link>
+            </div>
               </motion.div>
             )}
           </motion.div>
@@ -1252,7 +1253,7 @@ export default function ShelterMenu() {
               <h2 style={{
                 fontSize: '1.8rem',
                 fontWeight: '600',
-                color: '#212529',
+                color: '#1e3a8a',
                 margin: 0
               }}>
                 TRECC vs HERCONN Comparison
@@ -1287,7 +1288,7 @@ export default function ShelterMenu() {
                   <h3 style={{
                     fontSize: '1.4rem',
                     fontWeight: '600',
-                    color: '#212529',
+                    color: '#1e3a8a',
                     marginBottom: '16px',
                     textAlign: 'center'
                   }}>

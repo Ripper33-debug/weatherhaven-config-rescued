@@ -617,39 +617,6 @@ export default function ShelterMenu() {
               transformStyle: 'preserve-3d'
             }}
           >
-            {/* Enhanced Hover Overlay with Glow */}
-            <motion.div
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                background: 'linear-gradient(135deg, rgba(74, 144, 226, 0.15), rgba(255, 107, 53, 0.15))',
-                opacity: 0,
-                transition: 'opacity 0.4s ease',
-                borderRadius: '25px'
-              }}
-              animate={{ opacity: hoveredShelter === shelter.id ? 1 : 0 }}
-            />
-
-            {/* Glowing border effect */}
-            <motion.div
-              style={{
-                position: 'absolute',
-                top: -2,
-                left: -2,
-                right: -2,
-                bottom: -2,
-                background: 'linear-gradient(45deg, #4A90E2, #FF6B35, #4A90E2)',
-                borderRadius: '27px',
-                opacity: 0,
-                transition: 'opacity 0.4s ease',
-                zIndex: -1,
-                filter: 'blur(8px)'
-              }}
-              animate={{ opacity: hoveredShelter === shelter.id ? 0.6 : 0 }}
-            />
 
             {/* Status Indicators */}
             <div style={{

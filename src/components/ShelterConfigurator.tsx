@@ -5,6 +5,7 @@ import ErrorBoundary from './ErrorBoundary';
 import { preloadModel, getAvailableModels, testAWSConnection } from '../lib/aws';
 import * as THREE from 'three';
 import { ConfigState, ColorOption } from '../types';
+import ContactForm from './ContactForm';
 
 interface ShelterConfiguratorProps {
   shelterId?: string;
@@ -70,6 +71,9 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   // Video walkthrough state
   const [showVideo, setShowVideo] = useState(false);
   const [currentVideo, setCurrentVideo] = useState<string>('');
+  
+  // Contact form state
+  const [showContactForm, setShowContactForm] = useState(false);
 
   const getWalkthroughVideo = () => {
     if (shelterId === 'trecc') {
@@ -494,7 +498,8 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               transition: 'all 0.3s ease',
               boxShadow: '0 8px 25px rgba(239, 68, 68, 0.4)',
               textTransform: 'uppercase',
-              letterSpacing: '0.5px'
+              letterSpacing: '0.5px',
+              marginBottom: '20px'
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = 'translateY(-3px)';
@@ -506,6 +511,40 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             }}
           >
             Reset Configuration
+          </button>
+
+          {/* Contact Sales Button */}
+          <button
+            onClick={() => setShowContactForm(true)}
+            style={{
+              background: 'linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%)',
+              color: 'white',
+              border: 'none',
+              borderRadius: '16px',
+              padding: '18px 24px',
+              fontSize: '14px',
+              fontWeight: '800',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              boxShadow: '0 8px 25px rgba(13, 110, 253, 0.4)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              width: '100%'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-3px)';
+              e.currentTarget.style.boxShadow = '0 12px 35px rgba(13, 110, 253, 0.5)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 8px 25px rgba(13, 110, 253, 0.4)';
+            }}
+          >
+            📞 Contact Sales Team
           </button>
         </div>
 
@@ -704,6 +743,13 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
           </div>
         </div>
       )}
+
+      {/* Contact Form */}
+      <ContactForm
+        isOpen={showContactForm}
+        onClose={() => setShowContactForm(false)}
+        shelterName={shelterName}
+      />
     </div>
   );
 };

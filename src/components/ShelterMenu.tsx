@@ -324,46 +324,12 @@ export default function ShelterMenu() {
           fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
           color: '#6c757d',
           maxWidth: '700px',
-          margin: '0 auto 30px',
+          margin: '0 auto',
           lineHeight: '1.6',
           textShadow: 'none'
         }}>
           Explore and customize Weatherhaven's complete range of deployable shelter solutions for military, emergency response, and remote operations
         </p>
-        
-        {/* Global Contact Button */}
-        <motion.button
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          onClick={() => handleContactSales()}
-          style={{
-            padding: '12px 24px',
-            background: 'linear-gradient(135deg, #0d6efd, #0b5ed7)',
-            color: 'white',
-            border: 'none',
-            borderRadius: '8px',
-            fontSize: '1rem',
-            fontWeight: '600',
-            cursor: 'pointer',
-            transition: 'all 0.3s ease',
-            boxShadow: '0 4px 15px rgba(13, 110, 253, 0.3)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            margin: '0 auto'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'translateY(-2px)';
-            e.currentTarget.style.boxShadow = '0 6px 20px rgba(13, 110, 253, 0.4)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = '0 4px 15px rgba(13, 110, 253, 0.3)';
-          }}
-        >
-          📞 Contact Sales Team
-        </motion.button>
       </motion.div>
 
       {/* Category Filter */}

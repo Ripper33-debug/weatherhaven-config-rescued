@@ -74,7 +74,7 @@ export function ModelViewerScene({
         dampingFactor={0.1}
         zoomSpeed={1.0}
         rotateSpeed={0.8}
-        minPolarAngle={Math.PI / 36}
+        minPolarAngle={0}
         maxPolarAngle={Math.PI / 2}
         minDistance={3}
         maxDistance={15}
@@ -251,7 +251,7 @@ function Scene({ color = '#3C3B2E' }: { color?: string }) {
         dampingFactor={0.1}
         zoomSpeed={1.0}
         rotateSpeed={0.8}
-        minPolarAngle={Math.PI / 36}
+        minPolarAngle={0}
         maxPolarAngle={Math.PI / 2}
         minDistance={3}
         maxDistance={15}

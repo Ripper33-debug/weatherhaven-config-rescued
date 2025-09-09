@@ -736,12 +736,13 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             shadows={false}
             gl={{
               antialias: false,
-              alpha: false,
+              alpha: true,
               powerPreference: 'high-performance',
               failIfMajorPerformanceCaveat: false
             }}
             dpr={[1, 1.5]}
             performance={{ min: 0.8 }}
+            style={{ background: 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 25%, #2563eb 50%, #3b82f6 75%, #60a5fa 100%)' }}
           >
             <ModelViewerScene
               modelPath={getModelPath()}

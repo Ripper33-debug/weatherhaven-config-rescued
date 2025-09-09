@@ -136,24 +136,12 @@ export default function ShelterMenu() {
   useEffect(() => {
     setMounted(true);
     
-    // Preload available model files for faster loading (tan first for immediate display)
+    // Temporarily disable preloading to fix black screen issue
     const preloadModels = async () => {
-      try {
-        await preloadModel('Shelter_Stowed_DesertTan-v1.glb'); // Desert Tan - load first (43.8MB, fastest)
-        console.log('🚀 Tan model (compressed) preloaded for immediate display');
-        
-        // Load green model in background (45.3MB Draco compressed)
-        preloadModel('Model_stowed_green-v1.glb').then(() => {
-          console.log('🚀 Green model (compressed) preloaded in background');
-        }).catch((error) => {
-          console.warn('⚠️ Green model preload failed:', error);
-        });
-        
-        // Skip white model preload since it doesn't exist yet (403 error)
-        // preloadModel('trecc-arctic-white.glb'); // Will be enabled when file is uploaded
-      } catch (error) {
-        console.warn('⚠️ Model preloading failed:', error);
-      }
+      console.log('🚀 Preloading disabled to fix model loading issues');
+      // Preloading temporarily disabled due to interference with model loading
+      // await preloadModel('Shelter_Stowed_DesertTan-v1.glb');
+      // await preloadModel('Model_stowed_green-v1.glb');
     };
     
     preloadModels();

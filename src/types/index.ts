@@ -14,7 +14,7 @@ export interface ColorOption {
 // 3D Model types
 export interface ModelViewerSceneProps {
   modelPath: string;
-  color: string;
+  color: string | null;
   isDeployed: boolean;
   environment: string;
   weather: string;

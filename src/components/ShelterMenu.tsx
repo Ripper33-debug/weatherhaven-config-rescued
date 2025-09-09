@@ -139,10 +139,10 @@ export default function ShelterMenu() {
     // Preload available model files for faster loading (tan first for immediate display)
     const preloadModels = async () => {
       try {
-        await preloadModel('trecc.glb'); // Desert Tan - load first (74MB, faster)
-        console.log('🚀 Tan model preloaded for immediate display');
+        await preloadModel('Shelter_Stowed_DesertTan-v1.glb'); // Desert Tan - load first (43.8MB, fastest)
+        console.log('🚀 Tan model (compressed) preloaded for immediate display');
         
-        // Load green model in background (45.3MB Draco compressed, much faster)
+        // Load green model in background (45.3MB Draco compressed)
         preloadModel('Model_stowed_green-v1.glb').then(() => {
           console.log('🚀 Green model (compressed) preloaded in background');
         }).catch((error) => {

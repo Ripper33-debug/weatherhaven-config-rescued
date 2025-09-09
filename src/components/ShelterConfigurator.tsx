@@ -150,12 +150,12 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
     } else {
       // Use pre-colored models based on selected color
       const colorModelMap: Record<string, string> = {
-        '#3C3B2E': 'Model_stowed_green-v1.glb',  // Military Green (Draco compressed - 45.3MB)
-        '#B8A082': 'trecc.glb',                   // Desert Tan  
-        '#F8F8F8': 'trecc.glb'                    // Arctic White - fallback to tan until white model is uploaded
+        '#3C3B2E': 'Model_stowed_green-v1.glb',      // Military Green (Draco compressed - 45.3MB)
+        '#B8A082': 'Shelter_Stowed_DesertTan-v1.glb', // Desert Tan (Draco compressed - 43.8MB)
+        '#F8F8F8': 'Shelter_Stowed_DesertTan-v1.glb'  // Arctic White - fallback to compressed tan until white model is uploaded
       };
       
-      const selectedModel = colorModelMap[configState.color] || 'trecc.glb'; // fallback to Desert Tan (faster loading)
+      const selectedModel = colorModelMap[configState.color] || 'Shelter_Stowed_DesertTan-v1.glb'; // fallback to compressed Desert Tan
       console.log('🎨 Model selection:', {
         color: configState.color,
         model: selectedModel,

@@ -733,17 +733,15 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
           <ErrorBoundary>
           <Canvas
             camera={{ position: [5, 3, 5], fov: 50 }}
-            shadows
+            shadows={false}
             gl={{
-              antialias: true,
-              alpha: true,
+              antialias: false,
+              alpha: false,
               powerPreference: 'high-performance',
               failIfMajorPerformanceCaveat: false
             }}
-            onCreated={({ gl }) => {
-              gl.shadowMap.enabled = true;
-              gl.shadowMap.type = THREE.PCFSoftShadowMap;
-            }}
+            dpr={[1, 1.5]}
+            performance={{ min: 0.8 }}
           >
             <ModelViewerScene
               modelPath={getModelPath()}

@@ -11,7 +11,18 @@ import { getModelUrl } from '../lib/aws';
 export default function ModelViewer() {
   return (
     <div style={{ position: 'fixed', inset: 0, background: 'linear-gradient(135deg, #ff6b35 0%, #f7931e 25%, #4facfe 75%, #00f2fe 100%)' }}>
-      <Canvas shadows dpr={[1, 2]} performance={{ min: 0.5 }}>
+      <Canvas 
+        shadows 
+        dpr={[1, 1.5]} 
+        performance={{ min: 0.8 }}
+        gl={{ 
+          antialias: false, 
+          alpha: false, 
+          powerPreference: "high-performance",
+          stencil: false,
+          depth: true
+        }}
+      >
         <Suspense fallback={<Loading />}>
           <Scene color="#3C3B2E" />
         </Suspense>
@@ -60,9 +71,9 @@ export function ModelViewerScene({
         enableZoom
         enableRotate
         enableDamping
-        dampingFactor={0.05}
-        zoomSpeed={1.2}
-        rotateSpeed={1.2}
+        dampingFactor={0.1}
+        zoomSpeed={1.0}
+        rotateSpeed={0.8}
         minPolarAngle={Math.PI / 36}
         maxPolarAngle={Math.PI / 2}
         minDistance={3}
@@ -75,9 +86,7 @@ export function ModelViewerScene({
       <directionalLight
         position={[lighting?.sunPosition?.x || 6, lighting?.sunPosition?.y || 10, lighting?.sunPosition?.z || 6]}
         intensity={lighting?.directionalIntensity || 1.2}
-        castShadow
-        shadow-mapSize-width={1024}
-        shadow-mapSize-height={1024}
+        castShadow={false}
       />
 
       {/* Environment reflections */}
@@ -239,9 +248,9 @@ function Scene({ color = '#3C3B2E' }: { color?: string }) {
         enableZoom
         enableRotate
         enableDamping
-        dampingFactor={0.05}
-        zoomSpeed={1.2}
-        rotateSpeed={1.2}
+        dampingFactor={0.1}
+        zoomSpeed={1.0}
+        rotateSpeed={0.8}
         minPolarAngle={Math.PI / 36}
         maxPolarAngle={Math.PI / 2}
         minDistance={3}
@@ -327,7 +336,7 @@ function TreccModel({
   const fallbackUrl = 'https://d3kx2t94cz9q1y.cloudfront.net/trecc.glb';
   const modelUrl = actualModelPath || fallbackUrl;
   
-  const gltf = useGLTF(modelUrl) as any;
+  const gltf = useGLTF(modelUrl, true) as any; // Use draco compression if available
   
   const scene = useMemo<THREE.Group | null>(() => {
     if (!gltf) return null;
@@ -349,6 +358,22 @@ function TreccModel({
   // Once loaded, fix orientation, center it, then sit it on the ground (y=0).
   useEffect(() => {
     if (!scene) return;
+
+    // Performance optimization: reduce polygon count for large models
+    if (modelPath?.includes('Model_stowed_green')) {
+      console.log('🎨 Optimizing large green model for performance...');
+      scene.traverse((child: any) => {
+        if (child.isMesh) {
+          child.geometry.computeBoundingBox();
+          child.geometry.computeBoundingSphere();
+          // Reduce material complexity
+          if (child.material) {
+            child.material.roughness = 0.8;
+            child.material.metalness = 0.1;
+          }
+        }
+      });
+    }
 
     // 1) Apply rotation fix BEFORE measuring
     const rotationFix = getRotationFix(modelPath || '');

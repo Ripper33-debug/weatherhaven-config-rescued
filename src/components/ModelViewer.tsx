@@ -362,11 +362,11 @@ function TreccModel({
 
   // Orientation/Grounding constants - different fixes for different models
   const getRotationFix = (modelPath: string) => {
-    if (modelPath.includes('Model_stowed_green')) {
-      // Green model needs different orientation
+    if (modelPath.includes('Model_stowed_green') || modelPath.includes('Shelter_Stowed_DesertTan')) {
+      // Both compressed models need the same orientation (no rotation)
       return new THREE.Euler(0, 0, 0); // No rotation needed
     } else {
-      // Tan model (trecc.glb) needs the original fix
+      // Original tan model (trecc.glb) needs the original fix
       return new THREE.Euler(-Math.PI / 2, Math.PI, 0);
     }
   };

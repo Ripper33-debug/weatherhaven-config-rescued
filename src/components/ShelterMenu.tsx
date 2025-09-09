@@ -136,12 +136,16 @@ export default function ShelterMenu() {
   useEffect(() => {
     setMounted(true);
     
-    // Preload all model files for faster loading
+    // Preload all model files for faster loading (tan first for immediate display)
     const preloadModels = async () => {
       try {
-        await preloadModel('trecc.glb'); // Desert Tan
-        await preloadModel('Model_stowed_green.glb'); // Military Green
-        console.log('🚀 All models preloaded for faster loading');
+        await preloadModel('trecc.glb'); // Desert Tan - load first (74MB, faster)
+        console.log('🚀 Tan model preloaded for immediate display');
+        
+        // Load green model in background (528MB, takes longer)
+        preloadModel('Model_stowed_green.glb').then(() => {
+          console.log('🚀 Green model preloaded in background');
+        });
       } catch (error) {
         console.warn('⚠️ Model preloading failed:', error);
       }

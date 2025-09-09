@@ -34,7 +34,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   ];
 
   const [configState, setConfigState] = useState<ConfigState>({
-    color: '#3C3B2E', // Default to OD Green (Olive Drab)
+    color: '#B8A082', // Default to CARC Tan (Desert) - faster loading
     isDeployed: false,
     isInteriorView: false,
     isInsideView: false,
@@ -155,7 +155,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
         '#F8F8F8': 'trecc-arctic-white.glb'   // Arctic White (when ready)
       };
       
-      const selectedModel = colorModelMap[configState.color] || 'Model_stowed_green.glb';
+      const selectedModel = colorModelMap[configState.color] || 'trecc.glb'; // fallback to Desert Tan (faster loading)
       return selectedModel;
     }
   };
@@ -571,7 +571,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
           <button
             onClick={() => {
               setConfigState({
-                color: '#3C3B2E', // Default to OD Green (Olive Drab)
+                color: '#B8A082', // Default to CARC Tan (Desert) - faster loading
                 isDeployed: false,
                 isInteriorView: false,
                 isInsideView: false,

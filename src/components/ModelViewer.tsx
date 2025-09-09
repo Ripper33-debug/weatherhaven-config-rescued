@@ -493,23 +493,28 @@ function TreccModel({
           <div style={{
             fontSize: '14px',
             opacity: 0.8,
-            marginBottom: '20px'
+            marginBottom: '20px',
+            lineHeight: '1.4'
           }}>
-            Unable to load model from AWS CloudFront
+            The 3D model failed to load. This could be due to a network issue or the model file being unavailable.<br/>
+            Please try refreshing the page.
           </div>
           <button
             onClick={() => window.location.reload()}
             style={{
-              padding: '10px 20px',
-              background: 'linear-gradient(135deg, #4A90E2, #FF6B35)',
+              padding: '12px 24px',
+              background: 'linear-gradient(135deg, #ff4444, #cc0000)',
               color: 'white',
               border: 'none',
               borderRadius: '8px',
               cursor: 'pointer',
-              fontWeight: '600'
+              fontWeight: 'bold',
+              fontSize: '14px',
+              transition: 'all 0.3s ease',
+              boxShadow: '0 4px 15px rgba(255, 68, 68, 0.3)'
             }}
           >
-            Reload Page
+            🔄 Please Refresh
           </button>
         </div>
       </Html>

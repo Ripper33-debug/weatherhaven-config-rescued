@@ -377,11 +377,24 @@ function TreccModel({
         
         // If compressed model fails, try fallback to original
         if (modelPath?.includes('Model_stowed_green-v1')) {
-          console.log('🔄 Compressed model failed, trying fallback to original...');
+          console.log('🔄 Compressed green model failed, trying fallback to original...');
           try {
             const fallbackUrl = await getModelUrl('Model_stowed_green.glb');
             setActualModelPath(fallbackUrl);
-            console.log('✅ Fallback to original model successful');
+            console.log('✅ Fallback to original green model successful');
+            return;
+          } catch (fallbackError) {
+            console.error('❌ Fallback also failed:', fallbackError);
+          }
+        }
+        
+        // If compressed tan model fails, try fallback to original
+        if (modelPath?.includes('Shelter_Stowed_DesertTan-v1')) {
+          console.log('🔄 Compressed tan model failed, trying fallback to original...');
+          try {
+            const fallbackUrl = await getModelUrl('trecc.glb');
+            setActualModelPath(fallbackUrl);
+            console.log('✅ Fallback to original tan model successful');
             return;
           } catch (fallbackError) {
             console.error('❌ Fallback also failed:', fallbackError);
@@ -401,6 +414,16 @@ function TreccModel({
   const modelUrl = actualModelPath || fallbackUrl;
   
   const gltf = useGLTF(modelUrl, true) as any; // Use draco compression if available
+  
+  // Debug model loading
+  useEffect(() => {
+    if (gltf) {
+      console.log('🎨 GLTF loaded successfully:', modelUrl);
+      console.log('🎨 GLTF scene:', gltf.scene);
+    } else {
+      console.log('🎨 GLTF still loading:', modelUrl);
+    }
+  }, [gltf, modelUrl]);
   
   const scene = useMemo<THREE.Group | null>(() => {
     if (!gltf) return null;

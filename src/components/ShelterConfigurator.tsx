@@ -150,12 +150,12 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
     } else {
       // Use pre-colored models based on selected color
       const colorModelMap: Record<string, string> = {
-        '#3C3B2E': 'trecc-od-green.glb',     // OD Green
-        '#B8A082': 'trecc-desert-tan.glb',   // Desert Tan  
-        '#F8F8F8': 'trecc-arctic-white.glb'  // Arctic White
+        '#3C3B2E': 'Model_stowed_green.glb',  // Military Green
+        '#B8A082': 'trecc.glb',               // Desert Tan  
+        '#F8F8F8': 'trecc-arctic-white.glb'   // Arctic White (when ready)
       };
       
-      return colorModelMap[configState.color] || 'trecc-od-green.glb'; // fallback to OD Green
+      return colorModelMap[configState.color] || 'Model_stowed_green.glb'; // fallback to Military Green
     }
   };
 

@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { generateShelterPDF, generateComparisonPDF, ShelterSpecs } from '../lib/pdfExport';
 import ContactForm from './ContactForm';
+import { preloadModel } from '../lib/aws';
 
 interface Shelter {
   id: string;
@@ -131,9 +132,22 @@ export default function ShelterMenu() {
     return '☀️';
   };
 
-  // Prevent hydration mismatch
+  // Prevent hydration mismatch and preload models
   useEffect(() => {
     setMounted(true);
+    
+    // Preload all model files for faster loading
+    const preloadModels = async () => {
+      try {
+        await preloadModel('trecc.glb'); // Desert Tan
+        await preloadModel('Model_stowed_green.glb'); // Military Green
+        console.log('🚀 All models preloaded for faster loading');
+      } catch (error) {
+        console.warn('⚠️ Model preloading failed:', error);
+      }
+    };
+    
+    preloadModels();
   }, []);
 
   const categories = ['all', ...Array.from(new Set(shelters.map(s => s.category)))];

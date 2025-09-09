@@ -110,24 +110,27 @@ function Loading() {
   useEffect(() => {
     const interval = setInterval(() => {
       setProgress(prev => {
-        if (prev < 30) {
-          setLoadingStage('Connecting to AWS...');
-          return prev + 2;
-        } else if (prev < 60) {
-          setLoadingStage('Downloading model...');
+        if (prev < 20) {
+          setLoadingStage('Connecting to AWS CloudFront...');
           return prev + 1.5;
-        } else if (prev < 90) {
-          setLoadingStage('Processing geometry...');
-          return prev + 1;
+        } else if (prev < 50) {
+          setLoadingStage('Downloading 3D model (this may take a moment)...');
+          return prev + 0.8;
+        } else if (prev < 80) {
+          setLoadingStage('Processing geometry and textures...');
+          return prev + 0.6;
+        } else if (prev < 95) {
+          setLoadingStage('Optimizing for display...');
+          return prev + 0.3;
         } else if (prev < 100) {
-          setLoadingStage('Finalizing...');
-          return prev + 0.5;
+          setLoadingStage('Almost ready...');
+          return prev + 0.2;
         } else {
           clearInterval(interval);
           return 100;
         }
       });
-    }, 100);
+    }, 150);
 
     return () => clearInterval(interval);
   }, []);

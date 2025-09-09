@@ -102,8 +102,18 @@ export async function testAWSConnection(): Promise<boolean> {
   }
 }
 
-// Preload model for faster loading - disabled to prevent preload issues
+// Preload model for faster loading
 export async function preloadModel(modelPath: string): Promise<void> {
-  // Disabled preloading to prevent console warnings
-  console.log(`Preload requested for: ${modelPath} (disabled)`)
+  try {
+    const url = await getModelUrl(modelPath);
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.href = url;
+    link.as = 'fetch';
+    link.crossOrigin = 'anonymous';
+    document.head.appendChild(link);
+    console.log('🚀 Preloaded model:', modelPath);
+  } catch (error) {
+    console.warn('⚠️ Failed to preload model:', modelPath, error);
+  }
 }

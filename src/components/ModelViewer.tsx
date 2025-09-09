@@ -323,15 +323,24 @@ function TreccModel({
     return gltf?.scene?.clone(true) ?? null;
   }, [gltf]);
 
-  // Orientation/Grounding constants
-  const ROTATE_FIX = new THREE.Euler(-Math.PI / 2, Math.PI, 0);
+  // Orientation/Grounding constants - different fixes for different models
+  const getRotationFix = (modelPath: string) => {
+    if (modelPath.includes('Model_stowed_green')) {
+      // Green model needs different orientation
+      return new THREE.Euler(0, 0, 0); // No rotation needed
+    } else {
+      // Tan model (trecc.glb) needs the original fix
+      return new THREE.Euler(-Math.PI / 2, Math.PI, 0);
+    }
+  };
 
   // Once loaded, fix orientation, center it, then sit it on the ground (y=0).
   useEffect(() => {
     if (!scene) return;
 
     // 1) Apply rotation fix BEFORE measuring
-    scene.rotation.copy(ROTATE_FIX);
+    const rotationFix = getRotationFix(modelPath || '');
+    scene.rotation.copy(rotationFix);
 
     // 2) Center the model at the origin
     let box = new THREE.Box3().setFromObject(scene);

@@ -156,18 +156,16 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
       };
       
       const selectedModel = colorModelMap[configState.color] || 'Model_stowed_green.glb';
-      console.log('🎨 Color selected:', configState.color, '→ Model:', selectedModel);
-      console.log('🚨 DEBUG: Model selection working!', selectedModel);
       return selectedModel;
     }
   };
 
   // Colors are now applied dynamically to the loaded model
 
-  // Debug logging - always show in browser console
+  if (process.env.NODE_ENV === 'development') {
   console.log('🎯 Current state:', configState);
   console.log('📁 Model path:', getModelPath());
-  console.log('🎨 Selected color:', configState.color);
+  }
 
   // Apply config from URL or short code on mount
   useEffect(() => {

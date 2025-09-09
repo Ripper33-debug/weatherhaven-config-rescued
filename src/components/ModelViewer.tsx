@@ -427,16 +427,6 @@ function TreccModel({
     }
   }, [gltf, modelUrl]);
   
-  // Debug scene creation
-  useEffect(() => {
-    if (scene) {
-      console.log('🎨 Scene created successfully:', scene);
-      console.log('🎨 Scene children:', scene.children.length);
-    } else {
-      console.log('🎨 Scene not created yet');
-    }
-  }, [scene]);
-  
   // Set timeout for model loading
   useEffect(() => {
     if (actualModelPath && !gltf) {
@@ -454,6 +444,16 @@ function TreccModel({
     
     return gltf?.scene?.clone(true) ?? null;
   }, [gltf]);
+  
+  // Debug scene creation
+  useEffect(() => {
+    if (scene) {
+      console.log('🎨 Scene created successfully:', scene);
+      console.log('🎨 Scene children:', scene.children.length);
+    } else {
+      console.log('🎨 Scene not created yet');
+    }
+  }, [scene]);
 
   // Orientation/Grounding constants - different fixes for different models
   const getRotationFix = (modelPath: string) => {

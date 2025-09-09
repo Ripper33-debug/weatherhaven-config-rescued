@@ -352,6 +352,7 @@ function TreccModel({
 }: TreccModelProps) {
   const [actualModelPath, setActualModelPath] = useState<string | null>(null);
   const [hasError, setHasError] = useState(false);
+  const [modelLoadTimeout, setModelLoadTimeout] = useState(false);
   
   // Get AWS URL for the model
   useEffect(() => {
@@ -420,10 +421,33 @@ function TreccModel({
     if (gltf) {
       console.log('🎨 GLTF loaded successfully:', modelUrl);
       console.log('🎨 GLTF scene:', gltf.scene);
+      console.log('🎨 GLTF children count:', gltf.scene?.children?.length);
     } else {
       console.log('🎨 GLTF still loading:', modelUrl);
     }
   }, [gltf, modelUrl]);
+  
+  // Debug scene creation
+  useEffect(() => {
+    if (scene) {
+      console.log('🎨 Scene created successfully:', scene);
+      console.log('🎨 Scene children:', scene.children.length);
+    } else {
+      console.log('🎨 Scene not created yet');
+    }
+  }, [scene]);
+  
+  // Set timeout for model loading
+  useEffect(() => {
+    if (actualModelPath && !gltf) {
+      const timeout = setTimeout(() => {
+        console.log('⏰ Model loading timeout - showing error');
+        setModelLoadTimeout(true);
+      }, 10000); // 10 second timeout
+      
+      return () => clearTimeout(timeout);
+    }
+  }, [actualModelPath, gltf]);
   
   const scene = useMemo<THREE.Group | null>(() => {
     if (!gltf) return null;
@@ -533,8 +557,8 @@ function TreccModel({
     );
   }
 
-  // Show error state if AWS failed
-  if (hasError) {
+  // Show error state if AWS failed or model loading timeout
+  if (hasError || modelLoadTimeout) {
     return (
       <Html center>
         <div style={{

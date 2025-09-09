@@ -56,10 +56,10 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
         const models = await getAvailableModels();
         setAvailableModels(models);
         
-        // Preload all models for faster switching
-        models.forEach(model => {
-          preloadModel(model.path);
-        });
+        // Preloading disabled to fix model loading issues
+        // models.forEach(model => {
+        //   preloadModel(model.path);
+        // });
         
         console.log('🎨 Loaded available models:', models);
       } catch (error) {

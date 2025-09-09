@@ -102,17 +102,22 @@ export async function testAWSConnection(): Promise<boolean> {
   }
 }
 
-// Preload model for faster loading
+// Preload model for faster loading using fetch instead of link preload
 export async function preloadModel(modelPath: string): Promise<void> {
   try {
     const url = await getModelUrl(modelPath);
-    const link = document.createElement('link');
-    link.rel = 'preload';
-    link.href = url;
-    link.as = 'fetch';
-    link.crossOrigin = 'anonymous';
-    document.head.appendChild(link);
-    console.log('🚀 Preloaded model:', modelPath);
+    // Use fetch to preload instead of link preload to avoid HTTP method mismatch
+    const response = await fetch(url, { 
+      method: 'GET',
+      mode: 'cors',
+      cache: 'force-cache'
+    });
+    
+    if (response.ok) {
+      console.log('🚀 Preloaded model:', modelPath);
+    } else {
+      console.warn('⚠️ Preload failed for model:', modelPath, response.status);
+    }
   } catch (error) {
     console.warn('⚠️ Failed to preload model:', modelPath, error);
   }

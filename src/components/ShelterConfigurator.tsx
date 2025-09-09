@@ -30,7 +30,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   const colorOptions: ColorOption[] = [
     { name: 'CARC Tan (Desert)', value: '#B8A082' },
     { name: 'OD Green (Olive Drab)', value: '#3C3B2E' },
-    { name: 'Arctic White', value: '#F8F8F8' }
+    { name: 'Arctic White (Coming Soon)', value: '#F8F8F8' }
   ];
 
   const [configState, setConfigState] = useState<ConfigState>({
@@ -152,7 +152,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
       const colorModelMap: Record<string, string> = {
         '#3C3B2E': 'Model_stowed_green.glb',  // Military Green
         '#B8A082': 'trecc.glb',               // Desert Tan  
-        '#F8F8F8': 'trecc-arctic-white.glb'   // Arctic White (when ready)
+        '#F8F8F8': 'trecc.glb'                // Arctic White - fallback to tan until white model is uploaded
       };
       
       const selectedModel = colorModelMap[configState.color] || 'trecc.glb'; // fallback to Desert Tan (faster loading)

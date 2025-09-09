@@ -115,24 +115,30 @@ export function ModelViewerScene({
 function Loading() {
   const [progress, setProgress] = useState(0);
   const [loadingStage, setLoadingStage] = useState('Initializing...');
+  const [stageIcon, setStageIcon] = useState('⚡');
 
   useEffect(() => {
     const interval = setInterval(() => {
       setProgress(prev => {
         if (prev < 20) {
-          setLoadingStage('Connecting to AWS CloudFront...');
+          setLoadingStage('Connecting to CloudFront CDN');
+          setStageIcon('🌐');
           return prev + 1.5;
         } else if (prev < 50) {
-          setLoadingStage('Downloading 3D model (this may take a moment)...');
+          setLoadingStage('Downloading 3D model data');
+          setStageIcon('📦');
           return prev + 0.8;
         } else if (prev < 80) {
-          setLoadingStage('Processing geometry and textures...');
+          setLoadingStage('Processing geometry and textures');
+          setStageIcon('🔧');
           return prev + 0.6;
         } else if (prev < 95) {
-          setLoadingStage('Optimizing for display...');
+          setLoadingStage('Optimizing for display');
+          setStageIcon('⚙️');
           return prev + 0.3;
         } else if (prev < 100) {
-          setLoadingStage('Almost ready...');
+          setLoadingStage('Finalizing configuration');
+          setStageIcon('✨');
           return prev + 0.2;
         } else {
           clearInterval(interval);
@@ -147,100 +153,168 @@ function Loading() {
   return (
     <Html center>
       <div style={{
-        background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(20, 20, 40, 0.95) 100%)',
+        background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 41, 59, 0.98) 100%)',
         color: 'white',
-        padding: '40px',
-        borderRadius: '20px',
+        padding: '48px 40px',
+        borderRadius: '24px',
         textAlign: 'center',
-        fontFamily: 'system-ui, -apple-system, sans-serif',
-        border: '1px solid rgba(255, 255, 255, 0.1)',
-        boxShadow: '0 20px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05)',
-        minWidth: '380px',
-        backdropFilter: 'blur(10px)',
+        fontFamily: '"Inter", "SF Pro Display", system-ui, -apple-system, sans-serif',
+        border: '1px solid rgba(148, 163, 184, 0.1)',
+        boxShadow: '0 25px 50px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(148, 163, 184, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+        minWidth: '420px',
+        backdropFilter: 'blur(20px)',
         position: 'relative',
         overflow: 'hidden'
       }}>
-        {/* Main spinner */}
+        {/* Background pattern */}
         <div style={{
-          width: '60px',
-          height: '60px',
-          margin: '0 auto 25px',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'radial-gradient(circle at 20% 80%, rgba(74, 144, 226, 0.03) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 107, 53, 0.03) 0%, transparent 50%)',
+          pointerEvents: 'none'
+        }} />
+        
+        {/* Weatherhaven branding */}
+        <div style={{
+          marginBottom: '32px'
+        }}>
+          <div style={{
+            fontSize: '14px',
+            fontWeight: '600',
+            color: '#94A3B8',
+            letterSpacing: '0.05em',
+            textTransform: 'uppercase',
+            marginBottom: '8px'
+          }}>
+            Weatherhaven
+          </div>
+          <div style={{
+            fontSize: '18px',
+            fontWeight: '700',
+            color: '#E2E8F0',
+            letterSpacing: '-0.02em'
+          }}>
+            TRECC Configurator
+          </div>
+        </div>
+
+        {/* Professional spinner */}
+        <div style={{
+          width: '72px',
+          height: '72px',
+          margin: '0 auto 32px',
           position: 'relative'
         }}>
           {/* Outer ring */}
           <div style={{
-            width: '60px',
-            height: '60px',
-            border: '3px solid rgba(74, 144, 226, 0.2)',
+            width: '72px',
+            height: '72px',
+            border: '3px solid rgba(74, 144, 226, 0.15)',
             borderTop: '3px solid #4A90E2',
             borderRadius: '50%',
-            animation: 'spin 1.2s linear infinite'
+            animation: 'spin 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite'
           }} />
-          {/* Inner ring */}
+          {/* Middle ring */}
           <div style={{
             position: 'absolute',
-            top: '8px',
-            left: '8px',
-            width: '44px',
-            height: '44px',
-            border: '2px solid rgba(255, 107, 53, 0.2)',
+            top: '12px',
+            left: '12px',
+            width: '48px',
+            height: '48px',
+            border: '2px solid rgba(255, 107, 53, 0.15)',
             borderTop: '2px solid #FF6B35',
             borderRadius: '50%',
-            animation: 'spin 0.8s linear infinite reverse'
+            animation: 'spin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite reverse'
+          }} />
+          {/* Inner dot */}
+          <div style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            width: '8px',
+            height: '8px',
+            background: 'linear-gradient(135deg, #4A90E2 0%, #FF6B35 100%)',
+            borderRadius: '50%',
+            transform: 'translate(-50%, -50%)',
+            animation: 'pulse 2s ease-in-out infinite'
           }} />
         </div>
         
         {/* Large percentage display */}
         <div style={{
-          fontSize: '48px',
+          fontSize: '56px',
           fontWeight: '800',
-          marginBottom: '20px',
+          marginBottom: '24px',
           background: 'linear-gradient(135deg, #4A90E2 0%, #FF6B35 100%)',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
           backgroundClip: 'text',
-          lineHeight: '1'
+          lineHeight: '1',
+          letterSpacing: '-0.02em',
+          textShadow: '0 0 30px rgba(74, 144, 226, 0.3)'
         }}>
           {Math.round(progress)}%
         </div>
         
-        {/* Loading stage */}
+        {/* Loading stage with icon */}
         <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '12px',
           fontSize: '16px',
           fontWeight: '600',
-          marginBottom: '8px',
+          marginBottom: '24px',
           color: '#E2E8F0'
         }}>
-          {loadingStage}
+          <span style={{ fontSize: '20px' }}>{stageIcon}</span>
+          <span>{loadingStage}</span>
         </div>
-        {/* Progress bar */}
+
+        {/* Enhanced progress bar */}
         <div style={{
           width: '100%',
-          height: '6px',
-          background: 'rgba(255, 255, 255, 0.1)',
-          borderRadius: '3px',
+          height: '8px',
+          background: 'rgba(148, 163, 184, 0.1)',
+          borderRadius: '4px',
           overflow: 'hidden',
-          marginBottom: '15px'
+          marginBottom: '20px',
+          position: 'relative'
         }}>
           <div style={{
             width: `${progress}%`,
             height: '100%',
             background: 'linear-gradient(90deg, #4A90E2 0%, #FF6B35 100%)',
-            borderRadius: '3px',
-            transition: 'width 0.3s ease',
-            boxShadow: '0 0 10px rgba(74, 144, 226, 0.5)'
-          }} />
+            borderRadius: '4px',
+            transition: 'width 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+            boxShadow: '0 0 20px rgba(74, 144, 226, 0.4)',
+            position: 'relative'
+          }}>
+            {/* Progress bar shine effect */}
+            <div style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              height: '50%',
+              background: 'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%)',
+              animation: 'shimmer 2s ease-in-out infinite'
+            }} />
+          </div>
         </div>
         
-        
-        {/* Subtitle */}
+        {/* Professional subtitle */}
         <p style={{ 
-          margin: '15px 0 0', 
+          margin: '0', 
           fontSize: '14px', 
-          opacity: 0.7,
-          lineHeight: '1.4'
+          color: '#94A3B8',
+          lineHeight: '1.5',
+          fontWeight: '500'
         }}>
-          Preparing your 3D experience...
+          Loading your 3D configuration experience
         </p>
       </div>
     </Html>

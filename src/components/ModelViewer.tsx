@@ -190,18 +190,19 @@ function Loading() {
           }} />
         </div>
         
-        {/* Title */}
-        <h2 style={{ 
-          margin: '0 0 15px', 
-          fontSize: '24px', 
-          fontWeight: '700',
+        {/* Large percentage display */}
+        <div style={{
+          fontSize: '48px',
+          fontWeight: '800',
+          marginBottom: '20px',
           background: 'linear-gradient(135deg, #4A90E2 0%, #FF6B35 100%)',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text'
+          backgroundClip: 'text',
+          lineHeight: '1'
         }}>
-          TRECC Configurator
-        </h2>
+          {Math.round(progress)}%
+        </div>
         
         {/* Loading stage */}
         <div style={{
@@ -231,14 +232,6 @@ function Loading() {
           }} />
         </div>
         
-        {/* Progress percentage */}
-        <div style={{
-          fontSize: '14px',
-          color: '#94A3B8',
-          fontWeight: '500'
-        }}>
-          {Math.round(progress)}%
-        </div>
         
         {/* Subtitle */}
         <p style={{ 

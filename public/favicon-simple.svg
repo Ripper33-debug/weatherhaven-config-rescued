@@ -1,0 +1,10 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle with Weatherhaven blue -->
+  <circle cx="16" cy="16" r="16" fill="#2563eb"/>
+  
+  <!-- Weatherhaven "W" - bold and clear -->
+  <text x="16" y="22" font-family="Arial, sans-serif" font-size="18" font-weight="900" text-anchor="middle" fill="white">W</text>
+  
+  <!-- Small accent dot -->
+  <circle cx="16" cy="8" r="2" fill="#FF6B35"/>
+</svg>

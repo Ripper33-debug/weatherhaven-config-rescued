@@ -28,8 +28,8 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   }
 
   const colorOptions: ColorOption[] = [
-    { name: 'OD Green (Olive Drab)', value: '#3C3B2E' },
     { name: 'CARC Tan (Desert)', value: '#B8A082' },
+    { name: 'OD Green (Olive Drab)', value: '#3C3B2E' },
     { name: 'Arctic White', value: '#F8F8F8' }
   ];
 
@@ -156,6 +156,11 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
       };
       
       const selectedModel = colorModelMap[configState.color] || 'trecc.glb'; // fallback to Desert Tan (faster loading)
+      console.log('🎨 Model selection:', {
+        color: configState.color,
+        model: selectedModel,
+        availableModels: Object.keys(colorModelMap)
+      });
       return selectedModel;
     }
   };

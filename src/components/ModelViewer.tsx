@@ -301,11 +301,20 @@ function TreccModel({
     const loadModelUrl = async () => {
       try {
         const filename = modelPath || 'trecc.glb';
-        const awsUrl = await getModelUrl(filename);
+        console.log('🎨 Loading model:', filename);
+        
+        // Add timeout for large models (especially green model at 528MB)
+        const timeoutPromise = new Promise((_, reject) => {
+          setTimeout(() => reject(new Error('Model loading timeout')), 60000); // 60 second timeout
+        });
+        
+        const urlPromise = getModelUrl(filename);
+        const awsUrl = await Promise.race([urlPromise, timeoutPromise]) as string;
+        
         setActualModelPath(awsUrl);
         console.log('🎨 Using AWS model URL:', awsUrl);
       } catch (error) {
-        console.error('❌ AWS failed:', error);
+        console.error('❌ AWS failed for model:', modelPath, error);
         setHasError(true);
         setActualModelPath(null);
       }

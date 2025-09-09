@@ -40,7 +40,7 @@ export interface Background3D {
 
 export interface TreccModelProps {
   modelPath?: string;
-  color?: string;
+  color?: string | null;
   onReady?: (info: ReadyInfo) => void;
   onColorApplied?: () => void;
 }

@@ -147,60 +147,108 @@ function Loading() {
   return (
     <Html center>
       <div style={{
-        background: 'rgba(0, 0, 0, 0.9)',
+        background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(20, 20, 40, 0.95) 100%)',
         color: 'white',
-        padding: '30px',
-        borderRadius: '15px',
+        padding: '40px',
+        borderRadius: '20px',
         textAlign: 'center',
-        fontFamily: 'Arial, sans-serif',
-        border: '2px solid #4A90E2',
-        boxShadow: '0 0 20px rgba(74, 144, 226, 0.3)',
-        minWidth: '300px'
+        fontFamily: 'system-ui, -apple-system, sans-serif',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        boxShadow: '0 20px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05)',
+        minWidth: '380px',
+        backdropFilter: 'blur(10px)',
+        position: 'relative',
+        overflow: 'hidden'
       }}>
+        {/* Main spinner */}
         <div style={{
-          width: '40px',
-          height: '40px',
-          border: '3px solid #333',
-          borderTop: '3px solid #4A90E2',
-          borderRadius: '50%',
-          margin: '0 auto 15px auto',
-          animation: 'spin 1s linear infinite'
-        }}></div>
-        <div style={{ 
-          fontSize: '18px',
-          fontWeight: 'bold',
-          background: 'linear-gradient(45deg, #4A90E2, #FF6B35)',
+          width: '60px',
+          height: '60px',
+          margin: '0 auto 25px',
+          position: 'relative'
+        }}>
+          {/* Outer ring */}
+          <div style={{
+            width: '60px',
+            height: '60px',
+            border: '3px solid rgba(74, 144, 226, 0.2)',
+            borderTop: '3px solid #4A90E2',
+            borderRadius: '50%',
+            animation: 'spin 1.2s linear infinite'
+          }} />
+          {/* Inner ring */}
+          <div style={{
+            position: 'absolute',
+            top: '8px',
+            left: '8px',
+            width: '44px',
+            height: '44px',
+            border: '2px solid rgba(255, 107, 53, 0.2)',
+            borderTop: '2px solid #FF6B35',
+            borderRadius: '50%',
+            animation: 'spin 0.8s linear infinite reverse'
+          }} />
+        </div>
+        
+        {/* Title */}
+        <h2 style={{ 
+          margin: '0 0 15px', 
+          fontSize: '24px', 
+          fontWeight: '700',
+          background: 'linear-gradient(135deg, #4A90E2 0%, #FF6B35 100%)',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text',
-          marginBottom: '10px'
+          backgroundClip: 'text'
         }}>
-          Loading model...
-        </div>
+          TRECC Configurator
+        </h2>
+        
+        {/* Loading stage */}
         <div style={{
-          fontSize: '14px',
-          color: '#b0b0b0',
-          marginBottom: '15px'
+          fontSize: '16px',
+          fontWeight: '600',
+          marginBottom: '8px',
+          color: '#E2E8F0'
         }}>
           {loadingStage}
         </div>
+        {/* Progress bar */}
         <div style={{
           width: '100%',
-          height: '4px',
-          background: 'rgba(255, 255, 255, 0.2)',
-          borderRadius: '2px',
-          overflow: 'hidden'
+          height: '6px',
+          background: 'rgba(255, 255, 255, 0.1)',
+          borderRadius: '3px',
+          overflow: 'hidden',
+          marginBottom: '15px'
         }}>
           <div style={{
             width: `${progress}%`,
             height: '100%',
-            background: 'linear-gradient(90deg, #4A90E2, #FF6B35)',
-            transition: 'width 0.3s ease'
-          }}></div>
+            background: 'linear-gradient(90deg, #4A90E2 0%, #FF6B35 100%)',
+            borderRadius: '3px',
+            transition: 'width 0.3s ease',
+            boxShadow: '0 0 10px rgba(74, 144, 226, 0.5)'
+          }} />
         </div>
-        <div style={{ marginTop: '8px', fontSize: '12px', opacity: 0.8 }}>
+        
+        {/* Progress percentage */}
+        <div style={{
+          fontSize: '14px',
+          color: '#94A3B8',
+          fontWeight: '500'
+        }}>
           {Math.round(progress)}%
         </div>
+        
+        {/* Subtitle */}
+        <p style={{ 
+          margin: '15px 0 0', 
+          fontSize: '14px', 
+          opacity: 0.7,
+          lineHeight: '1.4'
+        }}>
+          Preparing your 3D experience...
+        </p>
       </div>
     </Html>
   );

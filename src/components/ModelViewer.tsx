@@ -311,6 +311,7 @@ function TreccModel({
       try {
         const filename = modelPath || 'trecc.glb';
         console.log('🎨 Loading model:', filename);
+        console.log('🎨 Model URL will be:', `https://d3kx2t94cz9q1y.cloudfront.net/${filename}`);
         
         // Add timeout for large models (especially green model at 528MB)
         const timeoutPromise = new Promise((_, reject) => {
@@ -324,6 +325,21 @@ function TreccModel({
         console.log('🎨 Using AWS model URL:', awsUrl);
       } catch (error) {
         console.error('❌ AWS failed for model:', modelPath, error);
+        console.error('❌ Error details:', error);
+        
+        // If compressed model fails, try fallback to original
+        if (modelPath?.includes('Model_stowed_green-v1')) {
+          console.log('🔄 Compressed model failed, trying fallback to original...');
+          try {
+            const fallbackUrl = await getModelUrl('Model_stowed_green.glb');
+            setActualModelPath(fallbackUrl);
+            console.log('✅ Fallback to original model successful');
+            return;
+          } catch (fallbackError) {
+            console.error('❌ Fallback also failed:', fallbackError);
+          }
+        }
+        
         setHasError(true);
         setActualModelPath(null);
       }

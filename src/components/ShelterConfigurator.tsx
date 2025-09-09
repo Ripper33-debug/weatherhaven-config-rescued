@@ -155,7 +155,9 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
         '#F8F8F8': 'trecc-arctic-white.glb'   // Arctic White (when ready)
       };
       
-      return colorModelMap[configState.color] || 'Model_stowed_green.glb'; // fallback to Military Green
+      const selectedModel = colorModelMap[configState.color] || 'Model_stowed_green.glb';
+      console.log('🎨 Color selected:', configState.color, '→ Model:', selectedModel);
+      return selectedModel;
     }
   };
 

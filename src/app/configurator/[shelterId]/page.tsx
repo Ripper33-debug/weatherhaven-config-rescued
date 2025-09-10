@@ -415,9 +415,22 @@ export default function ConfiguratorPage() {
     }
   }, [params.shelterId]);
 
-  // Show initial loading screen for 8 seconds
+  // Show initial loading screen only once per session
   useEffect(() => {
     if (mounted && shelter) {
+      // Check if we've already shown the loading screen in this session
+      const hasShownLoading = sessionStorage.getItem('configurator-initial-loading-shown');
+      
+      if (hasShownLoading) {
+        // If we've already shown loading, don't show it again
+        setShowInitialLoading(false);
+        return;
+      }
+      
+      // Mark that we've shown the loading screen
+      sessionStorage.setItem('configurator-initial-loading-shown', 'true');
+      
+      // Show loading screen for 8 seconds
       const timer = setTimeout(() => {
         setShowInitialLoading(false);
       }, 8000);

@@ -5,7 +5,7 @@ import { Suspense, useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 
-// Animated percentage component - smooth 8-second loading
+// Animated percentage component - fluid natural progression
 function AnimatedPercentage() {
   const [progress, setProgress] = useState(0);
 
@@ -15,13 +15,20 @@ function AnimatedPercentage() {
     
     const interval = setInterval(() => {
       const elapsed = Date.now() - startTime;
-      const newProgress = Math.min((elapsed / duration) * 100, 100);
+      const rawProgress = Math.min((elapsed / duration) * 100, 100);
+      
+      // Apply easing function for more natural progression
+      // Ease-out cubic for smooth deceleration
+      const easedProgress = 1 - Math.pow(1 - (rawProgress / 100), 3);
+      const newProgress = easedProgress * 100;
+      
       setProgress(newProgress);
       
-      if (newProgress >= 100) {
+      if (rawProgress >= 100) {
         clearInterval(interval);
+        setProgress(100); // Ensure we end at exactly 100%
       }
-    }, 50); // Update every 50ms for smooth animation
+    }, 30); // Update every 30ms for ultra-smooth animation
 
     return () => clearInterval(interval);
   }, []);
@@ -29,7 +36,7 @@ function AnimatedPercentage() {
   return <>{Math.round(progress)}%</>;
 }
 
-// Animated stage component - synchronized with percentage
+// Animated stage component - fluid progression
 function AnimatedStage() {
   const [loadingStage, setLoadingStage] = useState('Initializing...');
   const [stageIcon, setStageIcon] = useState('⚡');
@@ -42,19 +49,20 @@ function AnimatedStage() {
       const elapsed = Date.now() - startTime;
       const progress = (elapsed / duration) * 100;
       
-      if (progress < 20) {
+      // Fluid stage progression based on natural progress
+      if (progress < 15) {
         setLoadingStage('Connecting to CloudFront CDN');
         setStageIcon('🌐');
-      } else if (progress < 40) {
+      } else if (progress < 35) {
         setLoadingStage('Downloading 3D model data');
         setStageIcon('📦');
-      } else if (progress < 60) {
+      } else if (progress < 55) {
         setLoadingStage('Processing geometry and textures');
         setStageIcon('🔧');
-      } else if (progress < 80) {
+      } else if (progress < 75) {
         setLoadingStage('Optimizing for display');
         setStageIcon('⚙️');
-      } else if (progress < 95) {
+      } else if (progress < 90) {
         setLoadingStage('Finalizing configuration');
         setStageIcon('✨');
       } else {
@@ -62,7 +70,7 @@ function AnimatedStage() {
         setStageIcon('✅');
         clearInterval(interval);
       }
-    }, 100); // Check every 100ms
+    }, 50); // Check every 50ms for smoother transitions
 
     return () => clearInterval(interval);
   }, []);
@@ -75,7 +83,7 @@ function AnimatedStage() {
   );
 }
 
-// Animated progress bar component - synchronized with percentage
+// Animated progress bar component - fluid natural progression
 function AnimatedProgressBar() {
   const [progress, setProgress] = useState(0);
 
@@ -85,13 +93,19 @@ function AnimatedProgressBar() {
     
     const interval = setInterval(() => {
       const elapsed = Date.now() - startTime;
-      const newProgress = Math.min((elapsed / duration) * 100, 100);
+      const rawProgress = Math.min((elapsed / duration) * 100, 100);
+      
+      // Apply same easing function for consistency
+      const easedProgress = 1 - Math.pow(1 - (rawProgress / 100), 3);
+      const newProgress = easedProgress * 100;
+      
       setProgress(newProgress);
       
-      if (newProgress >= 100) {
+      if (rawProgress >= 100) {
         clearInterval(interval);
+        setProgress(100); // Ensure we end at exactly 100%
       }
-    }, 50); // Update every 50ms for smooth animation
+    }, 30); // Update every 30ms for ultra-smooth animation
 
     return () => clearInterval(interval);
   }, []);
@@ -102,7 +116,7 @@ function AnimatedProgressBar() {
       height: '100%',
       background: 'linear-gradient(90deg, #3b82f6 0%, #60a5fa 100%)',
       borderRadius: '4px',
-      transition: 'width 0.1s ease-out',
+      transition: 'width 0.05s ease-out',
       boxShadow: '0 0 20px rgba(59, 130, 246, 0.4)',
       position: 'relative'
     }}>

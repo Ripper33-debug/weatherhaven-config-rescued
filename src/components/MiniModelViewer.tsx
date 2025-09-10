@@ -46,9 +46,6 @@ function MiniModel({ modelPath, color }: { modelPath: string; color?: string }) 
 function MiniScene({ modelPath, color }: MiniModelViewerProps) {
   return (
     <>
-      {/* Camera */}
-      <perspectiveCamera makeDefault position={[0, 0, 3]} />
-      
       {/* Lighting */}
       <ambientLight intensity={0.6} />
       <directionalLight position={[5, 5, 5]} intensity={0.8} />

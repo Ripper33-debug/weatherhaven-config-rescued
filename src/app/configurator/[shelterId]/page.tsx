@@ -148,6 +148,18 @@ function LoadingScreen() {
   const [showLoading, setShowLoading] = useState(true);
 
   useEffect(() => {
+    // Check if we've already shown the loading screen in this session
+    const hasShownLoading = sessionStorage.getItem('configurator-loading-shown');
+    
+    if (hasShownLoading) {
+      // If we've already shown loading, don't show it again
+      setShowLoading(false);
+      return;
+    }
+    
+    // Mark that we've shown the loading screen
+    sessionStorage.setItem('configurator-loading-shown', 'true');
+    
     // Always show loading for full 8 seconds regardless of model loading
     const timer = setTimeout(() => {
       setShowLoading(false);
@@ -468,7 +480,29 @@ export default function ConfiguratorPage() {
         </div>
       </div>
 
-      <Suspense fallback={<LoadingScreen />}>
+      <Suspense fallback={
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 25%, #2563eb 50%, #3b82f6 75%, #60a5fa 100%)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 9999
+        }}>
+          <div style={{
+            color: 'white',
+            fontSize: '18px',
+            fontWeight: '600',
+            textAlign: 'center'
+          }}>
+            Loading...
+          </div>
+        </div>
+      }>
         <ShelterConfigurator 
           shelterId={shelterId}
           defaultModel={shelter.defaultModel}

@@ -5,6 +5,140 @@ import { Suspense, useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 
+// Animated percentage component
+function AnimatedPercentage() {
+  const [progress, setProgress] = useState(0);
+  const [loadingStage, setLoadingStage] = useState('Initializing...');
+  const [stageIcon, setStageIcon] = useState('⚡');
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setProgress(prev => {
+        if (prev < 20) {
+          setLoadingStage('Connecting to CloudFront CDN');
+          setStageIcon('🌐');
+          return prev + 1.5;
+        } else if (prev < 50) {
+          setLoadingStage('Downloading 3D model data');
+          setStageIcon('📦');
+          return prev + 0.8;
+        } else if (prev < 80) {
+          setLoadingStage('Processing geometry and textures');
+          setStageIcon('🔧');
+          return prev + 0.6;
+        } else if (prev < 95) {
+          setLoadingStage('Optimizing for display');
+          setStageIcon('⚙️');
+          return prev + 0.3;
+        } else if (prev < 100) {
+          setLoadingStage('Finalizing configuration');
+          setStageIcon('✨');
+          return prev + 0.2;
+        } else {
+          clearInterval(interval);
+          return 100;
+        }
+      });
+    }, 150);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return <>{Math.round(progress)}%</>;
+}
+
+// Animated stage component
+function AnimatedStage() {
+  const [loadingStage, setLoadingStage] = useState('Initializing...');
+  const [stageIcon, setStageIcon] = useState('⚡');
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLoadingStage(prev => {
+        if (prev === 'Initializing...') {
+          setStageIcon('🌐');
+          return 'Connecting to CloudFront CDN';
+        } else if (prev === 'Connecting to CloudFront CDN') {
+          setStageIcon('📦');
+          return 'Downloading 3D model data';
+        } else if (prev === 'Downloading 3D model data') {
+          setStageIcon('🔧');
+          return 'Processing geometry and textures';
+        } else if (prev === 'Processing geometry and textures') {
+          setStageIcon('⚙️');
+          return 'Optimizing for display';
+        } else if (prev === 'Optimizing for display') {
+          setStageIcon('✨');
+          return 'Finalizing configuration';
+        } else {
+          clearInterval(interval);
+          return 'Ready!';
+        }
+      });
+    }, 2000); // Change stage every 2 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <>
+      <span style={{ fontSize: '20px' }}>{stageIcon}</span>
+      <span>{loadingStage}</span>
+    </>
+  );
+}
+
+// Animated progress bar component
+function AnimatedProgressBar() {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setProgress(prev => {
+        if (prev < 20) {
+          return prev + 1.5;
+        } else if (prev < 50) {
+          return prev + 0.8;
+        } else if (prev < 80) {
+          return prev + 0.6;
+        } else if (prev < 95) {
+          return prev + 0.3;
+        } else if (prev < 100) {
+          return prev + 0.2;
+        } else {
+          clearInterval(interval);
+          return 100;
+        }
+      });
+    }, 150);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div style={{
+      width: `${progress}%`,
+      height: '100%',
+      background: 'linear-gradient(90deg, #4A90E2 0%, #FF6B35 100%)',
+      borderRadius: '4px',
+      transition: 'width 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+      boxShadow: '0 0 20px rgba(74, 144, 226, 0.4)',
+      position: 'relative'
+    }}>
+      {/* Progress bar shine effect */}
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: '50%',
+        background: 'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%)',
+        animation: 'shimmer 2s ease-in-out infinite'
+      }} />
+    </div>
+  );
+}
+
 // Dynamic import with loading fallback
 const ShelterConfigurator = dynamic(
   () => import('../../../components/ShelterConfigurator'),
@@ -140,7 +274,7 @@ const ShelterConfigurator = dynamic(
             letterSpacing: '-0.02em',
             textShadow: '0 0 30px rgba(74, 144, 226, 0.3)'
           }}>
-            85%
+            <AnimatedPercentage />
           </div>
           
           {/* Loading stage with icon */}
@@ -154,8 +288,7 @@ const ShelterConfigurator = dynamic(
             marginBottom: '24px',
             color: '#E2E8F0'
           }}>
-            <span style={{ fontSize: '20px' }}>🚀</span>
-            <span>Initializing 3D Environment</span>
+            <AnimatedStage />
           </div>
 
           {/* Enhanced progress bar */}
@@ -168,26 +301,7 @@ const ShelterConfigurator = dynamic(
             marginBottom: '20px',
             position: 'relative'
           }}>
-            <div style={{
-              width: '85%',
-              height: '100%',
-              background: 'linear-gradient(90deg, #4A90E2 0%, #FF6B35 100%)',
-              borderRadius: '4px',
-              transition: 'width 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-              boxShadow: '0 0 20px rgba(74, 144, 226, 0.4)',
-              position: 'relative'
-            }}>
-              {/* Progress bar shine effect */}
-              <div style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                height: '50%',
-                background: 'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%)',
-                animation: 'shimmer 2s ease-in-out infinite'
-              }} />
-            </div>
+            <AnimatedProgressBar />
           </div>
           
           {/* Professional subtitle */}
@@ -470,7 +584,7 @@ export default function ConfiguratorPage() {
               letterSpacing: '-0.02em',
               textShadow: '0 0 30px rgba(74, 144, 226, 0.3)'
             }}>
-              90%
+              <AnimatedPercentage />
             </div>
             
             {/* Loading stage with icon */}
@@ -484,8 +598,7 @@ export default function ConfiguratorPage() {
               marginBottom: '24px',
               color: '#E2E8F0'
             }}>
-              <span style={{ fontSize: '20px' }}>⚡</span>
-              <span>Finalizing Configuration</span>
+              <AnimatedStage />
             </div>
 
             {/* Enhanced progress bar */}
@@ -498,26 +611,7 @@ export default function ConfiguratorPage() {
               marginBottom: '20px',
               position: 'relative'
             }}>
-              <div style={{
-                width: '90%',
-                height: '100%',
-                background: 'linear-gradient(90deg, #4A90E2 0%, #FF6B35 100%)',
-                borderRadius: '4px',
-                transition: 'width 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                boxShadow: '0 0 20px rgba(74, 144, 226, 0.4)',
-                position: 'relative'
-              }}>
-                {/* Progress bar shine effect */}
-                <div style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  height: '50%',
-                  background: 'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%)',
-                  animation: 'shimmer 2s ease-in-out infinite'
-                }} />
-              </div>
+              <AnimatedProgressBar />
             </div>
             
             {/* Professional subtitle */}

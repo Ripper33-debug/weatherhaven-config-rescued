@@ -147,11 +147,17 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
     // Always use AWS CloudFront models - no local paths
     if (shelterId === 'command-posting') {
       return "CommandPosting.glb"; // AWS path
-    } else {
+      } else {
       // Check if open view is enabled
       if (configState.isDeployed) {
-        console.log('🚪 Open view enabled - loading Open_simplified.glb');
-        return "Open_simplified.glb"; // Open view model
+        // Use specific open models based on color
+        if (configState.color === '#B8A082') {
+          console.log('🚪 Open view enabled with Desert Tan - loading _desert_tan_open.glb');
+          return "_desert_tan_open.glb"; // Desert Tan open model
+    } else {
+          console.log('🚪 Open view enabled - loading Open_simplified.glb');
+          return "Open_simplified.glb"; // Generic open view model
+        }
       }
       
       // Use pre-colored models based on selected color for closed view
@@ -328,7 +334,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
 
 
           {/* View Options */}
-          <h3 style={{
+            <h3 style={{
             fontSize: '16px',
             fontWeight: '600',
             color: '#94A3B8',
@@ -336,15 +342,15 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             textAlign: 'left',
             textTransform: 'uppercase',
             letterSpacing: '0.5px'
-          }}>
-            View Options
-          </h3>
-          
+            }}>
+              View Options
+            </h3>
+            
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '36px' }}>
-            <button
-              onClick={handleDeployToggle}
-              style={{
-                background: configState.isDeployed 
+                  <button
+                    onClick={handleDeployToggle}
+                    style={{
+                      background: configState.isDeployed 
                   ? 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)'
                   : 'rgba(59, 130, 246, 0.1)',
                 color: configState.isDeployed ? 'white' : '#3b82f6',
@@ -355,34 +361,34 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                 padding: '14px 20px',
                 fontSize: '14px',
                 fontWeight: '600',
-                cursor: 'pointer',
+                      cursor: 'pointer',
                 transition: 'all 0.2s ease',
                 boxShadow: configState.isDeployed
                   ? '0 4px 12px rgba(59, 130, 246, 0.3)'
                   : '0 2px 8px rgba(0, 0, 0, 0.1)',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px'
-              }}
-              onMouseEnter={(e) => {
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.5px'
+                    }}
+                    onMouseEnter={(e) => {
                 if (!configState.isDeployed) {
                   e.currentTarget.style.background = 'rgba(59, 130, 246, 0.2)';
                   e.currentTarget.style.transform = 'translateY(-1px)';
                 }
-              }}
-              onMouseLeave={(e) => {
+                    }}
+                    onMouseLeave={(e) => {
                 if (!configState.isDeployed) {
                   e.currentTarget.style.background = 'rgba(59, 130, 246, 0.1)';
-                  e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.transform = 'translateY(0)';
                 }
-              }}
-            >
+                    }}
+                  >
               {configState.isDeployed ? 'Close View' : 'Open View'}
-            </button>
-            
-            <button
-              onClick={handleInteriorViewToggle}
-              style={{ 
-                background: configState.isInteriorView 
+                  </button>
+
+                  <button
+                    onClick={handleInteriorViewToggle}
+                    style={{
+                      background: configState.isInteriorView 
                   ? 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)'
                   : 'rgba(59, 130, 246, 0.1)',
                 color: configState.isInteriorView ? 'white' : '#3b82f6',
@@ -393,107 +399,107 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                 padding: '14px 20px',
                 fontSize: '14px',
                 fontWeight: '600',
-                cursor: 'pointer',
+                      cursor: 'pointer',
                 transition: 'all 0.2s ease',
                 boxShadow: configState.isInteriorView
                   ? '0 4px 12px rgba(59, 130, 246, 0.3)'
                   : '0 2px 8px rgba(0, 0, 0, 0.1)',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px'
-              }}
-              onMouseEnter={(e) => {
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.5px'
+                    }}
+                    onMouseEnter={(e) => {
                 if (!configState.isInteriorView) {
                   e.currentTarget.style.background = 'rgba(59, 130, 246, 0.2)';
                   e.currentTarget.style.transform = 'translateY(-1px)';
                 }
-              }}
-              onMouseLeave={(e) => {
+                    }}
+                    onMouseLeave={(e) => {
                 if (!configState.isInteriorView) {
                   e.currentTarget.style.background = 'rgba(59, 130, 246, 0.1)';
-                  e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.transform = 'translateY(0)';
                 }
               }}
             >
               Interior View
-            </button>
-            
-            <button
-              onClick={handleWalkthroughVideo}
+                  </button>
+
+                  <button
+                    onClick={handleWalkthroughVideo}
               disabled={!getWalkthroughVideo()}
-              style={{
+                    style={{
                 background: getWalkthroughVideo() 
                   ? 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)'
                   : 'linear-gradient(135deg, #6b7280 0%, #4b5563 100%)',
-                color: 'white',
+                      color: 'white',
                 border: '2px solid rgba(59, 130, 246, 0.1)',
-                borderRadius: '16px',
+                      borderRadius: '16px',
                 padding: '16px 20px',
                 fontSize: '14px',
                 fontWeight: '700',
                 cursor: getWalkthroughVideo() ? 'pointer' : 'not-allowed',
                 transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                 boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
-                textTransform: 'uppercase',
+                      textTransform: 'uppercase',
                 letterSpacing: '0.5px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '8px',
                 opacity: getWalkthroughVideo() ? 1 : 0.6
-              }}
-              onMouseEnter={(e) => {
+                    }}
+                    onMouseEnter={(e) => {
                 if (getWalkthroughVideo()) {
                   e.currentTarget.style.transform = 'translateY(-2px)';
                   e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3)';
                 }
-              }}
-              onMouseLeave={(e) => {
+                    }}
+                    onMouseLeave={(e) => {
                 if (getWalkthroughVideo()) {
-                  e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.transform = 'translateY(0)';
                   e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
                 }
-              }}
-            >
+                    }}
+                  >
               Walkthrough Video {!getWalkthroughVideo() && '(Unavailable)'}
-            </button>
-          </div>
+                  </button>
+                </div>
 
           {/* Color Options */}
-          <h3 style={{
-            fontSize: '18px',
+            <h3 style={{
+              fontSize: '18px',
             fontWeight: '900',
             color: 'white',
             margin: '0 0 20px 0',
             textAlign: 'center',
             textTransform: 'uppercase',
             letterSpacing: '1px'
-          }}>
-            Color Options
-          </h3>
-
+            }}>
+              Color Options
+            </h3>
+            
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '36px' }}>
-            {colorOptions.map((option) => (
-              <button
-                key={option.value}
+              {colorOptions.map((option) => (
+                <button
+                  key={option.value}
                 onClick={() => {
                   console.log('🔴 BUTTON CLICKED!', option.name, option.value);
                   handleColorChange(option.value);
                 }}
-                style={{
-                  background: configState.color === option.value 
+                  style={{
+                    background: configState.color === option.value 
                     ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
                     : 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
                   color: 'white',
-                  border: configState.color === option.value 
+                    border: configState.color === option.value 
                     ? '3px solid rgba(16, 185, 129, 0.8)'
                     : '2px solid rgba(59, 130, 246, 0.1)',
-                  borderRadius: '16px',
+                    borderRadius: '16px',
                   padding: '16px 20px',
                   fontSize: '14px',
                   fontWeight: '700',
-                  cursor: 'pointer',
+                    cursor: 'pointer',
                   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                  boxShadow: configState.color === option.value
+                    boxShadow: configState.color === option.value 
                     ? '0 8px 25px rgba(16, 185, 129, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 20px rgba(16, 185, 129, 0.3)'
                     : '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
                   textTransform: 'uppercase',
@@ -502,21 +508,21 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                   overflow: 'hidden',
                   pointerEvents: 'auto',
                   zIndex: 10
-                }}
-                onMouseEnter={(e) => {
-                  if (configState.color !== option.value) {
+                  }}
+                  onMouseEnter={(e) => {
+                    if (configState.color !== option.value) {
                     e.currentTarget.style.transform = 'translateY(-2px)';
                     e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3)';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (configState.color !== option.value) {
-                    e.currentTarget.style.transform = 'translateY(0)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (configState.color !== option.value) {
+                      e.currentTarget.style.transform = 'translateY(0)';
                     e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
-                  }
-                }}
-              >
-            <div style={{ 
+                    }
+                  }}
+                >
+                  <div style={{
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
@@ -532,13 +538,13 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                     boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
                   }} />
             </div>
-              </button>
-            ))}
+                </button>
+              ))}
           </div>
 
           {/* Specifications */}
-          <h3 style={{
-            fontSize: '18px',
+            <h3 style={{
+              fontSize: '18px',
             fontWeight: '900',
             color: 'white',
             margin: '0 0 20px 0',
@@ -547,8 +553,8 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             letterSpacing: '1px'
           }}>
             📋 Specifications
-          </h3>
-          
+            </h3>
+            
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '36px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span style={{ fontSize: '14px', color: 'white', fontWeight: '600' }}>Dimensions:</span>
@@ -577,7 +583,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
           </div>
 
           {/* Reset Button */}
-          <button
+              <button
             onClick={() => {
               setConfigState({
                 color: '#B8A082', // Default to CARC Tan (Desert) - faster loading
@@ -586,61 +592,61 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                 isInsideView: false,
               });
             }}
-            style={{
+                style={{
               background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
               color: 'white',
-              border: 'none',
-              borderRadius: '16px',
+                  border: 'none',
+                  borderRadius: '16px',
               padding: '18px 24px',
               fontSize: '14px',
-              fontWeight: '800',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
+                  fontWeight: '800',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
               boxShadow: '0 8px 25px rgba(239, 68, 68, 0.4)',
-              textTransform: 'uppercase',
+                  textTransform: 'uppercase',
               letterSpacing: '0.5px',
               marginBottom: '20px'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-3px)';
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-3px)';
               e.currentTarget.style.boxShadow = '0 12px 35px rgba(239, 68, 68, 0.5)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
               e.currentTarget.style.boxShadow = '0 8px 25px rgba(239, 68, 68, 0.4)';
-            }}
-          >
+                }}
+              >
             Reset Configuration
-          </button>
+              </button>
 
           {/* Contact Sales Button */}
-          <button
+              <button
             onClick={handleRequestQuote}
-            style={{
+                style={{
               background: 'linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%)',
               color: 'white',
-              border: 'none',
-              borderRadius: '16px',
+                  border: 'none',
+                  borderRadius: '16px',
               padding: '18px 24px',
               fontSize: '14px',
-              fontWeight: '800',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
+                  fontWeight: '800',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
               boxShadow: '0 8px 25px rgba(13, 110, 253, 0.4)',
-              textTransform: 'uppercase',
+                  textTransform: 'uppercase',
               letterSpacing: '0.5px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               gap: '8px',
               width: '100%'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-3px)';
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-3px)';
               e.currentTarget.style.boxShadow = '0 12px 35px rgba(13, 110, 253, 0.5)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
               e.currentTarget.style.boxShadow = '0 8px 25px rgba(13, 110, 253, 0.4)';
             }}
           >
@@ -684,9 +690,9 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               }}
             >
               🔒 Create Short Code
-            </button>
+              </button>
+            </div>
           </div>
-        </div>
 
 
         {/* 3D Viewer Section */}

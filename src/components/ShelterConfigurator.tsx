@@ -148,7 +148,13 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
     if (shelterId === 'command-posting') {
       return "CommandPosting.glb"; // AWS path
     } else {
-      // Use pre-colored models based on selected color
+      // Check if open view is enabled
+      if (configState.isDeployed) {
+        console.log('🚪 Open view enabled - loading Open_simplified.glb');
+        return "Open_simplified.glb"; // Open view model
+      }
+      
+      // Use pre-colored models based on selected color for closed view
       const colorModelMap: Record<string, string> = {
         '#3C3B2E': 'Model_stowed_green-v1.glb',      // Military Green (Draco compressed - 45.3MB)
         '#B8A082': 'Shelter_Stowed_DesertTan-v1.glb', // Desert Tan (Draco compressed - 43.8MB)
@@ -159,6 +165,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
       console.log('🎨 Model selection:', {
         color: configState.color,
         model: selectedModel,
+        isDeployed: configState.isDeployed,
         availableModels: Object.keys(colorModelMap)
       });
       return selectedModel;

@@ -27,8 +27,29 @@ function MiniModel({ modelPath, color }: { modelPath: string; color?: string }) 
       }
     });
 
+    // Determine a reasonable default orientation per model name
+    const getRotationFix = (path: string) => {
+      if (
+        path.includes('Model_stowed_green') ||
+        path.includes('Shelter_Stowed_DesertTan') ||
+        path.includes('_desert_tan_open') ||
+        path.includes('Open_simplified')
+      ) {
+        return new THREE.Euler(0, 0, 0);
+      }
+      // trecc.glb original needs the classic fix used elsewhere
+      return new THREE.Euler(-Math.PI / 2, Math.PI, 0);
+    };
+
+    const rotation = getRotationFix(modelPath || 'trecc.glb');
+
     return (
-      <group ref={meshRef} scale={[0.8, 0.8, 0.8]} position={[0, 0, 0]}>
+      <group
+        ref={meshRef}
+        scale={[0.8, 0.8, 0.8]}
+        position={[0, 0, 0]}
+        rotation={[rotation.x, rotation.y, rotation.z]}
+      >
         <primitive object={scene.clone()} />
       </group>
     );

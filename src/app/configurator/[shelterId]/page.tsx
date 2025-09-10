@@ -138,232 +138,13 @@ function AnimatedProgressBar() {
 const ShelterConfigurator = dynamic(
   () => import('../../../components/ShelterConfigurator'),
   {
-    loading: () => (
-      <div style={{
-        position: 'fixed',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        zIndex: 1000
-      }}>
-        <div style={{
-          width: '40px',
-          height: '40px',
-          border: '3px solid rgba(59, 130, 246, 0.3)',
-          borderTop: '3px solid #3b82f6',
-          borderRadius: '50%',
-          animation: 'spin 1s linear infinite'
-        }} />
-      </div>
-    ),
+    loading: () => null,
     ssr: false // Disable server-side rendering for 3D components
   }
 );
 
 // Loading screen component that stays visible for full duration
-function LoadingScreen() {
-  const [showLoading, setShowLoading] = useState(true);
-
-  useEffect(() => {
-    // Check if we've already shown the loading screen in this session
-    const hasShownLoading = sessionStorage.getItem('configurator-loading-shown');
-    
-    if (hasShownLoading) {
-      // If we've already shown loading, don't show it again
-      setShowLoading(false);
-      return;
-    }
-    
-    // Mark that we've shown the loading screen
-    sessionStorage.setItem('configurator-loading-shown', 'true');
-    
-    // Always show loading for full 8 seconds regardless of model loading
-    const timer = setTimeout(() => {
-      setShowLoading(false);
-    }, 8000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (!showLoading) {
-    return null; // Hide loading screen after 8 seconds
-  }
-
-  return (
-      <div style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        background: 'linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #3b82f6 100%)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        zIndex: 9999
-      }}>
-        {/* Animated blurred background preview */}
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #3b82f6 100%)',
-          filter: 'blur(8px)',
-          transform: 'scale(1.1)',
-          opacity: 0.4,
-          animation: 'backgroundPulse 4s ease-in-out infinite'
-        }} />
-        
-        {/* Additional animated overlay */}
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'radial-gradient(circle at 30% 70%, rgba(74, 144, 226, 0.1) 0%, transparent 50%)',
-          animation: 'gradientShift 6s ease-in-out infinite'
-        }} />
-        
-        {/* Professional loading overlay */}
-        <div style={{
-          background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.95) 100%)',
-          color: 'white',
-          padding: '48px 40px',
-          borderRadius: '24px',
-          textAlign: 'center',
-          fontFamily: '"Inter", "SF Pro Display", system-ui, -apple-system, sans-serif',
-          border: '1px solid rgba(148, 163, 184, 0.2)',
-          boxShadow: '0 25px 50px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(148, 163, 184, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-          minWidth: '420px',
-          backdropFilter: 'blur(20px)',
-          position: 'relative',
-          overflow: 'hidden',
-          zIndex: 1
-        }}>
-          {/* Weatherhaven branding */}
-          <div style={{ marginBottom: '32px' }}>
-            <div style={{
-              fontSize: '14px',
-              fontWeight: '600',
-              color: '#94A3B8',
-              letterSpacing: '0.05em',
-              textTransform: 'uppercase',
-              marginBottom: '8px'
-            }}>
-              Weatherhaven
-            </div>
-            <div style={{
-              fontSize: '18px',
-              fontWeight: '700',
-              color: '#E2E8F0',
-              letterSpacing: '-0.02em'
-            }}>
-              TRECC Configurator
-            </div>
-          </div>
-
-          {/* Professional spinner */}
-          <div style={{
-            width: '72px',
-            height: '72px',
-            margin: '0 auto 32px',
-            position: 'relative'
-          }}>
-            {/* Outer ring */}
-            <div style={{
-              width: '72px',
-              height: '72px',
-              border: '3px solid rgba(59, 130, 246, 0.15)',
-              borderTop: '3px solid #3b82f6',
-              borderRadius: '50%',
-              animation: 'spin 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite'
-            }} />
-            {/* Middle ring */}
-            <div style={{
-              position: 'absolute',
-              top: '12px',
-              left: '12px',
-              width: '48px',
-              height: '48px',
-              border: '2px solid rgba(96, 165, 250, 0.15)',
-              borderTop: '2px solid #60a5fa',
-              borderRadius: '50%',
-              animation: 'spin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite reverse'
-            }} />
-            {/* Inner dot */}
-            <div style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              width: '8px',
-              height: '8px',
-              background: 'linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%)',
-              borderRadius: '50%',
-              transform: 'translate(-50%, -50%)',
-              animation: 'pulse 2s ease-in-out infinite'
-            }} />
-          </div>
-          
-          {/* Large percentage display */}
-          <div style={{
-            fontSize: '56px',
-            fontWeight: '800',
-            marginBottom: '24px',
-            background: 'linear-gradient(135deg, #60a5fa 0%, #93c5fd 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-            lineHeight: '1',
-            letterSpacing: '-0.02em',
-            textShadow: '0 0 30px rgba(96, 165, 250, 0.3)'
-          }}>
-            <AnimatedPercentage />
-          </div>
-          
-          {/* Loading stage with icon */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '12px',
-            fontSize: '16px',
-            fontWeight: '600',
-            marginBottom: '24px',
-            color: '#E2E8F0'
-          }}>
-            <AnimatedStage />
-          </div>
-
-          {/* Enhanced progress bar */}
-          <div style={{
-            width: '100%',
-            height: '8px',
-            background: 'rgba(148, 163, 184, 0.1)',
-            borderRadius: '4px',
-            overflow: 'hidden',
-            marginBottom: '20px',
-            position: 'relative'
-          }}>
-            <AnimatedProgressBar />
-          </div>
-          
-          {/* Professional subtitle */}
-          <p style={{ 
-            margin: '0', 
-            fontSize: '14px', 
-            color: '#94A3B8',
-            lineHeight: '1.5',
-            fontWeight: '500'
-          }}>
-            Loading your 3D configuration experience
-          </p>
-        </div>
-      </div>
-  );
-}
+function LoadingScreen() { return null; }
 
 const shelterData = {
   'trecc': {
@@ -403,7 +184,7 @@ export default function ConfiguratorPage() {
   const [mounted, setMounted] = useState(false);
   const [shelterId, setShelterId] = useState<string>('');
   const [shelter, setShelter] = useState<any>(null);
-  const [showInitialLoading, setShowInitialLoading] = useState(true);
+  const [showInitialLoading, setShowInitialLoading] = useState(false);
 
   // Prevent hydration mismatch
   useEffect(() => {
@@ -417,26 +198,8 @@ export default function ConfiguratorPage() {
 
   // Show initial loading screen only once per session
   useEffect(() => {
-    if (mounted && shelter) {
-      // Check if we've already shown the loading screen in this session
-      const hasShownLoading = sessionStorage.getItem('configurator-initial-loading-shown');
-      
-      if (hasShownLoading) {
-        // If we've already shown loading, don't show it again
-        setShowInitialLoading(false);
-        return;
-      }
-      
-      // Mark that we've shown the loading screen
-      sessionStorage.setItem('configurator-initial-loading-shown', 'true');
-      
-      // Show loading screen for 8 seconds
-      const timer = setTimeout(() => {
-        setShowInitialLoading(false);
-      }, 8000);
-
-      return () => clearTimeout(timer);
-    }
+    // Do not show an initial full-screen loading screen inside configurator
+    setShowInitialLoading(false);
   }, [mounted, shelter]);
 
   // Don't render until client-side to prevent hydration mismatch
@@ -480,9 +243,7 @@ export default function ConfiguratorPage() {
   }
 
   // Show initial loading screen
-  if (showInitialLoading) {
-    return <LoadingScreen />;
-  }
+  // Do not render a full-screen loading screen in configurator
 
   return (
     <div style={{ position: 'relative' }}>

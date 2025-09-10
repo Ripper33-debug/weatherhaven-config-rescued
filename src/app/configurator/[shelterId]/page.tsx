@@ -5,41 +5,23 @@ import { Suspense, useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 
-// Animated percentage component
+// Animated percentage component - smooth 8-second loading
 function AnimatedPercentage() {
   const [progress, setProgress] = useState(0);
-  const [loadingStage, setLoadingStage] = useState('Initializing...');
-  const [stageIcon, setStageIcon] = useState('⚡');
 
   useEffect(() => {
+    const startTime = Date.now();
+    const duration = 8000; // 8 seconds total
+    
     const interval = setInterval(() => {
-      setProgress(prev => {
-        if (prev < 20) {
-          setLoadingStage('Connecting to CloudFront CDN');
-          setStageIcon('🌐');
-          return prev + 1.5;
-        } else if (prev < 50) {
-          setLoadingStage('Downloading 3D model data');
-          setStageIcon('📦');
-          return prev + 0.8;
-        } else if (prev < 80) {
-          setLoadingStage('Processing geometry and textures');
-          setStageIcon('🔧');
-          return prev + 0.6;
-        } else if (prev < 95) {
-          setLoadingStage('Optimizing for display');
-          setStageIcon('⚙️');
-          return prev + 0.3;
-        } else if (prev < 100) {
-          setLoadingStage('Finalizing configuration');
-          setStageIcon('✨');
-          return prev + 0.2;
-        } else {
-          clearInterval(interval);
-          return 100;
-        }
-      });
-    }, 150);
+      const elapsed = Date.now() - startTime;
+      const newProgress = Math.min((elapsed / duration) * 100, 100);
+      setProgress(newProgress);
+      
+      if (newProgress >= 100) {
+        clearInterval(interval);
+      }
+    }, 50); // Update every 50ms for smooth animation
 
     return () => clearInterval(interval);
   }, []);
@@ -47,35 +29,40 @@ function AnimatedPercentage() {
   return <>{Math.round(progress)}%</>;
 }
 
-// Animated stage component
+// Animated stage component - synchronized with percentage
 function AnimatedStage() {
   const [loadingStage, setLoadingStage] = useState('Initializing...');
   const [stageIcon, setStageIcon] = useState('⚡');
 
   useEffect(() => {
+    const startTime = Date.now();
+    const duration = 8000; // 8 seconds total
+    
     const interval = setInterval(() => {
-      setLoadingStage(prev => {
-        if (prev === 'Initializing...') {
-          setStageIcon('🌐');
-          return 'Connecting to CloudFront CDN';
-        } else if (prev === 'Connecting to CloudFront CDN') {
-          setStageIcon('📦');
-          return 'Downloading 3D model data';
-        } else if (prev === 'Downloading 3D model data') {
-          setStageIcon('🔧');
-          return 'Processing geometry and textures';
-        } else if (prev === 'Processing geometry and textures') {
-          setStageIcon('⚙️');
-          return 'Optimizing for display';
-        } else if (prev === 'Optimizing for display') {
-          setStageIcon('✨');
-          return 'Finalizing configuration';
-        } else {
-          clearInterval(interval);
-          return 'Ready!';
-        }
-      });
-    }, 2000); // Change stage every 2 seconds
+      const elapsed = Date.now() - startTime;
+      const progress = (elapsed / duration) * 100;
+      
+      if (progress < 20) {
+        setLoadingStage('Connecting to CloudFront CDN');
+        setStageIcon('🌐');
+      } else if (progress < 40) {
+        setLoadingStage('Downloading 3D model data');
+        setStageIcon('📦');
+      } else if (progress < 60) {
+        setLoadingStage('Processing geometry and textures');
+        setStageIcon('🔧');
+      } else if (progress < 80) {
+        setLoadingStage('Optimizing for display');
+        setStageIcon('⚙️');
+      } else if (progress < 95) {
+        setLoadingStage('Finalizing configuration');
+        setStageIcon('✨');
+      } else {
+        setLoadingStage('Ready!');
+        setStageIcon('✅');
+        clearInterval(interval);
+      }
+    }, 100); // Check every 100ms
 
     return () => clearInterval(interval);
   }, []);
@@ -88,29 +75,23 @@ function AnimatedStage() {
   );
 }
 
-// Animated progress bar component
+// Animated progress bar component - synchronized with percentage
 function AnimatedProgressBar() {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    const startTime = Date.now();
+    const duration = 8000; // 8 seconds total
+    
     const interval = setInterval(() => {
-      setProgress(prev => {
-        if (prev < 20) {
-          return prev + 1.5;
-        } else if (prev < 50) {
-          return prev + 0.8;
-        } else if (prev < 80) {
-          return prev + 0.6;
-        } else if (prev < 95) {
-          return prev + 0.3;
-        } else if (prev < 100) {
-          return prev + 0.2;
-        } else {
-          clearInterval(interval);
-          return 100;
-        }
-      });
-    }, 150);
+      const elapsed = Date.now() - startTime;
+      const newProgress = Math.min((elapsed / duration) * 100, 100);
+      setProgress(newProgress);
+      
+      if (newProgress >= 100) {
+        clearInterval(interval);
+      }
+    }, 50); // Update every 50ms for smooth animation
 
     return () => clearInterval(interval);
   }, []);
@@ -121,7 +102,7 @@ function AnimatedProgressBar() {
       height: '100%',
       background: 'linear-gradient(90deg, #3b82f6 0%, #60a5fa 100%)',
       borderRadius: '4px',
-      transition: 'width 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+      transition: 'width 0.1s ease-out',
       boxShadow: '0 0 20px rgba(59, 130, 246, 0.4)',
       position: 'relative'
     }}>

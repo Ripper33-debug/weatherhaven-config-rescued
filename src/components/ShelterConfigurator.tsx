@@ -430,35 +430,34 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               disabled={!getWalkthroughVideo()}
                     style={{
                 background: getWalkthroughVideo() 
-                  ? 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)'
-                  : 'linear-gradient(135deg, #6b7280 0%, #4b5563 100%)',
+                  ? 'transparent'
+                  : 'transparent',
                       color: 'white',
-                border: '2px solid rgba(59, 130, 246, 0.1)',
-                      borderRadius: '16px',
-                padding: '16px 20px',
+                      border: 'none',
+                      borderRadius: '0px',
+                padding: '16px 24px',
                 fontSize: '14px',
-                fontWeight: '700',
+                fontWeight: '600',
                 cursor: getWalkthroughVideo() ? 'pointer' : 'not-allowed',
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+                      transition: 'all 0.3s ease',
+                boxShadow: 'none',
                       textTransform: 'uppercase',
-                letterSpacing: '0.5px',
+                letterSpacing: '0.1em',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '8px',
-                opacity: getWalkthroughVideo() ? 1 : 0.6
+                opacity: getWalkthroughVideo() ? 1 : 0.6,
+                fontFamily: '"Inter", "SF Pro Display", system-ui, -apple-system, sans-serif'
                     }}
                     onMouseEnter={(e) => {
                 if (getWalkthroughVideo()) {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3)';
+                  e.currentTarget.style.background = 'rgba(249, 115, 22, 0.2)';
                 }
                     }}
                     onMouseLeave={(e) => {
                 if (getWalkthroughVideo()) {
-                      e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
+                  e.currentTarget.style.background = 'transparent';
                 }
                     }}
                   >

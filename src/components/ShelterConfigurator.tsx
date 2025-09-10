@@ -113,7 +113,17 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   };
 
   const handleDeployToggle = () => {
-    setConfigState(prev => ({ ...prev, isDeployed: !prev.isDeployed }));
+    console.log('🔄 DEPLOY TOGGLE CLICKED!');
+    console.log('🎨 Current state before toggle:', { 
+      color: configState.color, 
+      isDeployed: configState.isDeployed 
+    });
+    
+    setConfigState(prev => {
+      const newState = { ...prev, isDeployed: !prev.isDeployed };
+      console.log('🎨 New state after toggle:', newState);
+      return newState;
+    });
   };
 
   const handleInteriorViewToggle = () => {
@@ -152,10 +162,12 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
       if (configState.isDeployed) {
         // Use specific open models based on color
         if (configState.color === '#B8A082') {
-          console.log('🚪 Open view enabled with Desert Tan - loading _desert_tan_open.glb');
+          console.log('🚪 OPEN VIEW: Desert Tan selected - loading _desert_tan_open.glb');
+          console.log('🎨 Current state:', { color: configState.color, isDeployed: configState.isDeployed });
           return "_desert_tan_open.glb"; // Desert Tan open model
     } else {
-          console.log('🚪 Open view enabled - loading Open_simplified.glb');
+          console.log('🚪 OPEN VIEW: Other color selected - loading Open_simplified.glb');
+          console.log('🎨 Current state:', { color: configState.color, isDeployed: configState.isDeployed });
           return "Open_simplified.glb"; // Generic open view model
         }
       }
@@ -168,7 +180,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
       };
       
       const selectedModel = colorModelMap[configState.color] || 'Shelter_Stowed_DesertTan-v1.glb'; // fallback to compressed Desert Tan
-      console.log('🎨 Model selection:', {
+      console.log('🎨 CLOSED VIEW: Model selection:', {
         color: configState.color,
         model: selectedModel,
         isDeployed: configState.isDeployed,
@@ -740,6 +752,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             style={{ background: 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 25%, #2563eb 50%, #3b82f6 75%, #60a5fa 100%)' }}
           >
             <ModelViewerScene
+              key={`${getModelPath()}-${configState.isDeployed}-${configState.color}`}
               modelPath={getModelPath()}
               color={null} // No dynamic coloring - using pre-colored models
               isDeployed={configState.isDeployed}
@@ -759,7 +772,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                   console.log('🎨 Color applied callback triggered');
                   setIsApplyingColor(false);
                 }}
-              />
+            />
           </Canvas>
           </ErrorBoundary>
         </div>

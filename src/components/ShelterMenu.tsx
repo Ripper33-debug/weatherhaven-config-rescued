@@ -629,16 +629,16 @@ export default function ShelterMenu() {
             transition={{ duration: 0.6, delay: 0.1 * index }}
             whileHover={{ y: -10, scale: 1.02 }}
             style={{
-              background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%)',
-              backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-              borderRadius: '16px',
-              padding: '32px',
+              background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.95) 100%)',
+              backdropFilter: 'blur(24px)',
+              border: '1px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '20px',
+              padding: '36px',
               cursor: 'pointer',
-              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
               position: 'relative',
               overflow: 'hidden',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+              boxShadow: '0 12px 40px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
               transform: 'translateY(0)',
               transformStyle: 'preserve-3d'
             }}
@@ -647,41 +647,46 @@ export default function ShelterMenu() {
             {/* Status Indicators */}
             <div style={{
               position: 'absolute',
-              top: '20px',
-              right: '20px',
+              top: '24px',
+              right: '24px',
               display: 'flex',
-              gap: '8px',
+              gap: '12px',
               zIndex: 2
             }}>
               {/* Availability Status */}
               <div style={{
-                padding: '6px 10px',
-                background: `rgba(${getAvailabilityColor(shelter.availability).slice(1)}, 0.2)`,
+                padding: '8px 14px',
+                background: `rgba(${getAvailabilityColor(shelter.availability).slice(1)}, 0.15)`,
                 border: `1px solid ${getAvailabilityColor(shelter.availability)}`,
-                borderRadius: '12px',
-                fontSize: '0.7rem',
-              fontWeight: '600',
+                borderRadius: '16px',
+                fontSize: '0.75rem',
+              fontWeight: '700',
                 color: getAvailabilityColor(shelter.availability),
               textTransform: 'uppercase',
                 letterSpacing: '0.5px',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '4px'
+                gap: '6px',
+                backdropFilter: 'blur(10px)',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
               }}>
-                <span>{getAvailabilityIcon(shelter.availability)}</span>
+                <span style={{ fontSize: '10px' }}>{getAvailabilityIcon(shelter.availability)}</span>
                 {shelter.availability}
               </div>
               
               {/* Category Badge */}
               <div style={{
-                padding: '6px 12px',
-                background: '#6c757d',
-                borderRadius: '4px',
-                fontSize: '0.8rem',
-                fontWeight: '500',
-                color: 'white',
-                textTransform: 'none',
-                letterSpacing: '0'
+                padding: '8px 14px',
+                background: 'rgba(59, 130, 246, 0.15)',
+                border: '1px solid #3b82f6',
+                borderRadius: '16px',
+                fontSize: '0.75rem',
+                fontWeight: '700',
+                color: '#3b82f6',
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px',
+                backdropFilter: 'blur(10px)',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
             }}>
               {shelter.category}
               </div>
@@ -767,11 +772,12 @@ export default function ShelterMenu() {
 
               {/* Deployment Time Indicator */}
               <div style={{
-                marginBottom: '20px',
-                padding: '15px',
-                background: 'rgba(0, 0, 0, 0.3)',
-                borderRadius: '12px',
-                border: '1px solid rgba(74, 144, 226, 0.2)'
+                marginBottom: '24px',
+                padding: '20px',
+                background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(99, 102, 241, 0.05) 100%)',
+                borderRadius: '16px',
+                border: '1px solid rgba(59, 130, 246, 0.2)',
+                backdropFilter: 'blur(10px)'
               }}>
                 <div style={{
                   display: 'flex',

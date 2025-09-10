@@ -11,17 +11,196 @@ const ShelterConfigurator = dynamic(
   {
     loading: () => (
       <div style={{
-        height: '100vh',
-        width: '100vw',
-        background: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 25%, #2563eb 50%, #3b82f6 75%, #60a5fa 100%)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        color: 'white',
-        fontSize: '1.5rem',
-        fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
+        zIndex: 9999
       }}>
-        Loading TRECC Configurator...
+        {/* Animated blurred background preview */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 25%, #2563eb 50%, #3b82f6 75%, #60a5fa 100%)',
+          filter: 'blur(8px)',
+          transform: 'scale(1.1)',
+          opacity: 0.4,
+          animation: 'backgroundPulse 4s ease-in-out infinite'
+        }} />
+        
+        {/* Additional animated overlay */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'radial-gradient(circle at 30% 70%, rgba(74, 144, 226, 0.1) 0%, transparent 50%), radial-gradient(circle at 70% 30%, rgba(255, 107, 53, 0.1) 0%, transparent 50%)',
+          animation: 'gradientShift 6s ease-in-out infinite'
+        }} />
+        
+        {/* Professional loading overlay */}
+        <div style={{
+          background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.95) 100%)',
+          color: 'white',
+          padding: '48px 40px',
+          borderRadius: '24px',
+          textAlign: 'center',
+          fontFamily: '"Inter", "SF Pro Display", system-ui, -apple-system, sans-serif',
+          border: '1px solid rgba(148, 163, 184, 0.2)',
+          boxShadow: '0 25px 50px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(148, 163, 184, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+          minWidth: '420px',
+          backdropFilter: 'blur(20px)',
+          position: 'relative',
+          overflow: 'hidden',
+          zIndex: 1
+        }}>
+          {/* Weatherhaven branding */}
+          <div style={{ marginBottom: '32px' }}>
+            <div style={{
+              fontSize: '14px',
+              fontWeight: '600',
+              color: '#94A3B8',
+              letterSpacing: '0.05em',
+              textTransform: 'uppercase',
+              marginBottom: '8px'
+            }}>
+              Weatherhaven
+            </div>
+            <div style={{
+              fontSize: '18px',
+              fontWeight: '700',
+              color: '#E2E8F0',
+              letterSpacing: '-0.02em'
+            }}>
+              TRECC Configurator
+            </div>
+          </div>
+
+          {/* Professional spinner */}
+          <div style={{
+            width: '72px',
+            height: '72px',
+            margin: '0 auto 32px',
+            position: 'relative'
+          }}>
+            {/* Outer ring */}
+            <div style={{
+              width: '72px',
+              height: '72px',
+              border: '3px solid rgba(74, 144, 226, 0.15)',
+              borderTop: '3px solid #4A90E2',
+              borderRadius: '50%',
+              animation: 'spin 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite'
+            }} />
+            {/* Middle ring */}
+            <div style={{
+              position: 'absolute',
+              top: '12px',
+              left: '12px',
+              width: '48px',
+              height: '48px',
+              border: '2px solid rgba(255, 107, 53, 0.15)',
+              borderTop: '2px solid #FF6B35',
+              borderRadius: '50%',
+              animation: 'spin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite reverse'
+            }} />
+            {/* Inner dot */}
+            <div style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              width: '8px',
+              height: '8px',
+              background: 'linear-gradient(135deg, #4A90E2 0%, #FF6B35 100%)',
+              borderRadius: '50%',
+              transform: 'translate(-50%, -50%)',
+              animation: 'pulse 2s ease-in-out infinite'
+            }} />
+          </div>
+          
+          {/* Large percentage display */}
+          <div style={{
+            fontSize: '56px',
+            fontWeight: '800',
+            marginBottom: '24px',
+            background: 'linear-gradient(135deg, #4A90E2 0%, #FF6B35 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            lineHeight: '1',
+            letterSpacing: '-0.02em',
+            textShadow: '0 0 30px rgba(74, 144, 226, 0.3)'
+          }}>
+            85%
+          </div>
+          
+          {/* Loading stage with icon */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '12px',
+            fontSize: '16px',
+            fontWeight: '600',
+            marginBottom: '24px',
+            color: '#E2E8F0'
+          }}>
+            <span style={{ fontSize: '20px' }}>🚀</span>
+            <span>Initializing 3D Environment</span>
+          </div>
+
+          {/* Enhanced progress bar */}
+          <div style={{
+            width: '100%',
+            height: '8px',
+            background: 'rgba(148, 163, 184, 0.1)',
+            borderRadius: '4px',
+            overflow: 'hidden',
+            marginBottom: '20px',
+            position: 'relative'
+          }}>
+            <div style={{
+              width: '85%',
+              height: '100%',
+              background: 'linear-gradient(90deg, #4A90E2 0%, #FF6B35 100%)',
+              borderRadius: '4px',
+              transition: 'width 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+              boxShadow: '0 0 20px rgba(74, 144, 226, 0.4)',
+              position: 'relative'
+            }}>
+              {/* Progress bar shine effect */}
+              <div style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: '50%',
+                background: 'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%)',
+                animation: 'shimmer 2s ease-in-out infinite'
+              }} />
+            </div>
+          </div>
+          
+          {/* Professional subtitle */}
+          <p style={{ 
+            margin: '0', 
+            fontSize: '14px', 
+            color: '#94A3B8',
+            lineHeight: '1.5',
+            fontWeight: '500'
+          }}>
+            Loading your 3D configuration experience
+          </p>
+        </div>
       </div>
     ),
     ssr: false // Disable server-side rendering for 3D components
@@ -162,17 +341,196 @@ export default function ConfiguratorPage() {
 
       <Suspense fallback={
         <div style={{
-          height: '100vh',
-          width: '100vw',
-          background: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 25%, #2563eb 50%, #3b82f6 75%, #60a5fa 100%)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          color: 'white',
-          fontSize: '1.5rem',
-          fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
+          zIndex: 9999
         }}>
-          Loading {shelter.name} Configurator...
+          {/* Animated blurred background preview */}
+          <div style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 25%, #2563eb 50%, #3b82f6 75%, #60a5fa 100%)',
+            filter: 'blur(8px)',
+            transform: 'scale(1.1)',
+            opacity: 0.4,
+            animation: 'backgroundPulse 4s ease-in-out infinite'
+          }} />
+          
+          {/* Additional animated overlay */}
+          <div style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'radial-gradient(circle at 30% 70%, rgba(74, 144, 226, 0.1) 0%, transparent 50%), radial-gradient(circle at 70% 30%, rgba(255, 107, 53, 0.1) 0%, transparent 50%)',
+            animation: 'gradientShift 6s ease-in-out infinite'
+          }} />
+          
+          {/* Professional loading overlay */}
+          <div style={{
+            background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.95) 100%)',
+            color: 'white',
+            padding: '48px 40px',
+            borderRadius: '24px',
+            textAlign: 'center',
+            fontFamily: '"Inter", "SF Pro Display", system-ui, -apple-system, sans-serif',
+            border: '1px solid rgba(148, 163, 184, 0.2)',
+            boxShadow: '0 25px 50px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(148, 163, 184, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+            minWidth: '420px',
+            backdropFilter: 'blur(20px)',
+            position: 'relative',
+            overflow: 'hidden',
+            zIndex: 1
+          }}>
+            {/* Weatherhaven branding */}
+            <div style={{ marginBottom: '32px' }}>
+              <div style={{
+                fontSize: '14px',
+                fontWeight: '600',
+                color: '#94A3B8',
+                letterSpacing: '0.05em',
+                textTransform: 'uppercase',
+                marginBottom: '8px'
+              }}>
+                Weatherhaven
+              </div>
+              <div style={{
+                fontSize: '18px',
+                fontWeight: '700',
+                color: '#E2E8F0',
+                letterSpacing: '-0.02em'
+              }}>
+                {shelter.name} Configurator
+              </div>
+            </div>
+
+            {/* Professional spinner */}
+            <div style={{
+              width: '72px',
+              height: '72px',
+              margin: '0 auto 32px',
+              position: 'relative'
+            }}>
+              {/* Outer ring */}
+              <div style={{
+                width: '72px',
+                height: '72px',
+                border: '3px solid rgba(74, 144, 226, 0.15)',
+                borderTop: '3px solid #4A90E2',
+                borderRadius: '50%',
+                animation: 'spin 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite'
+              }} />
+              {/* Middle ring */}
+              <div style={{
+                position: 'absolute',
+                top: '12px',
+                left: '12px',
+                width: '48px',
+                height: '48px',
+                border: '2px solid rgba(255, 107, 53, 0.15)',
+                borderTop: '2px solid #FF6B35',
+                borderRadius: '50%',
+                animation: 'spin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite reverse'
+              }} />
+              {/* Inner dot */}
+              <div style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                width: '8px',
+                height: '8px',
+                background: 'linear-gradient(135deg, #4A90E2 0%, #FF6B35 100%)',
+                borderRadius: '50%',
+                transform: 'translate(-50%, -50%)',
+                animation: 'pulse 2s ease-in-out infinite'
+              }} />
+            </div>
+            
+            {/* Large percentage display */}
+            <div style={{
+              fontSize: '56px',
+              fontWeight: '800',
+              marginBottom: '24px',
+              background: 'linear-gradient(135deg, #4A90E2 0%, #FF6B35 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              lineHeight: '1',
+              letterSpacing: '-0.02em',
+              textShadow: '0 0 30px rgba(74, 144, 226, 0.3)'
+            }}>
+              90%
+            </div>
+            
+            {/* Loading stage with icon */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '12px',
+              fontSize: '16px',
+              fontWeight: '600',
+              marginBottom: '24px',
+              color: '#E2E8F0'
+            }}>
+              <span style={{ fontSize: '20px' }}>⚡</span>
+              <span>Finalizing Configuration</span>
+            </div>
+
+            {/* Enhanced progress bar */}
+            <div style={{
+              width: '100%',
+              height: '8px',
+              background: 'rgba(148, 163, 184, 0.1)',
+              borderRadius: '4px',
+              overflow: 'hidden',
+              marginBottom: '20px',
+              position: 'relative'
+            }}>
+              <div style={{
+                width: '90%',
+                height: '100%',
+                background: 'linear-gradient(90deg, #4A90E2 0%, #FF6B35 100%)',
+                borderRadius: '4px',
+                transition: 'width 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                boxShadow: '0 0 20px rgba(74, 144, 226, 0.4)',
+                position: 'relative'
+              }}>
+                {/* Progress bar shine effect */}
+                <div style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: '50%',
+                  background: 'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%)',
+                  animation: 'shimmer 2s ease-in-out infinite'
+                }} />
+              </div>
+            </div>
+            
+            {/* Professional subtitle */}
+            <p style={{ 
+              margin: '0', 
+              fontSize: '14px', 
+              color: '#94A3B8',
+              lineHeight: '1.5',
+              fontWeight: '500'
+            }}>
+              Loading your 3D configuration experience
+            </p>
+          </div>
         </div>
       }>
         <ShelterConfigurator 

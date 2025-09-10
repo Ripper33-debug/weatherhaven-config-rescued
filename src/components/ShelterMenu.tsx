@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { generateShelterPDF, generateComparisonPDF, ShelterSpecs } from '../lib/pdfExport';
 import ContactForm from './ContactForm';
 import { preloadModel } from '../lib/aws';
+import MiniModelViewer from './MiniModelViewer';
 
 interface Shelter {
   id: string;
@@ -339,8 +340,8 @@ export default function ShelterMenu() {
             textShadow: '0 4px 8px rgba(0, 0, 0, 0.4)',
             letterSpacing: '-0.02em',
             lineHeight: '1.1'
-          }}>
-            TRECC Configurator
+        }}>
+          Weatherhaven Configurator
         </h1>
         <p style={{
             fontSize: 'clamp(1.125rem, 2.5vw, 1.375rem)',
@@ -692,7 +693,7 @@ export default function ShelterMenu() {
               </div>
             </div>
 
-            {/* Enhanced Shelter Image Placeholder */}
+            {/* Mini 3D Model Viewer */}
             <div style={{
               width: '100%',
               height: '220px',
@@ -721,16 +722,17 @@ export default function ShelterMenu() {
                 backgroundSize: '20px 20px'
               }} />
               
-              {/* Military-style icon */}
+              {/* Mini 3D Model */}
               <div style={{
-                fontSize: '4rem',
-                color: '#4A90E2',
-                opacity: 0.8,
-                textShadow: '0 0 20px rgba(74, 144, 226, 0.5)',
+                width: '100%',
+                height: '100%',
                 position: 'relative',
                 zIndex: 1
               }}>
-                {shelter.category === 'TRECC' ? '■' : '▲'}
+                <MiniModelViewer 
+                  modelPath={shelter.modelPath} 
+                  color={shelter.category === 'TRECC' ? '#B8A082' : '#3C3B2E'} 
+                />
               </div>
               
               {/* Glow effect */}

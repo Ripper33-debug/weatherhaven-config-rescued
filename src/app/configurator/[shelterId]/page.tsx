@@ -223,7 +223,7 @@ function LoadingScreen() {
           left: 0,
           right: 0,
           bottom: 0,
-          background: 'radial-gradient(circle at 30% 70%, rgba(74, 144, 226, 0.1) 0%, transparent 50%), radial-gradient(circle at 70% 30%, rgba(255, 107, 53, 0.1) 0%, transparent 50%)',
+          background: 'radial-gradient(circle at 30% 70%, rgba(74, 144, 226, 0.1) 0%, transparent 50%)',
           animation: 'gradientShift 6s ease-in-out infinite'
         }} />
         

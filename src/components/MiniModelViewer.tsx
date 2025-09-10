@@ -1,8 +1,8 @@
 'use client';
 
 import { Suspense, useRef, useEffect, useState } from 'react';
-import { Canvas, useFrame, useLoader } from '@react-three/fiber';
-import { OrbitControls, useGLTF } from '@react-three/drei';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
 interface MiniModelViewerProps {
@@ -11,46 +11,29 @@ interface MiniModelViewerProps {
 }
 
 function MiniModel({ modelPath, color }: { modelPath: string; color?: string }) {
-  const meshRef = useRef<THREE.Mesh>(null);
-  const [gltf, setGltf] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const meshRef = useRef<THREE.Group>(null);
+  
+  // Get AWS URL for the model
+  const awsUrl = `https://d3kx2t94cz9q1y.cloudfront.net/${modelPath}`;
+  
+  try {
+    // Use useGLTF hook to load the model
+    const { scene } = useGLTF(awsUrl);
 
-  // Auto-rotate the model
-  useFrame((state, delta) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.y += delta * 0.5; // Slow rotation
-    }
-  });
-
-  useEffect(() => {
-    const loadModel = async () => {
-      try {
-        setLoading(true);
-        setError(false);
-        
-        // Get AWS URL for the model
-        const awsUrl = `https://d3kx2t94cz9q1y.cloudfront.net/${modelPath}`;
-        console.log('🎨 Loading mini model:', modelPath, 'from:', awsUrl);
-        
-        // Load the model
-        const loader = new THREE.GLTFLoader();
-        const gltfData = await loader.loadAsync(awsUrl);
-        
-        setGltf(gltfData);
-        setLoading(false);
-        console.log('🎨 Mini model loaded successfully');
-      } catch (err) {
-        console.error('🎨 Mini model loading error:', err);
-        setError(true);
-        setLoading(false);
+    // Auto-rotate the model
+    useFrame((state, delta) => {
+      if (meshRef.current) {
+        meshRef.current.rotation.y += delta * 0.5; // Slow rotation
       }
-    };
+    });
 
-    loadModel();
-  }, [modelPath]);
-
-  if (loading) {
+    return (
+      <group ref={meshRef} scale={[0.8, 0.8, 0.8]} position={[0, 0, 0]}>
+        <primitive object={scene.clone()} />
+      </group>
+    );
+  } catch (error) {
+    // Fallback to a simple cube if model loading fails
     return (
       <mesh ref={meshRef}>
         <boxGeometry args={[1, 1, 1]} />
@@ -58,24 +41,6 @@ function MiniModel({ modelPath, color }: { modelPath: string; color?: string }) 
       </mesh>
     );
   }
-
-  if (error || !gltf) {
-    return (
-      <mesh ref={meshRef}>
-        <boxGeometry args={[1, 1, 1]} />
-        <meshStandardMaterial color="#666666" />
-      </mesh>
-    );
-  }
-
-  return (
-    <primitive 
-      ref={meshRef}
-      object={gltf.scene.clone()} 
-      scale={[0.8, 0.8, 0.8]}
-      position={[0, 0, 0]}
-    />
-  );
 }
 
 function MiniScene({ modelPath, color }: MiniModelViewerProps) {

@@ -288,24 +288,7 @@ export default function ConfiguratorPage() {
         </div>
       </div>
 
-      <Suspense fallback={
-        <div style={{
-          position: 'fixed',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          zIndex: 1000
-        }}>
-          <div style={{
-            width: '40px',
-            height: '40px',
-            border: '3px solid rgba(59, 130, 246, 0.3)',
-            borderTop: '3px solid #3b82f6',
-            borderRadius: '50%',
-            animation: 'spin 1s linear infinite'
-          }} />
-        </div>
-      }>
+      <Suspense fallback={null}>
         <ShelterConfigurator 
           shelterId={shelterId}
           defaultModel={shelter.defaultModel}

@@ -239,9 +239,9 @@ export default function ShelterMenu() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 25%, #2563eb 50%, #3b82f6 75%, #60a5fa 100%)',
-      padding: '40px 20px',
-      fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
+      background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #475569 75%, #64748b 100%)',
+      padding: '60px 24px',
+      fontFamily: '"Inter", "SF Pro Display", system-ui, -apple-system, sans-serif',
       position: 'relative',
       overflow: 'hidden'
     }}>
@@ -320,26 +320,39 @@ export default function ShelterMenu() {
           zIndex: 1
         }}
       >
+        <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+          <div style={{
+            fontSize: '14px',
+            fontWeight: '600',
+            color: '#94a3b8',
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase',
+            marginBottom: '16px'
+          }}>
+            Weatherhaven
+          </div>
         <h1 style={{
-          fontSize: 'clamp(2.5rem, 5vw, 4rem)',
-          fontWeight: '700',
-          color: '#ffffff',
-          marginBottom: '20px',
-          textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
-          letterSpacing: '-0.02em'
-        }}>
-          Weatherhaven Configurator
+            fontSize: 'clamp(3rem, 6vw, 5rem)',
+            fontWeight: '800',
+            color: '#ffffff',
+            marginBottom: '24px',
+            textShadow: '0 4px 8px rgba(0, 0, 0, 0.4)',
+            letterSpacing: '-0.02em',
+            lineHeight: '1.1'
+          }}>
+            TRECC Configurator
         </h1>
         <p style={{
-          fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
-          color: 'rgba(255, 255, 255, 0.9)',
-          maxWidth: '700px',
+            fontSize: 'clamp(1.125rem, 2.5vw, 1.375rem)',
+            color: '#e2e8f0',
+            maxWidth: '800px',
           margin: '0 auto',
-          lineHeight: '1.6',
-          textShadow: '0 1px 2px rgba(0, 0, 0, 0.2)'
+            lineHeight: '1.6',
+            fontWeight: '400'
         }}>
           Explore and customize Weatherhaven's complete range of deployable shelter solutions for military, emergency response, and remote operations
         </p>
+        </div>
       </motion.div>
 
       {/* Category Filter */}
@@ -364,25 +377,27 @@ export default function ShelterMenu() {
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
             style={{
-              padding: '12px 24px',
+              padding: '14px 28px',
               background: selectedCategory === category 
-                ? '#f97316' 
-                : 'rgba(255, 255, 255, 0.95)',
+                ? 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)' 
+                : 'rgba(255, 255, 255, 0.1)',
               border: selectedCategory === category 
-                ? '1px solid #f97316' 
-                : '1px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '8px',
-              color: selectedCategory === category ? 'white' : '#1e3a8a',
+                ? '1px solid #3b82f6' 
+                : '1px solid rgba(255, 255, 255, 0.2)',
+              borderRadius: '12px',
+              color: selectedCategory === category ? 'white' : '#e2e8f0',
               fontWeight: '600',
               cursor: 'pointer',
-              transition: 'all 0.2s ease',
-              textTransform: 'none',
-              backdropFilter: 'blur(10px)',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              textTransform: 'capitalize',
+              backdropFilter: 'blur(20px)',
               boxShadow: selectedCategory === category 
-                ? '0 4px 12px rgba(249, 115, 22, 0.4)' 
-                : '0 2px 8px rgba(0, 0, 0, 0.1)',
+                ? '0 8px 25px rgba(59, 130, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)' 
+                : '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
               position: 'relative',
-              overflow: 'hidden'
+              overflow: 'hidden',
+              fontSize: '15px',
+              letterSpacing: '0.025em'
             }}
           >
             {selectedCategory === category && (
@@ -614,16 +629,16 @@ export default function ShelterMenu() {
             transition={{ duration: 0.6, delay: 0.1 * index }}
             whileHover={{ y: -10, scale: 1.02 }}
             style={{
-              background: 'rgba(255, 255, 255, 0.95)',
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '8px',
-              padding: '24px',
+              background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              borderRadius: '16px',
+              padding: '32px',
               cursor: 'pointer',
-              transition: 'all 0.2s ease',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
               position: 'relative',
               overflow: 'hidden',
-              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
               transform: 'translateY(0)',
               transformStyle: 'preserve-3d'
             }}
@@ -730,19 +745,22 @@ export default function ShelterMenu() {
             {/* Shelter Info */}
             <div style={{ position: 'relative', zIndex: 1 }}>
               <h3 style={{
-                fontSize: '1.5rem',
-                fontWeight: '600',
-                color: '#1e3a8a',
-                marginBottom: '10px'
+                fontSize: '1.75rem',
+                fontWeight: '700',
+                color: '#0f172a',
+                marginBottom: '12px',
+                letterSpacing: '-0.025em',
+                lineHeight: '1.2'
               }}>
                 {shelter.name}
               </h3>
               
               <p style={{
-                color: '#475569',
+                color: '#64748b',
                 lineHeight: '1.6',
-                marginBottom: '25px',
-                fontSize: '0.95rem'
+                marginBottom: '28px',
+                fontSize: '1rem',
+                fontWeight: '400'
               }}>
                 {shelter.description}
               </p>
@@ -978,16 +996,16 @@ export default function ShelterMenu() {
                   whileTap={{ scale: 0.98 }}
                   style={{
                     width: '100%',
-                    padding: '16px 30px',
-                    background: '#f97316',
+                    padding: '16px 24px',
+                    background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
                     color: 'white',
                     border: 'none',
-                    borderRadius: '6px',
-                    fontWeight: '500',
+                    borderRadius: '12px',
+                    fontWeight: '600',
                     fontSize: '1rem',
                     cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                    boxShadow: '0 6px 20px rgba(249, 115, 22, 0.4)',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                    boxShadow: '0 8px 25px rgba(59, 130, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
                     position: 'relative',
                     overflow: 'hidden',
                     textTransform: 'uppercase',

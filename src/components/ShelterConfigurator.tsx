@@ -283,44 +283,41 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
         {/* Left Side - Lighting Controls (Visible by default) */}
         <div className="left-controls" style={{
           width: '360px',
-          background: 'linear-gradient(145deg, rgba(59, 130, 246, 0.95) 0%, rgba(99, 102, 241, 0.9) 30%, rgba(251, 146, 60, 0.95) 70%, rgba(249, 115, 22, 0.98) 100%)',
-          backdropFilter: 'blur(30px) saturate(200%) brightness(1.1)',
-          borderRight: '2px solid rgba(59, 130, 246, 0.2)',
-          padding: '48px 36px',
+          background: 'linear-gradient(145deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.9) 100%)',
+          backdropFilter: 'blur(20px)',
+          borderRight: '1px solid rgba(148, 163, 184, 0.2)',
+          padding: '32px 24px',
           display: 'flex',
           flexDirection: 'column',
-          gap: '36px',
-          boxShadow: '16px 0 60px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.1), inset 2px 0 0 rgba(255, 255, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+          gap: '24px',
+          boxShadow: '0 25px 50px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
           overflowY: 'auto',
           zIndex: 10,
           position: 'absolute',
           left: '0px',
           top: 0,
           height: '100%',
-          borderTopRightRadius: '32px',
-          borderBottomRightRadius: '32px'
+          borderTopRightRadius: '24px',
+          borderBottomRightRadius: '24px'
         }}>
-          {/* Enhanced Header */}
+          {/* Clean Header */}
           <div style={{
             textAlign: 'center',
             marginBottom: '24px',
             position: 'relative',
-            padding: '28px 20px',
-            background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(99, 102, 241, 0.1) 30%, rgba(251, 146, 60, 0.15) 70%, rgba(249, 115, 22, 0.2) 100%)',
-            borderRadius: '20px',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+            padding: '24px 20px',
+            background: 'rgba(59, 130, 246, 0.1)',
+            borderRadius: '16px',
+            border: '1px solid rgba(59, 130, 246, 0.2)',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
           }}>
             <h2 style={{
-              fontSize: '32px',
+              fontSize: '28px',
               fontWeight: '700',
-              color: '#212529',
+              color: '#E2E8F0',
               margin: '0',
               textTransform: 'uppercase',
-              letterSpacing: '2px',
-              textShadow: 'none',
-              position: 'relative',
-              zIndex: 2,
+              letterSpacing: '1px',
               fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
             }}>
               TRECC
@@ -332,13 +329,13 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
 
           {/* View Options */}
           <h3 style={{
-            fontSize: '18px',
-            fontWeight: '900',
-            color: 'white',
-            margin: '0 0 20px 0',
-            textAlign: 'center',
+            fontSize: '16px',
+            fontWeight: '600',
+            color: '#94A3B8',
+            margin: '0 0 16px 0',
+            textAlign: 'left',
             textTransform: 'uppercase',
-            letterSpacing: '1px'
+            letterSpacing: '0.5px'
           }}>
             View Options
           </h3>
@@ -349,33 +346,33 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               style={{
                 background: configState.isDeployed 
                   ? 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)'
-                  : 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
-                color: 'white',
+                  : 'rgba(59, 130, 246, 0.1)',
+                color: configState.isDeployed ? 'white' : '#3b82f6',
                 border: configState.isDeployed 
-                  ? '2px solid rgba(102, 126, 234, 0.3)'
-                  : '2px solid rgba(59, 130, 246, 0.1)',
-                borderRadius: '16px',
-                padding: '16px 20px',
+                  ? '1px solid #3b82f6'
+                  : '1px solid rgba(59, 130, 246, 0.3)',
+                borderRadius: '12px',
+                padding: '14px 20px',
                 fontSize: '14px',
-                fontWeight: '700',
+                fontWeight: '600',
                 cursor: 'pointer',
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                transition: 'all 0.2s ease',
                 boxShadow: configState.isDeployed
-                  ? '0 8px 25px rgba(102, 126, 234, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
-                  : '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+                  ? '0 4px 12px rgba(59, 130, 246, 0.3)'
+                  : '0 2px 8px rgba(0, 0, 0, 0.1)',
                 textTransform: 'uppercase',
                 letterSpacing: '0.5px'
               }}
               onMouseEnter={(e) => {
                 if (!configState.isDeployed) {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3)';
+                  e.currentTarget.style.background = 'rgba(59, 130, 246, 0.2)';
+                  e.currentTarget.style.transform = 'translateY(-1px)';
                 }
               }}
               onMouseLeave={(e) => {
                 if (!configState.isDeployed) {
+                  e.currentTarget.style.background = 'rgba(59, 130, 246, 0.1)';
                   e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
                 }
               }}
             >
@@ -387,33 +384,33 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               style={{ 
                 background: configState.isInteriorView 
                   ? 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)'
-                  : 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
-                color: 'white',
+                  : 'rgba(59, 130, 246, 0.1)',
+                color: configState.isInteriorView ? 'white' : '#3b82f6',
                 border: configState.isInteriorView 
-                  ? '2px solid rgba(102, 126, 234, 0.3)'
-                  : '2px solid rgba(59, 130, 246, 0.1)',
-                borderRadius: '16px',
-                padding: '16px 20px',
+                  ? '1px solid #3b82f6'
+                  : '1px solid rgba(59, 130, 246, 0.3)',
+                borderRadius: '12px',
+                padding: '14px 20px',
                 fontSize: '14px',
-                fontWeight: '700',
+                fontWeight: '600',
                 cursor: 'pointer',
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                transition: 'all 0.2s ease',
                 boxShadow: configState.isInteriorView
-                  ? '0 8px 25px rgba(102, 126, 234, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
-                  : '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+                  ? '0 4px 12px rgba(59, 130, 246, 0.3)'
+                  : '0 2px 8px rgba(0, 0, 0, 0.1)',
                 textTransform: 'uppercase',
                 letterSpacing: '0.5px'
               }}
               onMouseEnter={(e) => {
                 if (!configState.isInteriorView) {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3)';
+                  e.currentTarget.style.background = 'rgba(59, 130, 246, 0.2)';
+                  e.currentTarget.style.transform = 'translateY(-1px)';
                 }
               }}
               onMouseLeave={(e) => {
                 if (!configState.isInteriorView) {
+                  e.currentTarget.style.background = 'rgba(59, 130, 246, 0.1)';
                   e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
                 }
               }}
             >

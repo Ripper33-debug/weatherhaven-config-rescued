@@ -119,10 +119,10 @@ function AnimatedProgressBar() {
     <div style={{
       width: `${progress}%`,
       height: '100%',
-      background: 'linear-gradient(90deg, #4A90E2 0%, #FF6B35 100%)',
+      background: 'linear-gradient(90deg, #3b82f6 0%, #60a5fa 100%)',
       borderRadius: '4px',
       transition: 'width 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-      boxShadow: '0 0 20px rgba(74, 144, 226, 0.4)',
+      boxShadow: '0 0 20px rgba(59, 130, 246, 0.4)',
       position: 'relative'
     }}>
       {/* Progress bar shine effect */}
@@ -150,7 +150,7 @@ const ShelterConfigurator = dynamic(
         left: 0,
         right: 0,
         bottom: 0,
-        background: 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 25%, #2563eb 50%, #3b82f6 75%, #60a5fa 100%)',
+        background: 'linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #3b82f6 100%)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -163,7 +163,7 @@ const ShelterConfigurator = dynamic(
           left: 0,
           right: 0,
           bottom: 0,
-          background: 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 25%, #2563eb 50%, #3b82f6 75%, #60a5fa 100%)',
+          background: 'linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #3b82f6 100%)',
           filter: 'blur(8px)',
           transform: 'scale(1.1)',
           opacity: 0.4,
@@ -230,8 +230,8 @@ const ShelterConfigurator = dynamic(
             <div style={{
               width: '72px',
               height: '72px',
-              border: '3px solid rgba(74, 144, 226, 0.15)',
-              borderTop: '3px solid #4A90E2',
+              border: '3px solid rgba(59, 130, 246, 0.15)',
+              borderTop: '3px solid #3b82f6',
               borderRadius: '50%',
               animation: 'spin 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite'
             }} />
@@ -242,8 +242,8 @@ const ShelterConfigurator = dynamic(
               left: '12px',
               width: '48px',
               height: '48px',
-              border: '2px solid rgba(255, 107, 53, 0.15)',
-              borderTop: '2px solid #FF6B35',
+              border: '2px solid rgba(96, 165, 250, 0.15)',
+              borderTop: '2px solid #60a5fa',
               borderRadius: '50%',
               animation: 'spin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite reverse'
             }} />
@@ -254,7 +254,7 @@ const ShelterConfigurator = dynamic(
               left: '50%',
               width: '8px',
               height: '8px',
-              background: 'linear-gradient(135deg, #4A90E2 0%, #FF6B35 100%)',
+              background: 'linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%)',
               borderRadius: '50%',
               transform: 'translate(-50%, -50%)',
               animation: 'pulse 2s ease-in-out infinite'
@@ -266,13 +266,13 @@ const ShelterConfigurator = dynamic(
             fontSize: '56px',
             fontWeight: '800',
             marginBottom: '24px',
-            background: 'linear-gradient(135deg, #4A90E2 0%, #FF6B35 100%)',
+            background: 'linear-gradient(135deg, #60a5fa 0%, #93c5fd 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
             lineHeight: '1',
             letterSpacing: '-0.02em',
-            textShadow: '0 0 30px rgba(74, 144, 226, 0.3)'
+            textShadow: '0 0 30px rgba(96, 165, 250, 0.3)'
           }}>
             <AnimatedPercentage />
           </div>
@@ -460,7 +460,7 @@ export default function ConfiguratorPage() {
           left: 0,
           right: 0,
           bottom: 0,
-          background: 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 25%, #2563eb 50%, #3b82f6 75%, #60a5fa 100%)',
+          background: 'linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #3b82f6 100%)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -473,7 +473,7 @@ export default function ConfiguratorPage() {
             left: 0,
             right: 0,
             bottom: 0,
-            background: 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 25%, #2563eb 50%, #3b82f6 75%, #60a5fa 100%)',
+            background: 'linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #3b82f6 100%)',
             filter: 'blur(8px)',
             transform: 'scale(1.1)',
             opacity: 0.4,
@@ -540,8 +540,8 @@ export default function ConfiguratorPage() {
               <div style={{
                 width: '72px',
                 height: '72px',
-                border: '3px solid rgba(74, 144, 226, 0.15)',
-                borderTop: '3px solid #4A90E2',
+                border: '3px solid rgba(59, 130, 246, 0.15)',
+                borderTop: '3px solid #3b82f6',
                 borderRadius: '50%',
                 animation: 'spin 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite'
               }} />
@@ -552,8 +552,8 @@ export default function ConfiguratorPage() {
                 left: '12px',
                 width: '48px',
                 height: '48px',
-                border: '2px solid rgba(255, 107, 53, 0.15)',
-                borderTop: '2px solid #FF6B35',
+                border: '2px solid rgba(96, 165, 250, 0.15)',
+                borderTop: '2px solid #60a5fa',
                 borderRadius: '50%',
                 animation: 'spin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite reverse'
               }} />
@@ -564,7 +564,7 @@ export default function ConfiguratorPage() {
                 left: '50%',
                 width: '8px',
                 height: '8px',
-                background: 'linear-gradient(135deg, #4A90E2 0%, #FF6B35 100%)',
+                background: 'linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%)',
                 borderRadius: '50%',
                 transform: 'translate(-50%, -50%)',
                 animation: 'pulse 2s ease-in-out infinite'
@@ -576,13 +576,13 @@ export default function ConfiguratorPage() {
               fontSize: '56px',
               fontWeight: '800',
               marginBottom: '24px',
-              background: 'linear-gradient(135deg, #4A90E2 0%, #FF6B35 100%)',
+              background: 'linear-gradient(135deg, #60a5fa 0%, #93c5fd 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
               lineHeight: '1',
               letterSpacing: '-0.02em',
-              textShadow: '0 0 30px rgba(74, 144, 226, 0.3)'
+              textShadow: '0 0 30px rgba(96, 165, 250, 0.3)'
             }}>
               <AnimatedPercentage />
             </div>

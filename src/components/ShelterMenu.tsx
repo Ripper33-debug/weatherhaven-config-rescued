@@ -36,10 +36,10 @@ const shelters: Shelter[] = [
   {
     id: 'trecc',
     name: 'TRECC',
-    description: 'TRECC deployable shelter system with multiple configuration options.',
+    description: 'Advanced deployable shelter system with multiple configuration options for military, emergency response, and remote operations.',
     category: 'TRECC',
     image: '/models/trecc-preview.jpg',
-    features: ['Multiple configurations', 'Rapid deployment', 'Modular design', 'Extreme weather protection'],
+    features: ['Multiple configurations', 'Rapid deployment', 'Modular design', 'Extreme weather protection', 'Military-grade construction'],
     modelPath: 'trecc.glb',
     specs: ['Deployment time: <2 hours', 'Capacity: 20-50 personnel', 'Weather rating: Extreme', 'Configurations: Open/Closed/Interior'],
     deploymentTime: 2,
@@ -47,7 +47,7 @@ const shelters: Shelter[] = [
     capacity: 50,
     availability: 'available',
     deploymentDifficulty: 'moderate',
-    useCases: ['Military Operations', 'Emergency Response', 'Remote Research', 'Disaster Relief'],
+    useCases: ['Military Operations', 'Emergency Response', 'Remote Research', 'Disaster Relief', 'Field Command Centers'],
     technicalSpecs: {
       dimensions: '20ft x 8ft x 8ft (closed)',
       weight: '2,500 lbs',
@@ -55,30 +55,6 @@ const shelters: Shelter[] = [
       power: 'Solar + generator compatible',
       climate: '-40°F to +120°F',
       certifications: 'MIL-STD-810G, NATO approved'
-    }
-  },
-  {
-    id: 'herconn',
-    name: 'HERCONN',
-    description: 'HERCONN deployable shelter system for tactical and emergency operations.',
-    category: 'HERCONN',
-    image: '/models/herconn-preview.jpg',
-    features: ['Rapid deployment', 'Tactical operations', 'Emergency response', 'Modular design'],
-    modelPath: 'trecc.glb',
-    specs: ['Deployment time: <1 hour', 'Capacity: 15-30 personnel', 'Weather rating: Extreme'],
-    deploymentTime: 1,
-    weatherRating: 5,
-    capacity: 30,
-    availability: 'available',
-    deploymentDifficulty: 'easy',
-    useCases: ['Tactical Operations', 'Emergency Response', 'Field Hospitals', 'Command Centers'],
-    technicalSpecs: {
-      dimensions: '16ft x 6ft x 6ft (closed)',
-      weight: '1,800 lbs',
-      materials: 'Lightweight aluminum, ballistic panels',
-      power: 'Battery + solar hybrid',
-      climate: '-30°F to +110°F',
-      certifications: 'MIL-STD-810G, Ballistic protection'
     }
   }
 ];
@@ -333,25 +309,25 @@ export default function ShelterMenu() {
             Weatherhaven
           </div>
         <h1 style={{
-            fontSize: 'clamp(3rem, 6vw, 5rem)',
-            fontWeight: '800',
+          fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+            fontWeight: '700',
             color: '#ffffff',
-            marginBottom: '24px',
-            textShadow: '0 4px 8px rgba(0, 0, 0, 0.4)',
-            letterSpacing: '-0.02em',
-            lineHeight: '1.1'
+          marginBottom: '20px',
+            textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
+            letterSpacing: '-0.01em',
+            lineHeight: '1.2'
         }}>
           Weatherhaven Configurator
         </h1>
         <p style={{
-            fontSize: 'clamp(1.125rem, 2.5vw, 1.375rem)',
-            color: '#e2e8f0',
-            maxWidth: '800px',
+            fontSize: 'clamp(1rem, 2vw, 1.25rem)',
+            color: '#cbd5e1',
+          maxWidth: '700px',
           margin: '0 auto',
-            lineHeight: '1.6',
+            lineHeight: '1.5',
             fontWeight: '400'
         }}>
-          Explore and customize Weatherhaven's complete range of deployable shelter solutions for military, emergency response, and remote operations
+          Professional-grade deployable shelter solutions for military, emergency response, and remote operations
         </p>
         </div>
       </motion.div>
@@ -693,22 +669,23 @@ export default function ShelterMenu() {
               </div>
             </div>
 
-            {/* Mini 3D Model Viewer */}
+            {/* Professional 3D Model Viewer */}
             <div style={{
               width: '100%',
-              height: '220px',
-              background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2))',
-              borderRadius: '20px',
-              marginBottom: '25px',
+              height: '240px',
+              background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.9) 100%)',
+              borderRadius: '16px',
+              marginBottom: '28px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              border: '2px solid rgba(74, 144, 226, 0.3)',
+              border: '1px solid rgba(59, 130, 246, 0.2)',
               position: 'relative',
               overflow: 'hidden',
-              boxShadow: 'inset 0 2px 10px rgba(0, 0, 0, 0.3), 0 4px 20px rgba(0, 0, 0, 0.2)'
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+              backdropFilter: 'blur(20px)'
             }}>
-              {/* Military-style background pattern */}
+              {/* Subtle professional pattern */}
               <div style={{
                 position: 'absolute',
                 top: 0,
@@ -716,13 +693,13 @@ export default function ShelterMenu() {
                 right: 0,
                 bottom: 0,
                 backgroundImage: `
-                  linear-gradient(45deg, transparent 40%, rgba(74, 144, 226, 0.1) 50%, transparent 60%),
-                  linear-gradient(-45deg, transparent 40%, rgba(255, 107, 53, 0.1) 50%, transparent 60%)
+                  radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 80%, rgba(99, 102, 241, 0.05) 0%, transparent 50%)
                 `,
-                backgroundSize: '20px 20px'
+                pointerEvents: 'none'
               }} />
               
-              {/* Mini 3D Model */}
+              {/* 3D Model Container */}
               <div style={{
                 width: '100%',
                 height: '100%',
@@ -735,38 +712,37 @@ export default function ShelterMenu() {
                 />
               </div>
               
-              {/* Glow effect */}
+              {/* Professional accent */}
               <div style={{
                 position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                width: '120px',
-                height: '120px',
-                background: 'radial-gradient(circle, rgba(74, 144, 226, 0.2) 0%, transparent 70%)',
+                top: '12px',
+                right: '12px',
+                width: '8px',
+                height: '8px',
+                background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
                 borderRadius: '50%',
-                animation: 'pulse 3s ease-in-out infinite'
+                boxShadow: '0 0 12px rgba(59, 130, 246, 0.4)'
               }} />
             </div>
 
             {/* Shelter Info */}
             <div style={{ position: 'relative', zIndex: 1 }}>
               <h3 style={{
-                fontSize: '1.75rem',
-                fontWeight: '700',
-                color: '#0f172a',
-                marginBottom: '12px',
-                letterSpacing: '-0.025em',
-                lineHeight: '1.2'
+                fontSize: '1.5rem',
+                fontWeight: '600',
+                color: '#1e293b',
+                marginBottom: '10px',
+                letterSpacing: '-0.01em',
+                lineHeight: '1.3'
               }}>
                 {shelter.name}
               </h3>
               
               <p style={{
-                color: '#64748b',
-                lineHeight: '1.6',
-                marginBottom: '28px',
-                fontSize: '1rem',
+                color: '#475569',
+                lineHeight: '1.5',
+                marginBottom: '24px',
+                fontSize: '0.95rem',
                 fontWeight: '400'
               }}>
                 {shelter.description}
@@ -774,12 +750,12 @@ export default function ShelterMenu() {
 
               {/* Deployment Time Indicator */}
               <div style={{
-                marginBottom: '24px',
-                padding: '20px',
-                background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(99, 102, 241, 0.05) 100%)',
-                borderRadius: '16px',
-                border: '1px solid rgba(59, 130, 246, 0.2)',
-                backdropFilter: 'blur(10px)'
+                marginBottom: '20px',
+                padding: '16px',
+                background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.06) 0%, rgba(99, 102, 241, 0.04) 100%)',
+                borderRadius: '12px',
+                border: '1px solid rgba(59, 130, 246, 0.15)',
+                backdropFilter: 'blur(8px)'
               }}>
                 <div style={{
                   display: 'flex',
@@ -1000,38 +976,26 @@ export default function ShelterMenu() {
               {/* Configure Button */}
               <Link href={`/configurator/${shelter.id}`}>
                 <motion.button
-                  whileHover={{ scale: 1.02, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileHover={{ scale: 1.01, y: -1 }}
+                  whileTap={{ scale: 0.99 }}
                   style={{
                     width: '100%',
-                    padding: '16px 24px',
-                    background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                    padding: '14px 20px',
+                    background: 'linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%)',
                     color: 'white',
                     border: 'none',
-                    borderRadius: '12px',
+                    borderRadius: '10px',
                     fontWeight: '600',
-                    fontSize: '1rem',
+                    fontSize: '0.95rem',
                     cursor: 'pointer',
-                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                    boxShadow: '0 8px 25px rgba(59, 130, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+                    transition: 'all 0.2s ease',
+                    boxShadow: '0 4px 16px rgba(30, 64, 175, 0.3)',
                     position: 'relative',
                     overflow: 'hidden',
                     textTransform: 'uppercase',
-                    letterSpacing: '0.5px'
+                    letterSpacing: '0.3px'
                   }}
                 >
-                  <motion.div
-                    whileHover={{ scale: 1.1 }}
-                    style={{
-                      position: 'absolute',
-                      top: 0,
-                      left: '-100%',
-                      width: '100%',
-                      height: '100%',
-                      background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent)',
-                      transition: 'left 0.5s ease'
-                    }}
-                  />
                   <span style={{ position: 'relative', zIndex: 1 }}>
                   Configure {shelter.name}
                   </span>

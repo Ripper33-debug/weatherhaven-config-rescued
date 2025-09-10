@@ -20,12 +20,12 @@ function MiniModel({ modelPath, color }: { modelPath: string; color?: string }) 
     // Use useGLTF hook to load the model
     const { scene } = useGLTF(awsUrl);
 
-    // Auto-rotate the model
-    useFrame((state, delta) => {
-      if (meshRef.current) {
-        meshRef.current.rotation.y += delta * 0.5; // Slow rotation
-      }
-    });
+  // Auto-rotate the model
+  useFrame((state, delta) => {
+    if (meshRef.current) {
+      meshRef.current.rotation.y += delta * 0.3; // Smooth normal rotation
+    }
+  });
 
     // Determine a reasonable default orientation per model name
     const getRotationFix = (path: string) => {

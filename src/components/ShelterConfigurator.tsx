@@ -351,34 +351,29 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                     onClick={handleDeployToggle}
                     style={{
                       background: configState.isDeployed 
-                  ? 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)'
-                  : 'rgba(59, 130, 246, 0.1)',
-                color: configState.isDeployed ? 'white' : '#3b82f6',
-                border: configState.isDeployed 
-                  ? '1px solid #3b82f6'
-                  : '1px solid rgba(59, 130, 246, 0.3)',
-                borderRadius: '12px',
-                padding: '14px 20px',
+                  ? '#f97316'
+                  : 'transparent',
+                color: configState.isDeployed ? 'white' : 'white',
+                      border: 'none',
+                borderRadius: '0px',
+                padding: '16px 24px',
                 fontSize: '14px',
                 fontWeight: '600',
                       cursor: 'pointer',
-                transition: 'all 0.2s ease',
-                boxShadow: configState.isDeployed
-                  ? '0 4px 12px rgba(59, 130, 246, 0.3)'
-                  : '0 2px 8px rgba(0, 0, 0, 0.1)',
+                      transition: 'all 0.3s ease',
+                boxShadow: 'none',
                       textTransform: 'uppercase',
-                      letterSpacing: '0.5px'
+                      letterSpacing: '0.1em',
+                      fontFamily: '"Inter", "SF Pro Display", system-ui, -apple-system, sans-serif'
                     }}
                     onMouseEnter={(e) => {
                 if (!configState.isDeployed) {
-                  e.currentTarget.style.background = 'rgba(59, 130, 246, 0.2)';
-                  e.currentTarget.style.transform = 'translateY(-1px)';
+                  e.currentTarget.style.background = 'rgba(249, 115, 22, 0.2)';
                 }
                     }}
                     onMouseLeave={(e) => {
                 if (!configState.isDeployed) {
-                  e.currentTarget.style.background = 'rgba(59, 130, 246, 0.1)';
-                      e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.background = 'transparent';
                 }
                     }}
                   >
@@ -389,36 +384,31 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                     onClick={handleInteriorViewToggle}
                     style={{
                       background: configState.isInteriorView 
-                  ? 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)'
-                  : 'rgba(59, 130, 246, 0.1)',
-                color: configState.isInteriorView ? 'white' : '#3b82f6',
-                border: configState.isInteriorView 
-                  ? '1px solid #3b82f6'
-                  : '1px solid rgba(59, 130, 246, 0.3)',
-                borderRadius: '12px',
-                padding: '14px 20px',
+                  ? '#f97316'
+                  : 'transparent',
+                color: configState.isInteriorView ? 'white' : 'white',
+                      border: 'none',
+                borderRadius: '0px',
+                padding: '16px 24px',
                 fontSize: '14px',
                 fontWeight: '600',
                       cursor: 'pointer',
-                transition: 'all 0.2s ease',
-                boxShadow: configState.isInteriorView
-                  ? '0 4px 12px rgba(59, 130, 246, 0.3)'
-                  : '0 2px 8px rgba(0, 0, 0, 0.1)',
+                      transition: 'all 0.3s ease',
+                boxShadow: 'none',
                       textTransform: 'uppercase',
-                      letterSpacing: '0.5px'
+                      letterSpacing: '0.1em',
+                      fontFamily: '"Inter", "SF Pro Display", system-ui, -apple-system, sans-serif'
                     }}
                     onMouseEnter={(e) => {
                 if (!configState.isInteriorView) {
-                  e.currentTarget.style.background = 'rgba(59, 130, 246, 0.2)';
-                  e.currentTarget.style.transform = 'translateY(-1px)';
+                  e.currentTarget.style.background = 'rgba(249, 115, 22, 0.2)';
                 }
                     }}
                     onMouseLeave={(e) => {
                 if (!configState.isInteriorView) {
-                  e.currentTarget.style.background = 'rgba(59, 130, 246, 0.1)';
-                      e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.background = 'transparent';
                 }
-              }}
+                    }}
             >
               Interior View
                   </button>
@@ -487,38 +477,33 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                 }}
                   style={{
                     background: configState.color === option.value 
-                    ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
-                    : 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                    ? '#f97316'
+                    : 'transparent',
                   color: 'white',
-                    border: configState.color === option.value 
-                    ? '3px solid rgba(16, 185, 129, 0.8)'
-                    : '2px solid rgba(59, 130, 246, 0.1)',
-                    borderRadius: '16px',
-                  padding: '16px 20px',
+                    border: 'none',
+                    borderRadius: '0px',
+                  padding: '16px 24px',
                   fontSize: '14px',
-                  fontWeight: '700',
+                  fontWeight: '600',
                     cursor: 'pointer',
-                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                    boxShadow: configState.color === option.value 
-                    ? '0 8px 25px rgba(16, 185, 129, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 20px rgba(16, 185, 129, 0.3)'
-                    : '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+                    transition: 'all 0.3s ease',
+                    boxShadow: 'none',
                   textTransform: 'uppercase',
-                  letterSpacing: '0.5px',
+                  letterSpacing: '0.1em',
                   position: 'relative',
                   overflow: 'hidden',
                   pointerEvents: 'auto',
-                  zIndex: 10
+                  zIndex: 10,
+                  fontFamily: '"Inter", "SF Pro Display", system-ui, -apple-system, sans-serif'
                   }}
                   onMouseEnter={(e) => {
                     if (configState.color !== option.value) {
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                    e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3)';
+                    e.currentTarget.style.background = 'rgba(249, 115, 22, 0.2)';
                     }
                   }}
                   onMouseLeave={(e) => {
                     if (configState.color !== option.value) {
-                      e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
+                    e.currentTarget.style.background = 'transparent';
                     }
                   }}
                 >

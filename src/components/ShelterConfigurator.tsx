@@ -42,7 +42,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
 
   // Loading states
   const [isApplyingColor, setIsApplyingColor] = useState(false);
-  const [isModelLoading, setIsModelLoading] = useState(true);
+  const [isModelLoading, setIsModelLoading] = useState(false); // Start as false to avoid showing loading overlay
   const [availableModels, setAvailableModels] = useState<any[]>([]);
 
   // Load available models and preload them
@@ -698,44 +698,6 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
           height: '100%',
           background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)'
         }}>
-          {/* Loading Overlay */}
-          {(isModelLoading || isApplyingColor) && (
-            <div style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              background: 'rgba(0, 0, 0, 0.7)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              zIndex: 100,
-              backdropFilter: 'blur(4px)'
-            }}>
-              <div style={{
-                background: 'rgba(255, 255, 255, 0.1)',
-                padding: '24px 32px',
-                borderRadius: '16px',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                textAlign: 'center',
-                color: 'white'
-              }}>
-                <div style={{
-                  width: '40px',
-                  height: '40px',
-                  border: '3px solid rgba(255, 255, 255, 0.3)',
-                  borderTop: '3px solid #3b82f6',
-                  borderRadius: '50%',
-                  animation: 'spin 1s linear infinite',
-                  margin: '0 auto 16px'
-                }} />
-                <div style={{ fontSize: '16px', fontWeight: '600' }}>
-                  {isModelLoading ? 'Loading Model...' : 'Applying Color...'}
-                </div>
-              </div>
-            </div>
-          )}
           <ErrorBoundary>
           <Canvas
             camera={{ position: [5, 3, 5], fov: 50 }}
@@ -751,7 +713,6 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             style={{ background: 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 25%, #2563eb 50%, #3b82f6 75%, #60a5fa 100%)' }}
           >
             <ModelViewerScene
-              key={`${getModelPath()}-${configState.isDeployed}-${configState.color}`}
               modelPath={getModelPath()}
               color={null} // No dynamic coloring - using pre-colored models
               isDeployed={configState.isDeployed}

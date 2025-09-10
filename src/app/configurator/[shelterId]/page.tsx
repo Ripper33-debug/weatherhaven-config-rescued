@@ -138,7 +138,24 @@ function AnimatedProgressBar() {
 const ShelterConfigurator = dynamic(
   () => import('../../../components/ShelterConfigurator'),
   {
-    loading: () => <LoadingScreen />,
+    loading: () => (
+      <div style={{
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        zIndex: 1000
+      }}>
+        <div style={{
+          width: '40px',
+          height: '40px',
+          border: '3px solid rgba(59, 130, 246, 0.3)',
+          borderTop: '3px solid #3b82f6',
+          borderRadius: '50%',
+          animation: 'spin 1s linear infinite'
+        }} />
+      </div>
+    ),
     ssr: false // Disable server-side rendering for 3D components
   }
 );
@@ -386,6 +403,7 @@ export default function ConfiguratorPage() {
   const [mounted, setMounted] = useState(false);
   const [shelterId, setShelterId] = useState<string>('');
   const [shelter, setShelter] = useState<any>(null);
+  const [showInitialLoading, setShowInitialLoading] = useState(true);
 
   // Prevent hydration mismatch
   useEffect(() => {
@@ -396,6 +414,17 @@ export default function ConfiguratorPage() {
       setShelter(shelterData[id as keyof typeof shelterData]);
     }
   }, [params.shelterId]);
+
+  // Show initial loading screen for 8 seconds
+  useEffect(() => {
+    if (mounted && shelter) {
+      const timer = setTimeout(() => {
+        setShowInitialLoading(false);
+      }, 8000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [mounted, shelter]);
 
   // Don't render until client-side to prevent hydration mismatch
   if (!mounted) {
@@ -435,6 +464,11 @@ export default function ConfiguratorPage() {
         </Link>
       </div>
     );
+  }
+
+  // Show initial loading screen
+  if (showInitialLoading) {
+    return <LoadingScreen />;
   }
 
   return (
@@ -483,24 +517,19 @@ export default function ConfiguratorPage() {
       <Suspense fallback={
         <div style={{
           position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 25%, #2563eb 50%, #3b82f6 75%, #60a5fa 100%)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 9999
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          zIndex: 1000
         }}>
           <div style={{
-            color: 'white',
-            fontSize: '18px',
-            fontWeight: '600',
-            textAlign: 'center'
-          }}>
-            Loading...
-          </div>
+            width: '40px',
+            height: '40px',
+            border: '3px solid rgba(59, 130, 246, 0.3)',
+            borderTop: '3px solid #3b82f6',
+            borderRadius: '50%',
+            animation: 'spin 1s linear infinite'
+          }} />
         </div>
       }>
         <ShelterConfigurator 

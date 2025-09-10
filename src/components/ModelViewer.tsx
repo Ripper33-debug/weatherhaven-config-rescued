@@ -153,19 +153,58 @@ function Loading() {
   return (
     <Html center>
       <div style={{
-        background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 41, 59, 0.98) 100%)',
-        color: 'white',
-        padding: '48px 40px',
-        borderRadius: '24px',
-        textAlign: 'center',
-        fontFamily: '"Inter", "SF Pro Display", system-ui, -apple-system, sans-serif',
-        border: '1px solid rgba(148, 163, 184, 0.1)',
-        boxShadow: '0 25px 50px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(148, 163, 184, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-        minWidth: '420px',
-        backdropFilter: 'blur(20px)',
-        position: 'relative',
-        overflow: 'hidden'
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 25%, #2563eb 50%, #3b82f6 75%, #60a5fa 100%)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 9999
       }}>
+        {/* Animated blurred background preview */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 25%, #2563eb 50%, #3b82f6 75%, #60a5fa 100%)',
+          filter: 'blur(8px)',
+          transform: 'scale(1.1)',
+          opacity: 0.4,
+          animation: 'backgroundPulse 4s ease-in-out infinite'
+        }} />
+        
+        {/* Additional animated overlay */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'radial-gradient(circle at 30% 70%, rgba(74, 144, 226, 0.1) 0%, transparent 50%), radial-gradient(circle at 70% 30%, rgba(255, 107, 53, 0.1) 0%, transparent 50%)',
+          animation: 'gradientShift 6s ease-in-out infinite'
+        }} />
+        
+        {/* Loading overlay */}
+        <div style={{
+          background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.95) 100%)',
+          color: 'white',
+          padding: '48px 40px',
+          borderRadius: '24px',
+          textAlign: 'center',
+          fontFamily: '"Inter", "SF Pro Display", system-ui, -apple-system, sans-serif',
+          border: '1px solid rgba(148, 163, 184, 0.2)',
+          boxShadow: '0 25px 50px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(148, 163, 184, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+          minWidth: '420px',
+          backdropFilter: 'blur(20px)',
+          position: 'relative',
+          overflow: 'hidden',
+          zIndex: 1
+        }}>
         {/* Background pattern */}
         <div style={{
           position: 'absolute',
@@ -316,6 +355,7 @@ function Loading() {
         }}>
           Loading your 3D configuration experience
         </p>
+        </div>
       </div>
     </Html>
   );

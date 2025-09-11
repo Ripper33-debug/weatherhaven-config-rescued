@@ -340,74 +340,114 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
           borderTopRightRadius: '24px',
           borderBottomRightRadius: '24px'
         }}>
-          {/* Clean Header */}
+          {/* Enhanced Header */}
           <div style={{
             textAlign: 'center',
-            marginBottom: '24px',
+            marginBottom: '32px',
             position: 'relative',
-            padding: '24px 20px',
-            background: 'rgba(59, 130, 246, 0.1)',
-            borderRadius: '16px',
-            border: '1px solid rgba(59, 130, 246, 0.2)',
-            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+            padding: '32px 24px',
+            background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(30, 64, 175, 0.1) 100%)',
+            borderRadius: '20px',
+            border: '1px solid rgba(59, 130, 246, 0.3)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+            backdropFilter: 'blur(10px)'
           }}>
             <h2 style={{
-              fontSize: '28px',
-              fontWeight: '700',
-              color: '#E2E8F0',
+              fontSize: '32px',
+              fontWeight: '800',
+              color: '#ffffff',
               margin: '0',
               textTransform: 'uppercase',
-              letterSpacing: '1px',
-              fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
+              letterSpacing: '2px',
+              fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
+              textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)'
             }}>
               TRECC
             </h2>
+            <p style={{
+              fontSize: '14px',
+              color: '#cbd5e1',
+              margin: '8px 0 0 0',
+              fontWeight: '500',
+              letterSpacing: '0.5px'
+            }}>
+              SHELTER CONFIGURATOR
+            </p>
           </div>
 
 
 
 
           {/* View Options */}
+          <div style={{ marginBottom: '32px' }}>
             <h3 style={{
-            fontSize: '16px',
-            fontWeight: '600',
-            color: '#94A3B8',
-            margin: '0 0 16px 0',
-            textAlign: 'left',
-            textTransform: 'uppercase',
-            letterSpacing: '0.5px'
+              fontSize: '18px',
+              fontWeight: '700',
+              color: '#e2e8f0',
+              margin: '0 0 20px 0',
+              textAlign: 'left',
+              textTransform: 'uppercase',
+              letterSpacing: '1px',
+              fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
+              position: 'relative',
+              paddingLeft: '12px'
             }}>
+              <span style={{
+                position: 'absolute',
+                left: '0',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                width: '4px',
+                height: '20px',
+                background: 'linear-gradient(135deg, #3b82f6, #1e40af)',
+                borderRadius: '2px'
+              }}></span>
               View Options
             </h3>
             
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '36px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '40px' }}>
                   <button
                     onClick={handleDeployToggle}
                     style={{
                       background: configState.isDeployed 
-                  ? '#f97316'
-                  : 'transparent',
-                color: configState.isDeployed ? 'white' : 'white',
-                      border: 'none',
-                borderRadius: '0px',
-                padding: '16px 24px',
-                fontSize: '14px',
-                fontWeight: '600',
+                  ? 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)'
+                  : 'rgba(255, 255, 255, 0.05)',
+                color: configState.isDeployed ? 'white' : '#e2e8f0',
+                      border: configState.isDeployed ? 'none' : '1px solid rgba(255, 255, 255, 0.1)',
+                borderRadius: '12px',
+                padding: '18px 24px',
+                      fontSize: '15px',
+                fontWeight: '700',
                       cursor: 'pointer',
-                      transition: 'all 0.3s ease',
-                boxShadow: 'none',
+                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                boxShadow: configState.isDeployed 
+                  ? '0 8px 25px rgba(249, 115, 22, 0.3)' 
+                  : '0 4px 12px rgba(0, 0, 0, 0.1)',
                       textTransform: 'uppercase',
-                      letterSpacing: '0.1em',
-                      fontFamily: '"Inter", "SF Pro Display", system-ui, -apple-system, sans-serif'
+                      letterSpacing: '0.5px',
+                      fontFamily: '"Inter", "SF Pro Display", system-ui, -apple-system, sans-serif',
+                      backdropFilter: 'blur(10px)'
                     }}
                     onMouseEnter={(e) => {
                 if (!configState.isDeployed) {
-                  e.currentTarget.style.background = 'rgba(249, 115, 22, 0.2)';
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.15)';
+                } else {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 12px 35px rgba(249, 115, 22, 0.4)';
                 }
                     }}
                     onMouseLeave={(e) => {
                 if (!configState.isDeployed) {
-                  e.currentTarget.style.background = 'transparent';
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                      e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+                } else {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(249, 115, 22, 0.3)';
                 }
                     }}
                   >
@@ -418,29 +458,44 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                     onClick={handleInteriorViewToggle}
                     style={{
                       background: configState.isInteriorView 
-                  ? '#f97316'
-                  : 'transparent',
-                color: configState.isInteriorView ? 'white' : 'white',
-                      border: 'none',
-                borderRadius: '0px',
-                padding: '16px 24px',
-                fontSize: '14px',
-                fontWeight: '600',
+                  ? 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)'
+                  : 'rgba(255, 255, 255, 0.05)',
+                color: configState.isInteriorView ? 'white' : '#e2e8f0',
+                      border: configState.isInteriorView ? 'none' : '1px solid rgba(255, 255, 255, 0.1)',
+                borderRadius: '12px',
+                padding: '18px 24px',
+                      fontSize: '15px',
+                fontWeight: '700',
                       cursor: 'pointer',
-                      transition: 'all 0.3s ease',
-                boxShadow: 'none',
+                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                boxShadow: configState.isInteriorView 
+                  ? '0 8px 25px rgba(249, 115, 22, 0.3)' 
+                  : '0 4px 12px rgba(0, 0, 0, 0.1)',
                       textTransform: 'uppercase',
-                      letterSpacing: '0.1em',
-                      fontFamily: '"Inter", "SF Pro Display", system-ui, -apple-system, sans-serif'
+                      letterSpacing: '0.5px',
+                      fontFamily: '"Inter", "SF Pro Display", system-ui, -apple-system, sans-serif',
+                      backdropFilter: 'blur(10px)'
                     }}
                     onMouseEnter={(e) => {
                 if (!configState.isInteriorView) {
-                  e.currentTarget.style.background = 'rgba(249, 115, 22, 0.2)';
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.15)';
+                } else {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 12px 35px rgba(249, 115, 22, 0.4)';
                 }
                     }}
                     onMouseLeave={(e) => {
                 if (!configState.isInteriorView) {
-                  e.currentTarget.style.background = 'transparent';
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                      e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+                } else {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(249, 115, 22, 0.3)';
                 }
                     }}
                   >
@@ -490,29 +545,44 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                     onClick={() => setConfigState(prev => ({ ...prev, showConstructionWorker: !prev.showConstructionWorker }))}
                     style={{
                       background: configState.showConstructionWorker 
-                  ? '#f97316'
-                  : 'transparent',
-                color: configState.showConstructionWorker ? 'white' : 'white',
-                      border: 'none',
-                borderRadius: '0px',
-                padding: '16px 24px',
-                fontSize: '14px',
-                fontWeight: '600',
+                  ? 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)'
+                  : 'rgba(255, 255, 255, 0.05)',
+                color: configState.showConstructionWorker ? 'white' : '#e2e8f0',
+                      border: configState.showConstructionWorker ? 'none' : '1px solid rgba(255, 255, 255, 0.1)',
+                borderRadius: '12px',
+                padding: '18px 24px',
+                      fontSize: '15px',
+                fontWeight: '700',
                       cursor: 'pointer',
-                      transition: 'all 0.3s ease',
-                boxShadow: 'none',
+                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                boxShadow: configState.showConstructionWorker 
+                  ? '0 8px 25px rgba(249, 115, 22, 0.3)' 
+                  : '0 4px 12px rgba(0, 0, 0, 0.1)',
                       textTransform: 'uppercase',
-                      letterSpacing: '0.1em',
-                      fontFamily: '"Inter", "SF Pro Display", system-ui, -apple-system, sans-serif'
+                      letterSpacing: '0.5px',
+                      fontFamily: '"Inter", "SF Pro Display", system-ui, -apple-system, sans-serif',
+                      backdropFilter: 'blur(10px)'
                     }}
                     onMouseEnter={(e) => {
                 if (!configState.showConstructionWorker) {
-                  e.currentTarget.style.background = 'rgba(249, 115, 22, 0.2)';
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.15)';
+                } else {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 12px 35px rgba(249, 115, 22, 0.4)';
                 }
                     }}
                     onMouseLeave={(e) => {
                 if (!configState.showConstructionWorker) {
-                  e.currentTarget.style.background = 'transparent';
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                      e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+                } else {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(249, 115, 22, 0.3)';
                 }
                     }}
                   >
@@ -521,15 +591,29 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                 </div>
 
           {/* Color Options */}
+          <div style={{ marginBottom: '32px' }}>
             <h3 style={{
               fontSize: '18px',
-            fontWeight: '900',
-            color: 'white',
-            margin: '0 0 20px 0',
-            textAlign: 'center',
-            textTransform: 'uppercase',
-            letterSpacing: '1px'
+              fontWeight: '700',
+              color: '#e2e8f0',
+              margin: '0 0 20px 0',
+              textAlign: 'left',
+              textTransform: 'uppercase',
+              letterSpacing: '1px',
+              fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
+              position: 'relative',
+              paddingLeft: '12px'
             }}>
+              <span style={{
+                position: 'absolute',
+                left: '0',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                width: '4px',
+                height: '20px',
+                background: 'linear-gradient(135deg, #f97316, #ea580c)',
+                borderRadius: '2px'
+              }}></span>
               Color Options
             </h3>
             

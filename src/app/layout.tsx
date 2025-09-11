@@ -74,7 +74,7 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/favicon.svg" />
         <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#ff6b35" />
+        <meta name="theme-color" content="#0066cc" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <style>{`
           @keyframes spin {

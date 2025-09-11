@@ -1,34 +1,13 @@
-<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background circle with gradient -->
-  <defs>
-    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#1e3a8a;stop-opacity:1" />
-      <stop offset="50%" style="stop-color:#2563eb;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
-    </linearGradient>
-    <linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#4A90E2;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#FF6B35;stop-opacity:1" />
-    </linearGradient>
-  </defs>
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle with Weatherhaven blue -->
+  <circle cx="16" cy="16" r="16" fill="#0066cc"/>
   
-  <!-- Background -->
-  <circle cx="16" cy="16" r="16" fill="url(#bgGradient)"/>
+  <!-- White shelter outline -->
+  <rect x="8" y="10" width="16" height="12" fill="none" stroke="#ffffff" stroke-width="2" rx="1"/>
   
-  <!-- TRECC Shelter Icon -->
-  <!-- Main structure -->
-  <rect x="8" y="12" width="16" height="12" rx="1" fill="url(#iconGradient)" opacity="0.9"/>
+  <!-- Orange accent line -->
+  <rect x="8" y="14" width="16" height="2" fill="#ff6600"/>
   
-  <!-- Roof -->
-  <path d="M6 12 L16 6 L26 12 Z" fill="url(#iconGradient)" opacity="0.8"/>
-  
-  <!-- Door -->
-  <rect x="14" y="18" width="4" height="6" rx="0.5" fill="#1e3a8a" opacity="0.7"/>
-  
-  <!-- Windows -->
-  <rect x="10" y="15" width="2" height="2" rx="0.3" fill="#1e3a8a" opacity="0.6"/>
-  <rect x="20" y="15" width="2" height="2" rx="0.3" fill="#1e3a8a" opacity="0.6"/>
-  
-  <!-- Weatherhaven "W" -->
-  <text x="16" y="28" font-family="Arial, sans-serif" font-size="8" font-weight="bold" text-anchor="middle" fill="white" opacity="0.8">W</text>
+  <!-- White dot in center -->
+  <circle cx="16" cy="16" r="2" fill="#ffffff"/>
 </svg>

@@ -589,10 +589,10 @@ export default function ShelterMenu() {
         animate={{ opacity: isTransitioning ? 0.3 : 1, y: 0 }}
         transition={{ duration: 0.4 }}
         style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))',
-          gap: '30px',
-          maxWidth: '1600px',
+          display: 'flex',
+          justifyContent: 'center',
+          gap: '40px',
+          maxWidth: '1800px',
           margin: '0 auto',
           position: 'relative',
           zIndex: 1
@@ -604,20 +604,22 @@ export default function ShelterMenu() {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 * index }}
-            whileHover={{ y: -10, scale: 1.02 }}
+            whileHover={{ y: -12, scale: 1.03 }}
             style={{
-              background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.95) 100%)',
-              backdropFilter: 'blur(24px)',
-              border: '1px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '20px',
-              padding: '36px',
+              background: 'linear-gradient(145deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.9) 50%, rgba(51, 65, 85, 0.95) 100%)',
+              backdropFilter: 'blur(32px)',
+              border: '2px solid rgba(59, 130, 246, 0.3)',
+              borderRadius: '24px',
+              padding: '48px',
               cursor: 'pointer',
               transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
               position: 'relative',
               overflow: 'hidden',
-              boxShadow: '0 12px 40px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
+              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(59, 130, 246, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
               transform: 'translateY(0)',
-              transformStyle: 'preserve-3d'
+              transformStyle: 'preserve-3d',
+              width: '600px',
+              minHeight: '800px'
             }}
           >
 
@@ -672,18 +674,18 @@ export default function ShelterMenu() {
             {/* Professional 3D Model Viewer */}
             <div style={{
               width: '100%',
-              height: '240px',
-              background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.9) 100%)',
-              borderRadius: '16px',
-              marginBottom: '28px',
+              height: '320px',
+              background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(15, 23, 42, 0.9) 50%, rgba(30, 41, 59, 0.8) 100%)',
+              borderRadius: '20px',
+              marginBottom: '32px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              border: '1px solid rgba(59, 130, 246, 0.2)',
+              border: '2px solid rgba(59, 130, 246, 0.4)',
               position: 'relative',
               overflow: 'hidden',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-              backdropFilter: 'blur(20px)'
+              boxShadow: '0 12px 40px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(59, 130, 246, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+              backdropFilter: 'blur(24px)'
             }}>
               {/* Subtle professional pattern */}
               <div style={{
@@ -728,34 +730,41 @@ export default function ShelterMenu() {
             {/* Shelter Info */}
             <div style={{ position: 'relative', zIndex: 1 }}>
               <h3 style={{
-                fontSize: '1.5rem',
-                fontWeight: '600',
-                color: '#1e293b',
-                marginBottom: '10px',
-                letterSpacing: '-0.01em',
-                lineHeight: '1.3'
+                fontSize: '2.2rem',
+                fontWeight: '700',
+                color: '#ffffff',
+                marginBottom: '16px',
+                letterSpacing: '-0.02em',
+                lineHeight: '1.2',
+                textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
+                background: 'linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent'
               }}>
                 {shelter.name}
               </h3>
               
               <p style={{
-                color: '#475569',
-                lineHeight: '1.5',
-                marginBottom: '24px',
-                fontSize: '0.95rem',
-                fontWeight: '400'
+                color: '#cbd5e1',
+                lineHeight: '1.6',
+                marginBottom: '32px',
+                fontSize: '1.1rem',
+                fontWeight: '400',
+                textShadow: '0 1px 2px rgba(0, 0, 0, 0.2)'
               }}>
                 {shelter.description}
               </p>
 
               {/* Deployment Time Indicator */}
               <div style={{
-                marginBottom: '20px',
-                padding: '16px',
-                background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.06) 0%, rgba(99, 102, 241, 0.04) 100%)',
-                borderRadius: '12px',
-                border: '1px solid rgba(59, 130, 246, 0.15)',
-                backdropFilter: 'blur(8px)'
+                marginBottom: '24px',
+                padding: '20px',
+                background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(99, 102, 241, 0.1) 100%)',
+                borderRadius: '16px',
+                border: '1px solid rgba(59, 130, 246, 0.3)',
+                backdropFilter: 'blur(12px)',
+                boxShadow: '0 4px 16px rgba(59, 130, 246, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
               }}>
                 <div style={{
                   display: 'flex',
@@ -820,45 +829,50 @@ export default function ShelterMenu() {
               <div style={{
                 display: 'grid',
                 gridTemplateColumns: '1fr 1fr',
-                gap: '15px',
-                marginBottom: '20px'
+                gap: '20px',
+                marginBottom: '28px'
               }}>
                 {/* Weather Rating */}
                 <div style={{
-                  padding: '12px',
-                  background: 'rgba(0, 0, 0, 0.3)',
-                  borderRadius: '10px',
-                  border: '1px solid rgba(255, 107, 53, 0.2)',
-                  textAlign: 'center'
+                  padding: '20px',
+                  background: 'linear-gradient(135deg, rgba(255, 107, 53, 0.15) 0%, rgba(251, 146, 60, 0.1) 100%)',
+                  borderRadius: '16px',
+                  border: '1px solid rgba(255, 107, 53, 0.3)',
+                  textAlign: 'center',
+                  backdropFilter: 'blur(12px)',
+                  boxShadow: '0 4px 16px rgba(255, 107, 53, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
                 }}>
                   <div style={{
-                    fontSize: '1.2rem',
-                    marginBottom: '4px'
+                    fontSize: '1.8rem',
+                    marginBottom: '8px'
                   }}>
                     {getWeatherIcon(shelter.weatherRating)}
                   </div>
                   <div style={{
-                    fontSize: '0.8rem',
+                    fontSize: '0.9rem',
                     color: '#FF6B35',
-                    fontWeight: '600',
-                    marginBottom: '4px'
+                    fontWeight: '700',
+                    marginBottom: '8px',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px'
                   }}>
                     Weather Rating
                   </div>
                   <div style={{
                     display: 'flex',
                     justifyContent: 'center',
-                    gap: '2px'
+                    gap: '4px'
                   }}>
                     {[1, 2, 3, 4, 5].map((star) => (
                       <div
                         key={star}
                         style={{
-                          width: '8px',
-                          height: '8px',
+                          width: '10px',
+                          height: '10px',
                           borderRadius: '50%',
                           background: star <= shelter.weatherRating ? '#FF6B35' : 'rgba(255, 107, 53, 0.3)',
-                          transition: 'all 0.3s ease'
+                          transition: 'all 0.3s ease',
+                          boxShadow: star <= shelter.weatherRating ? '0 0 8px rgba(255, 107, 53, 0.4)' : 'none'
                         }}
                       />
                     ))}
@@ -867,36 +881,42 @@ export default function ShelterMenu() {
 
                 {/* Capacity Meter */}
                 <div style={{
-                  padding: '12px',
-                  background: 'rgba(0, 0, 0, 0.3)',
-                  borderRadius: '10px',
-                  border: '1px solid rgba(0, 255, 136, 0.2)',
-                  textAlign: 'center'
+                  padding: '20px',
+                  background: 'linear-gradient(135deg, rgba(0, 255, 136, 0.15) 0%, rgba(34, 197, 94, 0.1) 100%)',
+                  borderRadius: '16px',
+                  border: '1px solid rgba(0, 255, 136, 0.3)',
+                  textAlign: 'center',
+                  backdropFilter: 'blur(12px)',
+                  boxShadow: '0 4px 16px rgba(0, 255, 136, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
                 }}>
                   <div style={{
-                    fontSize: '1.2rem',
-                    marginBottom: '4px'
+                    fontSize: '1.8rem',
+                    marginBottom: '8px'
                   }}>
                     👥
                   </div>
                   <div style={{
-                    fontSize: '0.8rem',
+                    fontSize: '0.9rem',
                     color: '#00ff88',
-                    fontWeight: '600',
-                    marginBottom: '4px'
+                    fontWeight: '700',
+                    marginBottom: '8px',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px'
                   }}>
                     Capacity
                   </div>
                   <div style={{
-                    fontSize: '1rem',
+                    fontSize: '1.4rem',
                     color: 'white',
-                    fontWeight: '700'
+                    fontWeight: '800',
+                    textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)'
                   }}>
                     {shelter.capacity}
                   </div>
                   <div style={{
-                    fontSize: '0.7rem',
-                    color: '#888'
+                    fontSize: '0.8rem',
+                    color: '#cbd5e1',
+                    fontWeight: '500'
                   }}>
                     personnel
                   </div>
@@ -907,20 +927,23 @@ export default function ShelterMenu() {
               <div style={{
                 display: 'flex',
                 flexWrap: 'wrap',
-                gap: '8px',
-                marginBottom: '20px'
+                gap: '12px',
+                marginBottom: '32px'
               }}>
                 {shelter.features.map((feature, idx) => (
                   <span
                     key={idx}
                     style={{
-                      padding: '4px 12px',
-                      background: 'rgba(0, 102, 204, 0.2)',
-                      border: '1px solid rgba(0, 102, 204, 0.3)',
-                      borderRadius: '12px',
-                      fontSize: '0.8rem',
-                      color: 'var(--text-accent)',
-                      fontWeight: '500'
+                      padding: '8px 16px',
+                      background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(99, 102, 241, 0.15) 100%)',
+                      border: '1px solid rgba(59, 130, 246, 0.3)',
+                      borderRadius: '16px',
+                      fontSize: '0.9rem',
+                      color: '#ffffff',
+                      fontWeight: '600',
+                      backdropFilter: 'blur(8px)',
+                      boxShadow: '0 2px 8px rgba(59, 130, 246, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+                      textShadow: '0 1px 2px rgba(0, 0, 0, 0.2)'
                     }}
                   >
                     {feature}
@@ -976,29 +999,42 @@ export default function ShelterMenu() {
               {/* Configure Button */}
               <Link href={`/configurator/${shelter.id}`}>
                 <motion.button
-                  whileHover={{ scale: 1.01, y: -1 }}
-                  whileTap={{ scale: 0.99 }}
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
                   style={{
                     width: '100%',
-                    padding: '14px 20px',
-                    background: 'linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%)',
+                    padding: '18px 24px',
+                    background: 'linear-gradient(135deg, #1e40af 0%, #1d4ed8 50%, #1e3a8a 100%)',
                     color: 'white',
-                    border: 'none',
-                    borderRadius: '10px',
-                    fontWeight: '600',
-                    fontSize: '0.95rem',
+                    border: '2px solid rgba(59, 130, 246, 0.4)',
+                    borderRadius: '16px',
+                    fontWeight: '700',
+                    fontSize: '1.1rem',
                     cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                    boxShadow: '0 4px 16px rgba(30, 64, 175, 0.3)',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                    boxShadow: '0 8px 24px rgba(30, 64, 175, 0.4), 0 4px 12px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
                     position: 'relative',
                     overflow: 'hidden',
                     textTransform: 'uppercase',
-                    letterSpacing: '0.3px'
+                    letterSpacing: '0.5px',
+                    textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)',
+                    backdropFilter: 'blur(12px)'
                   }}
                 >
                   <span style={{ position: 'relative', zIndex: 1 }}>
                   Configure {shelter.name}
                   </span>
+                  {/* Button shine effect */}
+                  <div style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: '-100%',
+                    width: '100%',
+                    height: '100%',
+                    background: 'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%)',
+                    transition: 'left 0.6s ease',
+                    zIndex: 2
+                  }} />
                 </motion.button>
               </Link>
             </div>

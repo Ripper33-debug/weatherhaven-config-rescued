@@ -209,6 +209,8 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   if (process.env.NODE_ENV === 'development') {
   console.log('🎯 Current state:', configState);
   console.log('📁 Model path:', getModelPath());
+  console.log('📷 Camera position:', configState.isInteriorView ? [0, 1.5, -6] : [5, 3, 5]);
+  console.log('🏠 Interior view active:', configState.isInteriorView);
   }
 
   // Apply config from URL or short code on mount
@@ -743,8 +745,8 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
           <ErrorBoundary>
           <Canvas
             camera={{ 
-              position: configState.isInteriorView ? [0, 1.5, -4] : [5, 3, 5], 
-              fov: configState.isInteriorView ? 75 : 50 
+              position: configState.isInteriorView ? [0, 1.5, -6] : [5, 3, 5], 
+              fov: configState.isInteriorView ? 85 : 50 
             }}
             shadows={false}
             gl={{

@@ -648,6 +648,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                 isDeployed: false,
                 isInteriorView: false,
                 isInsideView: false,
+                showConstructionWorker: false,
               });
             }}
                 style={{

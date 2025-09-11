@@ -791,7 +791,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
           <ErrorBoundary>
           <Canvas
             camera={{ 
-              position: configState.isInteriorView ? [0, 1.5, -8] : [5, 3, 5], 
+              position: configState.isInteriorView ? [0, 1.5, -10] : [5, 3, 5], 
               fov: configState.isInteriorView ? 90 : 50 
             }}
             shadows={false}

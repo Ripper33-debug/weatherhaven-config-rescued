@@ -69,9 +69,9 @@ export function ModelViewerScene({
       {/* Controls: Different settings for interior vs exterior view */}
       <OrbitControls
         ref={controlsRef}
-        enablePan={isInteriorView}
+        enablePan={false}
         enableZoom={!isInteriorView}
-        enableRotate
+        enableRotate={!isInteriorView}
         enableDamping
         dampingFactor={0.1}
         zoomSpeed={1.0}
@@ -80,7 +80,7 @@ export function ModelViewerScene({
         maxPolarAngle={isInteriorView ? Math.PI / 3 : Math.PI / 2}
         minDistance={isInteriorView ? 0.5 : 3}
         maxDistance={isInteriorView ? 8 : 15}
-        target={isInteriorView ? new THREE.Vector3(0, 1.5, 4) : cameraTarget.current}
+        target={isInteriorView ? new THREE.Vector3(0, 1.5, 5) : cameraTarget.current}
       />
 
       {/* Lights */}

@@ -36,6 +36,7 @@ export function ModelViewerScene({
   modelPath, 
   color, 
   isDeployed, 
+  isInteriorView,
   environment, 
   weather, 
   lighting, 
@@ -147,21 +148,21 @@ function Scene({ color = '#3C3B2E' }: { color?: string }) {
         />
       </mesh>
 
-      {/* Controls: LEFT = ROTATE, MIDDLE = ZOOM (no panning) */}
+      {/* Controls: Different settings for interior vs exterior view */}
       <OrbitControls
         ref={controlsRef}
-        enablePan={false}
+        enablePan={isInteriorView}
         enableZoom
         enableRotate
         enableDamping
         dampingFactor={0.1}
         zoomSpeed={1.0}
         rotateSpeed={0.8}
-        minPolarAngle={-10 * Math.PI / 180}
-        maxPolarAngle={Math.PI / 2}
-        minDistance={3}
-        maxDistance={15}
-        target={cameraTarget.current}
+        minPolarAngle={isInteriorView ? -Math.PI / 6 : -10 * Math.PI / 180}
+        maxPolarAngle={isInteriorView ? Math.PI / 3 : Math.PI / 2}
+        minDistance={isInteriorView ? 0.5 : 3}
+        maxDistance={isInteriorView ? 8 : 15}
+        target={isInteriorView ? new THREE.Vector3(0, 0, 0) : cameraTarget.current}
       />
 
       {/* Lights */}

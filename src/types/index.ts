@@ -16,6 +16,7 @@ export interface ModelViewerSceneProps {
   modelPath: string;
   color: string | null;
   isDeployed: boolean;
+  isInteriorView: boolean;
   environment: string;
   weather: string;
   lighting: LightingConfig;

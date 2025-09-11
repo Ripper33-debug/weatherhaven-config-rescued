@@ -714,7 +714,10 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
         }}>
           <ErrorBoundary>
           <Canvas
-            camera={{ position: [5, 3, 5], fov: 50 }}
+            camera={{ 
+              position: configState.isInteriorView ? [0, 1.5, 0] : [5, 3, 5], 
+              fov: configState.isInteriorView ? 75 : 50 
+            }}
             shadows={false}
             gl={{
               antialias: false,
@@ -730,6 +733,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               modelPath={getModelPath()}
               color={null} // No dynamic coloring - using pre-colored models
               isDeployed={configState.isDeployed}
+              isInteriorView={configState.isInteriorView}
               environment="studio"
               weather="none"
                 lighting={{

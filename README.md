@@ -1,6 +1,6 @@
 # Weatherhaven Shelter Configurator
 
-A comprehensive marketing website with an interactive 3D shelter configurator, built with Next.js, TypeScript, and Three.js.
+A professional interactive 3D configurator for Weatherhaven's deployable shelter systems, built with Next.js, TypeScript, and Three.js. Features a modern military-industrial aesthetic with advanced 3D visualization capabilities.
 
 ## 🚀 Quick Start
 
@@ -8,7 +8,7 @@ A comprehensive marketing website with an interactive 3D shelter configurator, b
 ```bash
 npm run dev
 ```
-Open [http://localhost:3000](http://localhost:3000) to view the marketing site.
+Open [http://localhost:3000](http://localhost:3000) to view the application.
 
 ### Production Build
 ```bash
@@ -16,125 +16,125 @@ npm run build
 npm start
 ```
 
+## 🎯 Key Features
+
+### 3D Configurator
+- **Interactive 3D Models**: Real-time shelter visualization with AWS S3 hosted models
+- **Multiple View Modes**: Closed, Open, and Interior views with dynamic camera positioning
+- **Color Options**: Arctic White, Military Green, and Desert Tan with live model switching
+- **Construction Worker Toggle**: Optional construction worker model for scale reference
+- **Professional UI**: Clean, military-industrial aesthetic with enhanced typography
+- **Responsive Design**: Optimized for desktop and mobile viewing
+
+### Model Management
+- **AWS S3 Integration**: All 3D models hosted on AWS S3 with CloudFront CDN
+- **Dynamic Model Loading**: Intelligent model switching based on configuration
+- **Model Orientation**: Automatic rotation fixes for proper display
+- **Interior View**: First-person perspective from inside the shelter
+
+### Brand Integration
+- **Weatherhaven Colors**: Blue (#0066cc), White, and Orange (#ff6600) color scheme
+- **Custom Favicon**: Branded favicon with Weatherhaven colors
+- **Professional Styling**: Military-industrial design aesthetic
+- **Enhanced Typography**: Improved font hierarchy and spacing
+
 ## 📁 Project Structure
 
 ```
 src/
-├── app/                    # Next.js App Router pages
-│   ├── page.tsx           # Homepage (marketing site)
-│   ├── configurator/      # 3D Configurator (existing React app)
-│   ├── solutions/         # Solution pages
-│   ├── products/          # Product pages
-│   ├── case-studies/      # Case study pages
-│   ├── resources/         # Resource downloads
-│   ├── about/             # About page
-│   ├── contact/           # Contact/RFQ form
-│   └── layout.tsx         # Root layout with header
+├── app/                           # Next.js App Router
+│   ├── page.tsx                  # Homepage with shelter selection
+│   ├── configurator/[shelterId]/ # 3D Configurator pages
+│   ├── layout.tsx                # Root layout with favicon and analytics
+│   └── globals.css               # Global styles
 ├── components/
-│   ├── marketing/         # Marketing site components
-│   │   ├── Hero.tsx       # Homepage hero section
-│   │   ├── Header.tsx     # Navigation header
-│   │   ├── ProofBar.tsx   # Statistics bar
-│   │   └── ...            # Other marketing components
-│   └── [existing]         # Original configurator components
-├── lib/
-│   ├── db.ts              # Database configuration
-│   └── schema.ts          # Drizzle ORM schema
-├── content/               # Static content (JSON/YAML)
-│   ├── products.json      # Product data
-│   ├── case-studies.json  # Case study data
-│   └── resources.json     # Resource data
-└── App.tsx                # Original React app (configurator)
+│   ├── ShelterMenu.tsx           # Homepage shelter selection
+│   ├── ShelterConfigurator.tsx   # Main configurator component
+│   ├── ModelViewer.tsx           # 3D model rendering
+│   ├── MiniModelViewer.tsx       # Homepage 3D previews
+│   └── ContactForm.tsx           # Contact sales modal
+├── types/
+│   └── index.ts                  # TypeScript interfaces
+└── lib/
+    └── aws.ts                    # AWS S3 model loading utilities
 ```
 
-## 🎯 Key Features
+## 🎨 UI Features
 
-### Marketing Site
-- **Homepage**: Hero, value props, sectors, products, case studies
-- **Solutions Pages**: Military, Government, Industrial, Commercial
-- **Product Pages**: Detailed product specifications
-- **Case Studies**: Real-world deployment examples
-- **Resources**: Gated downloads and documentation
-- **Contact**: RFQ forms with lead capture
+### Enhanced Design
+- **Professional Header**: Gradient background with enhanced typography
+- **Section Headers**: Colored accent bars for visual hierarchy
+- **Modern Buttons**: Clean, minimal design with subtle hover effects
+- **Glassmorphism Effects**: Subtle backdrop blur for depth
+- **Responsive Layout**: Optimized spacing and typography
 
-### New: PDF Export & Contact Integration
-- **PDF Export (Home Page)**: Generate professional PDFs for individual shelters and TRECC vs HERCONN comparisons.
-  - Individual spec sheets include: description, key specs, technical data, features, use cases, and contact info.
-  - Comparison report includes side-by-side table of key specs for decision-makers.
-- **Contact Sales (Configurator Panel)**: A dedicated Contact Sales button is available at the bottom of the configurator panel.
-  - Opens a modern modal with fields for name, email, company, phone, inquiry type, and message.
-  - Shelter name is prefilled when contacting from a specific shelter.
+### Configuration Options
+- **View Modes**: 
+  - Open View: Deployed shelter with open configuration
+  - Interior View: First-person perspective from inside
+  - Construction Worker: Optional scale reference model
+- **Color Selection**: Real-time model switching between color variants
+- **Action Buttons**: Reset, Quote Request, Share URL, and Short Code generation
+
+## 🔧 Technical Implementation
+
+### 3D Rendering
+- **React Three Fiber**: React renderer for Three.js
+- **Drei Helpers**: useGLTF, OrbitControls, Environment, etc.
+- **Dynamic Camera**: Position and FOV adjustments based on view mode
+- **Model Loading**: AWS S3 integration with error handling
+
+### AWS Integration
+- **S3 Models**: All .glb files hosted on AWS S3
+- **CloudFront CDN**: Fast global content delivery
+- **Dynamic URLs**: Model paths generated based on configuration
+- **Error Handling**: Fallback models and loading states
+
+### Performance
+- **Vercel Analytics**: Built-in performance tracking
+- **Optimized Models**: Compressed .glb files for fast loading
+- **Lazy Loading**: Models loaded on demand
+- **Caching**: Browser caching for improved performance
+
+## 🎮 Usage
+
+### Homepage
+1. **Select Shelter**: Choose from available shelter types
+2. **3D Preview**: Hover over cards to see spinning 3D models
+3. **Configure**: Click "Configure" to open the 3D configurator
 
 ### 3D Configurator
-- **Interactive 3D Models**: Real-time shelter visualization
-- **Configuration Options**: Colors, deployment states, interiors
-- **Collaboration**: Multi-user real-time editing
-- **Export**: Generate quotes and specifications
-
-## 🧾 PDF Export Usage
-
-- On the home page shelter cards, hover to reveal actions:
-  - Click "Export PDF" to download a shelter spec sheet (jsPDF-based).
-  - Open the comparison modal (TRECC vs HERCONN) and click "Export PDF" to download the comparison report.
-
-Implementation details:
-- Library: `jspdf` (with optional `html2canvas` installed)
-- Source: `src/lib/pdfExport.ts`
-- Entry points: Actions in `src/components/ShelterMenu.tsx`
-
-Visual:
-
-![Homepage](public/readme/homepage.svg)
-![Hover Overlay](public/readme/hover-overlay.svg)
-![Comparison Modal](public/readme/comparison-modal.svg)
-
-## 📞 Contact Sales Usage
-
-- In the configurator (left panel), click "Contact Sales Team" at the bottom to open the contact modal.
-- The modal collects lead details and confirms successful submission.
-
-Implementation details:
-- Component: `src/components/ContactForm.tsx`
-- Mounted in: `src/components/ShelterConfigurator.tsx` and `src/components/ShelterMenu.tsx`
-
-Visual:
-
-![Contact Modal](public/readme/contact-modal.svg)
+1. **View Options**: Toggle between Open, Interior, and Construction Worker views
+2. **Color Selection**: Choose from Arctic White, Military Green, or Desert Tan
+3. **Camera Control**: 
+   - **Exterior Views**: Full orbit, zoom, and pan controls
+   - **Interior View**: Locked first-person perspective with rotation only
+4. **Actions**: Reset configuration, request quote, share URL, or create short code
 
 ## 🔧 Configuration
 
 ### Environment Variables
 ```bash
-NEXT_PUBLIC_GTM_ID=GTM-XXXXXXX    # Google Tag Manager
-ADMIN_EXPORT_TOKEN=your-token     # Lead export security
-SITE_URL=https://weatherhaven.com # Sitemap generation
+# Optional: Custom AWS S3 configuration
+AWS_REGION=us-east-1
+AWS_BUCKET=your-bucket-name
 ```
 
-### Database
-The app uses SQLite with Drizzle ORM for lead storage:
-- **Table**: `leads` (name, email, organization, sector, etc.)
-- **API**: `/api/leads/export` for CSV download (protected)
-
-## 📊 Analytics & SEO
-
-- **Vercel Analytics**: Built-in performance tracking
-- **Google Tag Manager**: Custom event tracking
-- **Sitemap**: Auto-generated XML sitemap
-- **Metadata**: SEO-optimized page titles and descriptions
-- **Structured Data**: JSON-LD for products and organization
-
-## 🎨 Styling
-
-- **Tailwind CSS**: Utility-first styling
-- **Framer Motion**: Smooth animations and transitions
-- **Responsive Design**: Mobile-first approach
-- **Accessibility**: WCAG AA compliant
+### Model Management
+Models are automatically loaded from AWS S3. Current model inventory:
+- `arctic_white_closed-v1.glb` (43.8 MB)
+- `arctic_white_open-v1.glb` (32.0 MB)
+- `construction.glb` (3.2 MB)
+- `Green_Open_Interior_command_post-v1.glb` (32.8 MB)
+- `green_open-v1.glb` (32.0 MB)
+- `Green_stowedv2-v1.glb` (45.3 MB)
+- `Shelter_Stowed_DesertTan-v1.glb` (43.8 MB)
 
 ## 🚀 Deployment
 
 ### Vercel (Recommended)
 1. Connect your GitHub repository
-2. Set environment variables
+2. Set environment variables if needed
 3. Deploy automatically on push
 
 ### Manual Deployment
@@ -143,61 +143,64 @@ npm run build
 npm start
 ```
 
-## 📝 Content Management
+## 🎨 Customization
 
-### Adding Products
-1. Edit `content/products.json`
-2. Add product specifications
-3. Include images in `public/images/products/`
+### Adding New Models
+1. Upload .glb files to AWS S3
+2. Update model paths in `ShelterConfigurator.tsx`
+3. Add color options and view modes as needed
 
-### Adding Case Studies
-1. Edit `content/case-studies.json`
-2. Include gallery images
-3. Add metrics and outcomes
+### Styling Updates
+- **Colors**: Update Weatherhaven brand colors in components
+- **Typography**: Modify font families and sizing in layout
+- **Layout**: Adjust spacing and component positioning
 
-### Adding Resources
-1. Edit `content/resources.json`
-2. Mark as `gated: true` for lead capture
-3. Upload files to `public/resources/`
+## 📊 Analytics & Performance
 
-## 🔗 Navigation
-
-The site includes:
-- **Header**: Mega-menu navigation with dropdowns
-- **Configurator Link**: Prominent CTA to 3D tool
-- **Sticky CTA**: "Request a Quote" button
-- **Footer**: Links, contact info, legal pages
+- **Vercel Analytics**: Automatic performance tracking
+- **Model Loading**: Optimized for fast 3D model display
+- **Responsive Design**: Mobile-first approach
+- **Accessibility**: WCAG AA compliant components
 
 ## 🛠️ Development
 
-### Adding New Pages
-1. Create page in `src/app/[route]/page.tsx`
-2. Add metadata export
-3. Update navigation in `Header.tsx`
+### Adding New Features
+1. **New View Modes**: Add to `ConfigState` interface and implement in `ModelViewer.tsx`
+2. **New Colors**: Update color options and model paths
+3. **New Actions**: Add buttons and functionality to `ShelterConfigurator.tsx`
 
-### Adding Components
-1. Create in `src/components/marketing/`
-2. Use TypeScript interfaces
-3. Include accessibility attributes
-
-### Database Changes
-1. Update `src/lib/schema.ts`
-2. Run database migration
-3. Update API endpoints
+### Troubleshooting
+- **Model Loading Issues**: Check AWS S3 paths and permissions
+- **Camera Problems**: Verify OrbitControls configuration
+- **Styling Issues**: Check CSS-in-JS syntax and responsive breakpoints
 
 ## 📞 Support
 
-For technical support or questions about the configurator:
-- Check the existing configurator documentation
-- Review the original React app structure
-- The configurator is preserved at `/configurator` route
+For technical support or questions:
+- Check the component documentation in `/src/components/`
+- Review the AWS S3 model configuration
+- Verify browser compatibility for WebGL/Three.js features
 
-## 🔄 Migration Notes
+## 🔄 Recent Updates
 
-This project was migrated from a React app to Next.js:
-- **Original App**: Preserved in `src/App.tsx`
-- **Configurator Route**: `/configurator` loads the original app
-- **Marketing Site**: New Next.js pages and components
-- **Database**: Added for lead capture and analytics
+### UI Enhancements
+- Enhanced header with gradient background and improved typography
+- Section headers with colored accent bars for better visual hierarchy
+- Simplified button styling with clean, minimal design
+- Professional spacing and layout improvements
 
-The configurator functionality remains unchanged and is accessible via the marketing site navigation.
+### Technical Improvements
+- Fixed favicon with Weatherhaven brand colors and cache-busting
+- Improved model loading with better error handling
+- Enhanced interior view camera positioning
+- Optimized 3D model orientation and display
+
+### Brand Integration
+- Weatherhaven color scheme implementation
+- Custom favicon and theme colors
+- Military-industrial aesthetic throughout
+- Professional typography and spacing
+
+---
+
+Built with ❤️ for Weatherhaven's deployable shelter solutions.

@@ -603,27 +603,30 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               });
             }}
                 style={{
-              background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
-              color: 'white',
-                  border: 'none',
-                  borderRadius: '16px',
-              padding: '18px 24px',
+              background: 'rgba(107, 114, 128, 0.9)',
+              color: '#e2e8f0',
+                  border: '1px solid rgba(148, 163, 184, 0.3)',
+                  borderRadius: '12px',
+              padding: '16px 24px',
               fontSize: '14px',
-                  fontWeight: '800',
+                  fontWeight: '600',
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',
-              boxShadow: '0 8px 25px rgba(239, 68, 68, 0.4)',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
                   textTransform: 'uppercase',
               letterSpacing: '0.5px',
-              marginBottom: '20px'
+              marginBottom: '20px',
+              backdropFilter: 'blur(10px)'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-3px)';
-              e.currentTarget.style.boxShadow = '0 12px 35px rgba(239, 68, 68, 0.5)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.background = 'rgba(107, 114, 128, 1)';
+              e.currentTarget.style.boxShadow = '0 6px 16px rgba(0, 0, 0, 0.3)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 8px 25px rgba(239, 68, 68, 0.4)';
+              e.currentTarget.style.background = 'rgba(107, 114, 128, 0.9)';
+              e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)';
                 }}
               >
             Reset Configuration
@@ -633,31 +636,34 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               <button
             onClick={handleRequestQuote}
                 style={{
-              background: 'linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%)',
-              color: 'white',
-                  border: 'none',
-                  borderRadius: '16px',
-              padding: '18px 24px',
+              background: 'rgba(30, 64, 175, 0.9)',
+              color: '#e2e8f0',
+                  border: '1px solid rgba(59, 130, 246, 0.3)',
+                  borderRadius: '12px',
+              padding: '16px 24px',
               fontSize: '14px',
-                  fontWeight: '800',
+                  fontWeight: '600',
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',
-              boxShadow: '0 8px 25px rgba(13, 110, 253, 0.4)',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
                   textTransform: 'uppercase',
               letterSpacing: '0.5px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               gap: '8px',
-              width: '100%'
+              width: '100%',
+              backdropFilter: 'blur(10px)'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-3px)';
-              e.currentTarget.style.boxShadow = '0 12px 35px rgba(13, 110, 253, 0.5)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.background = 'rgba(30, 64, 175, 1)';
+              e.currentTarget.style.boxShadow = '0 6px 16px rgba(0, 0, 0, 0.3)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 8px 25px rgba(13, 110, 253, 0.4)';
+              e.currentTarget.style.background = 'rgba(30, 64, 175, 0.9)';
+              e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)';
             }}
           >
             📄 Request Quote with Config
@@ -669,16 +675,27 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               onClick={handleShareUrl}
               style={{
                 flex: 1,
-                background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-                color: 'white',
-                border: 'none',
-                borderRadius: '12px',
-                padding: '14px 18px',
+                background: 'rgba(75, 85, 99, 0.9)',
+                color: '#e2e8f0',
+                border: '1px solid rgba(107, 114, 128, 0.3)',
+                borderRadius: '10px',
+                padding: '12px 16px',
                 fontSize: '13px',
-                fontWeight: '800',
+                fontWeight: '600',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
-                boxShadow: '0 8px 20px rgba(16, 185, 129, 0.35)'
+                boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
+                backdropFilter: 'blur(10px)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(75, 85, 99, 1)';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+                e.currentTarget.style.boxShadow = '0 6px 14px rgba(0, 0, 0, 0.3)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(75, 85, 99, 0.9)';
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.2)';
               }}
             >
               🔗 Copy Share URL
@@ -687,16 +704,27 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               onClick={handleCreateShortCode}
               style={{
                 flex: 1,
-                background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
-                color: 'white',
-                border: 'none',
-                borderRadius: '12px',
-                padding: '14px 18px',
+                background: 'rgba(71, 85, 105, 0.9)',
+                color: '#e2e8f0',
+                border: '1px solid rgba(100, 116, 139, 0.3)',
+                borderRadius: '10px',
+                padding: '12px 16px',
                 fontSize: '13px',
-                fontWeight: '800',
+                fontWeight: '600',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
-                boxShadow: '0 8px 20px rgba(245, 158, 11, 0.35)'
+                boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
+                backdropFilter: 'blur(10px)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(71, 85, 105, 1)';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+                e.currentTarget.style.boxShadow = '0 6px 14px rgba(0, 0, 0, 0.3)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(71, 85, 105, 0.9)';
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.2)';
               }}
             >
               🔒 Create Short Code

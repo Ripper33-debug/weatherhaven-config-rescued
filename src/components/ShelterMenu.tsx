@@ -216,7 +216,7 @@ export default function ShelterMenu() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#0f172a',
+      background: '#1a1a2e',
       padding: '60px 24px',
       fontFamily: '"Inter", "SF Pro Display", system-ui, -apple-system, sans-serif',
       position: 'relative',

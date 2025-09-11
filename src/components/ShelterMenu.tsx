@@ -216,39 +216,14 @@ export default function ShelterMenu() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #475569 75%, #64748b 100%)',
+      background: '#0f172a',
       padding: '60px 24px',
       fontFamily: '"Inter", "SF Pro Display", system-ui, -apple-system, sans-serif',
       position: 'relative',
       overflow: 'hidden'
     }}>
-      {/* Animated gradient background */}
-      <div style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        background: 'linear-gradient(45deg, rgba(249, 115, 22, 0.1) 0%, rgba(251, 146, 60, 0.05) 50%, rgba(59, 130, 246, 0.1) 100%)',
-        animation: 'gradientShift 8s ease-in-out infinite',
-        pointerEvents: 'none'
-      }} />
       
       
-      {/* Subtle pattern overlay */}
-      <div style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundImage: `
-          radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.02) 0%, transparent 50%),
-          radial-gradient(circle at 75% 75%, rgba(74, 144, 226, 0.03) 0%, transparent 50%),
-          radial-gradient(circle at 50% 50%, rgba(255, 107, 53, 0.02) 0%, transparent 50%)
-        `,
-        pointerEvents: 'none'
-      }} />
       {/* Breadcrumb Navigation */}
       <motion.div
         initial={{ opacity: 0, x: -20 }}
@@ -356,7 +331,7 @@ export default function ShelterMenu() {
             style={{
               padding: '14px 28px',
               background: selectedCategory === category 
-                ? 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)' 
+                ? '#3b82f6' 
                 : 'rgba(255, 255, 255, 0.1)',
               border: selectedCategory === category 
                 ? '1px solid #3b82f6' 
@@ -377,22 +352,6 @@ export default function ShelterMenu() {
               letterSpacing: '0.025em'
             }}
           >
-            {selectedCategory === category && (
-              <motion.div
-                layoutId="activeCategory"
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  background: 'linear-gradient(135deg, rgba(74, 144, 226, 0.2), rgba(255, 107, 53, 0.2))',
-                  borderRadius: '25px',
-                  zIndex: -1
-                }}
-                transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-              />
-            )}
             <span style={{ position: 'relative', zIndex: 1 }}>
               {category}
             </span>
@@ -606,7 +565,7 @@ export default function ShelterMenu() {
             transition={{ duration: 0.6, delay: 0.1 * index }}
             whileHover={{ y: -12, scale: 1.03 }}
             style={{
-              background: 'linear-gradient(145deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.9) 50%, rgba(51, 65, 85, 0.95) 100%)',
+              background: 'rgba(15, 23, 42, 0.95)',
               backdropFilter: 'blur(32px)',
               border: '2px solid rgba(59, 130, 246, 0.3)',
               borderRadius: '24px',
@@ -675,7 +634,7 @@ export default function ShelterMenu() {
             <div style={{
               width: '100%',
               height: '320px',
-              background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(15, 23, 42, 0.9) 50%, rgba(30, 41, 59, 0.8) 100%)',
+              background: 'rgba(0, 0, 0, 0.8)',
               borderRadius: '20px',
               marginBottom: '32px',
               display: 'flex',
@@ -687,19 +646,6 @@ export default function ShelterMenu() {
               boxShadow: '0 12px 40px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(59, 130, 246, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
               backdropFilter: 'blur(24px)'
             }}>
-              {/* Subtle professional pattern */}
-              <div style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                backgroundImage: `
-                  radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
-                  radial-gradient(circle at 80% 80%, rgba(99, 102, 241, 0.05) 0%, transparent 50%)
-                `,
-                pointerEvents: 'none'
-              }} />
               
               {/* 3D Model Container */}
               <div style={{
@@ -721,7 +667,7 @@ export default function ShelterMenu() {
                 right: '12px',
                 width: '8px',
                 height: '8px',
-                background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                background: '#3b82f6',
                 borderRadius: '50%',
                 boxShadow: '0 0 12px rgba(59, 130, 246, 0.4)'
               }} />
@@ -737,10 +683,7 @@ export default function ShelterMenu() {
                 letterSpacing: '-0.02em',
                 lineHeight: '1.2',
                 textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
-                background: 'linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent'
+                color: '#ffffff'
               }}>
                 {shelter.name}
               </h3>
@@ -760,7 +703,7 @@ export default function ShelterMenu() {
               <div style={{
                 marginBottom: '24px',
                 padding: '20px',
-                background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(99, 102, 241, 0.1) 100%)',
+                background: 'rgba(59, 130, 246, 0.15)',
                 borderRadius: '16px',
                 border: '1px solid rgba(59, 130, 246, 0.3)',
                 backdropFilter: 'blur(12px)',
@@ -806,10 +749,10 @@ export default function ShelterMenu() {
                     style={{
                       height: '100%',
                       background: shelter.deploymentTime <= 2 
-                        ? 'linear-gradient(90deg, #00ff88, #00cc66)' 
+                        ? '#00ff88' 
                         : shelter.deploymentTime <= 4 
-                        ? 'linear-gradient(90deg, #ffaa00, #ff8800)' 
-                        : 'linear-gradient(90deg, #ff4444, #cc2222)',
+                        ? '#ffaa00' 
+                        : '#ff4444',
                       borderRadius: '4px',
                       boxShadow: '0 0 10px rgba(0, 255, 136, 0.3)'
                     }}
@@ -835,7 +778,7 @@ export default function ShelterMenu() {
                 {/* Weather Rating */}
                 <div style={{
                   padding: '20px',
-                  background: 'linear-gradient(135deg, rgba(255, 107, 53, 0.15) 0%, rgba(251, 146, 60, 0.1) 100%)',
+                  background: 'rgba(255, 107, 53, 0.15)',
                   borderRadius: '16px',
                   border: '1px solid rgba(255, 107, 53, 0.3)',
                   textAlign: 'center',
@@ -882,7 +825,7 @@ export default function ShelterMenu() {
                 {/* Capacity Meter */}
                 <div style={{
                   padding: '20px',
-                  background: 'linear-gradient(135deg, rgba(0, 255, 136, 0.15) 0%, rgba(34, 197, 94, 0.1) 100%)',
+                  background: 'rgba(0, 255, 136, 0.15)',
                   borderRadius: '16px',
                   border: '1px solid rgba(0, 255, 136, 0.3)',
                   textAlign: 'center',
@@ -935,7 +878,7 @@ export default function ShelterMenu() {
                     key={idx}
                     style={{
                       padding: '8px 16px',
-                      background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(99, 102, 241, 0.15) 100%)',
+                      background: 'rgba(59, 130, 246, 0.2)',
                       border: '1px solid rgba(59, 130, 246, 0.3)',
                       borderRadius: '16px',
                       fontSize: '0.9rem',
@@ -1004,7 +947,7 @@ export default function ShelterMenu() {
                   style={{
                     width: '100%',
                     padding: '18px 24px',
-                    background: 'linear-gradient(135deg, #1e40af 0%, #1d4ed8 50%, #1e3a8a 100%)',
+                    background: '#1e40af',
                     color: 'white',
                     border: '2px solid rgba(59, 130, 246, 0.4)',
                     borderRadius: '16px',
@@ -1024,17 +967,6 @@ export default function ShelterMenu() {
                   <span style={{ position: 'relative', zIndex: 1 }}>
                   Configure {shelter.name}
                   </span>
-                  {/* Button shine effect */}
-                  <div style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: '-100%',
-                    width: '100%',
-                    height: '100%',
-                    background: 'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%)',
-                    transition: 'left 0.6s ease',
-                    zIndex: 2
-                  }} />
                 </motion.button>
               </Link>
             </div>

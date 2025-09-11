@@ -682,8 +682,7 @@ export default function ShelterMenu() {
                 marginBottom: '16px',
                 letterSpacing: '-0.02em',
                 lineHeight: '1.2',
-                textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
-                color: '#ffffff'
+                textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
               }}>
                 {shelter.name}
               </h3>

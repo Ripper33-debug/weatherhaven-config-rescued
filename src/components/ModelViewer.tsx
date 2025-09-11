@@ -80,7 +80,7 @@ export function ModelViewerScene({
         maxPolarAngle={isInteriorView ? Math.PI / 3 : Math.PI / 2}
         minDistance={isInteriorView ? 0.5 : 3}
         maxDistance={isInteriorView ? 8 : 15}
-        target={isInteriorView ? new THREE.Vector3(0, 1.5, 5) : cameraTarget.current}
+        target={isInteriorView ? new THREE.Vector3(0, 1.7, 6) : cameraTarget.current}
       />
 
       {/* Lights */}

@@ -40,7 +40,7 @@ const shelters: Shelter[] = [
     category: 'TRECC',
     image: '/models/trecc-preview.jpg',
     features: ['Multiple configurations', 'Rapid deployment', 'Modular design', 'Extreme weather protection', 'Military-grade construction'],
-    modelPath: 'trecc.glb',
+    modelPath: 'Shelter_Stowed_DesertTan-v1.glb',
     specs: ['Deployment time: <2 hours', 'Capacity: 20-50 personnel', 'Weather rating: Extreme', 'Configurations: Open/Closed/Interior'],
     deploymentTime: 2,
     weatherRating: 5,

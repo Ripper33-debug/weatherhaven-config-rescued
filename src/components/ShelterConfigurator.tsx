@@ -158,25 +158,39 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
     if (shelterId === 'command-posting') {
       return "CommandPosting.glb"; // AWS path
       } else {
+      // Check if interior view is enabled (priority over open/closed)
+      if (configState.isInteriorView) {
+        // Use interior models based on color
+        if (configState.color === '#3C3B2E') {
+          console.log('🏠 INTERIOR VIEW: Green selected - loading Green_Open_Interior_command_post-v1.glb');
+          return "Green_Open_Interior_command_post-v1.glb"; // Green interior model
+        } else {
+          // For other colors, use the green interior as fallback
+          console.log('🏠 INTERIOR VIEW: Using green interior model as fallback');
+          return "Green_Open_Interior_command_post-v1.glb";
+        }
+      }
+      
       // Check if open view is enabled
       if (configState.isDeployed) {
         // Use specific open models based on color
         if (configState.color === '#B8A082') {
-          console.log('🚪 OPEN VIEW: Desert Tan selected - loading _desert_tan_open.glb');
-          console.log('🎨 Current state:', { color: configState.color, isDeployed: configState.isDeployed });
-          return "_desert_tan_open.glb"; // Desert Tan open model
-    } else {
-          console.log('🚪 OPEN VIEW: Other color selected - loading Open_simplified.glb');
-          console.log('🎨 Current state:', { color: configState.color, isDeployed: configState.isDeployed });
-          return "Open_simplified.glb"; // Generic open view model
+          console.log('🚪 OPEN VIEW: Desert Tan selected - loading Shelter_desert_tan_open-v1.glb');
+          return "Shelter_desert_tan_open-v1.glb"; // Desert Tan open model
+        } else if (configState.color === '#3C3B2E') {
+          console.log('🚪 OPEN VIEW: Green selected - loading green_open-v1.glb');
+          return "green_open-v1.glb"; // Green open model
+        } else if (configState.color === '#F8F8F8') {
+          console.log('🚪 OPEN VIEW: Arctic White selected - loading arctic_white_open-v1.glb');
+          return "arctic_white_open-v1.glb"; // Arctic White open model
         }
       }
       
       // Use pre-colored models based on selected color for closed view
       const colorModelMap: Record<string, string> = {
-        '#3C3B2E': 'Model_stowed_green-v1.glb',      // Military Green (Draco compressed - 45.3MB)
-        '#B8A082': 'Shelter_Stowed_DesertTan-v1.glb', // Desert Tan (Draco compressed - 43.8MB)
-        '#F8F8F8': 'Shelter_Stowed_DesertTan-v1.glb'  // Arctic White - fallback to compressed tan until white model is uploaded
+        '#3C3B2E': 'Green_stowed-v1.glb',      // Military Green
+        '#B8A082': 'Shelter_Stowed_DesertTan-v1.glb', // Desert Tan
+        '#F8F8F8': 'arctic_white_closed-v1.glb'  // Arctic White
       };
       
       const selectedModel = colorModelMap[configState.color] || 'Shelter_Stowed_DesertTan-v1.glb'; // fallback to compressed Desert Tan

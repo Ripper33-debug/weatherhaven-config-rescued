@@ -589,6 +589,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               👷 Construction Worker
                   </button>
                 </div>
+                </div>
 
           {/* Color Options */}
           <div style={{ marginBottom: '32px' }}>
@@ -675,6 +676,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
             </div>
                 </button>
               ))}
+            </div>
           </div>
 
           {/* Specifications */}

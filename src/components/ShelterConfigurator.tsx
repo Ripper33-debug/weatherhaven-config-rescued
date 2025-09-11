@@ -160,14 +160,20 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
       } else {
       // Check if interior view is enabled (priority over open/closed)
       if (configState.isInteriorView) {
-        // Use interior models based on color
+        // Use open models for interior view - camera positioning will handle the interior perspective
         if (configState.color === '#3C3B2E') {
-          console.log('🏠 INTERIOR VIEW: Green selected - loading Green_Open_Interior_command_post-v1.glb');
-          return "Green_Open_Interior_command_post-v1.glb"; // Green interior model
+          console.log('🏠 INTERIOR VIEW: Green selected - loading green_open-v1.glb');
+          return "green_open-v1.glb"; // Use green open model
+        } else if (configState.color === '#B8A082') {
+          console.log('🏠 INTERIOR VIEW: Desert Tan selected - loading Shelter_desert_tan_open-v1.glb');
+          return "Shelter_desert_tan_open-v1.glb"; // Use desert tan open model
+        } else if (configState.color === '#F8F8F8') {
+          console.log('🏠 INTERIOR VIEW: Arctic White selected - loading arctic_white_open-v1.glb');
+          return "arctic_white_open-v1.glb"; // Use arctic white open model
         } else {
-          // For other colors, use the green interior as fallback
-          console.log('🏠 INTERIOR VIEW: Using green interior model as fallback');
-          return "Green_Open_Interior_command_post-v1.glb";
+          // Fallback to green open model
+          console.log('🏠 INTERIOR VIEW: Using green open model as fallback');
+          return "green_open-v1.glb";
         }
       }
       
@@ -211,6 +217,12 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   console.log('📁 Model path:', getModelPath());
   console.log('📷 Camera position:', configState.isInteriorView ? [0, 1.5, -6] : [5, 3, 5]);
   console.log('🏠 Interior view active:', configState.isInteriorView);
+  console.log('🔍 Model path details:', {
+    isInteriorView: configState.isInteriorView,
+    isDeployed: configState.isDeployed,
+    color: configState.color,
+    selectedModel: getModelPath()
+  });
   }
 
   // Apply config from URL or short code on mount
@@ -745,8 +757,8 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
           <ErrorBoundary>
           <Canvas
             camera={{ 
-              position: configState.isInteriorView ? [0, 1.5, -6] : [5, 3, 5], 
-              fov: configState.isInteriorView ? 85 : 50 
+              position: configState.isInteriorView ? [0, 1.5, -8] : [5, 3, 5], 
+              fov: configState.isInteriorView ? 90 : 50 
             }}
             shadows={false}
             gl={{

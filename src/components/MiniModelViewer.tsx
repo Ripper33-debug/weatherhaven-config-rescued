@@ -35,7 +35,8 @@ function MiniModel({ modelPath, color }: { modelPath: string; color?: string }) 
         path.includes('_desert_tan_open') ||
         path.includes('Open_simplified')
       ) {
-        return new THREE.Euler(0, 0, 0);
+        // These models need to be rotated to lie flat (horizontal)
+        return new THREE.Euler(-Math.PI / 2, 0, 0);
       }
       // trecc.glb original needs the classic fix used elsewhere
       return new THREE.Euler(-Math.PI / 2, Math.PI, 0);

@@ -38,6 +38,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
     isDeployed: false,
     isInteriorView: false,
     isInsideView: false,
+    showConstructionWorker: false,
   });
 
   // Loading states
@@ -491,6 +492,39 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                   >
               Walkthrough Video {!getWalkthroughVideo() && '(Unavailable)'}
                   </button>
+
+                  <button
+                    onClick={() => setConfigState(prev => ({ ...prev, showConstructionWorker: !prev.showConstructionWorker }))}
+                    style={{
+                      background: configState.showConstructionWorker 
+                  ? '#f97316'
+                  : 'transparent',
+                color: configState.showConstructionWorker ? 'white' : 'white',
+                      border: 'none',
+                borderRadius: '0px',
+                padding: '16px 24px',
+                fontSize: '14px',
+                fontWeight: '600',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease',
+                boxShadow: 'none',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.1em',
+                      fontFamily: '"Inter", "SF Pro Display", system-ui, -apple-system, sans-serif'
+                    }}
+                    onMouseEnter={(e) => {
+                if (!configState.showConstructionWorker) {
+                  e.currentTarget.style.background = 'rgba(249, 115, 22, 0.2)';
+                }
+                    }}
+                    onMouseLeave={(e) => {
+                if (!configState.showConstructionWorker) {
+                  e.currentTarget.style.background = 'transparent';
+                }
+                    }}
+            >
+              👷 Construction Worker
+                  </button>
                 </div>
 
           {/* Color Options */}
@@ -776,6 +810,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               color={null} // No dynamic coloring - using pre-colored models
               isDeployed={configState.isDeployed}
               isInteriorView={configState.isInteriorView}
+              showConstructionWorker={configState.showConstructionWorker}
               environment="studio"
               weather="none"
                 lighting={{

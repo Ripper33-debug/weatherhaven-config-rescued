@@ -37,6 +37,7 @@ export function ModelViewerScene({
   color, 
   isDeployed, 
   isInteriorView,
+  showConstructionWorker,
   environment, 
   weather, 
   lighting, 
@@ -108,6 +109,11 @@ export function ModelViewerScene({
         }}
         onColorApplied={onColorApplied}
       />
+
+      {/* Construction Worker */}
+      {showConstructionWorker && (
+        <ConstructionWorker />
+      )}
     </>
   );
 }
@@ -451,6 +457,62 @@ function applyBodyColor(root: THREE.Object3D, hex: string) {
 
 // Model caching
 const modelCache = new Map<string, any>();
+
+/* ---------------- Construction Worker ---------------- */
+function ConstructionWorker() {
+  const [actualModelPath, setActualModelPath] = useState<string | null>(null);
+  const [hasError, setHasError] = useState(false);
+  
+  // Get AWS URL for the construction worker model
+  useEffect(() => {
+    const loadModelUrl = async () => {
+      try {
+        const filename = 'construction.glb';
+        console.log('👷 Loading construction worker model:', filename);
+        
+        const awsUrl = await getModelUrl(filename);
+        setActualModelPath(awsUrl);
+        console.log('👷 Using AWS construction worker URL:', awsUrl);
+      } catch (error) {
+        console.error('👷 Error loading construction worker model:', error);
+        setHasError(true);
+      }
+    };
+    
+    loadModelUrl();
+  }, []);
+
+  if (hasError) {
+    return null; // Don't render if there's an error
+  }
+
+  if (!actualModelPath) {
+    return null; // Don't render while loading
+  }
+
+  return (
+    <Suspense fallback={null}>
+      <ConstructionWorkerModel modelPath={actualModelPath} />
+    </Suspense>
+  );
+}
+
+function ConstructionWorkerModel({ modelPath }: { modelPath: string }) {
+  const { scene } = useGLTF(modelPath);
+  
+  if (!scene) {
+    return null;
+  }
+
+  return (
+    <primitive 
+      object={scene} 
+      position={[3, 0, 2]} // Position next to the shelter
+      rotation={[0, Math.PI / 2, 0]} // Rotate to face the shelter
+      scale={[1, 1, 1]} // Normal scale
+    />
+  );
+}
 
 function cacheModel(url: string, gltf: any) {
   modelCache.set(url, gltf);

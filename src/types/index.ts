@@ -4,6 +4,7 @@ export interface ConfigState {
   isDeployed: boolean;
   isInteriorView: boolean;
   isInsideView: boolean;
+  showConstructionWorker: boolean;
 }
 
 export interface ColorOption {
@@ -17,6 +18,7 @@ export interface ModelViewerSceneProps {
   color: string | null;
   isDeployed: boolean;
   isInteriorView: boolean;
+  showConstructionWorker: boolean;
   environment: string;
   weather: string;
   lighting: LightingConfig;

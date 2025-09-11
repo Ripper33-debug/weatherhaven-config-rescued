@@ -696,7 +696,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
           flex: 1,
           position: 'relative',
           height: '100%',
-          background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)'
+          background: 'transparent'
         }}>
           <ErrorBoundary>
           <Canvas

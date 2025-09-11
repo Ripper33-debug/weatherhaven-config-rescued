@@ -148,21 +148,21 @@ function Scene({ color = '#3C3B2E' }: { color?: string }) {
         />
       </mesh>
 
-      {/* Controls: Different settings for interior vs exterior view */}
+      {/* Controls */}
       <OrbitControls
         ref={controlsRef}
-        enablePan={isInteriorView}
+        enablePan={false}
         enableZoom
         enableRotate
         enableDamping
         dampingFactor={0.1}
         zoomSpeed={1.0}
         rotateSpeed={0.8}
-        minPolarAngle={isInteriorView ? -Math.PI / 6 : -10 * Math.PI / 180}
-        maxPolarAngle={isInteriorView ? Math.PI / 3 : Math.PI / 2}
-        minDistance={isInteriorView ? 0.5 : 3}
-        maxDistance={isInteriorView ? 8 : 15}
-        target={isInteriorView ? new THREE.Vector3(0, 0, 0) : cameraTarget.current}
+        minPolarAngle={-10 * Math.PI / 180}
+        maxPolarAngle={Math.PI / 2}
+        minDistance={3}
+        maxDistance={15}
+        target={cameraTarget.current}
       />
 
       {/* Lights */}

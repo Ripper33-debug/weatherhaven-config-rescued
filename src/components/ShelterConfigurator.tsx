@@ -216,7 +216,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   if (process.env.NODE_ENV === 'development') {
   console.log('🎯 Current state:', configState);
   console.log('📁 Model path:', getModelPath());
-  console.log('📷 Camera position:', configState.isInteriorView ? [0, 1.7, -12] : [5, 3, 5]);
+  console.log('📷 Camera position:', configState.isInteriorView ? [0, 1.7, 0] : [5, 3, 5]);
   console.log('🏠 Interior view active:', configState.isInteriorView);
   console.log('🔍 Model path details:', {
     isInteriorView: configState.isInteriorView,
@@ -226,7 +226,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   });
   console.log('📷 Camera details:', {
     isInteriorView: configState.isInteriorView,
-    cameraPosition: configState.isInteriorView ? [0, 1.7, -12] : [5, 3, 5],
+    cameraPosition: configState.isInteriorView ? [0, 1.7, 0] : [5, 3, 5],
     cameraFOV: configState.isInteriorView ? 95 : 50
   });
   }
@@ -797,7 +797,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
           <ErrorBoundary>
           <Canvas
             camera={{ 
-              position: configState.isInteriorView ? [0, 1.7, -12] : [5, 3, 5], 
+              position: configState.isInteriorView ? [0, 1.7, 0] : [5, 3, 5], 
               fov: configState.isInteriorView ? 95 : 50 
             }}
             shadows={false}

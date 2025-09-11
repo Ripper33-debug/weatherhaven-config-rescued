@@ -10,7 +10,7 @@ import { getModelUrl } from '../lib/aws';
 /** Full-page viewer wrapper */
 export default function ModelViewer() {
   return (
-    <div style={{ position: 'fixed', inset: 0, background: 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 25%, #2563eb 50%, #3b82f6 75%, #60a5fa 100%)' }}>
+    <div style={{ position: 'fixed', inset: 0, background: 'transparent' }}>
       <Canvas 
         shadows 
         dpr={[1, 1.5]} 

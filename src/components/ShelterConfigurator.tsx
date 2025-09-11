@@ -281,7 +281,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
     <div className="configurator-container" style={{
       height: '100vh',
       width: '100vw',
-      background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
+      background: 'transparent',
       display: 'flex',
       flexDirection: 'column',
       fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',

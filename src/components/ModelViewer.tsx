@@ -315,15 +315,23 @@ function TreccModel({
 
   // Orientation/Grounding constants - different fixes for different models
   const getRotationFix = (modelPath: string) => {
-    if (modelPath.includes('Model_stowed_green') || modelPath.includes('Shelter_Stowed_DesertTan') || modelPath.includes('_desert_tan_open')) {
-      // All compressed models and desert tan open model need the same orientation (no rotation)
-      return new THREE.Euler(0, 0, 0); // No rotation needed
-    } else if (modelPath.includes('Open_simplified')) {
-      // Open model needs the same orientation as compressed models
-      return new THREE.Euler(0, 0, 0); // No rotation needed
+    if (
+      modelPath.includes('Green_stowed') ||
+      modelPath.includes('Shelter_Stowed_DesertTan') ||
+      modelPath.includes('arctic_white_closed') ||
+      modelPath.includes('Shelter_desert_tan_open') ||
+      modelPath.includes('green_open') ||
+      modelPath.includes('arctic_white_open') ||
+      modelPath.includes('Green_Open_Interior') ||
+      modelPath.includes('Model_stowed_green') ||
+      modelPath.includes('_desert_tan_open') ||
+      modelPath.includes('Open_simplified')
+    ) {
+      // All S3 models should stand upright - no rotation needed
+      return new THREE.Euler(0, 0, 0);
     } else {
-      // Original tan model (trecc.glb) needs the original fix
-      return new THREE.Euler(-Math.PI / 2, Math.PI, 0);
+      // Default fallback - no rotation
+      return new THREE.Euler(0, 0, 0);
     }
   };
 

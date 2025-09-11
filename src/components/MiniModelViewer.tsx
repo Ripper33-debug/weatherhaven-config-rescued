@@ -30,16 +30,19 @@ function MiniModel({ modelPath, color }: { modelPath: string; color?: string }) 
     // Determine a reasonable default orientation per model name
     const getRotationFix = (path: string) => {
       if (
-        path.includes('Model_stowed_green') ||
+        path.includes('Green_stowed') ||
         path.includes('Shelter_Stowed_DesertTan') ||
-        path.includes('_desert_tan_open') ||
-        path.includes('Open_simplified')
+        path.includes('arctic_white_closed') ||
+        path.includes('Shelter_desert_tan_open') ||
+        path.includes('green_open') ||
+        path.includes('arctic_white_open') ||
+        path.includes('Green_Open_Interior')
       ) {
-        // These models need to be rotated to lie flat (horizontal)
-        return new THREE.Euler(-Math.PI / 2, 0, 0);
+        // These models should stand upright (vertical) - no rotation needed
+        return new THREE.Euler(0, 0, 0);
       }
-      // trecc.glb original needs the classic fix used elsewhere
-      return new THREE.Euler(-Math.PI / 2, Math.PI, 0);
+      // Default fallback - slight rotation if needed
+      return new THREE.Euler(0, 0, 0);
     };
 
     const rotation = getRotationFix(modelPath || 'trecc.glb');

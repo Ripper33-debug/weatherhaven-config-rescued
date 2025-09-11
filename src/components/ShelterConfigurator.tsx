@@ -30,7 +30,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
   const colorOptions: ColorOption[] = [
     { name: 'CARC Tan (Desert)', value: '#B8A082' },
     { name: 'OD Green (Olive Drab)', value: '#3C3B2E' },
-    { name: 'Arctic White (Coming Soon)', value: '#F8F8F8' }
+    { name: 'Arctic White', value: '#F8F8F8' }
   ];
 
   const [configState, setConfigState] = useState<ConfigState>({

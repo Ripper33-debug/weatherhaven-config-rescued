@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Inter, Roboto } from 'next/font/google';
 import '../index.css';
 import { Analytics } from '@vercel/analytics/react';
-import { SpeedInsights } from '@vercel/speed-insights/next';
+// import { SpeedInsights } from '@vercel/speed-insights';
 
 const inter = Inter({ subsets: ['latin'] });
 const roboto = Roboto({ 
@@ -108,7 +108,7 @@ export default function RootLayout({
           {children}
         </main>
         <Analytics />
-        <SpeedInsights />
+        {/* <SpeedInsights /> */}
       </body>
     </html>
   );

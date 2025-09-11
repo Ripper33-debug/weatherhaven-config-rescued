@@ -245,7 +245,7 @@ function TreccModel({
         if (modelPath?.includes('Model_stowed_green-v1')) {
           console.log('🔄 Compressed green model failed, trying fallback to original...');
           try {
-            const fallbackUrl = await getModelUrl('Model_stowed_green.glb');
+            const fallbackUrl = await getModelUrl('Green_stowedv2-v1.glb');
             setActualModelPath(fallbackUrl);
             console.log('✅ Fallback to original green model successful');
             return;
@@ -258,7 +258,7 @@ function TreccModel({
         if (modelPath?.includes('Shelter_Stowed_DesertTan-v1')) {
           console.log('🔄 Compressed tan model failed, trying fallback to original...');
           try {
-            const fallbackUrl = await getModelUrl('trecc.glb');
+            const fallbackUrl = await getModelUrl('Shelter_Stowed_DesertTan-v1.glb');
             setActualModelPath(fallbackUrl);
             console.log('✅ Fallback to original tan model successful');
             return;
@@ -276,7 +276,7 @@ function TreccModel({
   }, [modelPath]);
   
   // Always call hooks in the same order - use a fallback URL for useGLTF
-  const fallbackUrl = 'https://d3kx2t94cz9q1y.cloudfront.net/trecc.glb';
+  const fallbackUrl = 'https://d3kx2t94cz9q1y.cloudfront.net/Shelter_Stowed_DesertTan-v1.glb';
   const modelUrl = actualModelPath || fallbackUrl;
   
   const gltf = useGLTF(modelUrl, true) as any; // Use draco compression if available
@@ -467,7 +467,7 @@ function ConstructionWorker() {
   useEffect(() => {
     const loadModelUrl = async () => {
       try {
-        const filename = 'construction.glb';
+        const filename = 'constructionmannequinman-v1.glb';
         console.log('👷 Loading construction worker model:', filename);
         
         const awsUrl = await getModelUrl(filename);

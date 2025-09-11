@@ -183,7 +183,7 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
       
       // Use pre-colored models based on selected color for closed view
       const colorModelMap: Record<string, string> = {
-        '#3C3B2E': 'Green_stowed-v1.glb',      // Military Green
+        '#3C3B2E': 'Green_stowedv2-v1.glb',      // Military Green (updated)
         '#B8A082': 'Shelter_Stowed_DesertTan-v1.glb', // Desert Tan
         '#F8F8F8': 'arctic_white_closed-v1.glb'  // Arctic White
       };

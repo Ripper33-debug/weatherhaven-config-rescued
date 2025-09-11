@@ -82,24 +82,6 @@ export default function RootLayout({
             100% { transform: rotate(360deg); }
           }
           
-          @keyframes gradientShift {
-            0%, 100% { 
-              background: linear-gradient(45deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.1) 100%);
-            }
-            50% { 
-              background: linear-gradient(45deg, rgba(74,144,226,0.1) 0%, rgba(255,107,53,0.05) 50%, rgba(74,144,226,0.1) 100%);
-            }
-          }
-          
-          @keyframes float {
-            0%, 100% { 
-              transform: translateY(0px) rotate(0deg); 
-            }
-            50% { 
-              transform: translateY(-20px) rotate(5deg); 
-            }
-          }
-          
           @keyframes pulse {
             0%, 100% { 
               opacity: 0.3; 
@@ -114,7 +96,7 @@ export default function RootLayout({
       </head>
       <body style={{
         fontFamily: `${roboto.style.fontFamily}, ${inter.style.fontFamily}, system-ui, -apple-system, sans-serif`,
-        background: 'linear-gradient(135deg, #ff6b35 0%, #f7931e 25%, #4facfe 75%, #00f2fe 100%)',
+        background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #475569 75%, #64748b 100%)',
         color: '#e2e8f0',
         margin: 0,
         padding: 0,

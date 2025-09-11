@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Inter, Roboto } from 'next/font/google';
 import '../index.css';
 import { Analytics } from '@vercel/analytics/react';
-import { SpeedInsights } from '@vercel/speed-insights/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const inter = Inter({ subsets: ['latin'] });
 const roboto = Roboto({ 

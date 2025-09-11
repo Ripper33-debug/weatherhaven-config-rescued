@@ -405,49 +405,34 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
               View Options
             </h3>
             
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '40px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '36px' }}>
                   <button
                     onClick={handleDeployToggle}
                     style={{
                       background: configState.isDeployed 
-                  ? 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)'
-                  : 'rgba(255, 255, 255, 0.05)',
-                color: configState.isDeployed ? 'white' : '#e2e8f0',
-                      border: configState.isDeployed ? 'none' : '1px solid rgba(255, 255, 255, 0.1)',
-                borderRadius: '12px',
-                padding: '18px 24px',
-                      fontSize: '15px',
-                fontWeight: '700',
+                  ? '#f97316'
+                  : 'transparent',
+                color: configState.isDeployed ? 'white' : 'white',
+                      border: 'none',
+                borderRadius: '0px',
+                padding: '16px 24px',
+                fontSize: '14px',
+                fontWeight: '600',
                       cursor: 'pointer',
-                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                boxShadow: configState.isDeployed 
-                  ? '0 8px 25px rgba(249, 115, 22, 0.3)' 
-                  : '0 4px 12px rgba(0, 0, 0, 0.1)',
+                      transition: 'all 0.3s ease',
+                boxShadow: 'none',
                       textTransform: 'uppercase',
-                      letterSpacing: '0.5px',
-                      fontFamily: '"Inter", "SF Pro Display", system-ui, -apple-system, sans-serif',
-                      backdropFilter: 'blur(10px)'
+                      letterSpacing: '0.1em',
+                      fontFamily: '"Inter", "SF Pro Display", system-ui, -apple-system, sans-serif'
                     }}
                     onMouseEnter={(e) => {
                 if (!configState.isDeployed) {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
-                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.15)';
-                } else {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 12px 35px rgba(249, 115, 22, 0.4)';
+                  e.currentTarget.style.background = 'rgba(249, 115, 22, 0.2)';
                 }
                     }}
                     onMouseLeave={(e) => {
                 if (!configState.isDeployed) {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-                      e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
-                } else {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(249, 115, 22, 0.3)';
+                  e.currentTarget.style.background = 'transparent';
                 }
                     }}
                   >
@@ -458,44 +443,29 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                     onClick={handleInteriorViewToggle}
                     style={{
                       background: configState.isInteriorView 
-                  ? 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)'
-                  : 'rgba(255, 255, 255, 0.05)',
-                color: configState.isInteriorView ? 'white' : '#e2e8f0',
-                      border: configState.isInteriorView ? 'none' : '1px solid rgba(255, 255, 255, 0.1)',
-                borderRadius: '12px',
-                padding: '18px 24px',
-                      fontSize: '15px',
-                fontWeight: '700',
+                  ? '#f97316'
+                  : 'transparent',
+                color: configState.isInteriorView ? 'white' : 'white',
+                      border: 'none',
+                borderRadius: '0px',
+                padding: '16px 24px',
+                fontSize: '14px',
+                fontWeight: '600',
                       cursor: 'pointer',
-                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                boxShadow: configState.isInteriorView 
-                  ? '0 8px 25px rgba(249, 115, 22, 0.3)' 
-                  : '0 4px 12px rgba(0, 0, 0, 0.1)',
+                      transition: 'all 0.3s ease',
+                boxShadow: 'none',
                       textTransform: 'uppercase',
-                      letterSpacing: '0.5px',
-                      fontFamily: '"Inter", "SF Pro Display", system-ui, -apple-system, sans-serif',
-                      backdropFilter: 'blur(10px)'
+                      letterSpacing: '0.1em',
+                      fontFamily: '"Inter", "SF Pro Display", system-ui, -apple-system, sans-serif'
                     }}
                     onMouseEnter={(e) => {
                 if (!configState.isInteriorView) {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
-                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.15)';
-                } else {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 12px 35px rgba(249, 115, 22, 0.4)';
+                  e.currentTarget.style.background = 'rgba(249, 115, 22, 0.2)';
                 }
                     }}
                     onMouseLeave={(e) => {
                 if (!configState.isInteriorView) {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-                      e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
-                } else {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(249, 115, 22, 0.3)';
+                  e.currentTarget.style.background = 'transparent';
                 }
                     }}
                   >
@@ -545,44 +515,29 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
                     onClick={() => setConfigState(prev => ({ ...prev, showConstructionWorker: !prev.showConstructionWorker }))}
                     style={{
                       background: configState.showConstructionWorker 
-                  ? 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)'
-                  : 'rgba(255, 255, 255, 0.05)',
-                color: configState.showConstructionWorker ? 'white' : '#e2e8f0',
-                      border: configState.showConstructionWorker ? 'none' : '1px solid rgba(255, 255, 255, 0.1)',
-                borderRadius: '12px',
-                padding: '18px 24px',
-                      fontSize: '15px',
-                fontWeight: '700',
+                  ? '#f97316'
+                  : 'transparent',
+                color: configState.showConstructionWorker ? 'white' : 'white',
+                      border: 'none',
+                borderRadius: '0px',
+                padding: '16px 24px',
+                fontSize: '14px',
+                fontWeight: '600',
                       cursor: 'pointer',
-                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                boxShadow: configState.showConstructionWorker 
-                  ? '0 8px 25px rgba(249, 115, 22, 0.3)' 
-                  : '0 4px 12px rgba(0, 0, 0, 0.1)',
+                      transition: 'all 0.3s ease',
+                boxShadow: 'none',
                       textTransform: 'uppercase',
-                      letterSpacing: '0.5px',
-                      fontFamily: '"Inter", "SF Pro Display", system-ui, -apple-system, sans-serif',
-                      backdropFilter: 'blur(10px)'
+                      letterSpacing: '0.1em',
+                      fontFamily: '"Inter", "SF Pro Display", system-ui, -apple-system, sans-serif'
                     }}
                     onMouseEnter={(e) => {
                 if (!configState.showConstructionWorker) {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
-                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.15)';
-                } else {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 12px 35px rgba(249, 115, 22, 0.4)';
+                  e.currentTarget.style.background = 'rgba(249, 115, 22, 0.2)';
                 }
                     }}
                     onMouseLeave={(e) => {
                 if (!configState.showConstructionWorker) {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-                      e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
-                } else {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(249, 115, 22, 0.3)';
+                  e.currentTarget.style.background = 'transparent';
                 }
                     }}
                   >

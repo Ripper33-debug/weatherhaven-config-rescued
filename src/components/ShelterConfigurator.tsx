@@ -170,8 +170,8 @@ const ShelterConfigurator: React.FC<ShelterConfiguratorProps> = ({
       if (configState.isDeployed) {
         // Use specific open models based on color
         if (configState.color === '#B8A082') {
-          console.log('🚪 OPEN VIEW: Desert Tan selected - loading Shelter_desert_tan_open-v1.glb');
-          return "Shelter_desert_tan_open-v1.glb"; // Desert Tan open model
+          console.log('🚪 OPEN VIEW: Desert Tan selected - loading green_open-v1.glb (fallback)');
+          return "green_open-v1.glb"; // Use green open as fallback since desert tan open not available
         } else if (configState.color === '#3C3B2E') {
           console.log('🚪 OPEN VIEW: Green selected - loading green_open-v1.glb');
           return "green_open-v1.glb"; // Green open model

@@ -467,7 +467,7 @@ function ConstructionWorker() {
   useEffect(() => {
     const loadModelUrl = async () => {
       try {
-        const filename = 'constructionmannequinman-v1.glb';
+        const filename = 'construction.glb';
         console.log('👷 Loading construction worker model:', filename);
         
         const awsUrl = await getModelUrl(filename);

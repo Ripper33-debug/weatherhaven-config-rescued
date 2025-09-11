@@ -69,7 +69,7 @@ export function ModelViewerScene({
       <OrbitControls
         ref={controlsRef}
         enablePan={isInteriorView}
-        enableZoom
+        enableZoom={!isInteriorView}
         enableRotate
         enableDamping
         dampingFactor={0.1}

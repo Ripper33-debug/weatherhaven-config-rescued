@@ -1,6 +1,10 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+
+// Force dynamic rendering - prevent static generation
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 import { Suspense, useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
@@ -186,13 +190,18 @@ export default function ConfiguratorPage() {
   const [shelter, setShelter] = useState<any>(null);
   const [showInitialLoading, setShowInitialLoading] = useState(false);
 
-  // Prevent hydration mismatch
+  // Prevent hydration mismatch and add cache busting
   useEffect(() => {
     setMounted(true);
     if (params.shelterId) {
       const id = params.shelterId as string;
       setShelterId(id);
       setShelter(shelterData[id as keyof typeof shelterData]);
+    }
+    
+    // Force cache refresh on page load
+    if (typeof window !== 'undefined') {
+      window.history.replaceState({}, '', `${window.location.pathname}?t=${Date.now()}`);
     }
   }, [params.shelterId]);
 

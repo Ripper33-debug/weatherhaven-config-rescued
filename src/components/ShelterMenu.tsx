@@ -216,13 +216,28 @@ export default function ShelterMenu() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+      background: `
+        radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 107, 53, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(16, 185, 129, 0.06) 0%, transparent 50%),
+        linear-gradient(135deg, #0f172a 0%, #1e293b 100%)
+      `,
       padding: '80px 24px',
       fontFamily: '"Inter", "SF Pro Display", system-ui, -apple-system, sans-serif',
       position: 'relative',
       overflow: 'hidden'
     }}>
-      
+      {/* CSS Animations */}
+      <style jsx>{`
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        @keyframes shimmer {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(100%); }
+        }
+      `}</style>
       
       {/* Breadcrumb Navigation */}
       <motion.div
@@ -272,27 +287,78 @@ export default function ShelterMenu() {
           zIndex: 1
         }}
       >
+        {/* Brand Badge */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          style={{
+            display: 'inline-block',
+            padding: '8px 24px',
+            background: 'rgba(59, 130, 246, 0.1)',
+            border: '1px solid rgba(59, 130, 246, 0.3)',
+            borderRadius: '50px',
+            marginBottom: '32px',
+            backdropFilter: 'blur(10px)'
+          }}
+        >
+          <span style={{
+            fontSize: '0.9rem',
+            fontWeight: '600',
+            color: '#3b82f6',
+            textTransform: 'uppercase',
+            letterSpacing: '0.1em'
+          }}>
+            Military Grade Solutions
+          </span>
+        </motion.div>
+
         <h1 style={{
           fontSize: 'clamp(3rem, 6vw, 5rem)',
           fontWeight: '800',
           color: '#ffffff',
-          marginBottom: '20px',
+          marginBottom: '24px',
           textShadow: '0 4px 8px rgba(0, 0, 0, 0.5)',
           letterSpacing: '-0.02em',
-          lineHeight: '1.1'
+          lineHeight: '1.1',
+          background: 'linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text'
         }}>
           Weatherhaven
         </h1>
-        <p style={{
-          fontSize: 'clamp(1.2rem, 2.5vw, 1.5rem)',
-          color: '#94a3b8',
-          maxWidth: '600px',
-          margin: '0 auto',
-          lineHeight: '1.4',
-          fontWeight: '300'
-        }}>
-          Deployable Shelter Solutions
-        </p>
+        
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          style={{
+            position: 'relative',
+            display: 'inline-block'
+          }}
+        >
+          <p style={{
+            fontSize: 'clamp(1.2rem, 2.5vw, 1.5rem)',
+            color: '#94a3b8',
+            maxWidth: '600px',
+            margin: '0 auto',
+            lineHeight: '1.4',
+            fontWeight: '300'
+          }}>
+            Deployable Shelter Solutions
+          </p>
+          
+          {/* Decorative line */}
+          <div style={{
+            width: '80px',
+            height: '3px',
+            background: 'linear-gradient(90deg, #3b82f6, #ff6b35)',
+            margin: '20px auto 0 auto',
+            borderRadius: '2px',
+            boxShadow: '0 2px 8px rgba(59, 130, 246, 0.3)'
+          }} />
+        </motion.div>
       </motion.div>
 
       {/* Simple TRECC Product Card */}
@@ -316,54 +382,155 @@ export default function ShelterMenu() {
           transition={{ duration: 0.8, delay: 0.4 }}
           whileHover={{ scale: 1.02, y: -8 }}
           style={{
-            background: 'rgba(255, 255, 255, 0.05)',
+            background: `
+              radial-gradient(circle at 30% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 70% 80%, rgba(255, 107, 53, 0.08) 0%, transparent 50%),
+              rgba(255, 255, 255, 0.03)
+            `,
             backdropFilter: 'blur(20px)',
             border: '1px solid rgba(255, 255, 255, 0.1)',
-            borderRadius: '24px',
+            borderRadius: '32px',
             padding: '60px',
-            maxWidth: '600px',
+            maxWidth: '700px',
             width: '100%',
             textAlign: 'center',
             position: 'relative',
             overflow: 'hidden',
-            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)'
+            boxShadow: `
+              0 25px 50px rgba(0, 0, 0, 0.4),
+              0 10px 30px rgba(59, 130, 246, 0.1),
+              inset 0 1px 0 rgba(255, 255, 255, 0.1)
+            `
           }}
         >
+          {/* Animated background elements */}
+          <div style={{
+            position: 'absolute',
+            top: '-50%',
+            left: '-50%',
+            width: '200%',
+            height: '200%',
+            background: `
+              conic-gradient(from 0deg at 50% 50%, 
+                transparent 0deg,
+                rgba(59, 130, 246, 0.05) 90deg,
+                transparent 180deg,
+                rgba(255, 107, 53, 0.05) 270deg,
+                transparent 360deg
+              )
+            `,
+            animation: 'spin 20s linear infinite',
+            pointerEvents: 'none'
+          }} />
+          
+          {/* Corner accents */}
+          <div style={{
+            position: 'absolute',
+            top: '20px',
+            right: '20px',
+            width: '40px',
+            height: '40px',
+            border: '2px solid rgba(59, 130, 246, 0.3)',
+            borderBottom: 'none',
+            borderLeft: 'none',
+            borderRadius: '0 20px 0 0'
+          }} />
+          <div style={{
+            position: 'absolute',
+            bottom: '20px',
+            left: '20px',
+            width: '40px',
+            height: '40px',
+            border: '2px solid rgba(255, 107, 53, 0.3)',
+            borderTop: 'none',
+            borderRight: 'none',
+            borderRadius: '0 0 0 20px'
+          }} />
           {/* Product Title */}
-          <h2 style={{
-            fontSize: '3rem',
-            fontWeight: '800',
-            color: '#ffffff',
-            marginBottom: '20px',
-            letterSpacing: '-0.02em'
-          }}>
-            TRECC
-          </h2>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            style={{ position: 'relative', zIndex: 2 }}
+          >
+            <h2 style={{
+              fontSize: '3.5rem',
+              fontWeight: '800',
+              marginBottom: '16px',
+              letterSpacing: '-0.02em',
+              background: 'linear-gradient(135deg, #ffffff 0%, #3b82f6 50%, #ff6b35 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              textShadow: '0 4px 8px rgba(0, 0, 0, 0.3)'
+            }}>
+              TRECC
+            </h2>
+            
+            {/* Subtitle */}
+            <div style={{
+              display: 'inline-block',
+              padding: '6px 16px',
+              background: 'rgba(59, 130, 246, 0.15)',
+              border: '1px solid rgba(59, 130, 246, 0.3)',
+              borderRadius: '20px',
+              marginBottom: '24px',
+              backdropFilter: 'blur(10px)'
+            }}>
+              <span style={{
+                fontSize: '0.85rem',
+                fontWeight: '600',
+                color: '#3b82f6',
+                textTransform: 'uppercase',
+                letterSpacing: '0.1em'
+              }}>
+                Deployable Shelter System
+              </span>
+            </div>
+          </motion.div>
           
           {/* Product Description */}
-          <p style={{
-            fontSize: '1.2rem',
-            color: '#cbd5e1',
-            marginBottom: '40px',
-            lineHeight: '1.6',
-            fontWeight: '300'
-          }}>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
+            style={{
+              fontSize: '1.2rem',
+              color: '#cbd5e1',
+              marginBottom: '40px',
+              lineHeight: '1.6',
+              fontWeight: '300',
+              position: 'relative',
+              zIndex: 2
+            }}
+          >
             Advanced deployable shelter system with multiple configuration options for military, emergency response, and remote operations.
-          </p>
+          </motion.p>
           
           {/* Key Features */}
-          <div style={{
-            marginBottom: '40px',
-            textAlign: 'left',
-            maxWidth: '400px',
-            margin: '0 auto 40px auto'
-          }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 1.0 }}
+            style={{
+              marginBottom: '40px',
+              textAlign: 'left',
+              maxWidth: '450px',
+              margin: '0 auto 40px auto',
+              position: 'relative',
+              zIndex: 2
+            }}
+          >
             <h3 style={{
-              fontSize: '1.1rem',
+              fontSize: '1.2rem',
               fontWeight: '600',
               color: '#ffffff',
-              marginBottom: '20px',
-              textAlign: 'center'
+              marginBottom: '24px',
+              textAlign: 'center',
+              background: 'linear-gradient(135deg, #ffffff 0%, #3b82f6 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text'
             }}>
               Key Features
             </h3>
@@ -372,49 +539,89 @@ export default function ShelterMenu() {
               padding: 0,
               margin: 0
             }}>
-              {['Multiple configurations', 'Rapid deployment', 'Modular design', 'Extreme weather protection', 'Military-grade construction'].map((feature, index) => (
-                <li key={index} style={{
-                  color: '#94a3b8',
-                  fontSize: '1rem',
-                  marginBottom: '12px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px'
-                }}>
+              {[
+                { text: 'Multiple configurations', icon: '⚙️' },
+                { text: 'Rapid deployment', icon: '⚡' },
+                { text: 'Modular design', icon: '🧩' },
+                { text: 'Extreme weather protection', icon: '🛡️' },
+                { text: 'Military-grade construction', icon: '🏗️' }
+              ].map((feature, index) => (
+                <motion.li
+                  key={index}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.4, delay: 1.2 + index * 0.1 }}
+                  style={{
+                    color: '#e2e8f0',
+                    fontSize: '1rem',
+                    marginBottom: '16px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '16px',
+                    padding: '8px 0',
+                    borderBottom: '1px solid rgba(255, 255, 255, 0.05)'
+                  }}
+                >
                   <span style={{
-                    color: '#3b82f6',
-                    fontWeight: 'bold',
-                    fontSize: '1.2rem'
-                  }}>•</span>
-                  {feature}
-                </li>
+                    fontSize: '1.2rem',
+                    filter: 'drop-shadow(0 0 4px rgba(59, 130, 246, 0.3))'
+                  }}>{feature.icon}</span>
+                  <span style={{ fontWeight: '500' }}>{feature.text}</span>
+                </motion.li>
               ))}
             </ul>
-          </div>
+          </motion.div>
           
           {/* Configure Button */}
-          <Link href="/configurator/trecc">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              style={{
-                background: 'linear-gradient(135deg, #3b82f6 0%, #1e40af 100%)',
-                color: 'white',
-                border: 'none',
-                borderRadius: '12px',
-                padding: '16px 32px',
-                fontSize: '1.1rem',
-                fontWeight: '600',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px',
-                boxShadow: '0 8px 24px rgba(59, 130, 246, 0.4)'
-              }}
-            >
-              Configure TRECC
-            </motion.button>
-          </Link>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 1.8 }}
+            style={{ position: 'relative', zIndex: 2 }}
+          >
+            <Link href="/configurator/trecc">
+              <motion.button
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                style={{
+                  background: `
+                    linear-gradient(135deg, #3b82f6 0%, #1e40af 50%, #ff6b35 100%)
+                  `,
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '16px',
+                  padding: '18px 40px',
+                  fontSize: '1.1rem',
+                  fontWeight: '700',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px',
+                  boxShadow: `
+                    0 12px 32px rgba(59, 130, 246, 0.4),
+                    0 6px 16px rgba(255, 107, 53, 0.2),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.2)
+                  `,
+                  position: 'relative',
+                  overflow: 'hidden'
+                }}
+              >
+                {/* Button shine effect */}
+                <div style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: '-100%',
+                  width: '100%',
+                  height: '100%',
+                  background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent)',
+                  transition: 'left 0.5s ease'
+                }} />
+                <span style={{ position: 'relative', zIndex: 1 }}>
+                  Configure TRECC
+                </span>
+              </motion.button>
+            </Link>
+          </motion.div>
         </motion.div>
       </motion.div>
 

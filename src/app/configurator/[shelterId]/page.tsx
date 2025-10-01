@@ -5,6 +5,8 @@ import dynamic from 'next/dynamic';
 // Force dynamic rendering - prevent static generation
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
+export const fetchCache = 'force-no-store';
+export const runtime = 'nodejs';
 import { Suspense, useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
@@ -201,7 +203,17 @@ export default function ConfiguratorPage() {
     
     // Force cache refresh on page load
     if (typeof window !== 'undefined') {
-      window.history.replaceState({}, '', `${window.location.pathname}?t=${Date.now()}`);
+      // Clear all caches
+      if ('caches' in window) {
+        caches.keys().then(names => {
+          names.forEach(name => caches.delete(name));
+        });
+      }
+      
+      // Force reload if this is a refresh
+      if (performance.navigation.type === 1) {
+        window.location.reload();
+      }
     }
   }, [params.shelterId]);
 

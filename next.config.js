@@ -8,6 +8,12 @@ const nextConfig = {
   poweredByHeader: false,
   generateEtags: false,
   reactStrictMode: true,
+  experimental: {
+    staleTimes: {
+      dynamic: 0,
+      static: 0,
+    },
+  },
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },

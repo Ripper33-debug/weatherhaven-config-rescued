@@ -2,7 +2,7 @@
   "name": "trecc-configurator",
   "version": "0.1.0",
   "private": true,
-  // Updated for testing git push functionality
+  "description": "Updated for testing git push functionality",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
